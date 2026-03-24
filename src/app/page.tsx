@@ -30,21 +30,25 @@ export default function MainPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // === AUTO-SCROLL REVIEWS ===
+  // === AUTO-SCROLL REVIEWS (infinite marquee) ===
+  const [reviewOffset, setReviewOffset] = useState(0);
+  const reviewAnimRef = useRef<number>(0);
+  const reviewSpeed = 0.5; // px per frame
+
   useEffect(() => {
-    if (!reviewScrollRef.current) return;
-    let dir = 1;
-    const interval = setInterval(() => {
-      if (!reviewsPaused && reviewScrollRef.current) {
-        const scroll = reviewScrollRef.current;
-        const max = scroll.scrollWidth - scroll.clientWidth;
-        if (max <= 0) return;
-        if (scroll.scrollLeft >= max - 2) dir = -1;
-        if (scroll.scrollLeft <= 2) dir = 1;
-        scroll.scrollLeft += dir;
-      }
-    }, 30);
-    return () => clearInterval(interval);
+    if (reviewsPaused) return;
+    let raf: number;
+    const animate = () => {
+      setReviewOffset(prev => {
+        if (!reviewScrollRef.current) return prev;
+        const singleSetWidth = reviewScrollRef.current.scrollWidth / 2;
+        const next = prev + reviewSpeed;
+        return next >= singleSetWidth ? next - singleSetWidth : next;
+      });
+      raf = requestAnimationFrame(animate);
+    };
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
   }, [reviewsPaused]);
 
   // === FAQ TOGGLE ===
@@ -204,6 +208,42 @@ export default function MainPage() {
       text: '\ud504\ub808\uc784\uc6cc\ud06c\uac00 \uc9c4\uc9dc \ud575\uc2ec\uc774\uc5d0\uc694. \ub2f5\ubcc0 \uad6c\uc870\ub97c \uc7a1\uc73c\ub2c8\uae4c \uc5b4\ub5a4 \uc9c8\ubb38\uc774 \ub098\uc640\ub3c4 \ub2f9\ud669\ud558\uc9c0 \uc54a\uac8c \ub410\uc5b4\uc694.',
       badge: 'IM2 \u2192 IH',
       result: '\uc804\uc790\ucc45\ub9cc\uc73c\ub85c \uc0c1\uc2b9'
+    },
+    {
+      initial: 'H',
+      name: '\ud669*\uc6b0',
+      info: '\uc9c1\uc7a5\uc778 \u00b7 2\uc8fc \uc2a4\ud130\ub514',
+      stars: 5,
+      text: '\ud68c\uc0ac\uc5d0\uc11c OPIC IH \ud544\uc218\uc600\ub294\ub370, \ub450 \ubc88 \ub5a8\uc5b4\uc9c0\uace0 \uc5ec\uae30\uc11c \ub4dc\ub514\uc5b4 \ub531\uc5d0 \ud569\uaca9\ud588\uc2b5\ub2c8\ub2e4. \ucf54\uce58\ub2d8 \ud53c\ub4dc\ubc31\uc774 \uc815\ub9d0 \uc815\ud655\ud574\uc694.',
+      badge: 'IM1 \u2192 IH',
+      result: '\uc2b9\uc9c4 \uc694\uac74 \ucda9\uc871'
+    },
+    {
+      initial: 'Y',
+      name: '\uc724*\ub9b0',
+      info: '\ub300\ud559\uc0dd \u00b7 \uc778\uac15 + \uc2a4\ud130\ub514',
+      stars: 5,
+      text: '\uc778\uac15\uc73c\ub85c \uae30\ubcf8\uae30 \uc7a1\uace0 \uc2a4\ud130\ub514\uc5d0\uc11c \uc2e4\uc804 \uac10\uac01 \uc775\ud614\uc5b4\uc694. \ub450 \uac00\uc9c0 \ubcd1\ud589\ud558\ub2c8\uae4c \uc2dc\ub108\uc9c0\uac00 \uc5c4\uccad\ub0ac\uc2b5\ub2c8\ub2e4.',
+      badge: 'IM2 \u2192 AL',
+      result: '\ubaa9\ud45c \ucd08\uacfc \ub2ec\uc131'
+    },
+    {
+      initial: 'M',
+      name: '\ubb38*\ud76c',
+      info: '\ucde8\uc900\uc0dd \u00b7 AI + \uc804\uc790\ucc45',
+      stars: 5,
+      text: 'SpeakCoach AI\ub85c \ub9e4\uc77c \uc544\uce68\uc5d0 15\ubd84\uc529 \uc5f0\uc2b5\ud588\uc5b4\uc694. \ubc1c\uc74c \ubd84\uc11d\uc774 \uc815\ub9d0 \uc815\ubc00\ud574\uc11c \uc57d\uc810\uc744 \uc815\ud655\ud788 \uace0\uce60 \uc218 \uc788\uc5c8\uc2b5\ub2c8\ub2e4.',
+      badge: 'IL \u2192 IM2',
+      result: '\uae30\ucd08\ubd80\ud130 \ub2e8\uae30 \uc0c1\uc2b9'
+    },
+    {
+      initial: 'A',
+      name: '\uc548*\uc900',
+      info: '\uc9c1\uc7a5\uc778 \u00b7 \uc2a4\ud130\ub514',
+      stars: 4,
+      text: '\ud300\uc6d0\ub4e4\uc774 \uc11c\ub85c \ub3d9\uae30\ubd80\uc5ec\uac00 \ub418\ub2c8\uae4c \ub9e4\uc77c \uacfc\uc81c \uc548 \ub0b4\uba74 \uc548 \ub418\ub294 \ubd84\uc704\uae30\uc600\uc5b4\uc694. \ub355\ubd84\uc5d0 2\uc8fc \uc644\uc8fc\ud588\uc2b5\ub2c8\ub2e4.',
+      badge: 'IM3 \u2192 IH',
+      result: '\ubaa9\ud45c \ub4f1\uae09 \ub2ec\uc131'
     }
   ];
 
@@ -263,10 +303,28 @@ export default function MainPage() {
           height: 64px;
         }
         .nav-logo {
-          font-size: 20px; font-weight: 800; color: var(--text-primary);
-          display: flex; align-items: center; gap: 8px;
+          font-size: 19px; font-weight: 800; color: var(--text-primary);
+          display: flex; align-items: center; gap: 6px;
+          letter-spacing: -0.03em;
         }
-        .nav-logo .bread-icon { font-size: 24px; }
+        .nav-logo .logo-mark {
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 32px; height: 32px; border-radius: 10px;
+          background: linear-gradient(135deg, #FFD43B 0%, #F59F00 100%);
+          font-size: 18px; line-height: 1;
+          box-shadow: 0 2px 8px rgba(245, 159, 0, 0.25);
+        }
+        .nav-logo .logo-text {
+          display: flex; flex-direction: column; line-height: 1.1;
+        }
+        .nav-logo .logo-text .logo-main {
+          font-size: 17px; font-weight: 800; color: var(--text-primary);
+          letter-spacing: -0.02em;
+        }
+        .nav-logo .logo-text .logo-sub {
+          font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+          letter-spacing: 0.04em;
+        }
         .nav-links { display: flex; gap: 32px; align-items: center; }
         .nav-links a {
           font-size: 15px; font-weight: 500; color: var(--text-secondary);
@@ -418,13 +476,26 @@ export default function MainPage() {
           height: 200px;
           background: linear-gradient(135deg, #E8F3FF 0%, #D0E8FF 100%);
           display: flex; align-items: center; justify-content: center;
-          font-size: 64px;
+          flex-direction: column; gap: 12px;
           position: relative;
           overflow: hidden;
         }
         .product-card-image.ebook-bg { background: linear-gradient(135deg, #E8F3FF 0%, #C7DEFF 100%); }
         .product-card-image.course-bg { background: linear-gradient(135deg, #F0E8FF 0%, #DDD0FF 100%); }
         .product-card-image.study-bg { background: linear-gradient(135deg, #E8FFF0 0%, #C7FFD8 100%); }
+        .product-icon-wrap {
+          width: 72px; height: 72px; border-radius: 20px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 36px;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        .product-icon-wrap.ebook-icon { background: linear-gradient(135deg, #3182F6 0%, #1B64DA 100%); }
+        .product-icon-wrap.course-icon { background: linear-gradient(135deg, #7C5CFC 0%, #6344E0 100%); }
+        .product-icon-wrap.study-icon { background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%); }
+        .product-card-label {
+          font-size: 14px; font-weight: 700; letter-spacing: -0.02em;
+          opacity: 0.85;
+        }
         .product-badge {
           position: absolute; top: 16px; left: 16px;
           background: var(--blue-primary); color: white;
@@ -605,14 +676,12 @@ export default function MainPage() {
         .btn-plan.outline:hover { border-color: var(--blue-primary); color: var(--blue-primary); }
 
         /* === REVIEWS === */
-        .reviews-wrapper { position: relative; }
+        .reviews-wrapper { position: relative; overflow: hidden; cursor: grab; }
         .reviews-scroll {
           display: flex; gap: 20px;
-          overflow-x: auto; scroll-snap-type: x mandatory;
           padding-bottom: 20px;
-          -ms-overflow-style: none; scrollbar-width: none;
+          transition: none;
         }
-        .reviews-scroll::-webkit-scrollbar { display: none; }
         .review-card {
           min-width: 320px; max-width: 360px;
           background: var(--bg-white); border-radius: 20px;
@@ -870,7 +939,11 @@ export default function MainPage() {
       <nav className="nav" id="nav">
         <div className="nav-inner">
           <a href="#" className="nav-logo">
-            <span className="bread-icon">{'\ud83c\udf5e'}</span> {'\uc2dd\ube75\uc601\uc5b4'}
+            <span className="logo-mark">{'\ud83c\udf5e'}</span>
+            <span className="logo-text">
+              <span className="logo-main">{'\uc2dd\ube75\uc601\uc5b4'}</span>
+              <span className="logo-sub">OPIC MASTER</span>
+            </span>
           </a>
           <div className="nav-links">
             <a href="#free-resource">{'\ubb34\ub8cc \uc790\ub8cc'}</a>
@@ -1011,7 +1084,8 @@ export default function MainPage() {
             <div className="product-card">
               <div className="product-card-image ebook-bg">
                 <span className="product-badge hot">BEST</span>
-                <span style={{ fontSize: '16px', fontWeight: 700, color: 'var(--blue-primary)', letterSpacing: '-0.02em' }}>E-BOOK + {'\uae30\ucd9c'}</span>
+                <div className="product-icon-wrap ebook-icon">{'\ud83d\udcda'}</div>
+                <span className="product-card-label" style={{ color: 'var(--blue-primary)' }}>E-BOOK + {'\uae30\ucd9c \ubc88\ub4e4'}</span>
               </div>
               <div className="product-card-body">
                 <div className="category">{'\uc804\uc790\ucc45'}</div>
@@ -1031,7 +1105,8 @@ export default function MainPage() {
             <div className="product-card">
               <div className="product-card-image course-bg">
                 <span className="product-badge new">NEW</span>
-                <span style={{ fontSize: '16px', fontWeight: 700, color: '#7C5CFC', letterSpacing: '-0.02em' }}>VIDEO COURSE</span>
+                <div className="product-icon-wrap course-icon">{'\ud83c\udfa5'}</div>
+                <span className="product-card-label" style={{ color: '#7C5CFC' }}>VIDEO COURSE</span>
               </div>
               <div className="product-card-body">
                 <div className="category">{'\uc778\uac15'}</div>
@@ -1052,7 +1127,8 @@ export default function MainPage() {
             <div className="product-card">
               <div className="product-card-image study-bg">
                 <span className="product-badge">{'\uc5bc\ub9ac\ubc84\ub4dc'}</span>
-                <span style={{ fontSize: '16px', fontWeight: 700, color: '#1A8D48', letterSpacing: '-0.02em' }}>2-WEEK STUDY</span>
+                <div className="product-icon-wrap study-icon">{'\ud83d\udcac'}</div>
+                <span className="product-card-label" style={{ color: '#1A8D48' }}>2-WEEK STUDY</span>
               </div>
               <div className="product-card-body">
                 <div className="category">2{'\uc8fc \uc2a4\ud130\ub514'}</div>
@@ -1233,16 +1309,18 @@ export default function MainPage() {
             <h2>{'\uc2e4\uc81c \uc218\uac15\uc0dd\ub4e4\uc758 \uc774\uc57c\uae30'}</h2>
             <p>1,000{'\uac1c \uc774\uc0c1\uc758 \uc2e4\uc81c \ud6c4\uae30\uac00 \uc99d\uba85\ud569\ub2c8\ub2e4'}.</p>
           </div>
-          <div className="reviews-wrapper">
+          <div className="reviews-wrapper"
+            onMouseEnter={() => setReviewsPaused(true)}
+            onMouseLeave={() => setReviewsPaused(false)}
+            onTouchStart={() => setReviewsPaused(true)}
+            onTouchEnd={() => { setReviewsPaused(true); setTimeout(() => setReviewsPaused(false), 2000); }}
+          >
             <div
               className="reviews-scroll"
               ref={reviewScrollRef}
-              onMouseEnter={() => setReviewsPaused(true)}
-              onMouseLeave={() => setReviewsPaused(false)}
-              onTouchStart={() => setReviewsPaused(true)}
-              onTouchEnd={() => { setReviewsPaused(true); setTimeout(() => setReviewsPaused(false), 2000); }}
+              style={{ transform: `translateX(-${reviewOffset}px)`, willChange: 'transform' }}
             >
-              {reviews.map((review, idx) => (
+              {[...reviews, ...reviews].map((review, idx) => (
                 <div className="review-card" key={idx}>
                   <div className="review-top">
                     <div className="review-avatar">{review.initial}</div>
