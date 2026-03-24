@@ -1,4 +1,255 @@
-window.__mainContent = "// @ts-nocheck\n'use client';\n\nimport { useState, useEffect, useRef } from 'react';\nimport Link from 'next/link';\n\nexport default function MainPage() {\n  // Mobile menu state\n  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);\n  // FAQ state\n  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);\n  const faqAnswerRefs = useRef<(HTMLDivElement | null)[]>([]);\n  // Review scroll\n  const reviewScrollRef = useRef<HTMLDivElement>(null);\n  const [reviewsPaused, setReviewsPaused] = useState(false);\n  // Newsletter\n  const [subscribed, setSubscribed] = useState(false);\n  const [email, setEmail] = useState('');\n\n  // === NAV SHADOW ON SCROLL ===\n  useEffect(() => {\n    const handleScroll = () => {\n      const nav = document.getElementById('nav');\n      if (nav) {\n        nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';\n      }\n    };\n    window.addEventListener('scroll', handleScroll, { passive: true });\n    return () => window.removeEventListener('scroll', handleScroll);\n  }, []);\n\n  // === AUTO-SCROLL REVIEWS ===\n  useEffect(() => {\n    if (!reviewScrollRef.current) return;\n    let dir = 1;\n    const interval = setInterval(() => {\n      if (!reviewsPaused && reviewScrollRef.current) {\n        const scroll = reviewScrollRef.current;\n        const max = scroll.scrollWidth - scroll.clientWidth;\n        if (max <= 0) return;\n        if (scroll.scrollLeft >= max - 2) dir = -1;\n        if (scroll.scrollLeft <= 2) dir = 1;\n        scroll.scrollLeft += dir;\n      }\n    }, 30);\n    return () => clearInterval(interval);\n  }, [reviewsPaused]);\n\n  // === FAQ TOGGLE ===\n  const toggleFaq = (index: number) => {\n    setOpenFaqIndex(openFaqIndex === index ? null : index);\n  };\n\n  useEffect(() => {\n    faqAnswerRefs.current.forEach((ref, index) => {\n      if (ref) {\n        ref.style.maxHeight = index === openFaqIndex ? ref.scrollHeight + 'px' : '0px';\n      }\n    });\n  }, [openFaqIndex]);\n\n  // === SMOOTH SCROLL ===\n  useEffect(() => {\n    const handleAnchorClick = (e: Event) => {\n      const target = e.currentTarget as HTMLAnchorElement;\n      const href = target.getAttribute('href');\n      if (!href || href === '#' || !href.startsWith('#')) return;\n      const id = href.slice(1);\n      const element = document.getElementById(id);\n      if (element) {\n        e.preventDefault();\n        const nav = document.getElementById('nav');\n        const navHeight = nav?.offsetHeight || 64;\n        const top = element.getBoundingClientRect().top + window.pageYOffset - navHeight;\n        window.scrollTo({ top, behavior: 'smooth' });\n      }\n    };\n    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {\n      anchor.addEventListener('click', handleAnchorClick);\n    });\n    return () => {\n      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {\n        anchor.removeEventListener('click', handleAnchorClick);\n      });\n    };\n  }, []);\n\n  // Toggle mobile menu\n  const toggleMobileMenu = () => {\n    setMobileMenuOpen(!mobileMenuOpen);\n    document.body.style.overflow = !mobileMenuOpen ? 'hidden' : '';\n  };\n  const closeMobileMenu = () => {\n    setMobileMenuOpen(false);\n    document.body.style.overflow = '';\n  };\n\n  // Newsletter\n  const handleSubscribe = (e: React.FormEvent) => {\n    e.preventDefault();\n    if (email) {\n      window.open('https://sikbang-eng.stibee.com/', '_blank');\n      setSubscribed(true);\n    }\n  };\n\n  const faqItems = [\n    {\n      question: 'OPIC      font-size: 20px; font-weight: 800; color: var(--text-primary);
+// @ts-nocheck
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+
+export default function MainPage() {
+  // Mobile menu state
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // FAQ state
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const faqAnswerRefs = useRef<(HTMLDivElement | null)[]>([]);
+  // Review scroll
+  const reviewScrollRef = useRef<HTMLDivElement>(null);
+  const [reviewsPaused, setReviewsPaused] = useState(false);
+  // Newsletter
+  const [subscribed, setSubscribed] = useState(false);
+  const [email, setEmail] = useState('');
+
+  // === NAV SHADOW ON SCROLL ===
+  useEffect(() => {
+    const handleScroll = () => {
+      const nav = document.getElementById('nav');
+      if (nav) {
+        nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // === AUTO-SCROLL REVIEWS ===
+  useEffect(() => {
+    if (!reviewScrollRef.current) return;
+    let dir = 1;
+    const interval = setInterval(() => {
+      if (!reviewsPaused && reviewScrollRef.current) {
+        const scroll = reviewScrollRef.current;
+        const max = scroll.scrollWidth - scroll.clientWidth;
+        if (max <= 0) return;
+        if (scroll.scrollLeft >= max - 2) dir = -1;
+        if (scroll.scrollLeft <= 2) dir = 1;
+        scroll.scrollLeft += dir;
+      }
+    }, 30);
+    return () => clearInterval(interval);
+  }, [reviewsPaused]);
+
+  // === FAQ TOGGLE ===
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
+
+  useEffect(() => {
+    faqAnswerRefs.current.forEach((ref, index) => {
+      if (ref) {
+        ref.style.maxHeight = index === openFaqIndex ? ref.scrollHeight + 'px' : '0px';
+      }
+    });
+  }, [openFaqIndex]);
+
+  // === SMOOTH SCROLL ===
+  useEffect(() => {
+    const handleAnchorClick = (e: Event) => {
+      const target = e.currentTarget as HTMLAnchorElement;
+      const href = target.getAttribute('href');
+      if (!href || href === '#' || !href.startsWith('#')) return;
+      const id = href.slice(1);
+      const element = document.getElementById(id);
+      if (element) {
+        e.preventDefault();
+        const nav = document.getElementById('nav');
+        const navHeight = nav?.offsetHeight || 64;
+        const top = element.getBoundingClientRect().top + window.pageYOffset - navHeight;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    };
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', handleAnchorClick);
+    });
+    return () => {
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.removeEventListener('click', handleAnchorClick);
+      });
+    };
+  }, []);
+
+  // Toggle mobile menu
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+    document.body.style.overflow = !mobileMenuOpen ? 'hidden' : '';
+  };
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    document.body.style.overflow = '';
+  };
+
+  // Newsletter
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      window.open('https://sikbang-eng.stibee.com/', '_blank');
+      setSubscribed(true);
+    }
+  };
+
+  const faqItems = [
+    {
+      question: 'OPIC\uc744 \ucc98\uc74c \uc900\ube44\ud558\ub294\ub370 \uc5b4\ub514\uc11c\ubd80\ud130 \uc2dc\uc791\ud574\uc57c \ud558\ub098\uc694?',
+      answer: '\ud604\uc7ac \ub808\ubca8\uc5d0 \ub530\ub77c \ucd94\ucc9c \uacbd\ub85c\uac00 \ub2ec\ub77c\uc694. \uc601\uc5b4 \uae30\ucd08\uac00 \ubd80\uc871\ud558\ub2e4\uba74 \uc804\uc790\ucc45\uc73c\ub85c \ud504\ub808\uc784\uc6cc\ud06c\ub97c \uba3c\uc800 \uc775\ud788\uace0, \ub2e8\uae30\uac04\uc5d0 \uacb0\uacfc\ub97c \ub0b4\uace0 \uc2f6\ub2e4\uba74 2\uc8fc \uc2a4\ud130\ub514\ub97c \ucd94\ucc9c\ud569\ub2c8\ub2e4. \uc798 \ubaa8\ub974\uaca0\ub2e4\uba74 SpeakCoach AI\uc5d0\uc11c \ubb34\ub8cc \ud14c\uc2a4\ud2b8\ub97c \uba3c\uc800 \ud574\ubcf4\uc138\uc694. \ud604\uc7ac \uc608\uc0c1 \ub4f1\uae09\uc744 \ubc14\ub85c \ud655\uc778\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.'
+    },
+    {
+      question: 'SpeakCoach AI\ub294 \uc5b4\ub5bb\uac8c \uc0ac\uc6a9\ud558\ub098\uc694?',
+      answer: 'SpeakCoach AI\ub294 \uc6f9 \uc571(PWA)\uc774\ub77c \ubcc4\ub3c4 \uc124\uce58 \uc5c6\uc774 \ube0c\ub77c\uc6b0\uc800\uc5d0\uc11c \ubc14\ub85c \uc811\uc18d\ud560 \uc218 \uc788\uc5b4\uc694. \uac00\uc785 \ud6c4 \ub2f5\ubcc0\uc744 \ub179\uc74c\ud558\uba74 AI\uac00 \ubc1c\uc74c, \ubb38\ubc95, \uc720\ucc3d\uc131, \uc5b4\ud718 \ub4f1 7\uac1c \uce74\ud14c\uace0\ub9ac\ub85c \ubd84\uc11d\ud574\uc11c \uc608\uc0c1 \ub4f1\uae09\uacfc \uad6c\uccb4\uc801\uc778 \ud53c\ub4dc\ubc31\uc744 \uc81c\uacf5\ud569\ub2c8\ub2e4. \ubb34\ub8cc \uccb4\ud5d8\ub3c4 \uac00\ub2a5\ud569\ub2c8\ub2e4.'
+    },
+    {
+      question: '2\uc8fc \uc2a4\ud130\ub514\ub294 \uc5b4\ub5a4 \uc2dd\uc73c\ub85c \uc9c4\ud589\ub418\ub098\uc694?',
+      answer: '3\uc778 1\ud300\uc73c\ub85c \uad6c\uc131\ub418\uba70, 14\uc77c \ub3d9\uc548 \ub9e4\uc77c \uc2a4\ud53c\ud0b9 \uacfc\uc81c\ub97c \uc81c\ucd9c\ud569\ub2c8\ub2e4. \ucf54\uce58\uc758 \uc2e4\uc2dc\uac04 \ud53c\ub4dc\ubc31 + SpeakCoach AI\uc758 \uc815\ubc00 \ubd84\uc11d\uc744 \ud568\uaed8 \ubc1b\uc2b5\ub2c8\ub2e4. \uce74\uce74\uc624\ud1a1 \uadf8\ub8f9\uc5d0\uc11c \uc18c\ud1b5\ud558\uba70, 1\uc8fc\ucc28\ub294 \uae30\ubcf8 \ud504\ub808\uc784\uc6cc\ud06c, 2\uc8fc\ucc28\ub294 \uc2e4\uc804 \ubaa8\uc758\uace0\uc0ac\uc5d0 \uc9d1\uc911\ud569\ub2c8\ub2e4.',
+      hasLink: true
+    },
+    {
+      question: '\uc601\uc5b4\ub97c \uc9c4\uc9dc \ubabb\ud558\ub294\ub370 \ub530\ub77c\uac08 \uc218 \uc788\uc744\uae4c\uc694?',
+      answer: '\ub124, \uac00\ub2a5\ud569\ub2c8\ub2e4. \ud504\ub808\uc784\uc6cc\ud06c \uae30\ubc18 \ud6c8\ub828\uc774\ub77c \uc601\uc5b4\ub97c \uc798 \ubabb\ud558\ub354\ub77c\ub3c4 \ub2f5\ubcc0 \uad6c\uc870\ub97c \ub530\ub77c\uac00\uba70 \ud559\uc2b5\ud560 \uc218 \uc788\uc5b4\uc694. \uc2e4\uc81c\ub85c IL \uc218\uc900\uc5d0\uc11c \uc2dc\uc791\ud574\uc11c IM2, IH\ub97c \ub2ec\uc131\ud55c \ubd84\ub4e4\uc774 \ub9ce\uc2b5\ub2c8\ub2e4. \uc911\uc694\ud55c \uac74 \ub9e4\uc77c \uafb8\uc900\ud788 \uacfc\uc81c\ub97c \uc81c\ucd9c\ud558\ub294 \uac83\uc785\ub2c8\ub2e4.'
+    },
+    {
+      question: '\uc9c1\uc7a5\uc778\uc778\ub370 \uc2dc\uac04 \ud22c\uc790\uac00 \ub9ce\uc774 \ud544\uc694\ud55c\uac00\uc694?',
+      answer: '\ud558\ub8e8 \ud3c9\uade0 1~2\uc2dc\uac04\uc774\uba74 \ucda9\ubd84\ud569\ub2c8\ub2e4. \ud559\uc2b5 \uc790\ub8cc \ud655\uc778 10\ubd84, \ub2f5\ubcc0 \uc900\ube44 \ubc0f \ub179\uc74c 30~40\ubd84, AI \ubd84\uc11d \ud655\uc778 20\ubd84, \ucf54\uce58 \ud53c\ub4dc\ubc31 \ubc18\uc601 20\ubd84 \uc815\ub3c4\uc608\uc694. \ucd9c\ud1f4\uadfc \uc2dc\uac04\uc5d0 \uc790\ub8cc\ub97c \ubcf4\uace0, \ud1f4\uadfc \ud6c4 \ub179\uc74c\ud558\ub294 \ud328\ud134\uc73c\ub85c \uc9c4\ud589\ud558\uc2dc\ub294 \uc9c1\uc7a5\uc778\ubd84\ub4e4\uc774 \ub9ce\uc2b5\ub2c8\ub2e4.'
+    },
+    {
+      question: '\ud658\ubd88\uc740 \uc5b4\ub5bb\uac8c \ub418\ub098\uc694?',
+      answer: '\uc2a4\ud130\ub514\uc758 \uacbd\uc6b0 \uc2dc\uc791 \uc804 100% \ud658\ubd88, \uc2dc\uc791 \ud6c4 3\uc77c \uc774\ub0b4 50% \ud658\ubd88\uc774 \uac00\ub2a5\ud569\ub2c8\ub2e4. SpeakCoach AI \uad6c\ub3c5\uc740 \uacb0\uc81c \ud6c4 7\uc77c \uc774\ub0b4 \ud658\ubd88 \uac00\ub2a5\ud569\ub2c8\ub2e4. \uc790\uc138\ud55c \uc0ac\ud56d\uc740 \uce74\uce74\uc624\ud1a1\uc73c\ub85c \ubb38\uc758\ud574\uc8fc\uc138\uc694.'
+    },
+    {
+      question: '\uc804\uc790\ucc45, \uc778\uac15, \uc2a4\ud130\ub514 \uc911 \ubb58 \uc120\ud0dd\ud574\uc57c \ud558\ub098\uc694?',
+      answer: '\ubaa9\ud45c\uc640 \uc0c1\ud669\uc5d0 \ub530\ub77c \ub2ec\ub77c\uc694. \ub3c5\ud559 \uc120\ud638 + \uae30\ucd08 \ud559\uc2b5\uc774\uba74 \uc804\uc790\ucc45, \uccb4\uacc4\uc801 \uc601\uc0c1 \uac15\uc758\ub97c \uc6d0\ud558\uba74 \uc778\uac15, \ub2e8\uae30\uac04 \ud655\uc2e4\ud55c \uc131\uacfc\ub97c \uc6d0\ud558\uba74 2\uc8fc \uc2a4\ud130\ub514\ub97c \ucd94\ucc9c\ud569\ub2c8\ub2e4. \uac00\uc7a5 \ud6a8\uacfc\uac00 \uc88b\uc740 \uc870\ud569\uc740 \uc778\uac15 + \uc2a4\ud130\ub514\uc774\uace0, \uc608\uc0b0\uc774 \uc81c\ud55c\uc801\uc774\ub77c\uba74 \uc804\uc790\ucc45 + SpeakCoach AI \ubb34\ub8cc \uccb4\ud5d8\uc73c\ub85c \uc2dc\uc791\ud574\ubcf4\uc138\uc694.'
+    }
+  ];
+
+  const reviews = [
+    {
+      initial: 'J',
+      name: '\uc815*\ud604',
+      info: '\ub300\ud559\uc0dd \u00b7 2\uc8fc \uc2a4\ud130\ub514',
+      stars: 5,
+      text: '2\uc8fc \ub9cc\uc5d0 IM2\uc5d0\uc11c IH\ub85c \uc62c\ub790\uc2b5\ub2c8\ub2e4. \ud504\ub808\uc784\uc6cc\ud06c \ub2f5\ubcc0\uc774 \uc9c4\uc9dc \ud6a8\uacfc\uc801\uc774\uc5d0\uc694. \ud63c\uc790 \ud588\uc73c\uba74 \uc808\ub300 \ubabb \uc62c\ub838\uc744 \uc810\uc218\uc785\ub2c8\ub2e4.',
+      badge: 'IM2 \u2192 IH',
+      result: '2\uc8fc \ub9cc\uc5d0 \ub4f1\uae09 \uc0c1\uc2b9'
+    },
+    {
+      initial: 'S',
+      name: '\uc11c*\uc601',
+      info: '\ucde8\uc900\uc0dd \u00b7 \uc2a4\ud130\ub514 + AI',
+      stars: 5,
+      text: 'SpeakCoach AI\ub85c \ub9e4\uc77c \uc5f0\uc2b5\ud558\uace0, \uc2a4\ud130\ub514\uc5d0\uc11c \ud53c\ub4dc\ubc31 \ubc1b\uc73c\ub2c8\uae4c \ub0b4 \uc57d\uc810\uc774 \uc815\ud655\ud788 \ubcf4\uc600\uc5b4\uc694. \uacb0\uad6d AL \ubc1b\uc558\uc2b5\ub2c8\ub2e4!',
+      badge: 'IH \u2192 AL',
+      result: '\ucd5c\uace0 \ub4f1\uae09 \ub2ec\uc131'
+    },
+    {
+      initial: 'K',
+      name: '\uae40*\uc218',
+      info: '\uc9c1\uc7a5\uc778 \u00b7 \uc804\uc790\ucc45 + AI',
+      stars: 4,
+      text: '\ud1f4\uadfc \ud6c4 \uc2dc\uac04\uc774 \uc5c6\uc5b4\uc11c \uc804\uc790\ucc45\uc73c\ub85c \ud2c0 \uc7a1\uace0, AI\ub85c \ub9e4\uc77c 15\ubd84\uc529 \uc5f0\uc2b5\ud588\uc5b4\uc694. \ud55c \ub2ec \ub9cc\uc5d0 IM3 \ubc1b\uc558\uc2b5\ub2c8\ub2e4.',
+      badge: 'IL \u2192 IM3',
+      result: '3\ub2e8\uacc4 \uc0c1\uc2b9'
+    },
+    {
+      initial: 'L',
+      name: '\uc774*\uc9c4',
+      info: '\ub300\ud559\uc0dd \u00b7 2\uc8fc \uc2a4\ud130\ub514',
+      stars: 5,
+      text: '3\uba85\uc774\uc11c \ud300\uc73c\ub85c \ud558\ub2c8\uae4c \uae34\uc7a5\uac10\ub3c4 \uc788\uace0, \uc11c\ub85c \ud53c\ub4dc\ubc31 \uc8fc\ub294 \uac8c \uc9c4\uc9dc \ub3c4\uc6c0\ub410\uc5b4\uc694. \ucde8\uc5c5 \uba74\uc811 \uc804\uc5d0 \uc790\uc2e0\uac10\ub3c4 \uc0dd\uacbc\uc2b5\ub2c8\ub2e4.',
+      badge: 'IM1 \u2192 IH',
+      result: '\ubaa9\ud45c \ub4f1\uae09 \ub2ec\uc131'
+    },
+    {
+      initial: 'P',
+      name: '\ubc15*\ud76c',
+      info: '\uc774\uc9c1 \uc900\ube44 \u00b7 \uc778\uac15 + \uc2a4\ud130\ub514',
+      stars: 5,
+      text: '\uc778\uac15\uc73c\ub85c \uae30\ubcf8\uae30 \uc7a1\uace0 \uc2a4\ud130\ub514\uc5d0\uc11c \uc2e4\uc804 \uc5f0\uc2b5\ud558\ub2c8\uae4c \uc2dc\ub108\uc9c0\uac00 \ub300\ub2e8\ud588\uc5b4\uc694. IH \ubaa9\ud45c\uc600\ub294\ub370 AL\uc774 \ub098\uc654\uc2b5\ub2c8\ub2e4.',
+      badge: 'IM3 \u2192 AL',
+      result: '\ubaa9\ud45c \ucd08\uacfc \ub2ec\uc131'
+    },
+    {
+      initial: 'C',
+      name: '\ucd5c*\uc544',
+      info: '\ub300\ud559\uc6d0\uc0dd \u00b7 \uc804\uc790\ucc45',
+      stars: 5,
+      text: '\ud504\ub808\uc784\uc6cc\ud06c\uac00 \uc9c4\uc9dc \ud575\uc2ec\uc774\uc5d0\uc694. \ub2f5\ubcc0 \uad6c\uc870\ub97c \uc7a1\uc73c\ub2c8\uae4c \uc5b4\ub5a4 \uc9c8\ubb38\uc774 \ub098\uc640\ub3c4 \ub2f9\ud669\ud558\uc9c0 \uc54a\uac8c \ub410\uc5b4\uc694.',
+      badge: 'IM2 \u2192 IH',
+      result: '\uc804\uc790\ucc45\ub9cc\uc73c\ub85c \uc0c1\uc2b9'
+    }
+  ];
+
+  return (
+    <>
+      <style>{`
+        /* === RESET & BASE === */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+          font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+          background: #FFFFFF;
+          color: #191F28;
+          line-height: 1.6;
+          -webkit-font-smoothing: antialiased;
+          overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; border: none; font-family: inherit; }
+        img { max-width: 100%; display: block; }
+
+        /* === TOSS COLOR SYSTEM === */
+        :root {
+          --blue-primary: #3182F6;
+          --blue-dark: #1B64DA;
+          --blue-light: #E8F3FF;
+          --blue-bg: #F2F4F6;
+          --text-primary: #191F28;
+          --text-secondary: #4E5968;
+          --text-tertiary: #8B95A1;
+          --text-white: #FFFFFF;
+          --bg-white: #FFFFFF;
+          --bg-gray: #F2F4F6;
+          --border: #E5E8EB;
+          --card-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06);
+          --card-hover: 0 4px 16px rgba(0,0,0,0.08), 0 12px 40px rgba(0,0,0,0.1);
+          --section-padding: 120px 0;
+          --kakao-yellow: #FEE500;
+        }
+
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: var(--section-padding); }
+        .section-gray { background: var(--bg-gray); }
+
+        /* === NAV === */
+        .nav {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          background: rgba(255,255,255,0.85);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border-bottom: 1px solid var(--border);
+          transition: all 0.3s ease;
+        }
+        .nav-inner {
+          max-width: 1140px; margin: 0 auto; padding: 0 24px;
+          display: flex; align-items: center; justify-content: space-between;
+          height: 64px;
+        }
+        .nav-logo {
+          font-size: 20px; font-weight: 800; color: var(--text-primary);
           display: flex; align-items: center; gap: 8px;
         }
         .nav-logo .bread-icon { font-size: 24px; }
@@ -354,609 +605,6 @@ window.__mainContent = "// @ts-nocheck\n'use client';\n\nimport { useState, useE
           border: 1px solid var(--border); padding: 28px;
           scroll-snap-align: start;
           flex-shrink: 0;
-        // @ts-nocheck
-'use client';
-
-import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
-
-export default function MainPage() {
-  // Mobile menu state
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // FAQ state
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-  const faqAnswerRefs = useRef<(HTMLDivElement | null)[]>([]);
-  // Review scroll
-  const reviewScrollRef = useRef<HTMLDivElement>(null);
-  const [reviewsPaused, setReviewsPaused] = useState(false);
-  // Newsletter
-  const [subscribed, setSubscribed] = useState(false);
-  const [email, setEmail] = useState('');
-
-  // === NAV SHADOW ON SCROLL ===
-  useEffect(() => {
-    const handleScroll = () => {
-      const nav = document.getElementById('nav');
-      if (nav) {
-        nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // === AUTO-SCROLL REVIEWS ===
-  useEffect(() => {
-    if (!reviewScrollRef.current) return;
-    let dir = 1;
-    const interval = setInterval(() => {
-      if (!reviewsPaused && reviewScrollRef.current) {
-        const scroll = reviewScrollRef.current;
-        const max = scroll.scrollWidth - scroll.clientWidth;
-        if (max <= 0) return;
-        if (scroll.scrollLeft >= max - 2) dir = -1;
-        if (scroll.scrollLeft <= 2) dir = 1;
-        scroll.scrollLeft += dir;
-      }
-    }, 30);
-    return () => clearInterval(interval);
-  }, [reviewsPaused]);
-
-  // === FAQ TOGGLE ===
-  const toggleFaq = (index: number) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
-  };
-
-  useEffect(() => {
-    faqAnswerRefs.current.forEach((ref, index) => {
-      if (ref) {
-        ref.style.maxHeight = index === openFaqIndex ? ref.scrollHeight + 'px' : '0px';
-      }
-    });
-  }, [openFaqIndex]);
-
-  // === SMOOTH SCROLL ===
-  useEffect(() => {
-    const handleAnchorClick = (e: Event) => {
-      const target = e.currentTarget as HTMLAnchorElement;
-      const href = target.getAttribute('href');
-      if (!href || href === '#' || !href.startsWith('#')) return;
-      const id = href.slice(1);
-      const element = document.getElementById(id);
-      if (element) {
-        e.preventDefault();
-        const nav = document.getElementById('nav');
-        const navHeight = nav?.offsetHeight || 64;
-        const top = element.getBoundingClientRect().top + window.pageYOffset - navHeight;
-        window.scrollTo({ top, behavior: 'smooth' });
-      }
-    };
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener('click', handleAnchorClick);
-    });
-    return () => {
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.removeEventListener('click', handleAnchorClick);
-      });
-    };
-  }, []);
-
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-    document.body.style.overflow = !mobileMenuOpen ? 'hidden' : '';
-  };
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-    document.body.style.overflow = '';
-  };
-
-  // Newsletter
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      window.open('https://sikbang-eng.stibee.com/', '_blank');
-      setSubscribed(true);
-    }
-  };
-
-  const faqItems = [
-    {
-      question: 'OPIC\uc744 \ucc98\uc74c \uc900\ube44\ud558\ub294\ub370 \uc5b4\ub514\uc11c\ubd80\ud130 \uc2dc\uc791\ud574\uc57c \ud558\ub098\uc694?',
-      answer: '\ud604\uc7ac \ub808\ubca8\uc5d0 \ub530\ub77c \ucd94\ucc9c \uacbd\ub85c\uac00 \ub2ec\ub77c\uc694. \uc601\uc5b4 \uae30\ucd08\uac00 \ubd80\uc871\ud558\ub2e4\uba74 \uc804\uc790\ucc45\uc73c\ub85c \ud504\ub808\uc784\uc6cc\ud06c\ub97c \uba3c\uc800 \uc775\ud788\uace0, \ub2e8\uae30\uac04\uc5d0 \uacb0\uacfc\ub97c \ub0b4\uace0 \uc2f6\ub2e4\uba74 2\uc8fc \uc2a4\ud130\ub514\ub97c \ucd94\ucc9c\ud569\ub2c8\ub2e4. \uc798 \ubaa8\ub974\uaca0\ub2e4\uba74 SpeakCoach AI\uc5d0\uc11c \ubb34\ub8cc \ud14c\uc2a4\ud2b8\ub97c \uba3c\uc800 \ud574\ubcf4\uc138\uc694. \ud604\uc7ac \uc608\uc0c1 \ub4f1\uae09\uc744 \ubc14\ub85c \ud655\uc778\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.'
-    },
-    {
-      question: 'SpeakCoach AI\ub294 \uc5b4\ub5bb\uac8c \uc0ac\uc6a9\ud558\ub098\uc694?',
-      answer: 'SpeakCoach AI\ub294 \uc6f9 \uc571(PWA)\uc774\ub77c \ubcc4\ub3c4 \uc124\uce58 \uc5c6\uc774 \ube0c\ub77c\uc6b0\uc800\uc5d0\uc11c \ubc14\ub85c \uc811\uc18d\ud560 \uc218 \uc788\uc5b4\uc694. \uac00\uc785 \ud6c4 \ub2f5\ubcc0\uc744 \ub179\uc74c\ud558\uba74 AI\uac00 \ubc1c\uc74c, \ubb38\ubc95, \uc720\ucc3d\uc131, \uc5b4\ud718 \ub4f1 7\uac1c \uce74\ud14c\uace0\ub9ac\ub85c \ubd84\uc11d\ud574\uc11c \uc608\uc0c1 \ub4f1\uae09\uacfc \uad6c\uccb4\uc801\uc778 \ud53c\ub4dc\ubc31\uc744 \uc81c\uacf5\ud569\ub2c8\ub2e4. \ubb34\ub8cc \uccb4\ud5d8\ub3c4 \uac00\ub2a5\ud569\ub2c8\ub2e4.'
-    },
-    {
-      question: '2\uc8fc \uc2a4\ud130\ub514\ub294 \uc5b4\ub5a4 \uc2dd\uc73c\ub85c \uc9c4\ud589\ub418\ub098\uc694?',
-      answer: '3\uc778 1\ud300\uc73c\ub85c \uad6c\uc131\ub418\uba70, 14\uc77c \ub3d9\uc548 \ub9e4\uc77c \uc2a4\ud53c\ud0b9 \uacfc\uc81c\ub97c \uc81c\ucd9c\ud569\ub2c8\ub2e4. \ucf54\uce58\uc758 \uc2e4\uc2dc\uac04 \ud53c\ub4dc\ubc31 + SpeakCoach AI\uc758 \uc815\ubc00 \ubd84\uc11d\uc744 \ud568\uaed8 \ubc1b\uc2b5\ub2c8\ub2e4. \uce74\uce74\uc624\ud1a1 \uadf8\ub8f9\uc5d0\uc11c \uc18c\ud1b5\ud558\uba70, 1\uc8fc\ucc28\ub294 \uae30\ubcf8 \ud504\ub808\uc784\uc6cc\ud06c, 2\uc8fc\ucc28\ub294 \uc2e4\uc804 \ubaa8\uc758\uace0\uc0ac\uc5d0 \uc9d1\uc911\ud569\ub2c8\ub2e4.',
-      hasLink: true
-    },
-    {
-      question: '\uc601\uc5b4\ub97c \uc9c4\uc9dc \ubabb\ud558\ub294\ub370 \ub530\ub77c\uac08 \uc218 \uc788\uc744\uae4c\uc694?',
-      answer: '\ub124, \uac00\ub2a5\ud569\ub2c8\ub2e4. \ud504\ub808\uc784\uc6cc\ud06c \uae30\ubc18 \ud6c8\ub828\uc774\ub77c \uc601\uc5b4\ub97c \uc798 \ubabb\ud558\ub354\ub77c\ub3c4 \ub2f5\ubcc0 \uad6c\uc870\ub97c \ub530\ub77c\uac00\uba70 \ud559\uc2b5\ud560 \uc218 \uc788\uc5b4\uc694. \uc2e4\uc81c\ub85c IL \uc218\uc900\uc5d0\uc11c \uc2dc\uc791\ud574\uc11c IM2, IH\ub97c \ub2ec\uc131\ud55c \ubd84\ub4e4\uc774 \ub9ce\uc2b5\ub2c8\ub2e4. \uc911\uc694\ud55c \uac74 \ub9e4\uc77c \uafb8\uc900\ud788 \uacfc\uc81c\ub97c \uc81c\ucd9c\ud558\ub294 \uac83\uc785\ub2c8\ub2e4.'
-    },
-    {
-      question: '\uc9c1\uc7a5\uc778\uc778\ub370 \uc2dc\uac04 \ud22c\uc790\uac00 \ub9ce\uc774 \ud544\uc694\ud55c\uac00\uc694?',      answer: '\ud558\ub8e8 \ud3c9\uade0 1~2\uc2dc\uac04\uc774\uba74 \ucda9\ubd84\ud569\ub2c8\ub2e4. \ud559\uc2b5 \uc790\ub8cc \ud655\uc778 10\ubd84, \ub2f5\ubcc0 \uc900\ube44 \ubc0f \ub179\uc74c 30~40\ubd84, AI \ubd84\uc11d \ud655\uc778 20\ubd84, \ucf54\uce58 \ud53c\ub4dc\ubc31 \ubc18\uc601 20\ubd84 \uc815\ub3c4\uc608\uc694. \ucd9c\ud1f4\uadfc \uc2dc\uac04\uc5d0 \uc790\ub8cc\ub97c \ubcf4\uace0, \ud1f4\uadfc \ud6c4 \ub179\uc74c\ud558\ub294 \ud328\ud134\uc73c\ub85c \uc9c4\ud589\ud558\uc2dc\ub294 \uc9c1\uc7a5\uc778\ubd84\ub4e4\uc774 \ub9ce\uc2b5\ub2c8\ub2e4.'
-    },
-    {
-      question: '\ud658\ubd88\uc740 \uc5b4\ub5bb\uac8c \ub418\ub098\uc694?',
-      answer: '\uc2a4\ud130\ub514\uc758 \uacbd\uc6b0 \uc2dc\uc791 \uc804 100% \ud658\ubd88, \uc2dc\uc791 \ud6c4 3\uc77c \uc774\ub0b4 50% \ud658\ubd88\uc774 \uac00\ub2a5\ud569\ub2c8\ub2e4. SpeakCoach AI \uad6c\ub3c5\uc740 \uacb0\uc81c \ud6c4 7\uc77c \uc774\ub0b4 \ud658\ubd88 \uac00\ub2a5\ud569\ub2c8\ub2e4. \uc790\uc138\ud55c \uc0ac\ud56d\uc740 \uce74\uce74\uc624\ud1a1\uc73c\ub85c \ubb38\uc758\ud574\uc8fc\uc138\uc694.'
-    },
-    {
-      question: '\uc804\uc790\ucc45, \uc778\uac15, \uc2a4\ud130\ub514 \uc911 \ubb58 \uc120\ud0dd\ud574\uc57c \ud558\ub098\uc694?',
-      answer: '\ubaa9\ud45c\uc640 \uc0c1\ud669\uc5d0 \ub530\ub77c \ub2ec\ub77c\uc694. \ub3c5\ud559 \uc120\ud638 + \uae30\ucd08 \ud559\uc2b5\uc774\uba74 \uc804\uc790\ucc45, \uccb4\uacc4\uc801 \uc601\uc0c1 \uac15\uc758\ub97c \uc6d0\ud558\uba74 \uc778\uac15, \ub2e8\uae30\uac04 \ud655\uc2e4\ud55c \uc131\uacfc\ub97c \uc6d0\ud558\uba74 2\uc8fc \uc2a4\ud130\ub514\ub97c \ucd94\ucc9c\ud569\ub2c8\ub2e4. \uac00\uc7a5 \ud6a8\uacfc\uac00 \uc88b\uc740 \uc870\ud569\uc740 \uc778\uac15 + \uc2a4\ud130\ub514\uc774\uace0, \uc608\uc0b0\uc774 \uc81c\ud55c\uc801\uc774\ub77c\uba74 \uc804\uc790\ucc45 + SpeakCoach AI \ubb34\ub8cc \uccb4\ud5d8\uc73c\ub85c \uc2dc\uc791\ud574\ubcf4\uc138\uc694.'
-    }
-  ];
-
-  const reviews = [
-    {
-      initial: 'J',
-      name: '\uc815*\ud604',
-      info: '\ub300\ud559\uc0dd \u00b7 2\uc8fc \uc2a4\ud130\ub514',
-      stars: 5,
-      text: '2\uc8fc \ub9cc\uc5d0 IM2\uc5d0\uc11c IH\ub85c \uc62c\ub790\uc2b5\ub2c8\ub2e4. \ud504\ub808\uc784\uc6cc\ud06c \ub2f5\ubcc0\uc774 \uc9c4\uc9dc \ud6a8\uacfc\uc801\uc774\uc5d0\uc694. \ud63c\uc790 \ud588\uc73c\uba74 \uc808\ub300 \ubabb \uc62c\ub838\uc744 \uc810\uc218\uc785\ub2c8\ub2e4.',
-      badge: 'IM2 \u2192 IH',
-      result: '2\uc8fc \ub9cc\uc5d0 \ub4f1\uae09 \uc0c1\uc2b9'
-    },
-    {
-      initial: 'S',
-      name: '\uc11c*\uc601',
-      info: '\ucde8\uc900\uc0dd \u00b7 \uc2a4\ud130\ub514 + AI',
-      stars: 5,
-      text: 'SpeakCoach AI\ub85c \ub9e4\uc77c \uc5f0\uc2b5\ud558\uace0, \uc2a4\ud130\ub514\uc5d0\uc11c \ud53c\ub4dc\ubc31 \ubc1b\uc73c\ub2c8\uae4c \ub0b4 \uc57d\uc810\uc774 \uc815\ud655\ud788 \ubcf4\uc600\uc5b4\uc694. \uacb0\uad6d AL \ubc1b\uc558\uc2b5\ub2c8\ub2e4!',
-      badge: 'IH \u2192 AL',
-      result: '\ucd5c\uace0 \ub4f1\uae09 \ub2ec\uc131'
-    },
-    {
-      initial: 'K',
-      name: '\uae40*\uc218',
-      info: '\uc9c1\uc7a5\uc778 \u00b7 \uc804\uc790\ucc45 + AI',
-      stars: 4,
-      text: '\ud1f4\uadfc \ud6c4 \uc2dc\uac04\uc774 \uc5c6\uc5b4\uc11c \uc804\uc790\ucc45\uc73c\ub85c \ud2c0 \uc7a1\uace0, AI\ub85c \ub9e4\uc77c 15\ubd84\uc529 \uc5f0\uc2b5\ud588\uc5b4\uc694. \ud55c \ub2ec \ub9cc\uc5d0 IM3 \ubc1b\uc558\uc2b5\ub2c8\ub2e4.',
-      badge: 'IL \u2192 IM3',
-      result: '3\ub2e8\uacc4 \uc0c1\uc2b9'
-    },
-    {
-      initial: 'L',
-      name: '\uc774*\uc9c4',
-      info: '\ub300\ud559\uc0dd \u00b7 2\uc8fc \uc2a4\ud130\ub514',
-      stars: 5,
-      text: '3\uba85\uc774\uc11c \ud300\uc73c\ub85c \ud558\ub2c8\uae4c \uae34\uc7a5\uac10\ub3c4 \uc788\uace0, \uc11c\ub85c \ud53c\ub4dc\ubc31 \uc8fc\ub294 \uac8c \uc9c4\uc9dc \ub3c4\uc6c0\ub410\uc5b4\uc694. \ucde8\uc5c5 \uba74\uc811 \uc804\uc5d0 \uc790\uc2e0\uac10\ub3c4 \uc0dd\uacbc\uc2b5\ub2c8\ub2e4.',
-      badge: 'IM1 \u2192 IH',
-      result: '\ubaa9\ud45c \ub4f1\uae09 \ub2ec\uc131'
-    },
-    {
-      initial: 'P',
-      name: '\ubc15*\ud76c',
-      info: '\uc774\uc9c1 \uc900\ube44 \u00b7 \uc778\uac15 + \uc2a4\ud130\ub514',
-      stars: 5,
-      text: '\uc778\uac15\uc73c\ub85c \uae30\ubcf8\uae30 \uc7a1\uace0 \uc2a4\ud130\ub514\uc5d0\uc11c \uc2e4\uc804 \uc5f0\uc2b5\ud558\ub2c8\uae4c \uc2dc\ub108\uc9c0\uac00 \ub300\ub2e8\ud588\uc5b4\uc694. IH \ubaa9\ud45c\uc600\ub294\ub370 AL\uc774 \ub098\uc654\uc2b5\ub2c8\ub2e4.',
-      badge: 'IM3 \u2192 AL',
-      result: '\ubaa9\ud45c \ucd08\uacfc \ub2ec\uc131'
-    },
-    {
-      initial: 'C',
-      name: '\ucd5c*\uc544',
-      info: '\ub300\ud559\uc6d0\uc0dd \u00b7 \uc804\uc790\ucc45',
-      stars: 5,
-      text: '\ud504\ub808\uc784\uc6cc\ud06c\uac00 \uc9c4\uc9dc \ud575\uc2ec\uc774\uc5d0\uc694. \ub2f5\ubcc0 \uad6c\uc870\ub97c \uc7a1\uc73c\ub2c8\uae4c \uc5b4\ub5a4 \uc9c8\ubb38\uc774 \ub098\uc640\ub3c4 \ub2f9\ud669\ud558\uc9c0 \uc54a\uac8c \ub410\uc5b4\uc694.',
-      badge: 'IM2 \u2192 IH',
-      result: '\uc804\uc790\ucc45\ub9cc\uc73c\ub85c \uc0c1\uc2b9'
-    }
-  ];
-
-  return (
-    <>
-      <style>{`
-        /* === RESET & BASE === */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-          font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-          background: #FFFFFF;
-          color: #191F28;
-          line-height: 1.6;
-          -webkit-font-smoothing: antialiased;
-          overflow-x: hidden;
-        }
-        a { text-decoration: none; color: inherit; }
-        button { cursor: pointer; border: none; font-family: inherit; }
-        img { max-width: 100%; display: block; }
-
-        /* === TOSS COLOR SYSTEM === */
-        :root {
-          --blue-primary: #3182F6;
-          --blue-dark: #1B64DA;
-          --blue-light: #E8F3FF;
-          --blue-bg: #F2F4F6;
-          --text-primary: #191F28;
-          --text-secondary: #4E5968;
-          --text-tertiary: #8B95A1;
-          --text-white: #FFFFFF;
-          --bg-white: #FFFFFF;
-          --bg-gray: #F2F4F6;
-          --border: #E5E8EB;
-          --card-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06);
-          --card-hover: 0 4px 16px rgba(0,0,0,0.08), 0 12px 40px rgba(0,0,0,0.1);
-          --section-padding: 120px 0;
-          --kakao-yellow: #FEE500;
-        }
-
-        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
-        .section { padding: var(--section-padding); }
-        .section-gray { background: var(--bg-gray); }
-
-        /* === NAV === */
-        .nav {          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-          background: rgba(255,255,255,0.85);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-bottom: 1px solid var(--border);
-          transition: all 0.3s ease;
-        }
-        .nav-inner {
-          max-width: 1140px; margin: 0 auto; padding: 0 24px;
-          display: flex; align-items: center; justify-content: space-between;
-          height: 64px;
-        }
-        .nav-logo {
-          font-size: 20px; font-weight: 800; color: var(--text-primary);
-          display: flex; align-items: center; gap: 8px;
-        }
-        .nav-logo .bread-icon { font-size: 24px; }
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a {
-          font-size: 15px; font-weight: 500; color: var(--text-secondary);
-          transition: color 0.2s;
-        }
-        .nav-links a:hover { color: var(--blue-primary); }
-        .nav-cta {
-          background: var(--blue-primary); color: white;
-          padding: 10px 20px; border-radius: 12px;
-          font-size: 14px; font-weight: 600;
-          transition: background 0.2s;
-        }
-        .nav-cta:hover { background: var(--blue-dark); }
-
-        /* === HAMBURGER MENU === */
-        .hamburger {
-          display: none;
-          width: 40px; height: 40px;
-          background: none; border: none;
-          flex-direction: column; align-items: center; justify-content: center;
-          gap: 5px; cursor: pointer; z-index: 200;
-          padding: 8px;
-        }
-        .hamburger span {
-          display: block; width: 22px; height: 2px;
-          background: var(--text-primary);
-          border-radius: 2px;
-          transition: all 0.3s ease;
-        }
-        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-        .mobile-menu {
-          display: none;
-          position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
-          background: rgba(255,255,255,0.98);
-          backdrop-filter: blur(20px);
-          z-index: 99;
-          flex-direction: column;
-          padding: 32px 24px;
-          gap: 8px;
-        }
-        .mobile-menu.show { display: flex; }
-        .mobile-menu a {
-          display: block; padding: 16px 20px;
-          font-size: 18px; font-weight: 600;
-          color: var(--text-primary);
-          border-radius: 14px;
-          transition: background 0.2s;
-        }
-        .mobile-menu a:hover { background: var(--bg-gray); }
-        .mobile-menu .mobile-cta {
-          margin-top: 16px;
-          background: var(--blue-primary); color: white;
-          text-align: center; border-radius: 16px;
-          padding: 18px;
-          font-size: 17px; font-weight: 700;
-        }
-
-        /* === HERO === */
-        .hero {
-          padding: 160px 0 120px;
-          background: #FFFFFF;
-          text-align: center;
-          position: relative;
-          overflow: hidden;
-        }
-        .hero-badge {
-          display: inline-flex; align-items: center; gap: 6px;
-          background: var(--blue-light); color: var(--blue-primary);
-          padding: 8px 16px; border-radius: 100px;
-          font-size: 14px; font-weight: 600;
-          margin-bottom: 24px;
-        }
-        .hero h1 {
-          font-size: 52px; font-weight: 800; line-height: 1.3;
-          color: var(--text-primary);
-          margin-bottom: 20px;
-          letter-spacing: -0.02em;
-        }
-        .hero h1 .highlight { color: var(--blue-primary); }
-        .hero p {
-          font-size: 18px; color: var(--text-secondary);
-          max-width: 560px; margin: 0 auto 40px;
-          line-height: 1.7;
-        }
-        .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-        .btn-primary {
-          background: var(--blue-primary); color: white;
-          padding: 16px 32px; border-radius: 16px;
-          font-size: 17px; font-weight: 700;
-          transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
-        }
-        .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(49,130,246,0.3); }
-        .btn-secondary {
-          background: var(--bg-gray); color: var(--text-primary);
-          padding: 16px 32px; border-radius: 16px;
-          font-size: 17px; font-weight: 700;
-          transition: all 0.2s;
-        }
-        .btn-secondary:hover { background: #E5E8EB; }
-
-        .hero-stats {
-          display: flex; justify-content: center; gap: 60px;
-          margin-top: 64px; padding-top: 48px;
-          border-top: 1px solid var(--border);
-        }
-        .hero-stat { text-align: center; }
-        .hero-stat .number { font-size: 36px; font-weight: 800; color: var(--blue-primary); }
-        .hero-stat .label { font-size: 14px; color: var(--text-tertiary); margin-top: 4px; font-weight: 500; }
-
-        /* === SECTION HEADINGS === */
-        .section-header { text-align: center; margin-bottom: 64px; }
-        .section-header .overline {
-          font-size: 14px; font-weight: 700; color: var(--blue-primary);
-          text-transform: uppercase; letter-spacing: 0.05em;
-          margin-bottom: 12px;
-        }
-        .section-header h2 {
-          font-size: 36px; font-weight: 800; line-height: 1.35;
-          letter-spacing: -0.02em;
-        }
-        .section-header p {
-          font-size: 16px; color: var(--text-secondary);
-          max-width: 480px; margin: 16px auto 0;
-          line-height: 1.7;
-        }
-
-        /* === PRODUCTS / STORE === */
-        .products-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-          gap: 24px;
-        }
-        .product-card {
-          background: var(--bg-white);
-          border-radius: 20px;
-          border: 1px solid var(--border);
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-        .product-card:hover {
-          border-color: var(--blue-primary);
-          box-shadow: var(--card-hover);
-          transform: translateY(-4px);
-        }
-        .product-card-image {
-          height: 200px;
-          background: linear-gradient(135deg, #E8F3FF 0%, #D0E8FF 100%);
-          display: flex; align-items: center; justify-content: center;
-          font-size: 64px;
-          position: relative;
-          overflow: hidden;
-        }
-        .product-card-image.ebook-bg { background: linear-gradient(135deg, #E8F3FF 0%, #C7DEFF 100%); }
-        .product-card-image.course-bg { background: linear-gradient(135deg, #F0E8FF 0%, #DDD0FF 100%); }
-        .product-card-image.study-bg { background: linear-gradient(135deg, #E8FFF0 0%, #C7FFD8 100%); }
-        .product-badge {
-          position: absolute; top: 16px; left: 16px;          background: var(--blue-primary); color: white;
-          padding: 4px 12px; border-radius: 8px;
-          font-size: 12px; font-weight: 700;
-        }
-        .product-badge.hot { background: #F04452; }
-        .product-badge.new { background: #3CB371; }
-        .product-card-body { padding: 24px; }
-        .product-card-body .category {
-          font-size: 13px; font-weight: 600; color: var(--blue-primary);
-          margin-bottom: 8px;
-        }
-        .product-card-body h3 {
-          font-size: 20px; font-weight: 700; margin-bottom: 8px;
-          line-height: 1.4;
-        }
-        .product-card-body .desc {
-          font-size: 14px; color: var(--text-secondary);
-          margin-bottom: 16px; line-height: 1.6;
-        }
-        .product-price-row {
-          display: flex; align-items: center; justify-content: space-between;
-        }
-        .product-price {
-          display: flex; align-items: baseline; gap: 8px;
-        }
-        .product-price .original {
-          font-size: 14px; color: var(--text-tertiary);
-          text-decoration: line-through;
-        }
-        .product-price .current {
-          font-size: 22px; font-weight: 800; color: var(--text-primary);
-        }
-        .product-price .unit {
-          font-size: 14px; color: var(--text-secondary); font-weight: 500;
-        }
-        .btn-buy {
-          background: var(--blue-primary); color: white;
-          padding: 10px 20px; border-radius: 12px;
-          font-size: 14px; font-weight: 700;
-          transition: all 0.2s;
-        }
-        .btn-buy:hover { background: var(--blue-dark); }
-
-        /* === SPEAKCOACH AI === */
-        .speakcoach-section { position: relative; overflow: hidden; }
-        .speakcoach-grid {
-          display: grid; grid-template-columns: 1fr 1fr;
-          gap: 80px; align-items: center;
-        }
-        .speakcoach-content .tag {
-          display: inline-flex; align-items: center; gap: 6px;
-          background: var(--blue-light); color: var(--blue-primary);
-          padding: 6px 14px; border-radius: 100px;
-          font-size: 13px; font-weight: 700;
-          margin-bottom: 20px;
-        }
-        .speakcoach-content h2 {
-          font-size: 40px; font-weight: 800; line-height: 1.3;
-          margin-bottom: 16px; letter-spacing: -0.02em;
-        }
-        .speakcoach-content h2 .highlight { color: var(--blue-primary); }
-        .speakcoach-content > p {
-          font-size: 16px; color: var(--text-secondary);
-          line-height: 1.7; margin-bottom: 32px;
-        }
-        .speakcoach-features {
-          display: flex; flex-direction: column; gap: 16px;
-          margin-bottom: 36px;
-        }
-        .feature-item {
-          display: flex; align-items: flex-start; gap: 12px;
-        }
-        .feature-icon {
-          width: 40px; height: 40px; border-radius: 12px;
-          background: var(--blue-light);
-          display: flex; align-items: center; justify-content: center;
-          font-size: 20px; flex-shrink: 0;
-        }
-        .feature-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
-        .feature-text p { font-size: 14px; color: var(--text-secondary); }
-        .speakcoach-mockup {
-          background: linear-gradient(135deg, #1B1D29 0%, #2B2E3B 100%);
-          border-radius: 24px; padding: 40px;
-          position: relative;
-          box-shadow: var(--card-shadow);
-        }
-        .mockup-header {
-          display: flex; align-items: center; gap: 8px;
-          margin-bottom: 32px;
-        }
-        .mockup-dot { width: 12px; height: 12px; border-radius: 50%; }
-        .mockup-dot.red { background: #FF5F57; }
-        .mockup-dot.yellow { background: #FEBC2E; }
-        .mockup-dot.green { background: #28C840; }
-        .mockup-screen {
-          background: #FFFFFF; border-radius: 16px;
-          padding: 24px;
-        }
-        .mockup-grade-row {
-          display: flex; align-items: center; justify-content: space-between;
-          margin-bottom: 20px;
-        }
-        .mockup-grade {
-          font-size: 48px; font-weight: 800;
-          color: var(--blue-primary);
-        }
-        .mockup-grade-label { font-size: 13px; color: var(--text-tertiary); }
-        .mockup-al-prob { text-align: right; }
-        .mockup-al-prob .prob-num { font-size: 28px; font-weight: 800; color: #F04452; }
-        .mockup-al-prob .prob-label { font-size: 12px; color: var(--text-tertiary); }
-        .mockup-bars { display: flex; flex-direction: column; gap: 10px; }
-        .mockup-bar-item { display: flex; align-items: center; gap: 12px; }
-        .mockup-bar-label { font-size: 12px; color: var(--text-secondary); width: 60px; flex-shrink: 0; }
-        .mockup-bar-track {
-          flex: 1; height: 8px; background: var(--bg-gray);
-          border-radius: 4px; overflow: hidden;
-        }
-        .mockup-bar-fill {
-          height: 100%; border-radius: 4px;
-          background: var(--blue-primary);
-          transition: width 1.5s ease;
-        }
-        .mockup-bar-fill.weak { background: #F04452; }
-        .mockup-bar-fill.mid { background: #FF9F43; }
-
-        /* === PRICING PLANS === */
-        .pricing-grid {
-          display: grid; grid-template-columns: repeat(3, 1fr);
-          gap: 20px; max-width: 960px; margin: 0 auto;
-        }
-        .pricing-card {
-          background: var(--bg-white); border-radius: 20px;
-          border: 1px solid var(--border); padding: 32px;
-          position: relative; transition: all 0.3s;
-        }
-        .pricing-card.featured {
-          border-color: var(--blue-primary);
-          box-shadow: 0 0 0 1px var(--blue-primary), var(--card-shadow);
-          transform: scale(1.02);
-        }
-        .pricing-card .recommend-badge {
-          position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-          background: var(--blue-primary); color: white;
-          padding: 4px 16px; border-radius: 100px;
-          font-size: 12px; font-weight: 700;
-        }
-        .pricing-card .plan-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-        .pricing-card .plan-price {
-          font-size: 32px; font-weight: 800; margin: 16px 0 4px;
-        }
-        .pricing-card .plan-price .won { font-size: 18px; font-weight: 600; }
-        .pricing-card .plan-original {
-          font-size: 14px; color: var(--text-tertiary);
-          text-decoration: line-through; margin-bottom: 4px;
-        }
-        .pricing-card .plan-sub { font-size: 13px; color: var(--text-tertiary); margin-bottom: 24px; }
-        .pricing-card .plan-features { list-style: none; margin-bottom: 24px; }
-        .pricing-card .plan-features li {
-          font-size: 14px; color: var(--text-secondary);
-          padding: 6px 0; display: flex; align-items: center; gap: 8px;
-        }
-        .pricing-card .plan-features li::before {
-          content: '\u2713'; color: var(--blue-primary); font-weight: 700;
-        }
-        .btn-plan {
-          width: 100%; padding: 14px; border-radius: 14px;          font-size: 15px; font-weight: 700; text-align: center;
-          transition: all 0.2s;
-        }
-        .btn-plan.primary { background: var(--blue-primary); color: white; }
-        .btn-plan.primary:hover { background: var(--blue-dark); }
-        .btn-plan.outline {
-          background: transparent; color: var(--text-primary);
-          border: 1px solid var(--border);
-        }
-        .btn-plan.outline:hover { border-color: var(--blue-primary); color: var(--blue-primary); }
-
-        /* === REVIEWS === */
-        .reviews-wrapper { position: relative; }
-        .reviews-scroll {
-          display: flex; gap: 20px;
-          overflow-x: auto; scroll-snap-type: x mandatory;
-          padding-bottom: 20px;
-          -ms-overflow-style: none; scrollbar-width: none;
-        }
-        .reviews-scroll::-webkit-scrollbar { display: none; }
-        .review-card {
-          min-width: 320px; max-width: 360px;
-          background: var(--bg-white); border-radius: 20px;
-          border: 1px solid var(--border); padding: 28px;
-          scroll-snap-align: start;
-          flex-shrink: 0;
           transition: all 0.3s;
         }
         .review-card:hover { border-color: var(--blue-primary); box-shadow: var(--card-shadow); }
@@ -1092,7 +740,8 @@ export default function MainPage() {
         .newsletter-inner > p {
           font-size: 16px; color: var(--text-secondary);
           line-height: 1.7; margin-bottom: 32px;
-        }        .newsletter-form {
+        }
+        .newsletter-form {
           display: flex; gap: 10px; max-width: 480px; margin: 0 auto 16px;
         }
         .newsletter-form input {
@@ -1241,9 +890,10 @@ export default function MainPage() {
           <div className="hero-badge animate">2{'\uc8fc \uc644\uc131'} OPIC {'\ud504\ub85c\uadf8\ub7a8'}</div>
           <h1 className="animate delay-1">
             OPIC {'\uc810\uc218\ub97c \uc62c\ub9ac\ub294'}<br />
-            <span className="highlight">{'\uac00\uc7a5 \uad6c\uc870\uc801\uc758 \ubc29\ubc95'}</span>
+            <span className="highlight">{'\uac00\uc7a5 \uad6c\uc870\uc801\uc778 \ubc29\ubc95'}</span>
           </h1>
-          <p className="animate delay-2">            {'\uc0ac\ub78c\uc758 \ucf54\uce6d\uacfc'} AI {'\ud53c\ub4dc\ubc31\uc758 \uacb0\ud569'}.<br />
+          <p className="animate delay-2">
+            {'\uc0ac\ub78c\uc758 \ucf54\uce6d\uacfc'} AI {'\ud53c\ub4dc\ubc31\uc758 \uacb0\ud569'}.<br />
             {'\uc2dd\ube75\uc601\uc5b4\uc758'} 2{'\uc8fc \uc2a4\ud130\ub514\ub85c \ubaa9\ud45c \uc810\uc218\uc5d0 \ub3c4\ub2ec\ud558\uc138\uc694'}.
           </p>
           <div className="hero-buttons animate delay-3">
@@ -1357,7 +1007,8 @@ export default function MainPage() {
                 <div className="category">{'\uc778\uac15'}</div>
                 <h3>OPIC {'\uc644\uc804\uc815\ubcf5 \uc778\uac15 \ud328\ud0a4\uc9c0'}</h3>
                 <div className="desc">{'\uc720\ud615\ubcc4 \ub2f5\ubcc0 \uc804\ub7b5\ubd80\ud130 \uc2e4\uc804 \ub864\ud50c\ub808\uc774\uae4c\uc9c0'}. {'\ud504\ub808\uc784\uc6cc\ud06c \uae30\ubc18 \uccb4\uacc4\uc801 \uc601\uc0c1 \uac15\uc758'}.</div>
-                <div className="product-price-row">                  <div className="product-price">
+                <div className="product-price-row">
+                  <div className="product-price">
                     <span className="original">269,000{'\uc6d0'}</span>
                     <span className="current">169,000</span>
                     <span className="unit">{'\uc6d0'}</span>
@@ -1402,7 +1053,7 @@ export default function MainPage() {
                 {'\ub098\uc758 \uc2a4\ud53c\ud0b9\uc744'}<br />
                 <span className="highlight">AI{'\uac00 \ubd84\uc11d'}</span>{'\ud569\ub2c8\ub2e4'}
               </h2>
-              <p>SpeakCoach AI{'\ub294 \ub179\uc74c \ud55c \ubc88\uc73c\ub85c \ub2f9\uc2e0\uc758'} OPIC {'\uc608\uc0c1 \ub4f1\uae09\uacfc \uc57d\uc810\uc744 \ubd84\uc11d\ud569\ub2c8\ub2e4'}. {'\ub2e8\uc21c \uc810\uc218\uac00 \uc544\ub2cc, \uad6c\uccb4\uc801\uc758 \uad50\uc815 \ubc29\ud5a5\uae4c\uc9c0'}.</p>
+              <p>SpeakCoach AI{'\ub294 \ub179\uc74c \ud55c \ubc88\uc73c\ub85c \ub2f9\uc2e0\uc758'} OPIC {'\uc608\uc0c1 \ub4f1\uae09\uacfc \uc57d\uc810\uc744 \ubd84\uc11d\ud569\ub2c8\ub2e4'}. {'\ub2e8\uc21c \uc810\uc218\uac00 \uc544\ub2cc, \uad6c\uccb4\uc801\uc778 \uad50\uc815 \ubc29\ud5a5\uae4c\uc9c0'}.</p>
               <div className="speakcoach-features">
                 <div className="feature-item">
                   <div className="feature-icon" style={{ fontSize: '16px' }}>STT</div>
@@ -1471,7 +1122,8 @@ export default function MainPage() {
                   <div className="mockup-bar-item">
                     <div className="mockup-bar-label">{'\ubc1c\uc74c'}</div>
                     <div className="mockup-bar-track"><div className="mockup-bar-fill" style={{ width: '73%' }}></div></div>
-                  </div>                  <div className="mockup-bar-item">
+                  </div>
+                  <div className="mockup-bar-item">
                     <div className="mockup-bar-label">{'\uad6c\uc131\ub825'}</div>
                     <div className="mockup-bar-track"><div className="mockup-bar-fill weak" style={{ width: '45%' }}></div></div>
                   </div>
@@ -1491,7 +1143,7 @@ export default function MainPage() {
           <div className="section-header">
             <div className="overline">Pricing</div>
             <h2>SpeakCoach AI {'\uc694\uae08\uc81c'}</h2>
-            <p>{'\ucee4\ud53c \ud55c \uc7a0 \uac12\uc73c\ub85c'} AI {'\uc2a4\ud53c\ud0b9 \ucf54\uce58\ub97c \ub9cc\ub098\ubcf4\uc138\uc694'}.</p>
+            <p>{'\ucee4\ud53c \ud55c \uc794 \uac12\uc73c\ub85c'} AI {'\uc2a4\ud53c\ud0b9 \ucf54\uce58\ub97c \ub9cc\ub098\ubcf4\uc138\uc694'}.</p>
           </div>
           <div className="pricing-grid">
 
@@ -1514,7 +1166,7 @@ export default function MainPage() {
               <div className="plan-name">{'\ud504\ub85c \ud328\ud0a4\uc9c0'}</div>
               <div className="plan-original">31,900{'\uc6d0'}</div>
               <div className="plan-price">24,900<span className="won">{'\uc6d0'}</span></div>
-              <div className="plan-sub">{'\uc6d0\ub2e8 \ucee4\ud53c'} 4~5{'\uc794 \uac12'} {'\u00b7'} 3{'\uac1c\uc6d4 \uad6c\ub3c5 \uc2dc'} 63,500{'\uc6d0'}</div>
+              <div className="plan-sub">{'\uc6d4 \ub2e8 \ucee4\ud53c'} 4~5{'\uc794 \uac12'} {'\u00b7'} 3{'\uac1c\uc6d4 \uad6c\ub3c5 \uc2dc'} 63,500{'\uc6d0'}</div>
               <ul className="plan-features">
                 <li>{'\ubb34\uc81c\ud55c \uc5f0\uc2b5'}</li>
                 <li>500{'\uac1c \uc774\uc0c1'} OPIC {'\ubb38\uc81c'}</li>
@@ -1592,7 +1244,8 @@ export default function MainPage() {
         <div className="container">
           <div className="section-header">
             <div className="overline">FAQ</div>
-            <h2>{'\uc790\uc8fc \ubb3b\ub294 \uc9c8\ubb38'}</h2>            <p>{'\uad81\uae08\ud55c \uc810\uc774 \uc788\ub2e4\uba74 \uba3c1\uc73c\ub85c \ud655\uc778\ud574\ubcf4\uc138\uc694'}.</p>
+            <h2>{'\uc790\uc8fc \ubb3b\ub294 \uc9c8\ubb38'}</h2>
+            <p>{'\uad81\uae08\ud55c \uc810\uc774 \uc788\ub2e4\uba74 \uba3c\uc800 \ud655\uc778\ud574\ubcf4\uc138\uc694'}.</p>
           </div>
           <div className="faq-list">
             {faqItems.map((item, index) => (
@@ -1636,7 +1289,7 @@ export default function MainPage() {
           <div className="footer-grid">
             <div className="footer-brand">
               <div className="logo">{'\ud83c\udf5e'} {'\uc2dd\ube75\uc601\uc5b4'}</div>
-              <p>2{'\uc8fc \uc548\uc5d0'} OPIC {'\uc810\uc218\ub97c \uc62c\ub9ac\ub294'}<br />{'\uac00\uc7a5 \uad6c\uc870\uc801\uc758 \ubc29\ubc95'}.</p>
+              <p>2{'\uc8fc \uc548\uc5d0'} OPIC {'\uc810\uc218\ub97c \uc62c\ub9ac\ub294'}<br />{'\uac00\uc7a5 \uad6c\uc870\uc801\uc778 \ubc29\ubc95'}.</p>
             </div>
             <div className="footer-col">
               <h4>{'\uc81c\ud488'}</h4>
@@ -1654,7 +1307,7 @@ export default function MainPage() {
             <div className="footer-col">
               <h4>{'\uc18c\uc15c'}</h4>
               <a href="https://instagram.com/sikbang.eng" target="_blank">Instagram @sikbang.eng</a>
-              <a href="https://blog.naver.com/lulu05" target="_blank">{'\ub124\uc774\ubc14 \ube14\ub85c\uadf8'}</a>
+              <a href="https://blog.naver.com/lulu05" target="_blank">{'\ub124\uc774\ubc84 \ube14\ub85c\uadf8'}</a>
               <a href="https://sikbang-eng.stibee.com/" target="_blank">{'\ub274\uc2a4\ub808\ud130 \uad6c\ub3c5'}</a>
             </div>
           </div>
@@ -1686,4 +1339,3 @@ export default function MainPage() {
     </>
   );
 }
-
