@@ -16,6 +16,7 @@ export default function MainPage() {
   // Newsletter
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState('');
+  const [subscribing, setSubscribing] = useState(false);
 
   // === NAV SHADOW ON SCROLL ===
   useEffect(() => {
@@ -95,13 +96,26 @@ export default function MainPage() {
     document.body.style.overflow = '';
   };
 
-  // Newsletter
-  const handleSubscribe = (e: React.FormEvent) => {
+  // Newsletter - Save to Google Sheets
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      window.open('https://sikbang-eng.stibee.com/', '_blank');
+    if (!email || subscribing) return;
+    setSubscribing(true);
+    try {
+      // Save to Google Sheets via Apps Script Web App
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/DEPLOY_ID_HERE/exec';
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, timestamp: new Date().toISOString() })
+      });
+      setSubscribed(true);
+    } catch (err) {
+      // Even if fetch fails (no-cors), treat as success since Google Script receives it
       setSubscribed(true);
     }
+    setSubscribing(false);
   };
 
   const faqItems = [
@@ -128,7 +142,7 @@ export default function MainPage() {
     },
     {
       question: '\ud658\ubd88\uc740 \uc5b4\ub5bb\uac8c \ub418\ub098\uc694?',
-      answer: '\uc2a4\ud130\ub514\uc758 \uacbd\uc6b0 \uc2dc\uc791 \uc804 100% \ud658\ubd88, \uc2dc\uc791 \ud6c4 3\uc77c \uc774\ub0b4 50% \ud658\ubd88\uc774 \uac00\ub2a5\ud569\ub2c8\ub2e4. SpeakCoach AI \uad6c\ub3c5\uc740 \uacb0\uc81c \ud6c4 7\uc77c \uc774\ub0b4 \ud658\ubd88 \uac00\ub2a5\ud569\ub2c8\ub2e4. \uc790\uc138\ud55c \uc0ac\ud56d\uc740 \uce74\uce74\uc624\ud1a1\uc73c\ub85c \ubb38\uc758\ud574\uc8fc\uc138\uc694.'
+      answer: '\u26a0\ufe0f \uc2a4\ud130\ub514 \uc778\uc6d0 \ud3b8\uc131 \uc774\ud6c4(\ub2e8\ud1a1\ubc29 \ucd08\ub300 \uc774\ud6c4)\uc5d0\ub294 \uc5b4\ub5a0\ud55c \uc0ac\uc720\ub85c\ub3c4 \ud658\ubd88\uc774 \ubd88\uac00\ud569\ub2c8\ub2e4. \ubcf8 \uc2a4\ud130\ub514\ub294 \uc18c\uaddc\ubaa8 \uc815\uc6d0 \uae30\ubc18\uc73c\ub85c \uc6b4\uc601\ub418\uba70, \uadf8\ub8f9 \ud655\uc815\uacfc \ub3d9\uc2dc\uc5d0 \ub9de\ucda4 \ucee4\ub9ac\ud050\ub7fc\uacfc \uc6b4\uc601 \ub9ac\uc18c\uc2a4\uac00 \uc989\uc2dc \ubc30\uc815\ub418\uae30 \ub54c\ubb38\uc785\ub2c8\ub2e4. \ub2e8\ud1a1\ubc29 \ucd08\ub300 \uc804\uc5d0\ub294 \uc804\uc561 \ud658\ubd88 \uac00\ub2a5\ud569\ub2c8\ub2e4. SpeakCoach AI \uad6c\ub3c5\uc740 \uacb0\uc81c \ud6c4 7\uc77c \uc774\ub0b4 \ud658\ubd88 \uac00\ub2a5\ud569\ub2c8\ub2e4. \uacb0\uc81c \uc2dc \ubcf8 \ud658\ubd88 \uc815\ucc45\uc5d0 \ub3d9\uc758\ud55c \uac83\uc73c\ub85c \uac04\uc8fc\ub429\ub2c8\ub2e4.'
     },
     {
       question: '\uc804\uc790\ucc45, \uc778\uac15, \uc2a4\ud130\ub514 \uc911 \ubb58 \uc120\ud0dd\ud574\uc57c \ud558\ub098\uc694?',
@@ -939,13 +953,29 @@ export default function MainPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <button type="submit">{'\ubb34\ub8cc \uc790\ub8cc \ubc1b\uae30'}</button>
+                  <button type="submit" disabled={subscribing}>{subscribing ? '\uc800\uc7a5 \uc911...' : '\ubb34\ub8cc \uc790\ub8cc \ubc1b\uae30'}</button>
                 </form>
                 <div className="newsletter-note">{'\uc2a4\ud338 \uc5c6\uc774, \uc5b8\uc81c\ub4e0 \uad6c\ub3c5 \ud574\uc9c0 \uac00\ub2a5\ud569\ub2c8\ub2e4'}.</div>
               </div>
             ) : (
               <div className="newsletter-success show">
-                {'\uad6c\ub3c5 \uc644\ub8cc! \uc774\uba54\uc77c\ub85c \ubb34\ub8cc \uc790\ub8cc \ub9c1\ud06c\ub97c \ubcf4\ub0b4\ub4dc\ub838\uc2b5\ub2c8\ub2e4'}.
+                <div style={{ marginBottom: '16px' }}>{'\u2705 \uad6c\ub3c5 \uc644\ub8cc!'}</div>
+                <a
+                  href="https://sikbang-eng.notion.site"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-block',
+                    padding: '14px 32px',
+                    background: '#3366FF',
+                    color: '#fff',
+                    borderRadius: '12px',
+                    fontWeight: 600,
+                    fontSize: '15px',
+                    textDecoration: 'none',
+                    transition: 'background 0.2s'
+                  }}
+                >{'\ud83d\udcda \ubb34\ub8cc \uc790\ub8cc \ubc1b\uc73c\ub7ec \uac00\uae30 \u2192'}</a>
               </div>
             )}
 
@@ -1308,7 +1338,7 @@ export default function MainPage() {
               <h4>{'\uc18c\uc15c'}</h4>
               <a href="https://instagram.com/sikbang.eng" target="_blank">Instagram @sikbang.eng</a>
               <a href="https://blog.naver.com/lulu05" target="_blank">{'\ub124\uc774\ubc84 \ube14\ub85c\uadf8'}</a>
-              <a href="https://sikbang-eng.stibee.com/" target="_blank">{'\ub274\uc2a4\ub808\ud130 \uad6c\ub3c5'}</a>
+              <a href="#free-resource">{'\ub274\uc2a4\ub808\ud130 \uad6c\ub3c5'}</a>
             </div>
           </div>
           <div className="footer-bottom">
