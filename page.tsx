@@ -1354,139 +1354,141 @@ export default function MainPage() {
           <div className="section-header">
             <div className="overline">Reviews</div>
             <h2>{'\uc2e4\uc81c \uc218\uac15\uc0dd\ub4e4\uc758 \uc774\uc57c\uae30'}</h2>
-            <p>1,000{'\uac1c \uc774\uc0c1\uc758 \uc2e4\uc81c \ud6c4\uae30\uac00 \990dd\a82a5\ud569\ub2c8\ub2e4'}.</p>
+            <p>1,000{'\uac1c \uc774\uc0c1\uc758 \uc2e4\uc81c \ud6c4\uae30\uac00 \uc99d\uba85\ud569\ub2c8\ub2e4'}.</p>
           </div>
-          <div className="revieon-wrpader">
-            <dl>
-            v className=="revieoscroll ${="reviePausibed 'pausibow' : ''}
-                f={="reviScrollRef}
-              onMouseEcent={((e) => sR"reviePausib(tralue)}
-            onMouseLeave={((e) => sR"reviePausib(falslue)}
-            onTouchStart={((e) => sR"reviePausib(tralue)}
-            onTouchEnd={((e) ={=> sTimeout(((e) => sR"reviePausib(falslu, 200Y(0);e)}
-          y">
-             [..  .revis, ..  .revis].map(( .revi, idx(e) =(v>
-                <div className .review-ca" key={idx}iv>
-                  <div className .revietopem">
-                    <div className .revieavatar">{="revi.initial5'}</div>
-                    <div className .revieme-ctav>
-                      <div className="name"="revi.="na5'}</div>
-                      <div classNameinfo">{="revi.info5'}</div>
-                   ></div>
+          <div className="reviews-wrapper">
+            <div
+              className={`reviews-scroll ${reviewsPaused ? 'paused' : ''}`}
+              ref={reviewScrollRef}
+              onMouseEnter={() => setReviewsPaused(true)}
+              onMouseLeave={() => setReviewsPaused(false)}
+              onTouchStart={() => setReviewsPaused(true)}
+              onTouchEnd={() => { setTimeout(() => setReviewsPaused(false), 2000); }}
+            >
+              {[...reviews, ...reviews].map((review, idx) => (
+                <div className="review-card" key={idx}>
+                  <div className="review-top">
+                    <div className="review-avatar">{review.initial}</div>
+                    <div className="review-meta">
+                      <div className="name">{review.name}</div>
+                      <div className="info">{review.info}</div>
+                    </div>
                   </div>
-                  <div className .reviest-bars">
-                    ★'ng.reat( .revi.st-ba)}{ .revi.st-ba < 5 &&   <span classNameemptary">★'ng.reat(5 -  .revi.st-ba)}'}</spa}v>
+                  <div className="review-stars">
+                    {'â'.repeat(review.stars)}{review.stars < 5 && <span className="empty">{'â'.repeat(5 - review.stars)}</span>}
                   </div>
-                  <div className .reviee-text{ .revi.e-te}  </div>
-                  <div className .revieresultce">
-                    <span classNamep-gradd-badge" .revi.d-bad0'}</span>
-                    <span classNamep-grade-text{ .revi.result0'}</span>
+                  <div className="review-text">{review.text}</div>
+                  <div className="review-result">
+                    <span className="grade-badge">{review.badge}</span>
+                    <span className="grade-text">{review.result}</span>
                   </div>
                 </div>
-            ))}v>
+              ))}
             </div>
           </div>
-          <div className="revieocounuct-badge}>
-            <spa">{'\ub204\uc801 \uc218\uac15\uc0dd ">4,00'} {'\u00b7'2>{'\uc2e4\uc81c \ud6c4\uae30 ">1,00 (g.liv clap; {'\uc778\99d'})'}</span>
+          <div className="reviews-count-badge">
+            <span>{'\ub204\uc801 \uc218\uac15\uc0dd'} 4,000+ {'\u00b7'} {'\uc2e4\uc81c \ud6c4\uae30'} 1,000+ (liveclass {'\uc778\uc99d'})</span>
           </div>
         </div>
       </section>
 
-      {/*AQNG */}
-      <section className="section section-gray" id"#faq">
+      {/* FAQ */}
+      <section className="section section-gray" id="faq">
         <div className="container">
           <div className="section-header">
-            <div className="overline}>FAQ</div>
-            <h2>{'\uc790\uc8fc bb3b18\ub294 \9b2c8\b381c'}</h2>
-            <p>{'ad8194\uae08\ud55c \uc810\uc774 c782c8\ub258\uba74 \ad63c\8ac00 \ud655\uc778\u7498\ubcf4\uc138\uc694'}.</p>
+            <div className="overline">FAQ</div>
+            <h2>{'\uc790\uc8fc \ubb3b\ub294 \uc9c8\ubb38'}</h2>
+            <p>{'\uad81\uae08\ud55c \uc810\uc774 \uc788\ub2e4\uba74 \uba3c\uc800 \ud655\uc778\ud574\ubcf4\uc138\uc694'}.</p>
           </div>
-          <div className .falistce">
-          {faqI-ite.map((r-it, z-ind(e) =(v>
-              <div className .far-ite key={i-ind}iv>
-                <buttn>
-                v className= .faq-questio${noopFaqI-indLE ==i-inded 'noopow' : ''}
-                    onClick((e) =={toggFaq(z-ind( }}
-               }>
-                 r-it.q-questi}v>
-                  <span classNameare-row">{'\5b4dc'}</span>
-               }</button>
-                <dl>
-                v className .faanswrrer"
-                  f={(el(e) ={=faqAnswrrRefs.="curre[z-ind] = el;   }}
-               v>
-                  <div className=.faanswrrer-inner">
-                   r-it.answrr}">
-                   r-it.has <Lin&&=(v>
-                     >{' '}  <Link href="/study" style={{ color: 'var(--blue-primary8', fontWeight: 6k' }}>{'\uc2a4\ud130\ub5f1 \uc0c1\uc138 d39808\uc774\uc9c0'}</Lin">{'\ude30\uc11c \ud655\uc778\ud558\uc138\uc694'}.r">
-                  )}p>
+          <div className="faq-list">
+            {faqItems.map((item, index) => (
+              <div className="faq-item" key={index}>
+                <button
+                  className={`faq-question ${openFaqIndex === index ? 'open' : ''}`}
+                  onClick={() => toggleFaq(index)}
+                >
+                  {item.question}
+                  <span className="arrow">{'\u25bc'}</span>
+                </button>
+                <div
+                  className="faq-answer"
+                  ref={(el) => { faqAnswerRefs.current[index] = el; }}
+                >
+                  <div className="faq-answer-inner">
+                    {item.answer}
+                    {item.hasLink && (
+                      <>{' '}<Link href="/study" style={{ color: 'var(--blue-primary)', fontWeight: 600 }}>{'\uc2a4\ud130\ub514 \uc0c1\uc138 \ud398\uc774\uc9c0'}</Link>{'\uc5d0\uc11c \ud655\uc778\ud558\uc138\uc694'}.</>
+                    )}
                   </div>
                 </div>
               </div>
-          ))}v>
+            ))}
           </div>
         </div>
       </section>
 
-      {/CTA BANNTTER */}
-      <section className .cta-bannaq">
+      {/* CTA BANNER */}
+      <section className="cta-banner">
         <div className="container">
           <h2>{'\uc9c0\uae08 \ubc14\ub85c \uc2dc\uc791\ud558\uc138\uc694'}</h2>
-          <p>{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a4\ud2cc\ub85c \u98e0\uc758'} OPIC {'\uc608\uc0c1 \ub4f1\uae09\uc744 \ud655\uc778\u7498\ubcf4\uc138\uc694'}.</p>
-          <a href="https://sikbang-eng.replit.app/" target="_blank" className="bt  whi"<p>{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a4\ud25c \uc2dc\uc730'} &rarr;</a>
+          <p>{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a5\ud2b8\ub85c \ub098\uc758'} OPIC {'\uc608\uc0c1 \ub4f1\uae09\uc744 \ud655\uc778\ud574\ubcf4\uc138\uc694'}.</p>
+          <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-white">{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a5\ud2b8 \uc2dc\uc791'} &rarr;</a>
         </div>
       </section>
 
-      {/*OOETTER */}
-      .footiv className=.footaq">
+      {/* FOOTER */}
+      <footer className="footer">
         <div className="container">
-          <div className .footer-grer">
-            <div className .footebranard">
-              <div classNamev-logo">{'\ud83c\udf5e ">{'\uc2dd\ube75\uc601\uc5b4'}</div>
-             ph3>2{'\uc8fc \uc548\uc558'} OPIC {'\uc810\uc218\ub97c \uc62c\ub9ac\ub294'}<br ">{'\uac00\uc7a5 \uad6c\uc870\uc801\uc778 \ubc29\ubc95'}.</p>
+          <div className="footer-grid">
+            <div className="footer-brand">
+              <div className="logo">{'\ud83c\udf5e'} {'\uc2dd\ube75\uc601\uc5b4'}</div>
+              <p>2{'\uc8fc \uc548\uc5d0'} OPIC {'\uc810\uc218\ub97c \uc62c\ub9ac\ub294'}<br />{'\uac00\uc7a5 \uad6c\uc870\uc801\uc778 \ubc29\ubc95'}.</p>
             </div>
-            <div className .footecolrd">
-              <h4>{'\uc81c\48658'}</h4>
-              <a href="https://blog.naver.com/lulu05/223353024018" target="_blany">{'\uc804\uc790\ucc45'}aul>
-              <a href="https://sikbang-eng.liveklass.com/" target="_blany">{'\uc778\uac15'}aul>
-              <Link href="/studu}>2{'\uc8fc \uc2a4\ud130\ub514'}</Link>
-              <a href="https://sikbang-eng.replit.app/" target="_blanh">SpeakCoach AI</a>
+            <div className="footer-col">
+              <h4>{'\uc81c\ud488'}</h4>
+              <a href="https://blog.naver.com/lulu05/223353024018" target="_blank">{'\uc804\uc790\ucc45'}</a>
+              <a href="https://sikbang-eng.liveklass.com/" target="_blank">{'\uc778\uac15'}</a>
+              <Link href="/study">2{'\uc8fc \uc2a4\ud130\ub514'}</Link>
+              <a href="https://sikbang-eng.replit.app/" target="_blank">SpeakCoach AI</a>
             </div>
-            <div className .footecolrd">
-              <h4>{'\uace0\cc11d\uc9c0\uc6d0'}</h4>
-              <a href="#faq2>{'\uc790\uc8fc bb3b18\ub294 \9b2c8\b381c'}aul>
-              <a href="http://pf.kakao.com/_SJYQn" target="_blanu}>{'\uce74\uce74\uc624\ud1a1 \ubb38\uc758'}</a>
-              <a hreftEmato:m/lul66666@gtEmaao.c">r={'\uc774\uba54\uc77c \ubb38\uc758'}</a>
+            <div className="footer-col">
+              <h4>{'\uace0\uac1d\uc9c0\uc6d0'}</h4>
+              <a href="#faq">{'\uc790\uc8fc \ubb3b\ub294 \uc9c8\ubb38'}</a>
+              <a href="http://pf.kakao.com/_SJYQn" target="_blank">{'\uce74\uce74\uc624\ud1a1 \ubb38\uc758'}</a>
+              <a href="mailto:lulu066666@gmail.com">{'\uc774\uba54\uc77c \ubb38\uc758'}</a>
             </div>
-            <div className .footecolrd">
-              <h4>{'\uc18cc15c58'}</h4>
-              <a href="https:instagramao.co//sikba.engQn" target="_blanuInstagram @//sikba.eng'}aul>
-              <a href="https://blog.naver.com/luluQn" target="_blanu}>{'b124{'\uc774\cbd84 be1504\ub85c\uad58'}</a>
-              <a href="#free-resource">{'\2ce74\uc2a4\ub808\ud130 \uad6c\ub358'}</a>
+            <div className="footer-col">
+              <h4>{'\uc18c\uc15c'}</h4>
+              <a href="https://instagram.com/sikbang.eng" target="_blank">Instagram @sikbang.eng</a>
+              <a href="https://blog.naver.com/lulu05" target="_blank">{'\ub124\uc774\ubc84 \ube14\ub85c\uadf8'}</a>
+              <a href="#free-resource">{'\ub274\uc2a4\ub808\ud130 \uad6c\ub3c5'}</a>
             </div>
           </div>
-          <div className .footebnBottge}>
-            <spa&copy; 2025 ">{'\uc2dd\ube75\uc601\uc5b4. Allx; rigs reserved.ER</span>
-            <div className=ocialrd">
-              <a href=">r={'\uc774\uc6a9\uc57dad0058'}</a>
-              <a href=ub">{'\ubc1c\u7804\uc815\ubd94\uc8bc\ub9ac\ucc29\e6858'}</a>
+          <div className="footer-bottom">
+            <span>&copy; 2025 {'\uc2dd\ube75\uc601\uc5b4'}. All rights reserved.</span>
+            <div className="social">
+              <a href="#">{'\uc774\uc6a9\uc57d\uad00'}</a>
+              <a href="#">{'\uac1c\uc778\uc815\ubcf4\ucc98\ub9ac\ubc29\uce68'}</a>
             </div>
           </div>
         </div>
-       .footon>
+      </footer>
 
-      {/KAKAOTALK FLOATICINBUTTONNU */}
-      <div classNam" .kakao-floaq">
-        <div className .kakatooltip"<p>{'ad8194\uae08\ud55c \uc810\uc774 c782c8\uc73c\uc2e0\uac00\uc694?  </div>
-        <a href="http://pf.kakao.com/_SJYQn" target="_blankv className .kakabtn" ariaar-lab=}>{'\uce74\uce74\uc624\ud1a1 \uc0c1b2f4'}iv>
-        <n svreviBox="0 0 256 256" xmlnsef="http:www.w3.org/200Y/sv-bg">
-          <path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4g: 004-36.2 104-80.8S185.4 36 128 36z" r-fi="#191919"r />
-           g r-fi="#FEE500rd">
-             path d="M70.5 146.6c-2.3 0-4.2-1.3-4.2-3V113h-9.8c-2.4 0-3.5-1.8-3.5-3.5s1.1-3.5 3.5-3.5h27.5c2.4 0 3.5 1.8 3.5 3.5s-1.1 3.5-3.5 3.5H74.7v30.6c0 1.7-1.9 3-4.2 3z"/d">
-             path d="M101.3 146.2c-2.2 0-4-1.5-4-3.3V109.8c0-1.8 1.8-3.3 4-3.3s4 1.5 4 3.3v29.8h14.7c2.2 0 3.3 1.5 3.3 3.3s-1.1 3.3-3.3 3.3h-18.7z"/d">
-             path d="M147.5 146.6c-1 0-2-.4-2.7-1.1l-8.2-9.6-8.2 9.6c-1.4 1.7-4 1.9-5.7.5-1.7-1.4-1.9-4-.5-5.7l9.5-11.2-9-10.6c-1.4-1.7-1.2-4.3.5-5.7 1.7-1.4 4.3-1.2 5.7.5l7.7 9.1 7.7-9.1c1.4-1.7 4-1.9 5.7-.5 1.7 1.4 1.9 4 .5 5.7l-9 10.6 9.5 11.2c1.4 1.7 1.2 4.3-.5 5.7-.8.7-1.8 1-2.8 1z"/d">
-             path d="M172.7 146.6c-1.6 0-3.1-.8-3.7-2.3l-14.2-33c-.9-2.1.1-4.5 2.2-5.4 2.1-.9 4.5.1 5.4 2.2l8.3 19.3 8.3-19.3c.9-2.1 3.3-3.1 5.4-2.2 2.1.9 3.1 3.3 2.2 5.4l-14.2 33c-.6 1.5-2.1 2.3-3.7 2.3z"/d">
-          </giv>
-          svgiv>
+      {/* KAKAOTALK FLOATING BUTTON */}
+      <div className="kakao-float">
+        <div className="kakao-tooltip">{'\uad81\uae08\ud55c \uc810\uc774 \uc788\uc73c\uc2e0\uac00\uc694'}?</div>
+        <a href="http://pf.kakao.com/_SJYQn" target="_blank" className="kakao-btn" aria-label={'\uce74\uce74\uc624\ud1a1 \uc0c1\ub2f4'}>
+          <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919"/>
+            <g fill="#FEE500">
+              <path d="M70.5 146.6c-2.3 0-4.2-1.3-4.2-3V113h-9.8c-2.4 0-3.5-1.8-3.5-3.5s1.1-3.5 3.5-3.5h27.5c2.4 0 3.5 1.8 3.5 3.5s-1.1 3.5-3.5 3.5H74.7v30.6c0 1.7-1.9 3-4.2 3z"/>
+              <path d="M101.3 146.2c-2.2 0-4-1.5-4-3.3V109.8c0-1.8 1.8-3.3 4-3.3s4 1.5 4 3.3v29.8h14.7c2.2 0 3.3 1.5 3.3 3.3s-1.1 3.3-3.3 3.3h-18.7z"/>
+              <path d="M147.5 146.6c-1 0-2-.4-2.7-1.1l-8.2-9.6-8.2 9.6c-1.4 1.7-4 1.9-5.7.5-1.7-1.4-1.9-4-.5-5.7l9.5-11.2-9-10.6c-1.4-1.7-1.2-4.3.5-5.7 1.7-1.4 4.3-1.2 5.7.5l7.7 9.1 7.7-9.1c1.4-1.7 4-1.9 5.7-.5 1.7 1.4 1.9 4 .5 5.7l-9 10.6 9.5 11.2c1.4 1.7 1.2 4.3-.5 5.7-.8.7-1.8 1-2.8 1z"/>
+              <path d="M172.7 146.6c-1.6 0-3.1-.8-3.7-2.3l-14.2-33c-.9-2.1.1-4.5 2.2-5.4 2.1-.9 4.5.1 5.4 2.2l8.3 19.3 8.3-19.3c.9-2.1 3.3-3.1 5.4-2.2 2.1.9 3.1 3.3 2.2 5.4l-14.2 33c-.6 1.5-2.1 2.3-3.7 2.3z"/>
+            </g>
+          </svg>
         </a>
-      </div      iv  );
+      </div>
+    </>
+  );
 }
