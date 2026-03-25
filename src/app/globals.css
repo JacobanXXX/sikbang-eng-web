@@ -10,6 +10,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 a { text-decoration: none; color: inherit; }
 button { cursor: pointer; border: none; font-family: inherit; }
@@ -646,6 +648,7 @@ img { max-width: 100%; display: block; }
 
 /* === MOBILE === */
 @media (max-width: 768px) {
+  .container { padding: 0 20px; }
   .hero h1 { font-size: 32px; }
   .hero p { font-size: 16px; }
   .hero-stats { flex-direction: column; gap: 24px; }
