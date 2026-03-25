@@ -972,6 +972,7 @@ export default function StudyPage() {
           background: rgba(26, 141, 72, 0.02);
           max-height: 0;
         }
+      .faq-item.open .faq-answer { max-height: 500px; }
         .faq-item.open .faq-answer {
           max-height: 500px;
         }
@@ -1734,7 +1735,7 @@ export default function StudyPage() {
                   <span>{item.question}</span>
                   <span className="faq-icon">+</span>
                 </button>
-                <div className="faq-answer" style={{ maxHeight: openFaqIndex === index ? '500px' : '0' }}>
+                <div className="faq-answer">
                   <div className="faq-answer-content">
                     {item.answer}
                   </div>
