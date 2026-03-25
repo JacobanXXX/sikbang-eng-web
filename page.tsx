@@ -13,6 +13,8 @@ export default function MainPage() {
   // Review scroll
   const reviewScrollRef = useRef<HTMLDivElement>(null);
   const [reviewsPaused, setReviewsPaused] = useState(false);
+  // Spots countdown
+  const [spotsLeft, setSpotsLeft] = useState(5);
   // Newsletter
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState('');
@@ -30,28 +32,9 @@ export default function MainPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // === AUTO-SCROLL REVIEWS (infinite marquee) ===
-  const [reviewOffset, setReviewOffset] = useState(0);
-  const reviewAnimRef = useRef<number>(0);
-  const reviewSpeed = 0.5; // px per frame
+  // === REVIEWS MARQUEE - Pure CSS animation, no JS offset needed ===
 
-  useEffect(() => {
-    if (reviewsPaused) return;
-    let raf: number;
-    const animate = () => {
-      setReviewOffset(prev => {
-        if (!reviewScrollRef.current) return prev;
-        const singleSetWidth = reviewScrollRef.current.scrollWidth / 2;
-        const next = prev + reviewSpeed;
-        return next >= singleSetWidth ? next - singleSetWidth : next;
-      });
-      raf = requestAnimationFrame(animate);
-    };
-    raf = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(raf);
-  }, [reviewsPaused]);
-
-  // === FAQ TOGGLE ===
+  // === FAQ TOGGw6 ===
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
@@ -187,7 +170,7 @@ export default function MainPage() {
       name: '\uc774*\uc9c4',
       info: '\ub300\ud559\uc0dd \u00b7 2\uc8fc \uc2a4\ud130\ub514',
       stars: 5,
-      text: '3\uba85\uc774\uc11c \ud300\uc73c\ub85c \ud558\ub2c8\uae4c \uae34\uc7a5\uac10\ub3c4 \uc788\uace0, \uc11c\ub85c \ud53c\ub4dc\ubc31 \uc8fc\ub294 \uac8c \uc9c4\uc9dc \ub3c4\uc6c0\ub410\uc5b4\uc694. \ucde8\uc5c5 \uba74\uc811 \uc804\uc5d0 \uc790\uc2e0\uac10\ub3c4 \uc0dd\uacbc\uc2b5\ub2c8\ub2e4.',
+      text: '3\uba85\uc774\uc11c \ud300\uc73c\ub85c \ud558\ub2c8\uae4c \uae34\uc7a5\uac10\ub3c4 \uc788\uace0, \uc11c\ub85c \ud53c\ub4dc\ubc31 \uc8fc\ub294 \uac8c \uc9c4\uc9dc \ub3c4\uc6bcc0b410\uc5b4\uc694. \ucde8\uc5c5 \uba74\uc811 \uc804\uc5d0 \uc790\uc2e0\uac10\ub3c4 \uc0dd\uacbc\uc2b5\ub2c8\ub2e4.',
       badge: 'IM1 \u2192 IH',
       result: '\ubaa9\ud45c \ub4f1\uae09 \ub2ec\uc131'
     },
@@ -250,7 +233,7 @@ export default function MainPage() {
   return (
     <>
       <style>{`
-        /* === RESET & BASE === */
+        /* === RESET & BAS6 === */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
@@ -332,12 +315,13 @@ export default function MainPage() {
         }
         .nav-links a:hover { color: var(--blue-primary); }
         .nav-cta {
-          background: var(--blue-primary); color: white;
+          background: var(--kakao-yellow); color: #191F28;
           padding: 10px 20px; border-radius: 12px;
-          font-size: 14px; font-weight: 600;
-          transition: background 0.2s;
+          font-size: 14px; font-weight: 700;
+          transition: all 0.2s;
+          border: none;
         }
-        .nav-cta:hover { background: var(--blue-dark); }
+        .nav-cta:hover { background: #F5D800; transform: translateY(-1px); }
 
         /* === HAMBURGER MENU === */
         .hamburger {
@@ -379,7 +363,7 @@ export default function MainPage() {
         .mobile-menu a:hover { background: var(--bg-gray); }
         .mobile-menu .mobile-cta {
           margin-top: 16px;
-          background: var(--blue-primary); color: white;
+          background: var(--kakao-yellow); color: #191F28;
           text-align: center; border-radius: 16px;
           padding: 18px;
           font-size: 17px; font-weight: 700;
@@ -454,7 +438,7 @@ export default function MainPage() {
           line-height: 1.7;
         }
 
-        /* === PRODUCTS / STORE === */
+        /* === PRODUCTS / STOR6 === */
         .products-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -676,11 +660,19 @@ export default function MainPage() {
         .btn-plan.outline:hover { border-color: var(--blue-primary); color: var(--blue-primary); }
 
         /* === REVIEWS === */
-        .reviews-wrapper { position: relative; overflow: hidden; cursor: grab; }
+        .reviews-wrapper { position: relative; overflow: hidden; }
         .reviews-scroll {
           display: flex; gap: 20px;
           padding-bottom: 20px;
-          transition: none;
+          animation: marqueeScroll 60s linear infinite;
+          width: max-content;
+        }
+        .reviews-scroll:hover, .reviews-scroll.paused {
+          animation-play-state: paused;
+        }
+        @keyframes marqueeScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
         .review-card {
           min-width: 320px; max-width: 360px;
@@ -799,7 +791,7 @@ export default function MainPage() {
         .footer-bottom .social { display: flex; gap: 16px; }
         .footer-bottom .social a { font-size: 14px; }
 
-        /* === NEWSLETTER / FREE RESOURCE === */
+        /* === NEWSLETTER / FREE RESOURC6 === */
         .newsletter-section {
           background: #F8FAFC;
           border-top: 1px solid var(--border);
@@ -916,22 +908,68 @@ export default function MainPage() {
         .animate.delay-3 { animation-delay: 0.3s; }
         .animate.delay-4 { animation-delay: 0.4s; }
 
+        /* === TABLET === */
+        @media (max-width: 1024px) {
+          .speakcoach-grid { grid-template-columns: 1fr; gap: 40px; }
+          .pricing-grid { grid-template-columns: 1fr 1fr; }
+        }
+
         /* === MOBILE === */
         @media (max-width: 768px) {
-          .hero h1 { font-size: 32px; }
-          .hero p { font-size: 16px; }
-          .hero-stats { flex-direction: column; gap: 24px; }
+          :root { --section-padding: 64px 0; }
+          .container { padding: 0 16px; }
+          .hero { padding: 100px 0 64px; }
+          .hero h1 { font-size: 28px; line-height: 1.4; }
+          .hero p { font-size: 15px; margin-bottom: 28px; }
+          .hero-buttons { flex-direction: column; align-items: center; }
+          .hero-buttons .btn-primary, .hero-buttons .btn-secondary {
+            width: 100%; max-width: 320px; text-align: center; ; justify-content: center;
+          padding: 14px 24px; font-size: 16px;r;
+        }
+          .hero-stats { flex-direction: row; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 40px; padding-top: 32px; }
+          .hero-stat .number { font-size: 24px; }
+          .hero-stat .label { font-size: 12px; }
           .nav-links { display: none; }
           .hamburger { display: flex; }
-          .speakcoach-grid { grid-template-columns: 1fr; gap: 40px; }
-          .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
-          .footer-grid { grid-template-columns: 1fr 1fr; }
-          .products-grid { grid-template-columns: 1fr; }
-          .section { padding: 80px 0; }
-          .section-header h2 { font-size: 28px; }
-          .kakao-float { bottom: 20px; right: 20px; }
-          .kakao-btn { width: 52px; height: 52px; }
-          .kakao-btn svg { width: 28px; height: 28px; }
+          .nav-inner { height: 56px; }
+          .nav-logo .logo-mark { width: 28px; height: 28px; font-size: 15px; }
+          .nav-logo .logo-text .logo-main { font-size: 15px; }
+          .nav-logo .logo-text .logo-sub { font-size: 9px; }
+          .speakcoach-grid { grid-template-columns: 1fr; gap: 32px; }
+          .speakcoach-content h2 { font-size: 28px; }
+          .speakcoach-mockup { padding: 20px; }
+          .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+          .pricing-card.featured { transform: none; }
+          .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+          .products-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+          .section { padding: 64px 0; }
+          .section-header { margin-bottom: 40px; }
+          .section-header h2 { font-size: 24px; }
+          .section-header p { font-size: 14px; }
+          .review-card { min-width: 280px; max-width: 300px; padding: 20px; }
+          .newsletter-inner { padding: 40px 20px !important; }
+          .newsletter-inner h2 { font-size: 24px !important; }
+          .newsletter-form { flex-direction: column; }
+          .newsletter-form input, .newsletter-form button { width: 100%; border-radius: 12px !important; }
+          .newsletter-benefits { flex-direction: column; gap: 12px; align-items: center; }
+          .cta-banner { padding: 48px 0 !important; }
+          .cta-banner h2 { font-size: 24px !important; }
+          .kakao-float { bottom: 16px; right: 16px; }
+          .kakao-btn { width: 48px; height: 48px; }
+          .kakao-btn svg { width: 26px; height: 26px; }
+          .faq-question { font-size: 15px !important; padding: 18px 16px !important; }
+          .mobile-menu { top: 56px; }
+          .product-card-image { height: 160px; }
+          .product-icon-wrap { width: 56px; height: 56px; font-size: 28px; }
+        }
+
+        /* === SMALL MOBILE === */
+        @media (max-width: 400px) {
+          .hero h1 { font-size: 24px; }
+          .hero-stats { gap: 12px; }
+          .hero-stat .number { font-size: 20px; }
+          .review-card { min-width: 260px; max-width: 280px; }
+          .section-header h2 { font-size: 22px; }
         }
       `}</style>
 
@@ -1008,7 +1046,7 @@ export default function MainPage() {
         </div>
       </section>
 
-      {/* FREE RESOURCE + NEWSLETTER */}
+      {/* FREE RESOURC6 + NEWSLETTER */}
       <section className="newsletter-section" id="free-resource">
         <div className="container">
           <div className="newsletter-inner">
@@ -1070,7 +1108,7 @@ export default function MainPage() {
         </div>
       </section>
 
-      {/* STORE */}
+      {/* STOR6 */}
       <section className="section section-gray" id="store">
         <div className="container">
           <div className="section-header">
@@ -1090,7 +1128,10 @@ export default function MainPage() {
               <div className="product-card-body">
                 <div className="category">{'\uc804\uc790\ucc45'}</div>
                 <h3>OPIC {'\uc804\uc790\ucc45'} + {'\uae30\ucd9c \ubc88\ub4e4'}</h3>
-                <div className="desc">{'\uc2e4\uc804 \uae30\ucd9c \ubb38\uc81c\uc640 \ud504\ub808\uc784\uc6cc\ud06c \ub2f5\ubcc0 \ud15c\ud50c\ub9bf\uc744 \ud55c \ubc88\uc5d0'}. {'\uac00\uc7a5 \ub9ce\uc740 \uc218\uac15\uc0dd\uc774 \uc120\ud0dd\ud55c \ubca0\uc2a4\ud2b8\uc140\ub7ec'}.</div>
+                <div className="desc">{'\ud63c\uc790\uc11c\ub3c4 IL\u2192IM2 \uac00\ub2a5\ud55c \ud504\ub808\uc784\uc6cc\ud06c \ub2f5\ubcc0 \ud15c\ud50c\ub9bf'}. {'\ub9e4\uc77c 15\ubd84\ub9cc \ud22c\uc790\ud558\uba74 2\uc8fc \uc548\uc5d0 \uacb0\uacfc\uac00 \ubcf4\uc785\ub2c8\ub2e4'}.</div>
+                <div className="product-bonus" style={{ fontSize: '12px', color: '#1A8D48', fontWeight: 600, marginBottom: '12px', background: '#E8FFF0', padding: '8px 12px', borderRadius: '8px' }}>
+                  {'\ud83c\udf81'} {'\uad6c\ub9e4 \uc2dc \uae30\ucd9c\ubb38\uc81c \ubc88\ub4e4 + \ud544\uc218 \ud45c\ud604 \uc815\ub9ac PDF \ubb34\ub8cc \uc81c\uacf5'}
+                </div>
                 <div className="product-price-row">
                   <div className="product-price">
                     <span className="current">39,900</span>
@@ -1111,7 +1152,10 @@ export default function MainPage() {
               <div className="product-card-body">
                 <div className="category">{'\uc778\uac15'}</div>
                 <h3>OPIC {'\uc644\uc804\uc815\ubcf5 \uc778\uac15 \ud328\ud0a4\uc9c0'}</h3>
-                <div className="desc">{'\uc720\ud615\ubcc4 \ub2f5\ubcc0 \uc804\ub7b5\ubd80\ud130 \uc2e4\uc804 \ub864\ud50c\ub808\uc774\uae4c\uc9c0'}. {'\ud504\ub808\uc784\uc6cc\ud06c \uae30\ubc18 \uccb4\uacc4\uc801 \uc601\uc0c1 \uac15\uc758'}.</div>
+                <div className="desc">{'\ubcf4\uace0 \ub530\ub77c\ud558\uae30\ub9cc \ud558\uba74 \ub418\ub294 \uc601\uc0c1 \uac15\uc758'}. {'\uc720\ud615\ubcc4 \ub2f5\ubcc0 \uc804\ub7b5 + \uc2e4\uc804 \ub864\ud50c\ub808\uc774\ub85c IH/AL \ub2ec\uc131 \uad6c\uc870\ub97c \uc644\uc131\ud569\ub2c8\ub2e4'}.</div>
+                <div className="product-bonus" style={{ fontSize: '12px', color: '#1A8D48', fontWeight: 600, marginBottom: '12px', background: '#E8FFF0', padding: '8px 12px', borderRadius: '8px' }}>
+                  {'\ud83c\udf81'} 37%{'\ud560\uc778'} + SpeakCoach AI 7{'\uc77c \ubb34\ub8cc \uc774\uc6a9\uad8c \uc81c\uacf5'}
+                </div>
                 <div className="product-price-row">
                   <div className="product-price">
                     <span className="original">269,000{'\uc6d0'}</span>
@@ -1133,7 +1177,10 @@ export default function MainPage() {
               <div className="product-card-body">
                 <div className="category">2{'\uc8fc \uc2a4\ud130\ub514'}</div>
                 <h3>2{'\uc8fc \uc9d1\uc911'} OPIC {'\uc2a4\ud130\ub514'}</h3>
-                <div className="desc">3{'\uc778 \uc18c\uadf8\ub8f9 \ucf54\uce6d'} + SpeakCoach AI Pro {'\uc81c\uacf5'}. 2{'\uc8fc \uc548\uc5d0 \uc810\uc218\ub97c \uc62c\ub9ac\ub294 \uac00\uc7a5 \ud655\uc2e4\ud55c \ubc29\ubc95'}.</div>
+                <div className="desc">{'\ub3c8 \ub0b4\uace0 \ub4f1\uae09 \ubabb \uc62c\ub9ac\uba74? \uac78\ub9b0 \uc2dc\uac04\ub9cc \ub0ad\ube44\uc785\ub2c8\ub2e4'}. {'\ucf54\uce58 1:1 \ud53c\ub4dc\ubc31 + AI \ubd84\uc11d\uc73c\ub85c 14\uc77c \ub9cc\uc5d0 \ubaa9\ud45c \ub4f1\uae09 \ub2ec\uc131'}.</div>
+                <div className="product-bonus" style={{ fontSize: '12px', color: '#F04452', fontWeight: 700, marginBottom: '12px', background: '#FFF5F5', padding: '8px 12px', borderRadius: '8px' }}>
+                  {'\ud83d\udd25'} {'\uc120\ucc29\uc21c'} {spotsLeft}{'\uc790\ub9ac \ub0a8\uc74c'} {'\u00b7'} SpeakCoach AI Pro 1{'\uac1c\uc6d4 \ubb34\ub8cc \ud3ec\ud568'}
+                </div>
                 <div className="product-price-row">
                   <div className="product-price">
                     <span className="original">179,900{'\uc6d0'}</span>
@@ -1307,143 +1354,139 @@ export default function MainPage() {
           <div className="section-header">
             <div className="overline">Reviews</div>
             <h2>{'\uc2e4\uc81c \uc218\uac15\uc0dd\ub4e4\uc758 \uc774\uc57c\uae30'}</h2>
-            <p>1,000{'\uac1c \uc774\uc0c1\uc758 \uc2e4\uc81c \ud6c4\uae30\uac00 \uc99d\uba85\ud569\ub2c8\ub2e4'}.</p>
+            <p>1,000{'\uac1c \uc774\uc0c1\uc758 \uc2e4\uc81c \ud6c4\uae30\uac00 \990dd\a82a5\ud569\ub2c8\ub2e4'}.</p>
           </div>
-          <div className="reviews-wrapper"
-            onMouseEnter={() => setReviewsPaused(true)}
-            onMouseLeave={() => setReviewsPaused(false)}
-            onTouchStart={() => setReviewsPaused(true)}
-            onTouchEnd={() => { setReviewsPaused(true); setTimeout(() => setReviewsPaused(false), 2000); }}
-          >
-            <div
-              className="reviews-scroll"
-              ref={reviewScrollRef}
-              style={{ transform: `translateX(-${reviewOffset}px)`, willChange: 'transform' }}
-            >
-              {[...reviews, ...reviews].map((review, idx) => (
-                <div className="review-card" key={idx}>
-                  <div className="review-top">
-                    <div className="review-avatar">{review.initial}</div>
-                    <div className="review-meta">
-                      <div className="name">{review.name}</div>
-                      <div className="info">{review.info}</div>
-                    </div>
+          <div className="revieon-wrpader">
+            <dl>
+            v className=="revieoscroll ${="reviePausibed 'pausibow' : ''}
+                f={="reviScrollRef}
+              onMouseEcent={((e) => sR"reviePausib(tralue)}
+            onMouseLeave={((e) => sR"reviePausib(falslue)}
+            onTouchStart={((e) => sR"reviePausib(tralue)}
+            onTouchEnd={((e) ={=> sTimeout(((e) => sR"reviePausib(falslu, 200Y(0);e)}
+          y">
+             [..  .revis, ..  .revis].map(( .revi, idx(e) =(v>
+                <div className .review-ca" key={idx}iv>
+                  <div className .revietopem">
+                    <div className .revieavatar">{="revi.initial5'}</div>
+                    <div className .revieme-ctav>
+                      <div className="name"="revi.="na5'}</div>
+                      <div classNameinfo">{="revi.info5'}</div>
+                   ></div>
                   </div>
-                  <div className="review-stars">
-                    {'★'.repeat(review.stars)}{review.stars < 5 && <span className="empty">{'★'.repeat(5 - review.stars)}</span>}
+                  <div className .reviest-bars">
+                    ★'ng.reat( .revi.st-ba)}{ .revi.st-ba < 5 &&   <span classNameemptary">★'ng.reat(5 -  .revi.st-ba)}'}</spa}v>
                   </div>
-                  <div className="review-text">{review.text}</div>
-                  <div className="review-result">
-                    <span className="grade-badge">{review.badge}</span>
-                    <span className="grade-text">{review.result}</span>
+                  <div className .reviee-text{ .revi.e-te}  </div>
+                  <div className .revieresultce">
+                    <span classNamep-gradd-badge" .revi.d-bad0'}</span>
+                    <span classNamep-grade-text{ .revi.result0'}</span>
                   </div>
                 </div>
-              ))}
+            ))}v>
             </div>
           </div>
-          <div className="reviews-count-badge">
-            <span>{'\ub204\uc801 \uc218\uac15\uc0dd'} 4,000+ {'\u00b7'} {'\uc2e4\uc81c \ud6c4\uae30'} 1,000+ (liveclass {'\uc778\uc99d'})</span>
+          <div className="revieocounuct-badge}>
+            <spa">{'\ub204\uc801 \uc218\uac15\uc0dd ">4,00'} {'\u00b7'2>{'\uc2e4\uc81c \ud6c4\uae30 ">1,00 (g.liv clap; {'\uc778\99d'})'}</span>
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="section section-gray" id="faq">
+      {/*AQNG */}
+      <section className="section section-gray" id"#faq">
         <div className="container">
           <div className="section-header">
-            <div className="overline">FAQ</div>
-            <h2>{'\uc790\uc8fc \ubb3b\ub294 \uc9c8\ubb38'}</h2>
-            <p>{'\uad81\uae08\ud55c \uc810\uc774 \uc788\ub2e4\uba74 \uba3c\uc800 \ud655\uc778\ud574\ubcf4\uc138\uc694'}.</p>
+            <div className="overline}>FAQ</div>
+            <h2>{'\uc790\uc8fc bb3b18\ub294 \9b2c8\b381c'}</h2>
+            <p>{'ad8194\uae08\ud55c \uc810\uc774 c782c8\ub258\uba74 \ad63c\8ac00 \ud655\uc778\u7498\ubcf4\uc138\uc694'}.</p>
           </div>
-          <div className="faq-list">
-            {faqItems.map((item, index) => (
-              <div className="faq-item" key={index}>
-                <button
-                  className={`faq-question ${openFaqIndex === index ? 'open' : ''}`}
-                  onClick={() => toggleFaq(index)}
-                >
-                  {item.question}
-                  <span className="arrow">{'\u25bc'}</span>
-                </button>
-                <div
-                  className="faq-answer"
-                  ref={(el) => { faqAnswerRefs.current[index] = el; }}
-                >
-                  <div className="faq-answer-inner">
-                    {item.answer}
-                    {item.hasLink && (
-                      <>{' '}<Link href="/study" style={{ color: 'var(--blue-primary)', fontWeight: 600 }}>{'\uc2a4\ud130\ub514 \uc0c1\uc138 \ud398\uc774\uc9c0'}</Link>{'\uc5d0\uc11c \ud655\uc778\ud558\uc138\uc694'}.</>
-                    )}
+          <div className .falistce">
+          {faqI-ite.map((r-it, z-ind(e) =(v>
+              <div className .far-ite key={i-ind}iv>
+                <buttn>
+                v className= .faq-questio${noopFaqI-indLE ==i-inded 'noopow' : ''}
+                    onClick((e) =={toggFaq(z-ind( }}
+               }>
+                 r-it.q-questi}v>
+                  <span classNameare-row">{'\5b4dc'}</span>
+               }</button>
+                <dl>
+                v className .faanswrrer"
+                  f={(el(e) ={=faqAnswrrRefs.="curre[z-ind] = el;   }}
+               v>
+                  <div className=.faanswrrer-inner">
+                   r-it.answrr}">
+                   r-it.has <Lin&&=(v>
+                     >{' '}  <Link href="/study" style={{ color: 'var(--blue-primary8', fontWeight: 6k' }}>{'\uc2a4\ud130\ub5f1 \uc0c1\uc138 d39808\uc774\uc9c0'}</Lin">{'\ude30\uc11c \ud655\uc778\ud558\uc138\uc694'}.r">
+                  )}p>
                   </div>
                 </div>
               </div>
-            ))}
+          ))}v>
           </div>
         </div>
       </section>
 
-      {/* CTA BANNER */}
-      <section className="cta-banner">
+      {/CTA BANNTTER */}
+      <section className .cta-bannaq">
         <div className="container">
           <h2>{'\uc9c0\uae08 \ubc14\ub85c \uc2dc\uc791\ud558\uc138\uc694'}</h2>
-          <p>{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a4\ud2b8\ub85c \ub098\uc758'} OPIC {'\uc608\uc0c1 \ub4f1\uae09\uc744 \ud655\uc778\ud574\ubcf4\uc138\uc694'}.</p>
-          <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-white">{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a4\ud2b8 \uc2dc\uc791'} &rarr;</a>
+          <p>{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a4\ud2cc\ub85c \u98e0\uc758'} OPIC {'\uc608\uc0c1 \ub4f1\uae09\uc744 \ud655\uc778\u7498\ubcf4\uc138\uc694'}.</p>
+          <a href="https://sikbang-eng.replit.app/" target="_blank" className="bt  whi"<p>{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a4\ud25c \uc2dc\uc730'} &rarr;</a>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="footer">
+      {/*OOETTER */}
+      .footiv className=.footaq">
         <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand">
-              <div className="logo">{'\ud83c\udf5e'} {'\uc2dd\ube75\uc601\uc5b4'}</div>
-              <p>2{'\uc8fc \uc548\uc5d0'} OPIC {'\uc810\uc218\ub97c \uc62c\ub9ac\ub294'}<br />{'\uac00\uc7a5 \uad6c\uc870\uc801\uc778 \ubc29\ubc95'}.</p>
+          <div className .footer-grer">
+            <div className .footebranard">
+              <div classNamev-logo">{'\ud83c\udf5e ">{'\uc2dd\ube75\uc601\uc5b4'}</div>
+             ph3>2{'\uc8fc \uc548\uc558'} OPIC {'\uc810\uc218\ub97c \uc62c\ub9ac\ub294'}<br ">{'\uac00\uc7a5 \uad6c\uc870\uc801\uc778 \ubc29\ubc95'}.</p>
             </div>
-            <div className="footer-col">
-              <h4>{'\uc81c\ud488'}</h4>
-              <a href="https://blog.naver.com/lulu05/223353024018" target="_blank">{'\uc804\uc790\ucc45'}</a>
-              <a href="https://sikbang-eng.liveklass.com/" target="_blank">{'\uc778\uac15'}</a>
-              <Link href="/study">2{'\uc8fc \uc2a4\ud130\ub514'}</Link>
-              <a href="https://sikbang-eng.replit.app/" target="_blank">SpeakCoach AI</a>
+            <div className .footecolrd">
+              <h4>{'\uc81c\48658'}</h4>
+              <a href="https://blog.naver.com/lulu05/223353024018" target="_blany">{'\uc804\uc790\ucc45'}aul>
+              <a href="https://sikbang-eng.liveklass.com/" target="_blany">{'\uc778\uac15'}aul>
+              <Link href="/studu}>2{'\uc8fc \uc2a4\ud130\ub514'}</Link>
+              <a href="https://sikbang-eng.replit.app/" target="_blanh">SpeakCoach AI</a>
             </div>
-            <div className="footer-col">
-              <h4>{'\uace0\uac1d\uc9c0\uc6d0'}</h4>
-              <a href="#faq">{'\uc790\uc8fc \ubb3b\ub294 \uc9c8\ubb38'}</a>
-              <a href="http://pf.kakao.com/_SJYQn" target="_blank">{'\uce74\uce74\uc624\ud1a1 \ubb38\uc758'}</a>
-              <a href="mailto:lulu066666@gmail.com">{'\uc774\uba54\uc77c \ubb38\uc758'}</a>
+            <div className .footecolrd">
+              <h4>{'\uace0\cc11d\uc9c0\uc6d0'}</h4>
+              <a href="#faq2>{'\uc790\uc8fc bb3b18\ub294 \9b2c8\b381c'}aul>
+              <a href="http://pf.kakao.com/_SJYQn" target="_blanu}>{'\uce74\uce74\uc624\ud1a1 \ubb38\uc758'}</a>
+              <a hreftEmato:m/lul66666@gtEmaao.c">r={'\uc774\uba54\uc77c \ubb38\uc758'}</a>
             </div>
-            <div className="footer-col">
-              <h4>{'\uc18c\uc15c'}</h4>
-              <a href="https://instagram.com/sikbang.eng" target="_blank">Instagram @sikbang.eng</a>
-              <a href="https://blog.naver.com/lulu05" target="_blank">{'\ub124\uc774\ubc84 \ube14\ub85c\uadf8'}</a>
-              <a href="#free-resource">{'\ub274\uc2a4\ub808\ud130 \uad6c\ub3c5'}</a>
+            <div className .footecolrd">
+              <h4>{'\uc18cc15c58'}</h4>
+              <a href="https:instagramao.co//sikba.engQn" target="_blanuInstagram @//sikba.eng'}aul>
+              <a href="https://blog.naver.com/luluQn" target="_blanu}>{'b124{'\uc774\cbd84 be1504\ub85c\uad58'}</a>
+              <a href="#free-resource">{'\2ce74\uc2a4\ub808\ud130 \uad6c\ub358'}</a>
             </div>
           </div>
-          <div className="footer-bottom">
-            <span>&copy; 2025 {'\uc2dd\ube75\uc601\uc5b4'}. All rights reserved.</span>
-            <div className="social">
-              <a href="#">{'\uc774\uc6a9\uc57d\uad00'}</a>
-              <a href="#">{'\uac1c\uc778\uc815\ubcf4\ucc98\ub9ac\ubc29\uce68'}</a>
+          <div className .footebnBottge}>
+            <spa&copy; 2025 ">{'\uc2dd\ube75\uc601\uc5b4. Allx; rigs reserved.ER</span>
+            <div className=ocialrd">
+              <a href=">r={'\uc774\uc6a9\uc57dad0058'}</a>
+              <a href=ub">{'\ubc1c\u7804\uc815\ubd94\uc8bc\ub9ac\ucc29\e6858'}</a>
             </div>
           </div>
         </div>
-      </footer>
+       .footon>
 
-      {/* KAKAOTALK FLOATING BUTTON */}
-      <div className="kakao-float">
-        <div className="kakao-tooltip">{'\uad81\uae08\ud55c \uc810\uc774 \uc788\uc73c\uc2e0\uac00\uc694'}?</div>
-        <a href="http://pf.kakao.com/_SJYQn" target="_blank" className="kakao-btn" aria-label={'\uce74\uce74\uc624\ud1a1 \uc0c1\ub2f4'}>
-          <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-            <path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919"/>
-            <g fill="#FEE500">
-              <path d="M70.5 146.6c-2.3 0-4.2-1.3-4.2-3V113h-9.8c-2.4 0-3.5-1.8-3.5-3.5s1.1-3.5 3.5-3.5h27.5c2.4 0 3.5 1.8 3.5 3.5s-1.1 3.5-3.5 3.5H74.7v30.6c0 1.7-1.9 3-4.2 3z"/>
-              <path d="M101.3 146.2c-2.2 0-4-1.5-4-3.3V109.8c0-1.8 1.8-3.3 4-3.3s4 1.5 4 3.3v29.8h14.7c2.2 0 3.3 1.5 3.3 3.3s-1.1 3.3-3.3 3.3h-18.7z"/>
-              <path d="M147.5 146.6c-1 0-2-.4-2.7-1.1l-8.2-9.6-8.2 9.6c-1.4 1.7-4 1.9-5.7.5-1.7-1.4-1.9-4-.5-5.7l9.5-11.2-9-10.6c-1.4-1.7-1.2-4.3.5-5.7 1.7-1.4 4.3-1.2 5.7.5l7.7 9.1 7.7-9.1c1.4-1.7 4-1.9 5.7-.5 1.7 1.4 1.9 4 .5 5.7l-9 10.6 9.5 11.2c1.4 1.7 1.2 4.3-.5 5.7-.8.7-1.8 1-2.8 1z"/>
-              <path d="M172.7 146.6c-1.6 0-3.1-.8-3.7-2.3l-14.2-33c-.9-2.1.1-4.5 2.2-5.4 2.1-.9 4.5.1 5.4 2.2l8.3 19.3 8.3-19.3c.9-2.1 3.3-3.1 5.4-2.2 2.1.9 3.1 3.3 2.2 5.4l-14.2 33c-.6 1.5-2.1 2.3-3.7 2.3z"/>
-            </g>
-          </svg>
+      {/KAKAOTALK FLOATICINBUTTONNU */}
+      <div classNam" .kakao-floaq">
+        <div className .kakatooltip"<p>{'ad8194\uae08\ud55c \uc810\uc774 c782c8\uc73c\uc2e0\uac00\uc694?  </div>
+        <a href="http://pf.kakao.com/_SJYQn" target="_blankv className .kakabtn" ariaar-lab=}>{'\uce74\uce74\uc624\ud1a1 \uc0c1b2f4'}iv>
+        <n svreviBox="0 0 256 256" xmlnsef="http:www.w3.org/200Y/sv-bg">
+          <path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4g: 004-36.2 104-80.8S185.4 36 128 36z" r-fi="#191919"r />
+           g r-fi="#FEE500rd">
+             path d="M70.5 146.6c-2.3 0-4.2-1.3-4.2-3V113h-9.8c-2.4 0-3.5-1.8-3.5-3.5s1.1-3.5 3.5-3.5h27.5c2.4 0 3.5 1.8 3.5 3.5s-1.1 3.5-3.5 3.5H74.7v30.6c0 1.7-1.9 3-4.2 3z"/d">
+             path d="M101.3 146.2c-2.2 0-4-1.5-4-3.3V109.8c0-1.8 1.8-3.3 4-3.3s4 1.5 4 3.3v29.8h14.7c2.2 0 3.3 1.5 3.3 3.3s-1.1 3.3-3.3 3.3h-18.7z"/d">
+             path d="M147.5 146.6c-1 0-2-.4-2.7-1.1l-8.2-9.6-8.2 9.6c-1.4 1.7-4 1.9-5.7.5-1.7-1.4-1.9-4-.5-5.7l9.5-11.2-9-10.6c-1.4-1.7-1.2-4.3.5-5.7 1.7-1.4 4.3-1.2 5.7.5l7.7 9.1 7.7-9.1c1.4-1.7 4-1.9 5.7-.5 1.7 1.4 1.9 4 .5 5.7l-9 10.6 9.5 11.2c1.4 1.7 1.2 4.3-.5 5.7-.8.7-1.8 1-2.8 1z"/d">
+             path d="M172.7 146.6c-1.6 0-3.1-.8-3.7-2.3l-14.2-33c-.9-2.1.1-4.5 2.2-5.4 2.1-.9 4.5.1 5.4 2.2l8.3 19.3 8.3-19.3c.9-2.1 3.3-3.1 5.4-2.2 2.1.9 3.1 3.3 2.2 5.4l-14.2 33c-.6 1.5-2.1 2.3-3.7 2.3z"/d">
+          </giv>
+          svgiv>
         </a>
-      </div>
-    </>
-  );
+      </div      iv  );
 }
