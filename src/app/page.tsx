@@ -630,11 +630,6 @@ export default function Home() {
                 </button>
                 <div
                   className="faq-answer"
-                  style={{
-                    maxHeight: openFaqIndex === index ? '500px' : '0',
-                    overflow: 'hidden',
-                    transition: 'max-height 0.3s ease'
-                  }}
                 >
                   <div className="faq-answer-inner">
                     {item.answer}
