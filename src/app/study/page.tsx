@@ -1822,7 +1822,7 @@ export default function StudyPage() {
             <div className="form-modal-body">
               <div className="form-modal-icon">📝</div>
               <h3>스터디 신청서 작성</h3>
-              <p>구글 폴에서 신청서를 작성해주세요.<br/>선착순 마감이니 서둘러주세요!</p>
+              <p>구글 폼에서 신청서를 작성해주세요.<br/>선착순 마감이니 서둘러주세요!</p>
               <div className="form-modal-info">
                 <div>💰 얼리버드가: <span style={{textDecoration:'line-through', opacity:0.5, fontSize:'13px', marginRight:'4px'}}>₩179,900</span> <strong>₩149,000</strong></div>
                 <div>👥 남은 자리: <strong style={{color:'#FF3B5C'}}>{floatingRemainingSlots}명</strong></div>
@@ -1830,7 +1830,7 @@ export default function StudyPage() {
               <a href="https://forms.gle/dvCkYs8jSZZVyyFo7" target="_blank" rel="noopener noreferrer" className="form-modal-btn" onClick={() => setShowFormModal(false)}>
                 신청서 작성하기 →
               </a>
-              <p className="form-modal-note">* 신청서 작성 후 0~2인 이내 확인 연락드 드립니다.</p>
+              <p className="form-modal-note">* 신청서 작성 후 0~2일 이내 확인 연락 드립니다.</p>
             </div>
           </div>
         </div>
