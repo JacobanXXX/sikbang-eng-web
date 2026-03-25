@@ -1286,7 +1286,7 @@ export default function StudyPage() {
             <span className="bread-icon">🍞</span> 식영어
           </Link>
           <div className="nav-links">
-            <a href="#curriculum">커리큐럼</a>
+            <a href="#curriculum">커리큘럼</a>
             <a href="#daily">하루 흐름</a>
             <a href="#pricing">가격</a>
             <a href="#reviews">후기</a>
@@ -1443,7 +1443,7 @@ export default function StudyPage() {
             <div className="cur-week active">
               <div className="cur-week-dot"></div>
               <div className="cur-week-label">PHASE 3 - 실전 모입</div>
-              <h3>Day 11-14 : 실전 Mock Test + 시험 당인 컨디션 세팅</h3>
+              <h3>Day 11-14 : 실전 Mock Test + 시험 당일 컨디션 세팅</h3>
               <p>말을 더 잘하게 만드는 구간이 아닙니다. 시험장에서 흔들리지 않게 만드는 구간입니다. 퍼징 없는 말하기 유지력과 당황하지 않는 세션을 키웍니다.</p>
               <div className="cur-day-grid">
                 <div className="cur-day">
@@ -1566,7 +1566,7 @@ export default function StudyPage() {
               <div className="rule-num">01</div>
               <div>
                 <h4>매일 과제 제출</h4>
-                <p>당일 민션은 당인 자정까지 제출. 꾸준함이 실력을 만듭니다.</p>
+                <p>당일 민션은 당일 자정까지 제출. 꾸준함이 실력을 만듭니다.</p>
               </div>
             </div>
             <div className="rule-card">
