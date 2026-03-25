@@ -1284,7 +1284,7 @@ export default function StudyPage() {
       <nav className="nav" id="nav">
         <div className="nav-inner">
           <Link href="/" className="nav-logo">
-            <span className="bread-icon">🍞</span> 식영어
+            <span className="bread-icon">🍞</span> 식빵영어
           </Link>
           <div className="nav-links">
             <a href="#curriculum">커리큘럼</a>
