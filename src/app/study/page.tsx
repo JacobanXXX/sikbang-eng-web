@@ -1415,7 +1415,7 @@ export default function StudyPage() {
                   <strong>Day 5</strong> 시제 중심 Grammar 영상 시청 + 댓글 영작 과제. 약점 질문 집중 재학습 + 암기 완료. Adverbs/비교 유형 푙현 암기.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 6</strong> 7 Core Templates 완전 암기 최종 점검. 복합 템플릿 2개 이상 자연스럽게 조합 연습. 스터디원 상호 Q&amp;A 즉답 훈련. SpeakCoach AI 발음/흐름 진단.
+                  <strong>Day 6~7</strong> Core Templates 완전 암기 최종 점검. 복합 템플릿 2개 이상 자연스럽게 조합 연습. 스터디원 상호 Q&amp;A 즉답 훈련. SpeakCoach AI 발음/흐름 진단.
                 </div>
                 <div className="cur-day">
                   <strong>Day 7</strong> 1차 Mock Test(녹음) + SpeakCoach AI 전체 분섭. 구조/속도/발음 교정 시작. 유형별 표현 완벽 암기(2차 피드백 세션 테스트 대비).
