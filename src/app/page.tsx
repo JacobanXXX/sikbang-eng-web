@@ -1,1494 +1,367 @@
-// @ts-nocheck
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 
-export default function MainPage() {
-  // Mobile menu state
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // FAQ state
+export default function Home() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [navShadow, setNavShadow] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-  const faqAnswerRefs = useRef<(HTMLDivElement | null)[]>([]);
-  // Review scroll
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
   const reviewScrollRef = useRef<HTMLDivElement>(null);
-  const [reviewsPaused, setReviewsPaused] = useState(false);
-  // Spots countdown
-  const [spotsLeft, setSpotsLeft] = useState(5);
-  // Newsletter
-  const [subscribed, setSubscribed] = useState(false);
-  const [email, setEmail] = useState('');
-  const [subscribing, setSubscribing] = useState(false);
 
-  // === NAV SHADOW ON SCROLL ===
+  // Nav shadow on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const nav = document.getElementById('nav');
-      if (nav) {
-        nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
-      }
+      setNavShadow(window.scrollY > 10);
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // === REVIEWS MARQUEE - Pure CSS animation, no JS offset needed ===
+  // Auto-scroll reviews
+  useEffect(() => {
+    const scroll = reviewScrollRef.current;
+    if (!scroll) return;
 
-  // === FAQ TOGGw6 ===
+    let dir = 1;
+    let paused = false;
+
+    const handleMouseEnter = () => { paused = true; };
+    const handleMouseLeave = () => { paused = false; };
+    const handleTouchStart = () => { paused = true; };
+    const handleTouchEnd = () => {
+      setTimeout(() => { paused = false; }, 2000);
+    };
+
+    scroll.addEventListener('mouseenter', handleMouseEnter);
+    scroll.addEventListener('mouseleave', handleMouseLeave);
+    scroll.addEventListener('touchstart', handleTouchStart, { passive: true } as any);
+    scroll.addEventListener('touchend', handleTouchEnd);
+
+    const interval = setInterval(() => {
+      if (paused) return;
+      const max = scroll.scrollWidth - scroll.clientWidth;
+      if (max <= 0) return;
+      if (scroll.scrollLeft >= max - 2) dir = -1;
+      if (scroll.scrollLeft <= 2) dir = 1;
+      scroll.scrollLeft += dir;
+    }, 30);
+
+    return () => {
+      clearInterval(interval);
+      scroll.removeEventListener('mouseenter', handleMouseEnter);
+      scroll.removeEventListener('mouseleave', handleMouseLeave);
+      scroll.removeEventListener('touchstart', handleTouchStart);
+      scroll.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
+
+  // Smooth scroll for anchor links
+  useEffect(() => {
+    const handleSmoothScroll = (e: Event) => {
+      const target = e.target as HTMLAnchorElement;
+      const href = target.getAttribute('href');
+      if (!href || href === '#') return;
+
+      try {
+        const targetElement = document.querySelector(href);
+        if (targetElement) {
+          e.preventDefault();
+          const nav = document.getElementById('nav');
+          const navHeight = nav?.offsetHeight || 64;
+          const top = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      } catch (err) {}
+    };
+
+    const anchors = document.querySelectorAll('a[href^="#"]');
+    anchors.forEach(anchor => {
+      anchor.addEventListener('click', handleSmoothScroll as any);
+    });
+
+    return () => {
+      anchors.forEach(anchor => {
+        anchor.removeEventListener('click', handleSmoothScroll as any);
+      });
+    };
+  }, []);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    if (!isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    document.body.style.overflow = '';
+  };
+
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const email = (e.currentTarget.querySelector('#emailInput') as HTMLInputElement)?.value;
+    if (email) {
+      // Save email to Stibee via API route
+      try {
+        await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+      } catch (err) {
+        console.log('Email save attempted:', err);
+      }
+      // Redirect to Notion free resource page
+      window.open('https://www.notion.so/99-AL-c5a518b61907470bab8bc0787901e487', '_blank');
+      setNewsletterSuccess(true);
+    }
+  };
+
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
-  useEffect(() => {
-    faqAnswerRefs.current.forEach((ref, index) => {
-      if (ref) {
-        ref.style.maxHeight = index === openFaqIndex ? ref.scrollHeight + 'px' : '0px';
-      }
-    });
-  }, [openFaqIndex]);
-
-  // === SMOOTH SCROLL ===
-  useEffect(() => {
-    const handleAnchorClick = (e: Event) => {
-      const target = e.currentTarget as HTMLAnchorElement;
-      const href = target.getAttribute('href');
-      if (!href || href === '#' || !href.startsWith('#')) return;
-      const id = href.slice(1);
-      const element = document.getElementById(id);
-      if (element) {
-        e.preventDefault();
-        const nav = document.getElementById('nav');
-        const navHeight = nav?.offsetHeight || 64;
-        const top = element.getBoundingClientRect().top + window.pageYOffset - navHeight;
-        window.scrollTo({ top, behavior: 'smooth' });
-      }
-    };
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener('click', handleAnchorClick);
-    });
-    return () => {
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.removeEventListener('click', handleAnchorClick);
-      });
-    };
-  }, []);
-
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-    document.body.style.overflow = !mobileMenuOpen ? 'hidden' : '';
-  };
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-    document.body.style.overflow = '';
-  };
-
-  // Newsletter - Save to Google Sheets
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || subscribing) return;
-    setSubscribing(true);
-    try {
-      // Save to Google Sheets via Apps Script Web App
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/DEPLOY_ID_HERE/exec';
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, timestamp: new Date().toISOString() })
-      });
-      setSubscribed(true);
-    } catch (err) {
-      // Even if fetch fails (no-cors), treat as success since Google Script receives it
-      setSubscribed(true);
-    }
-    setSubscribing(false);
-  };
-
   const faqItems = [
     {
-      question: 'OPIC\uc744 \ucc98\uc74c \uc900\ube44\ud558\ub294\ub370 \uc5b4\ub514\uc11c\ubd80\ud130 \uc2dc\uc791\ud574\uc57c \ud558\ub098\uc694?',
-      answer: '\ud604\uc7ac \ub808\ubca8\uc5d0 \ub530\ub77c \ucd94\ucc9c \uacbd\ub85c\uac00 \ub2ec\ub77c\uc694. \uc601\uc5b4 \uae30\ucd08\uac00 \ubd80\uc871\ud558\ub2e4\uba74 \uc804\uc790\ucc45\uc73c\ub85c \ud504\ub808\uc784\uc6cc\ud06c\ub97c \uba3c\uc800 \uc775\ud788\uace0, \ub2e8\uae30\uac04\uc5d0 \uacb0\uacfc\ub97c \ub0b4\uace0 \uc2f6\ub2e4\uba74 2\uc8fc \uc2a4\ud130\ub514\ub97c \ucd94\ucc9c\ud569\ub2c8\ub2e4. \uc798 \ubaa8\ub974\uaca0\ub2e4\uba74 SpeakCoach AI\uc5d0\uc11c \ubb34\ub8cc \ud14c\uc2a4\ud2b8\ub97c \uba3c\uc800 \ud574\ubcf4\uc138\uc694. \ud604\uc7ac \uc608\uc0c1 \ub4f1\uae09\uc744 \ubc14\ub85c \ud655\uc778\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.'
+      question: "OPIC을 처음 준비하는데 어디서부터 시작해야 하나요?",
+      answer: "현재 레벨에 따라 추천 경로가 달라요. 영어 기초가 부족ӕ�다면 전자책으로 프레임워크를 먼저 익히고, 단기간에 결과를 내고 싶다면 2주 스터디를 추천합니다. 잘 모르겠다면 SpeakCoach AI에서 무료 테스트를 먼저 해보세요. 현재 예상 등급을 바로 확인할 수 있습니다."
     },
     {
-      question: 'SpeakCoach AI\ub294 \uc5b4\ub5bb\uac8c \uc0ac\uc6a9\ud558\ub098\uc694?',
-      answer: 'SpeakCoach AI\ub294 \uc6f9 \uc571(PWA)\uc774\ub77c \ubcc4\ub3c4 \uc124\uce58 \uc5c6\uc774 \ube0c\ub77c\uc6b0\uc800\uc5d0\uc11c \ubc14\ub85c \uc811\uc18d\ud560 \uc218 \uc788\uc5b4\uc694. \uac00\uc785 \ud6c4 \ub2f5\ubcc0\uc744 \ub179\uc74c\ud558\uba74 AI\uac00 \ubc1c\uc74c, \ubb38\ubc95, \uc720\ucc3d\uc131, \uc5b4\ud718 \ub4f1 7\uac1c \uce74\ud14c\uace0\ub9ac\ub85c \ubd84\uc11d\ud574\uc11c \uc608\uc0c1 \ub4f1\uae09\uacfc \uad6c\uccb4\uc801\uc778 \ud53c\ub4dc\ubc31\uc744 \uc81c\uacf5\ud569\ub2c8\ub2e4. \ubb34\ub8cc \uccb4\ud5d8\ub3c4 \uac00\ub2a5\ud569\ub2c8\ub2e4.'
+      question: "SpeakCoach AI는 어떻게 사용하나요?",
+      answer: "SpeakCoach AI는 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 접속할 수 있어요. 가�ץy 후 답장을 녹음하면 AJ가 발읈, 문법, 위찬성, 어휘 등 7개 카테고리로 분석해서 예상 등급과 구체적인 피드백을 제공합니다. 무렣 체험도 가능합니다."
     },
     {
-      question: '2\uc8fc \uc2a4\ud130\ub514\ub294 \uc5b4\ub5a4 \uc2dd\uc73c\ub85c \uc9c4\ud589\ub418\ub098\uc694?',
-      answer: '3\uc778 1\ud300\uc73c\ub85c \uad6c\uc131\ub418\uba70, 14\uc77c \ub3d9\uc548 \ub9e4\uc77c \uc2a4\ud53c\ud0b9 \uacfc\uc81c\ub97c \uc81c\ucd9c\ud569\ub2c8\ub2e4. \ucf54\uce58\uc758 \uc2e4\uc2dc\uac04 \ud53c\ub4dc\ubc31 + SpeakCoach AI\uc758 \uc815\ubc00 \ubd84\uc11d\uc744 \ud568\uaed8 \ubc1b\uc2b5\ub2c8\ub2e4. \uce74\uce74\uc624\ud1a1 \uadf8\ub8f9\uc5d0\uc11c \uc18c\ud1b5\ud558\uba70, 1\uc8fc\ucc28\ub294 \uae30\ubcf8 \ud504\ub808\uc784\uc6cc\ud06c, 2\uc8fc\ucc28\ub294 \uc2e4\uc804 \ubaa8\uc758\uace0\uc0ac\uc5d0 \uc9d1\uc911\ud569\ub2c8\ub2e4.',
-      hasLink: true
+      question: "2주 스터디는 어떤 식으로 진행되나요?",
+      answer: "3인 1파으로 구성되며, 14일 동읈 매일 스픴키 과제를 제출합니다. 코치의 실시간 피드백 + SpeakCoach AI의 정밀 분석을 함께 받습니다. 카카오톡 그룹에서 소통하면, 1주차는 기본 프레임워크, 2주차는 실전 모의고사에 집중합니다. 자세한 내용은 스터디 상세 페이지에서 확인하세요."
     },
     {
-      question: '\uc601\uc5b4\ub97c \uc9c4\uc9dc \ubabb\ud558\ub294\ub370 \ub530\ub77c\uac08 \uc218 \uc788\uc744\uae4c\uc694?',
-      answer: '\ub124, \uac00\ub2a5\ud569\ub2c8\ub2e4. \ud504\ub808\uc784\uc6cc\ud06c \uae30\ubc18 \ud6c8\ub828\uc774\ub77c \uc601\uc5b4\ub97c \uc798 \ubabb\ud558\ub354\ub77c\ub3c4 \ub2f5\ubcc0 \uad6c\uc870\ub97c \ub530\ub77c\uac00\uba70 \ud559\uc2b5\ud560 \uc218 \uc788\uc5b4\uc694. \uc2e4\uc81c\ub85c IL \uc218\uc900\uc5d0\uc11c \uc2dc\uc791\ud574\uc11c IM2, IH\ub97c \ub2ec\uc131\ud55c \ubd84\ub4e4\uc774 \ub9ce\uc2b5\ub2c8\ub2e4. \uc911\uc694\ud55c \uac74 \ub9e4\uc77c \uafb8\uc900\ud788 \uacfc\uc81c\ub97c \uc81c\ucd9c\ud558\ub294 \uac83\uc785\ub2c8\ub2e4.'
+      question: "영어를 진짜 못하는데 따라 가 수 있을까요?",
+      answer: "네, 가능합니다. 프레임워크 기반 훈레이라 영어를 잘 못하더라도 답변 구조를 따라가면 학습할 수 있어요. 실제로 IL 수준에서 시작해서 IM2, IH폼 달성한 분들이 많습니다. 중요한 건 매일 꾸준히 과제를 제출하는 것입니다."
     },
     {
-      question: '\uc9c1\uc7a5\uc778\uc778\ub370 \uc2dc\uac04 \ud22c\uc790\uac00 \ub9ce\uc774 \ud544\uc694\ud55c\uac00\uc694?',
-      answer: '\ud558\ub8e8 \ud3c9\uade0 1~2\uc2dc\uac04\uc774\uba74 \ucda9\ubd84\ud569\ub2c8\ub2e4. \ud559\uc2b5 \uc790\ub8cc \ud655\uc778 10\ubd84, \ub2f5\ubcc0 \uc900\ube44 \ubc0f \ub179\uc74c 30~40\ubd84, AI \ubd84\uc11d \ud655\uc778 20\ubd84, \ucf54\uce58 \ud53c\ub4dc\ubc31 \ubc18\uc601 20\ubd84 \uc815\ub3c4\uc608\uc694. \ucd9c\ud1f4\uadfc \uc2dc\uac04\uc5d0 \uc790\ub8cc\ub97c \ubcf4\uace0, \ud1f4\uadfc \ud6c4 \ub179\uc74c\ud558\ub294 \ud328\ud134\uc73c\ub85c \uc9c4\ud589\ud558\uc2dc\ub294 \uc9c1\uc7a5\uc778\ubd84\ub4e4\uc774 \ub9ce\uc2b5\ub2c8\ub2e4.'
+      question: "직장인인감 시간 투자가 많이 필요한가요?",
+    answer: "하루 평균 1~2시간이면 충분합니다. 학습 자료 확인 10분, 답변 준비 및 녹음 30~40분, AI 분석 확인 20분, 코치 피드백 반영 20분 정도예요. 출퇴근 시간에 자료를 보고, 퇴근 후 녹읈하는 패턴으로 진행하시는 직장인분들이 많습니다."
     },
     {
-      question: '\ud658\ubd88\uc740 \uc5b4\ub5bb\uac8c \ub418\ub098\uc694?',
-      answer: '\u26a0\ufe0f \uc2a4\ud130\ub514 \uc778\uc6d0 \ud3b8\uc131 \uc774\ud6c4(\ub2e8\ud1a1\ubc29 \ucd08\ub300 \uc774\ud6c4)\uc5d0\ub294 \uc5b4\ub5a0\ud55c \uc0ac\uc720\ub85c\ub3c4 \ud658\ubd88\uc774 \ubd88\uac00\ud569\ub2c8\ub2e4. \ubcf8 \uc2a4\ud130\ub514\ub294 \uc18c\uaddc\ubaa8 \uc815\uc6d0 \uae30\ubc18\uc73c\ub85c \uc6b4\uc601\ub418\uba70, \uadf8\ub8f9 \ud655\uc815\uacfc \ub3d9\uc2dc\uc5d0 \ub9de\ucda4 \ucee4\ub9ac\ud050\ub7fc\uacfc \uc6b4\uc601 \ub9ac\uc18c\uc2a4\uac00 \uc989\uc2dc \ubc30\uc815\ub418\uae30 \ub54c\ubb38\uc785\ub2c8\ub2e4. \ub2e8\ud1a1\ubc29 \ucd08\ub300 \uc804\uc5d0\ub294 \uc804\uc561 \ud658\ubd88 \uac00\ub2a5\ud569\ub2c8\ub2e4. SpeakCoach AI \uad6c\ub3c5\uc740 \uacb0\uc81c \ud6c4 7\uc77c \uc774\ub0b4 \ud658\ubd88 \uac00\ub2a5\ud569\ub2c8\ub2e4. \uacb0\uc81c \uc2dc \ubcf8 \ud658\ubd88 \uc815\ucc45\uc5d0 \ub3d9\uc758\ud55c \uac83\uc73c\ub85c \uac04\uc8fc\ub429\ub2c8\ub2e4.'
+      question: "환불은 어떻게 되나요?",
+      answer: "스터디의 경우 시작 전 100% 환불, 시작 후 3일 이내 50% 환불이 가능합니다. SpeakCoach AI 구독은 결제 후 7일 이내 환불 가능합니다. 자세한 사항은 카카오톡으로 문의해주세요."
     },
     {
-      question: '\uc804\uc790\ucc45, \uc778\uac15, \uc2a4\ud130\ub514 \uc911 \ubb58 \uc120\ud0dd\ud574\uc57c \ud558\ub098\uc694?',
-      answer: '\ubaa9\ud45c\uc640 \uc0c1\ud669\uc5d0 \ub530\ub77c \ub2ec\ub77c\uc694. \ub3c5\ud559 \uc120\ud638 + \uae30\ucd08 \ud559\uc2b5\uc774\uba74 \uc804\uc790\ucc45, \uccb4\uacc4\uc801 \uc601\uc0c1 \uac15\uc758\ub97c \uc6d0\ud558\uba74 \uc778\uac15, \ub2e8\uae30\uac04 \ud655\uc2e4\ud55c \uc131\uacfc\ub97c \uc6d0\ud558\uba74 2\uc8fc \uc2a4\ud130\ub514\ub97c \ucd94\ucc9c\ud569\ub2c8\ub2e4. \uac00\uc7a5 \ud6a8\uacfc\uac00 \uc88b\uc740 \uc870\ud569\uc740 \uc778\uac15 + \uc2a4\ud130\ub514\uc774\uace0, \uc608\uc0b0\uc774 \uc81c\ud55c\uc801\uc774\ub77c\uba74 \uc804\uc790\ucc45 + SpeakCoach AI \ubb34\ub8cc \uccb4\ud5d8\uc73c\ub85c \uc2dc\uc791\ud574\ubcf4\uc138\uc694.'
-    }
-  ];
-
-  const reviews = [
-    {
-      initial: 'J',
-      name: '\uc815*\ud604',
-      info: '\ub300\ud559\uc0dd \u00b7 2\uc8fc \uc2a4\ud130\ub514',
-      stars: 5,
-      text: '2\uc8fc \ub9cc\uc5d0 IM2\uc5d0\uc11c IH\ub85c \uc62c\ub790\uc2b5\ub2c8\ub2e4. \ud504\ub808\uc784\uc6cc\ud06c \ub2f5\ubcc0\uc774 \uc9c4\uc9dc \ud6a8\uacfc\uc801\uc774\uc5d0\uc694. \ud63c\uc790 \ud588\uc73c\uba74 \uc808\ub300 \ubabb \uc62c\ub838\uc744 \uc810\uc218\uc785\ub2c8\ub2e4.',
-      badge: 'IM2 \u2192 IH',
-      result: '2\uc8fc \ub9cc\uc5d0 \ub4f1\uae09 \uc0c1\uc2b9'
-    },
-    {
-      initial: 'S',
-      name: '\uc11c*\uc601',
-      info: '\ucde8\uc900\uc0dd \u00b7 \uc2a4\ud130\ub514 + AI',
-      stars: 5,
-      text: 'SpeakCoach AI\ub85c \ub9e4\uc77c \uc5f0\uc2b5\ud558\uace0, \uc2a4\ud130\ub514\uc5d0\uc11c \ud53c\ub4dc\ubc31 \ubc1b\uc73c\ub2c8\uae4c \ub0b4 \uc57d\uc810\uc774 \uc815\ud655\ud788 \ubcf4\uc600\uc5b4\uc694. \uacb0\uad6d AL \ubc1b\uc558\uc2b5\ub2c8\ub2e4!',
-      badge: 'IH \u2192 AL',
-      result: '\ucd5c\uace0 \ub4f1\uae09 \ub2ec\uc131'
-    },
-    {
-      initial: 'K',
-      name: '\uae40*\uc218',
-      info: '\uc9c1\uc7a5\uc778 \u00b7 \uc804\uc790\ucc45 + AI',
-      stars: 4,
-      text: '\ud1f4\uadfc \ud6c4 \uc2dc\uac04\uc774 \uc5c6\uc5b4\uc11c \uc804\uc790\ucc45\uc73c\ub85c \ud2c0 \uc7a1\uace0, AI\ub85c \ub9e4\uc77c 15\ubd84\uc529 \uc5f0\uc2b5\ud588\uc5b4\uc694. \ud55c \ub2ec \ub9cc\uc5d0 IM3 \ubc1b\uc558\uc2b5\ub2c8\ub2e4.',
-      badge: 'IL \u2192 IM3',
-      result: '3\ub2e8\uacc4 \uc0c1\uc2b9'
-    },
-    {
-      initial: 'L',
-      name: '\uc774*\uc9c4',
-      info: '\ub300\ud559\uc0dd \u00b7 2\uc8fc \uc2a4\ud130\ub514',
-      stars: 5,
-      text: '3\uba85\uc774\uc11c \ud300\uc73c\ub85c \ud558\ub2c8\uae4c \uae34\uc7a5\uac10\ub3c4 \uc788\uace0, \uc11c\ub85c \ud53c\ub4dc\ubc31 \uc8fc\ub294 \uac8c \uc9c4\uc9dc \ub3c4\uc6bcc0b410\uc5b4\uc694. \ucde8\uc5c5 \uba74\uc811 \uc804\uc5d0 \uc790\uc2e0\uac10\ub3c4 \uc0dd\uacbc\uc2b5\ub2c8\ub2e4.',
-      badge: 'IM1 \u2192 IH',
-      result: '\ubaa9\ud45c \ub4f1\uae09 \ub2ec\uc131'
-    },
-    {
-      initial: 'P',
-      name: '\ubc15*\ud76c',
-      info: '\uc774\uc9c1 \uc900\ube44 \u00b7 \uc778\uac15 + \uc2a4\ud130\ub514',
-      stars: 5,
-      text: '\uc778\uac15\uc73c\ub85c \uae30\ubcf8\uae30 \uc7a1\uace0 \uc2a4\ud130\ub514\uc5d0\uc11c \uc2e4\uc804 \uc5f0\uc2b5\ud558\ub2c8\uae4c \uc2dc\ub108\uc9c0\uac00 \ub300\ub2e8\ud588\uc5b4\uc694. IH \ubaa9\ud45c\uc600\ub294\ub370 AL\uc774 \ub098\uc654\uc2b5\ub2c8\ub2e4.',
-      badge: 'IM3 \u2192 AL',
-      result: '\ubaa9\ud45c \ucd08\uacfc \ub2ec\uc131'
-    },
-    {
-      initial: 'C',
-      name: '\ucd5c*\uc544',
-      info: '\ub300\ud559\uc6d0\uc0dd \u00b7 \uc804\uc790\ucc45',
-      stars: 5,
-      text: '\ud504\ub808\uc784\uc6cc\ud06c\uac00 \uc9c4\uc9dc \ud575\uc2ec\uc774\uc5d0\uc694. \ub2f5\ubcc0 \uad6c\uc870\ub97c \uc7a1\uc73c\ub2c8\uae4c \uc5b4\ub5a4 \uc9c8\ubb38\uc774 \ub098\uc640\ub3c4 \ub2f9\ud669\ud558\uc9c0 \uc54a\uac8c \ub410\uc5b4\uc694.',
-      badge: 'IM2 \u2192 IH',
-      result: '\uc804\uc790\ucc45\ub9cc\uc73c\ub85c \uc0c1\uc2b9'
-    },
-    {
-      initial: 'H',
-      name: '\ud669*\uc6b0',
-      info: '\uc9c1\uc7a5\uc778 \u00b7 2\uc8fc \uc2a4\ud130\ub514',
-      stars: 5,
-      text: '\ud68c\uc0ac\uc5d0\uc11c OPIC IH \ud544\uc218\uc600\ub294\ub370, \ub450 \ubc88 \ub5a8\uc5b4\uc9c0\uace0 \uc5ec\uae30\uc11c \ub4dc\ub514\uc5b4 \ub531\uc5d0 \ud569\uaca9\ud588\uc2b5\ub2c8\ub2e4. \ucf54\uce58\ub2d8 \ud53c\ub4dc\ubc31\uc774 \uc815\ub9d0 \uc815\ud655\ud574\uc694.',
-      badge: 'IM1 \u2192 IH',
-      result: '\uc2b9\uc9c4 \uc694\uac74 \ucda9\uc871'
-    },
-    {
-      initial: 'Y',
-      name: '\uc724*\ub9b0',
-      info: '\ub300\ud559\uc0dd \u00b7 \uc778\uac15 + \uc2a4\ud130\ub514',
-      stars: 5,
-      text: '\uc778\uac15\uc73c\ub85c \uae30\ubcf8\uae30 \uc7a1\uace0 \uc2a4\ud130\ub514\uc5d0\uc11c \uc2e4\uc804 \uac10\uac01 \uc775\ud614\uc5b4\uc694. \ub450 \uac00\uc9c0 \ubcd1\ud589\ud558\ub2c8\uae4c \uc2dc\ub108\uc9c0\uac00 \uc5c4\uccad\ub0ac\uc2b5\ub2c8\ub2e4.',
-      badge: 'IM2 \u2192 AL',
-      result: '\ubaa9\ud45c \ucd08\uacfc \ub2ec\uc131'
-    },
-    {
-      initial: 'M',
-      name: '\ubb38*\ud76c',
-      info: '\ucde8\uc900\uc0dd \u00b7 AI + \uc804\uc790\ucc45',
-      stars: 5,
-      text: 'SpeakCoach AI\ub85c \ub9e4\uc77c \uc544\uce68\uc5d0 15\ubd84\uc529 \uc5f0\uc2b5\ud588\uc5b4\uc694. \ubc1c\uc74c \ubd84\uc11d\uc774 \uc815\ub9d0 \uc815\ubc00\ud574\uc11c \uc57d\uc810\uc744 \uc815\ud655\ud788 \uace0\uce60 \uc218 \uc788\uc5c8\uc2b5\ub2c8\ub2e4.',
-      badge: 'IL \u2192 IM2',
-      result: '\uae30\ucd08\ubd80\ud130 \ub2e8\uae30 \uc0c1\uc2b9'
-    },
-    {
-      initial: 'A',
-      name: '\uc548*\uc900',
-      info: '\uc9c1\uc7a5\uc778 \u00b7 \uc2a4\ud130\ub514',
-      stars: 4,
-      text: '\ud300\uc6d0\ub4e4\uc774 \uc11c\ub85c \ub3d9\uae30\ubd80\uc5ec\uac00 \ub418\ub2c8\uae4c \ub9e4\uc77c \uacfc\uc81c \uc548 \ub0b4\uba74 \uc548 \ub418\ub294 \ubd84\uc704\uae30\uc600\uc5b4\uc694. \ub355\ubd84\uc5d0 2\uc8fc \uc644\uc8fc\ud588\uc2b5\ub2c8\ub2e4.',
-      badge: 'IM3 \u2192 IH',
-      result: '\ubaa9\ud45c \ub4f1\uae09 \ub2ec\uc131'
+      question: "전자책, 인강, 스터디 중 �� 선택해야 하나요?",
+      answer: "목표와 상황에 따라 달라요. 독학 선호 + 기초 학습이면 전자책, 체계적 영상 강의를 원하면 인강, 단기간 확실한 성과를 원하면 2주 스터디를 추천합니다. 가장 효과가 좋은 조합은 인강 + 스터디이고, 예산이 제한적이라면 전자책 + SpeakCoach AI 무료 체험으로 시작해보세요."
     }
   ];
 
   return (
     <>
-      <style>{`
-        /* === RESET & BAS6 === */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-          font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-          background: #FFFFFF;
-          color: #191F28;
-          line-height: 1.6;
-          -webkit-font-smoothing: antialiased;
-          overflow-x: hidden;
-        }
-        a { text-decoration: none; color: inherit; }
-        button { cursor: pointer; border: none; font-family: inherit; }
-        img { max-width: 100%; display: block; }
-
-        /* === TOSS COLOR SYSTEM === */
-        :root {
-          --blue-primary: #3182F6;
-          --blue-dark: #1B64DA;
-          --blue-light: #E8F3FF;
-          --blue-bg: #F2F4F6;
-          --text-primary: #191F28;
-          --text-secondary: #4E5968;
-          --text-tertiary: #8B95A1;
-          --text-white: #FFFFFF;
-          --bg-white: #FFFFFF;
-          --bg-gray: #F2F4F6;
-          --border: #E5E8EB;
-          --card-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06);
-          --card-hover: 0 4px 16px rgba(0,0,0,0.08), 0 12px 40px rgba(0,0,0,0.1);
-          --section-padding: 120px 0;
-          --kakao-yellow: #FEE500;
-        }
-
-        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
-        .section { padding: var(--section-padding); }
-        .section-gray { background: var(--bg-gray); }
-
-        /* === NAV === */
-        .nav {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-          background: rgba(255,255,255,0.85);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-bottom: 1px solid var(--border);
-          transition: all 0.3s ease;
-        }
-        .nav-inner {
-          max-width: 1140px; margin: 0 auto; padding: 0 24px;
-          display: flex; align-items: center; justify-content: space-between;
-          height: 64px;
-        }
-        .nav-logo {
-          font-size: 19px; font-weight: 800; color: var(--text-primary);
-          display: flex; align-items: center; gap: 6px;
-          letter-spacing: -0.03em;
-        }
-        .nav-logo .logo-mark {
-          display: inline-flex; align-items: center; justify-content: center;
-          width: 32px; height: 32px; border-radius: 10px;
-          background: linear-gradient(135deg, #FFD43B 0%, #F59F00 100%);
-          font-size: 18px; line-height: 1;
-          box-shadow: 0 2px 8px rgba(245, 159, 0, 0.25);
-        }
-        .nav-logo .logo-text {
-          display: flex; flex-direction: column; line-height: 1.1;
-        }
-        .nav-logo .logo-text .logo-main {
-          font-size: 17px; font-weight: 800; color: var(--text-primary);
-          letter-spacing: -0.02em;
-        }
-        .nav-logo .logo-text .logo-sub {
-          font-size: 10px; font-weight: 600; color: var(--text-tertiary);
-          letter-spacing: 0.04em;
-        }
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a {
-          font-size: 15px; font-weight: 500; color: var(--text-secondary);
-          transition: color 0.2s;
-        }
-        .nav-links a:hover { color: var(--blue-primary); }
-        .nav-cta {
-          background: var(--kakao-yellow); color: #191F28;
-          padding: 10px 20px; border-radius: 12px;
-          font-size: 14px; font-weight: 700;
-          transition: all 0.2s;
-          border: none;
-        }
-        .nav-cta:hover { background: #F5D800; transform: translateY(-1px); }
-
-        /* === HAMBURGER MENU === */
-        .hamburger {
-          display: none;
-          width: 40px; height: 40px;
-          background: none; border: none;
-          flex-direction: column; align-items: center; justify-content: center;
-          gap: 5px; cursor: pointer; z-index: 200;
-          padding: 8px;
-        }
-        .hamburger span {
-          display: block; width: 22px; height: 2px;
-          background: var(--text-primary);
-          border-radius: 2px;
-          transition: all 0.3s ease;
-        }
-        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-        .mobile-menu {
-          display: none;
-          position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
-          background: rgba(255,255,255,0.98);
-          backdrop-filter: blur(20px);
-          z-index: 99;
-          flex-direction: column;
-          padding: 32px 24px;
-          gap: 8px;
-        }
-        .mobile-menu.show { display: flex; }
-        .mobile-menu a {
-          display: block; padding: 16px 20px;
-          font-size: 18px; font-weight: 600;
-          color: var(--text-primary);
-          border-radius: 14px;
-          transition: background 0.2s;
-        }
-        .mobile-menu a:hover { background: var(--bg-gray); }
-        .mobile-menu .mobile-cta {
-          margin-top: 16px;
-          background: var(--kakao-yellow); color: #191F28;
-          text-align: center; border-radius: 16px;
-          padding: 18px;
-          font-size: 17px; font-weight: 700;
-        }
-
-        /* === HERO === */
-        .hero {
-          padding: 160px 0 120px;
-          background: #FFFFFF;
-          text-align: center;
-          position: relative;
-          overflow: hidden;
-        }
-        .hero-badge {
-          display: inline-flex; align-items: center; gap: 6px;
-          background: var(--blue-light); color: var(--blue-primary);
-          padding: 8px 16px; border-radius: 100px;
-          font-size: 14px; font-weight: 600;
-          margin-bottom: 24px;
-        }
-        .hero h1 {
-          font-size: 52px; font-weight: 800; line-height: 1.3;
-          color: var(--text-primary);
-          margin-bottom: 20px;
-          letter-spacing: -0.02em;
-        }
-        .hero h1 .highlight { color: var(--blue-primary); }
-        .hero p {
-          font-size: 18px; color: var(--text-secondary);
-          max-width: 560px; margin: 0 auto 40px;
-          line-height: 1.7;
-        }
-        .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-        .btn-primary {
-          background: var(--blue-primary); color: white;
-          padding: 16px 32px; border-radius: 16px;
-          font-size: 17px; font-weight: 700;
-          transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
-        }
-        .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(49,130,246,0.3); }
-        .btn-secondary {
-          background: var(--bg-gray); color: var(--text-primary);
-          padding: 16px 32px; border-radius: 16px;
-          font-size: 17px; font-weight: 700;
-          transition: all 0.2s;
-        }
-        .btn-secondary:hover { background: #E5E8EB; }
-
-        .hero-stats {
-          display: flex; justify-content: center; gap: 60px;
-          margin-top: 64px; padding-top: 48px;
-          border-top: 1px solid var(--border);
-        }
-        .hero-stat { text-align: center; }
-        .hero-stat .number { font-size: 36px; font-weight: 800; color: var(--blue-primary); }
-        .hero-stat .label { font-size: 14px; color: var(--text-tertiary); margin-top: 4px; font-weight: 500; }
-
-        /* === SECTION HEADINGS === */
-        .section-header { text-align: center; margin-bottom: 64px; }
-        .section-header .overline {
-          font-size: 14px; font-weight: 700; color: var(--blue-primary);
-          text-transform: uppercase; letter-spacing: 0.05em;
-          margin-bottom: 12px;
-        }
-        .section-header h2 {
-          font-size: 36px; font-weight: 800; line-height: 1.35;
-          letter-spacing: -0.02em;
-        }
-        .section-header p {
-          font-size: 16px; color: var(--text-secondary);
-          max-width: 480px; margin: 16px auto 0;
-          line-height: 1.7;
-        }
-
-        /* === PRODUCTS / STOR6 === */
-        .products-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-          gap: 24px;
-        }
-        .product-card {
-          background: var(--bg-white);
-          border-radius: 20px;
-          border: 1px solid var(--border);
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-        .product-card:hover {
-          border-color: var(--blue-primary);
-          box-shadow: var(--card-hover);
-          transform: translateY(-4px);
-        }
-        .product-card-image {
-          height: 200px;
-          background: linear-gradient(135deg, #E8F3FF 0%, #D0E8FF 100%);
-          display: flex; align-items: center; justify-content: center;
-          flex-direction: column; gap: 12px;
-          position: relative;
-          overflow: hidden;
-        }
-        .product-card-image.ebook-bg { background: linear-gradient(135deg, #E8F3FF 0%, #C7DEFF 100%); }
-        .product-card-image.course-bg { background: linear-gradient(135deg, #F0E8FF 0%, #DDD0FF 100%); }
-        .product-card-image.study-bg { background: linear-gradient(135deg, #E8FFF0 0%, #C7FFD8 100%); }
-        .product-icon-wrap {
-          width: 72px; height: 72px; border-radius: 20px;
-          display: flex; align-items: center; justify-content: center;
-          font-size: 36px;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        }
-        .product-icon-wrap.ebook-icon { background: linear-gradient(135deg, #3182F6 0%, #1B64DA 100%); }
-        .product-icon-wrap.course-icon { background: linear-gradient(135deg, #7C5CFC 0%, #6344E0 100%); }
-        .product-icon-wrap.study-icon { background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%); }
-        .product-card-label {
-          font-size: 14px; font-weight: 700; letter-spacing: -0.02em;
-          opacity: 0.85;
-        }
-        .product-badge {
-          position: absolute; top: 16px; left: 16px;
-          background: var(--blue-primary); color: white;
-          padding: 4px 12px; border-radius: 8px;
-          font-size: 12px; font-weight: 700;
-        }
-        .product-badge.hot { background: #F04452; }
-        .product-badge.new { background: #3CB371; }
-        .product-card-body { padding: 24px; }
-        .product-card-body .category {
-          font-size: 13px; font-weight: 600; color: var(--blue-primary);
-          margin-bottom: 8px;
-        }
-        .product-card-body h3 {
-          font-size: 20px; font-weight: 700; margin-bottom: 8px;
-          line-height: 1.4;
-        }
-        .product-card-body .desc {
-          font-size: 14px; color: var(--text-secondary);
-          margin-bottom: 16px; line-height: 1.6;
-        }
-        .product-price-row {
-          display: flex; align-items: center; justify-content: space-between;
-        }
-        .product-price {
-          display: flex; align-items: baseline; gap: 8px;
-        }
-        .product-price .original {
-          font-size: 14px; color: var(--text-tertiary);
-          text-decoration: line-through;
-        }
-        .product-price .current {
-          font-size: 22px; font-weight: 800; color: var(--text-primary);
-        }
-        .product-price .unit {
-          font-size: 14px; color: var(--text-secondary); font-weight: 500;
-        }
-        .btn-buy {
-          background: var(--blue-primary); color: white;
-          padding: 10px 20px; border-radius: 12px;
-          font-size: 14px; font-weight: 700;
-          transition: all 0.2s;
-        }
-        .btn-buy:hover { background: var(--blue-dark); }
-
-        /* === SPEAKCOACH AI === */
-        .speakcoach-section { position: relative; overflow: hidden; }
-        .speakcoach-grid {
-          display: grid; grid-template-columns: 1fr 1fr;
-          gap: 80px; align-items: center;
-        }
-        .speakcoach-content .tag {
-          display: inline-flex; align-items: center; gap: 6px;
-          background: var(--blue-light); color: var(--blue-primary);
-          padding: 6px 14px; border-radius: 100px;
-          font-size: 13px; font-weight: 700;
-          margin-bottom: 20px;
-        }
-        .speakcoach-content h2 {
-          font-size: 40px; font-weight: 800; line-height: 1.3;
-          margin-bottom: 16px; letter-spacing: -0.02em;
-        }
-        .speakcoach-content h2 .highlight { color: var(--blue-primary); }
-        .speakcoach-content > p {
-          font-size: 16px; color: var(--text-secondary);
-          line-height: 1.7; margin-bottom: 32px;
-        }
-        .speakcoach-features {
-          display: flex; flex-direction: column; gap: 16px;
-          margin-bottom: 36px;
-        }
-        .feature-item {
-          display: flex; align-items: flex-start; gap: 12px;
-        }
-        .feature-icon {
-          width: 40px; height: 40px; border-radius: 12px;
-          background: var(--blue-light);
-          display: flex; align-items: center; justify-content: center;
-          font-size: 20px; flex-shrink: 0;
-        }
-        .feature-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
-        .feature-text p { font-size: 14px; color: var(--text-secondary); }
-        .speakcoach-mockup {
-          background: linear-gradient(135deg, #1B1D29 0%, #2B2E3B 100%);
-          border-radius: 24px; padding: 40px;
-          position: relative;
-          box-shadow: var(--card-shadow);
-        }
-        .mockup-header {
-          display: flex; align-items: center; gap: 8px;
-          margin-bottom: 32px;
-        }
-        .mockup-dot { width: 12px; height: 12px; border-radius: 50%; }
-        .mockup-dot.red { background: #FF5F57; }
-        .mockup-dot.yellow { background: #FEBC2E; }
-        .mockup-dot.green { background: #28C840; }
-        .mockup-screen {
-          background: #FFFFFF; border-radius: 16px;
-          padding: 24px;
-        }
-        .mockup-grade-row {
-          display: flex; align-items: center; justify-content: space-between;
-          margin-bottom: 20px;
-        }
-        .mockup-grade {
-          font-size: 48px; font-weight: 800;
-          color: var(--blue-primary);
-        }
-        .mockup-grade-label { font-size: 13px; color: var(--text-tertiary); }
-        .mockup-al-prob { text-align: right; }
-        .mockup-al-prob .prob-num { font-size: 28px; font-weight: 800; color: #F04452; }
-        .mockup-al-prob .prob-label { font-size: 12px; color: var(--text-tertiary); }
-        .mockup-bars { display: flex; flex-direction: column; gap: 10px; }
-        .mockup-bar-item { display: flex; align-items: center; gap: 12px; }
-        .mockup-bar-label { font-size: 12px; color: var(--text-secondary); width: 60px; flex-shrink: 0; }
-        .mockup-bar-track {
-          flex: 1; height: 8px; background: var(--bg-gray);
-          border-radius: 4px; overflow: hidden;
-        }
-        .mockup-bar-fill {
-          height: 100%; border-radius: 4px;
-          background: var(--blue-primary);
-          transition: width 1.5s ease;
-        }
-        .mockup-bar-fill.weak { background: #F04452; }
-        .mockup-bar-fill.mid { background: #FF9F43; }
-
-        /* === PRICING PLANS === */
-        .pricing-grid {
-          display: grid; grid-template-columns: repeat(3, 1fr);
-          gap: 20px; max-width: 960px; margin: 0 auto;
-        }
-        .pricing-card {
-          background: var(--bg-white); border-radius: 20px;
-          border: 1px solid var(--border); padding: 32px;
-          position: relative; transition: all 0.3s;
-        }
-        .pricing-card.featured {
-          border-color: var(--blue-primary);
-          box-shadow: 0 0 0 1px var(--blue-primary), var(--card-shadow);
-          transform: scale(1.02);
-        }
-        .pricing-card .recommend-badge {
-          position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-          background: var(--blue-primary); color: white;
-          padding: 4px 16px; border-radius: 100px;
-          font-size: 12px; font-weight: 700;
-        }
-        .pricing-card .plan-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-        .pricing-card .plan-price {
-          font-size: 32px; font-weight: 800; margin: 16px 0 4px;
-        }
-        .pricing-card .plan-price .won { font-size: 18px; font-weight: 600; }
-        .pricing-card .plan-original {
-          font-size: 14px; color: var(--text-tertiary);
-          text-decoration: line-through; margin-bottom: 4px;
-        }
-        .pricing-card .plan-sub { font-size: 13px; color: var(--text-tertiary); margin-bottom: 24px; }
-        .pricing-card .plan-features { list-style: none; margin-bottom: 24px; }
-        .pricing-card .plan-features li {
-          font-size: 14px; color: var(--text-secondary);
-          padding: 6px 0; display: flex; align-items: center; gap: 8px;
-        }
-        .pricing-card .plan-features li::before {
-          content: '\u2713'; color: var(--blue-primary); font-weight: 700;
-        }
-        .btn-plan {
-          width: 100%; padding: 14px; border-radius: 14px;
-          font-size: 15px; font-weight: 700; text-align: center;
-          transition: all 0.2s;
-        }
-        .btn-plan.primary { background: var(--blue-primary); color: white; }
-        .btn-plan.primary:hover { background: var(--blue-dark); }
-        .btn-plan.outline {
-          background: transparent; color: var(--text-primary);
-          border: 1px solid var(--border);
-        }
-        .btn-plan.outline:hover { border-color: var(--blue-primary); color: var(--blue-primary); }
-
-        /* === REVIEWS === */
-        .reviews-wrapper { position: relative; overflow: hidden; }
-        .reviews-scroll {
-          display: flex; gap: 20px;
-          padding-bottom: 20px;
-          animation: marqueeScroll 60s linear infinite;
-          width: max-content;
-        }
-        .reviews-scroll:hover, .reviews-scroll.paused {
-          animation-play-state: paused;
-        }
-        @keyframes marqueeScroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .review-card {
-          min-width: 320px; max-width: 360px;
-          background: var(--bg-white); border-radius: 20px;
-          border: 1px solid var(--border); padding: 28px;
-          scroll-snap-align: start;
-          flex-shrink: 0;
-          transition: all 0.3s;
-        }
-        .review-card:hover { border-color: var(--blue-primary); box-shadow: var(--card-shadow); }
-        .review-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-        .review-avatar {
-          width: 44px; height: 44px; border-radius: 50%;
-          background: var(--blue-light); display: flex;
-          align-items: center; justify-content: center;
-          font-size: 18px; font-weight: 700; color: var(--blue-primary);
-        }
-        .review-meta .name { font-size: 15px; font-weight: 700; }
-        .review-meta .info { font-size: 13px; color: var(--text-tertiary); }
-        .review-stars { color: #FF9F43; font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; line-height: 1; }
-        .review-stars .empty { color: #E5E8EB; }
-        .review-text { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
-        .review-result {
-          margin-top: 16px; padding-top: 16px;
-          border-top: 1px solid var(--border);
-          display: flex; align-items: center; gap: 8px;
-        }
-        .review-result .grade-badge {
-          background: var(--blue-light); color: var(--blue-primary);
-          padding: 4px 10px; border-radius: 8px;
-          font-size: 13px; font-weight: 700;
-        }
-        .review-result .grade-text { font-size: 13px; color: var(--text-secondary); }
-        .reviews-count-badge { text-align: center; margin-top: 32px; }
-        .reviews-count-badge span {
-          display: inline-flex; align-items: center; gap: 6px;
-          background: var(--blue-light); color: var(--blue-primary);
-          padding: 10px 24px; border-radius: 100px;
-          font-size: 15px; font-weight: 700;
-        }
-
-        /* === FAQ === */
-        .faq-list { max-width: 720px; margin: 0 auto; }
-        .faq-item { border-bottom: 1px solid var(--border); }
-        .faq-question {
-          width: 100%; padding: 24px 0; background: none;
-          display: flex; justify-content: space-between; align-items: center;
-          font-size: 16px; font-weight: 600; color: var(--text-primary);
-          text-align: left;
-        }
-        .faq-question .arrow {
-          transition: transform 0.3s; font-size: 20px; color: var(--text-tertiary);
-          flex-shrink: 0; margin-left: 16px;
-        }
-        .faq-question.open .arrow { transform: rotate(180deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-        .faq-answer-inner {
-          padding: 0 0 24px;
-          font-size: 15px; color: var(--text-secondary); line-height: 1.7;
-        }
-
-        /* === CTA BANNER === */
-        .cta-banner {
-          background: linear-gradient(135deg, #3182F6 0%, #1B64DA 100%);
-          padding: 80px 0; text-align: center;
-          position: relative; overflow: hidden;
-        }
-        .cta-banner::before {
-          content: '';
-          position: absolute; top: -100px; right: -100px;
-          width: 400px; height: 400px;
-          background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        }
-        .cta-banner h2 {
-          font-size: 36px; font-weight: 800; color: white;
-          margin-bottom: 12px;
-        }
-        .cta-banner p {
-          font-size: 16px; color: rgba(255,255,255,0.8);
-          margin-bottom: 32px;
-        }
-        .btn-white {
-          background: white; color: var(--blue-primary);
-          padding: 16px 40px; border-radius: 16px;
-          font-size: 17px; font-weight: 700;
-          transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
-        }
-        .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
-
-        /* === FOOTER === */
-        .footer {
-          background: #191F28; color: rgba(255,255,255,0.6);
-          padding: 64px 0 40px;
-        }
-        .footer-grid {
-          display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-          gap: 40px; margin-bottom: 48px;
-        }
-        .footer-brand .logo {
-          font-size: 20px; font-weight: 800; color: white;
-          margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
-        }
-        .footer-brand p { font-size: 14px; line-height: 1.7; }
-        .footer-col h4 { color: white; font-size: 14px; font-weight: 700; margin-bottom: 16px; }
-        .footer-col a {
-          display: block; font-size: 14px; padding: 4px 0;
-          color: rgba(255,255,255,0.5); transition: color 0.2s;
-        }
-        .footer-col a:hover { color: rgba(255,255,255,0.9); }
-        .footer-bottom {
-          border-top: 1px solid rgba(255,255,255,0.1);
-          padding-top: 24px;
-          font-size: 13px;
-          display: flex; justify-content: space-between; align-items: center;
-        }
-        .footer-bottom .social { display: flex; gap: 16px; }
-        .footer-bottom .social a { font-size: 14px; }
-
-        /* === NEWSLETTER / FREE RESOURC6 === */
-        .newsletter-section {
-          background: #F8FAFC;
-          border-top: 1px solid var(--border);
-          border-bottom: 1px solid var(--border);
-          padding: 100px 0;
-        }
-        .newsletter-inner {
-          max-width: 640px; margin: 0 auto; text-align: center;
-        }
-        .newsletter-icon {
-          width: 72px; height: 72px; border-radius: 20px;
-          background: var(--blue-light);
-          display: flex; align-items: center; justify-content: center;
-          font-size: 36px; margin: 0 auto 24px;
-        }
-        .newsletter-inner h2 {
-          font-size: 32px; font-weight: 800; line-height: 1.35;
-          margin-bottom: 12px; letter-spacing: -0.02em;
-        }
-        .newsletter-inner h2 .highlight { color: var(--blue-primary); }
-        .newsletter-inner > p {
-          font-size: 16px; color: var(--text-secondary);
-          line-height: 1.7; margin-bottom: 32px;
-        }
-        .newsletter-form {
-          display: flex; gap: 10px; max-width: 480px; margin: 0 auto 16px;
-        }
-        .newsletter-form input {
-          flex: 1; padding: 16px 20px; border-radius: 14px;
-          border: 1px solid var(--border); font-size: 15px;
-          font-family: inherit; outline: none;
-          transition: border-color 0.2s;
-        }
-        .newsletter-form input:focus { border-color: var(--blue-primary); }
-        .newsletter-form input::placeholder { color: var(--text-tertiary); }
-        .newsletter-form button {
-          padding: 16px 28px; border-radius: 14px;
-          background: var(--blue-primary); color: white;
-          font-size: 15px; font-weight: 700;
-          transition: all 0.2s; white-space: nowrap;
-        }
-        .newsletter-form button:hover { background: var(--blue-dark); }
-        .newsletter-note {
-          font-size: 13px; color: var(--text-tertiary);
-          margin-top: 8px;
-        }
-        .newsletter-benefits {
-          display: flex; gap: 24px; justify-content: center;
-          margin-top: 32px; flex-wrap: wrap;
-        }
-        .newsletter-benefit {
-          display: flex; align-items: center; gap: 8px;
-          font-size: 14px; color: var(--text-secondary); font-weight: 500;
-        }
-        .newsletter-benefit .check {
-          width: 24px; height: 24px; border-radius: 50%;
-          background: var(--blue-light); color: var(--blue-primary);
-          display: flex; align-items: center; justify-content: center;
-          font-size: 13px; font-weight: 700;
-        }
-        .newsletter-success {
-          display: none; padding: 20px; border-radius: 16px;
-          background: #E8FFF0; color: #1A8D48;
-          font-size: 15px; font-weight: 600;
-          max-width: 480px; margin: 0 auto;
-        }
-        .newsletter-success.show { display: block; }
-
-        /* === KAKAOTALK FLOATING BUTTON === */
-        .kakao-float {
-          position: fixed; bottom: 28px; right: 28px; z-index: 150;
-          display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
-        }
-        .kakao-tooltip {
-          background: var(--text-primary); color: white;
-          padding: 10px 16px; border-radius: 12px;
-          font-size: 13px; font-weight: 600;
-          white-space: nowrap;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-          opacity: 0; transform: translateY(8px);
-          transition: all 0.3s ease;
-          pointer-events: none;
-        }
-        .kakao-tooltip::after {
-          content: ''; position: absolute; bottom: -6px; right: 24px;
-          width: 12px; height: 12px; background: var(--text-primary);
-          transform: rotate(45deg);
-        }
-        .kakao-float:hover .kakao-tooltip {
-          opacity: 1; transform: translateY(0);
-        }
-        .kakao-btn {
-          width: 60px; height: 60px; border-radius: 50%;
-          background: var(--kakao-yellow);
-          display: flex; align-items: center; justify-content: center;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-          transition: all 0.3s ease;
-          border: none; cursor: pointer;
-        }
-        .kakao-btn:hover {
-          transform: scale(1.08);
-          box-shadow: 0 6px 28px rgba(0,0,0,0.2);
-        }
-        .kakao-btn svg { width: 32px; height: 32px; }
-
-        /* === ANIMATIONS === */
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate { animation: fadeInUp 0.6s ease forwards; opacity: 0; }
-        .animate.delay-1 { animation-delay: 0.1s; }
-        .animate.delay-2 { animation-delay: 0.2s; }
-        .animate.delay-3 { animation-delay: 0.3s; }
-        .animate.delay-4 { animation-delay: 0.4s; }
-
-        /* === TABLET === */
-        @media (max-width: 1024px) {
-          .speakcoach-grid { grid-template-columns: 1fr; gap: 40px; }
-          .pricing-grid { grid-template-columns: 1fr 1fr; }
-        }
-
-        /* === MOBILE === */
-        @media (max-width: 768px) {
-          :root { --section-padding: 64px 0; }
-          .container { padding: 0 16px; }
-          .hero { padding: 100px 0 64px; }
-          .hero h1 { font-size: 28px; line-height: 1.4; }
-          .hero p { font-size: 15px; margin-bottom: 28px; }
-          .hero-buttons { flex-direction: column; align-items: center; }
-          .hero-buttons .btn-primary, .hero-buttons .btn-secondary {
-            width: 100%; max-width: 320px; text-align: center; ; justify-content: center;
-          padding: 14px 24px; font-size: 16px;r;
-        }
-          .hero-stats { flex-direction: row; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 40px; padding-top: 32px; }
-          .hero-stat .number { font-size: 24px; }
-          .hero-stat .label { font-size: 12px; }
-          .nav-links { display: none; }
-          .hamburger { display: flex; }
-          .nav-inner { height: 56px; }
-          .nav-logo .logo-mark { width: 28px; height: 28px; font-size: 15px; }
-          .nav-logo .logo-text .logo-main { font-size: 15px; }
-          .nav-logo .logo-text .logo-sub { font-size: 9px; }
-          .speakcoach-grid { grid-template-columns: 1fr; gap: 32px; }
-          .speakcoach-content h2 { font-size: 28px; }
-          .speakcoach-mockup { padding: 20px; }
-          .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-          .pricing-card.featured { transform: none; }
-          .footer-grid { grid-template-columns: 1fr; gap: 32px; }
-          .products-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-          .section { padding: 64px 0; }
-          .section-header { margin-bottom: 40px; }
-          .section-header h2 { font-size: 24px; }
-          .section-header p { font-size: 14px; }
-          .review-card { min-width: 280px; max-width: 300px; padding: 20px; }
-          .newsletter-inner { padding: 40px 20px !important; }
-          .newsletter-inner h2 { font-size: 24px !important; }
-          .newsletter-form { flex-direction: column; }
-          .newsletter-form input, .newsletter-form button { width: 100%; border-radius: 12px !important; }
-          .newsletter-benefits { flex-direction: column; gap: 12px; align-items: center; }
-          .cta-banner { padding: 48px 0 !important; }
-          .cta-banner h2 { font-size: 24px !important; }
-          .kakao-float { bottom: 16px; right: 16px; }
-          .kakao-btn { width: 48px; height: 48px; }
-          .kakao-btn svg { width: 26px; height: 26px; }
-          .faq-question { font-size: 15px !important; padding: 18px 16px !important; }
-          .mobile-menu { top: 56px; }
-          .product-card-image { height: 160px; }
-          .product-icon-wrap { width: 56px; height: 56px; font-size: 28px; }
-        }
-
-        /* === SMALL MOBILE === */
-        @media (max-width: 400px) {
-          .hero h1 { font-size: 24px; }
-          .hero-stats { gap: 12px; }
-          .hero-stat .number { font-size: 20px; }
-          .review-card { min-width: 260px; max-width: 280px; }
-          .section-header h2 { font-size: 22px; }
-        }
-      `}</style>
-
       {/* NAV */}
-      <nav className="nav" id="nav">
+      <nav className="nav" id="nav" style={{ boxShadow: navShadow ? '0 1px 12px rgba(0,0,0,0.08)' : 'none' }}>
         <div className="nav-inner">
           <a href="#" className="nav-logo">
-            <span className="logo-mark">{'\ud83c\udf5e'}</span>
-            <span className="logo-text">
-              <span className="logo-main">{'\uc2dd\ube75\uc601\uc5b4'}</span>
-              <span className="logo-sub">OPIC MASTER</span>
-            </span>
+            <span className="bread-icon">🍞</span> 식빵영어
           </a>
           <div className="nav-links">
-            <a href="#free-resource">{'\ubb34\ub8cc \uc790\ub8cc'}</a>
-            <a href="#store">{'\uc2a4\ud1a0\uc5b4'}</a>
+            <a href="#free-resource">무료 자료</a>
+            <a href="#store">스토어</a>
             <a href="#speakcoach">SpeakCoach AI</a>
-            <a href="#reviews">{'\ud6c4\uae30'}</a>
+            <a href="#reviews">후기</a>
             <a href="#faq">FAQ</a>
-            <a href="https://sikbang-eng.replit.app/" target="_blank" className="nav-cta">{'\ubb34\ub8cc \uccb4\ud5d8\ud558\uae30'}</a>
+            <a href="https://sikbang-eng.replit.app/" target="_blank" className="nav-cta">무료 체험하기</a>
           </div>
-          <button className={`hamburger ${mobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}>
+          <button className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}>
             <span></span><span></span><span></span>
           </button>
         </div>
       </nav>
 
       {/* MOBILE MENU */}
-      <div className={`mobile-menu ${mobileMenuOpen ? 'show' : ''}`}>
-        <a href="#free-resource" onClick={closeMobileMenu}>{'\ubb34\ub8cc \uc790\ub8cc'}</a>
-        <a href="#store" onClick={closeMobileMenu}>{'\uc2a4\ud1a0\uc5b4'}</a>
+      <div className={`mobile-menu ${isMobileMenuOpen ? 'show' : ''}`}>
+        <a href="#free-resource" onClick={closeMobileMenu}>무료 자료</a>
+        <a href="#store" onClick={closeMobileMenu}>스토어</a>
         <a href="#speakcoach" onClick={closeMobileMenu}>SpeakCoach AI</a>
-        <a href="#reviews" onClick={closeMobileMenu}>{'\ud6c4\uae30'}</a>
+        <a href="#reviews" onClick={closeMobileMenu}>후기</a>
         <a href="#faq" onClick={closeMobileMenu}>FAQ</a>
-        <Link href="/study" onClick={closeMobileMenu}>2{'\uc8fc \uc2a4\ud130\ub514'}</Link>
-        <a href="http://pf.kakao.com/_SJYQn" target="_blank" onClick={closeMobileMenu}>{'\uce74\uce74\uc624\ud1a1 \ubb38\uc758'}</a>
-        <a href="https://sikbang-eng.replit.app/" target="_blank" className="mobile-cta" onClick={closeMobileMenu}>{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a4\ud2b8'} &rarr;</a>
+        <a href="/study" onClick={closeMobileMenu}>2주 스터디</a>
+        <a href="http://pf.kakao.com/_SJYQn" target="_blank" onClick={closeMobileMenu}>카카오톡 문의</a>
+        <a href="https://sikbang-eng.replit.app/" target="_blank" className="mobile-cta" onClick={closeMobileMenu}>무료 스피킹 테스트 →</a>
       </div>
 
       {/* HERO */}
       <section className="hero">
         <div className="container">
-          <div className="hero-badge animate">2{'\uc8fc \uc644\uc131'} OPIC {'\ud504\ub85c\uadf8\ub7a8'}</div>
+          <div className="hero-badge animate">2주 완성 OPIC 프로그램</div>
           <h1 className="animate delay-1">
-            OPIC {'\uc810\uc218\ub97c \uc62c\ub9ac\ub294'}<br />
-            <span className="highlight">{'\uac00\uc7a5 \uad6c\uc870\uc801\uc778 \ubc29\ubc95'}</span>
+            OPIC 점수를 올리는<br />
+            <span className="highlight">가장 구조적인 방법</span>
           </h1>
           <p className="animate delay-2">
-            {'\uc0ac\ub78c\uc758 \ucf54\uce6d\uacfc'} AI {'\ud53c\ub4dc\ubc31\uc758 \uacb0\ud569'}.<br />
-            {'\uc2dd\ube75\uc601\uc5b4\uc758'} 2{'\uc8fc \uc2a4\ud130\ub514\ub85c \ubaa9\ud45c \uc810\uc218\uc5d0 \ub3c4\ub2ec\ud558\uc138\uc694'}.
+            사람의 코칭과 AI 피드백의 결합.<br />
+            식빵영어의 2주 스터디로 목표 점수에 도달하세요.
           </p>
           <div className="hero-buttons animate delay-3">
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-primary">
-              {'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a4\ud2b8'} &rarr;
+              무료 스피킹 테스트 →
             </a>
             <a href="#free-resource" className="btn-secondary">
-              {'\ubb34\ub8cc \uc790\ub8cc \ubc1b\uae30'}
+              무료 자료 받기
             </a>
           </div>
           <div className="hero-stats animate delay-4">
             <div className="hero-stat">
               <div className="number">4,000+</div>
-              <div className="label">{'\ub204\uc801 \uc218\uac15\uc0dd'}</div>
+              <div className="label">누적 수강생</div>
             </div>
             <div className="hero-stat">
               <div className="number">1,000+</div>
-              <div className="label">{'\uc218\uac15\uc0dd \ud6c4\uae30'}</div>
+              <div className="label">수강생 후기</div>
             </div>
             <div className="hero-stat">
-              <div className="number">2{'\uc8fc'}</div>
-              <div className="label">{'\uc9d1\uc911 \uc644\uc131 \ud504\ub85c\uadf8\ub7a8'}</div>
+              <div className="number">2주</div>
+              <div className="label">집중 완성 프로그램</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FREE RESOURC6 + NEWSLETTER */}
+      {/* FREE RESOURCE + NEWSLETTER */}
       <section className="newsletter-section" id="free-resource">
         <div className="container">
           <div className="newsletter-inner">
-            <div className="newsletter-icon" style={{ fontSize: '28px' }}>{'\u2709'}</div>
-            <h2>OPIC {'\ubb34\ub8cc \uc790\ub8cc'}<br /><span className="highlight">{'\uc9c0\uae08 \ubc14\ub85c \ubc1b\uc544\ubcf4\uc138\uc694'}</span></h2>
-            <p>{'\uc774\uba54\uc77c\uc744 \uad6c\ub3c5\ud558\uba74'} OPIC {'\uc900\ube44\uc5d0 \uaf2d \ud544\uc694\ud55c \ubb34\ub8cc \ud559\uc2b5 \uc790\ub8cc\ub97c \ubcf4\ub0b4\ub4dc\ub9bd\ub2c8\ub2e4'}.<br />{'\ub9e4\uc8fc'} OPIC {'\uaf40\ud301\uacfc \ud45c\ud604 \uc815\ub9ac\ub3c4 \ud568\uaed8 \ubc1b\uc544\ubcf4\uc138\uc694'}.</p>
+            <div className="newsletter-icon">✉️</div>
+            <h2>OPIC 무료 자료<br /><span className="highlight">질금 바로 받아보세요</span></h2>
+            <p>이메일을 구독하면 OPIC 준비에 꼭 필요한 무료 학습 자료를 보내드립니다.<br />매주 OPIC 꿀팁과 표현 정리도 함께 받아보세요.</p>
 
-            {!subscribed ? (
-              <div>
-                <form className="newsletter-form" onSubmit={handleSubscribe}>
-                  <input
-                    type="email"
-                    placeholder={'\uc774\uba54\uc77c \uc8fc\uc18c\ub97c \uc785\ub825\ud558\uc138\uc694'}
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <button type="submit" disabled={subscribing}>{subscribing ? '\uc800\uc7a5 \uc911...' : '\ubb34\ub8cc \uc790\ub8cc \ubc1b\uae30'}</button>
+            {!newsletterSuccess ? (
+              <>
+                <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
+                  <input type="email" id="emailInput" placeholder="이메일 주소를 입력하세요" required />
+                  <button type="submit">무료 자료 받기</button>
                 </form>
-                <div className="newsletter-note">{'\uc2a4\ud338 \uc5c6\uc774, \uc5b8\uc81c\ub4e0 \uad6c\ub3c5 \ud574\uc9c0 \uac00\ub2a5\ud569\ub2c8\ub2e4'}.</div>
-              </div>
+                <div className="newsletter-note">스팸 없이, 언제든 구독 해지 가능합니다.</div>
+              </>
             ) : (
               <div className="newsletter-success show">
-                <div style={{ marginBottom: '16px' }}>{'\u2705 \uad6c\ub3c5 \uc644\ub8cc!'}</div>
-                <a
-                  href="https://sikbang-eng.notion.site"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-block',
-                    padding: '14px 32px',
-                    background: '#3366FF',
-                    color: '#fff',
-                    borderRadius: '12px',
-                    fontWeight: 600,
-                    fontSize: '15px',
-                    textDecoration: 'none',
-                    transition: 'background 0.2s'
-                  }}
-                >{'\ud83d\udcda \ubb34\ub8cc \uc790\ub8cc \ubc1b\uc73c\ub7ec \uac00\uae30 \u2192'}</a>
+                구독 완료! 이메일로 무료 자료링크를 보내드림습니다.
               </div>
             )}
 
             <div className="newsletter-benefits">
               <div className="newsletter-benefit">
-                <div className="check">{'\u2713'}</div>
-                OPIC {'\ud544\uc218 \ud45c\ud604 \uc815\ub9ac'}
+                <div className="check">✓</div>
+                OPIC 필수 한현 정리</div>
+              <div className="newsletter-benefit">
+                <div className="check">✓</div>
+                프레임워크 답볡 템플릿
               </div>
               <div className="newsletter-benefit">
-                <div className="check">{'\u2713'}</div>
-                {'\ud504\ub808\uc784\uc6cc\ud06c \ub2f5\ubcc0 \ud15c\ud50c\ub9bf'}
-              </div>
-              <div className="newsletter-benefit">
-                <div className="check">{'\u2713'}</div>
-                {'\ub9e4\uc8fc \uc2a4\ud53c\ud0b9 \uaf40\ud301 \ubc1c\uc1a1'}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+                <div className="che�ȏ��$��]���:��;(�;"�;e/;`�H:��;c H:�';!�B��]����]����]����]�����X�[ۏ����ʈ�ԑH
+��B��X�[ۈ�\�Ә[YOH��X�[ۈ�X�[ۋYܘ^H�YH��ܙH���]��\�Ә[YOH��۝Z[�\����]��\�Ә[YOH��X�[ۋZXY\����]��\�Ә[YOH�ݙ\�[�H���ܙO�]������P�;) :�a;'f:�:��:�����ϻ%�:�,;!';"�;'�{ef;!.;&������(!;'�;,az��;a,;'n:�%K�(�;"�;a,:�%:�c;)��:�;%�:��:���;ef{"�H:�*z�{'a;!(;`�{ef;!.;&������]���]��\�Ә[YOH���X��YܚY�����ʈ;(!;'�;,aH
+��B�]��\�Ә[YOH���X�X�\����]��\�Ә[YOH���X�X�\�Z[XY�HX����X�ȏ���[��\�Ә[YOH���X�X�Y�H����T���[����[��[O^���۝�^�N�	�M�	��۝�ZY��	��	���܎�	ݘ\�KX�YK\�[X\�JI�]\��X�[�Έ	�L��[I�_O�KP����
+�:�,;-���[����]���]��\�Ә[YOH���X�X�\�X��H���]��\�Ә[YOH��]Y�ܞH��(!;'�;,aO�]���ϓ�P�;(!;'�;,aH
+�:�,;-�:�:���ς�]��\�Ә[YOH�\�ȏ�"�;(!:�,;-�:�.;(';&`;e!:�";'�;&�;`k:��z��;ag;e#:��'a;eg:�;%��:� ;'�H:��'`;"&:�%{ �{'m;!(;`�{eg:�;"�;b�;!d:����]���]��\�Ә[YOH���X�\�X�K\��ȏ��]��\�Ә[YOH���X�\�X�H����[��\�Ә[YOH��\��[����KL��[����[��\�Ә[YOH�[�]��&���[����]���H�Y�H�΋�؛�˛�]�\����K�[L
+Ǩ���L��N�\��]H�؛[�Ȉ�\�Ә[YOH���X�^H���k:��;ef:�,�O���]����]����]�����ʈ;'n:�%H
+��B�]��\�Ә[YOH���X�X�\����]��\�Ә[YOH���X�X�\�Z[XY�H��\��KX�ȏ���[��\�Ә[YOH���X�X�Y�H�]ȏ��U���[����[��[O^���۝�^�N�	�M�	��۝�ZY��	��	���܎�	����Pѐ��]\��X�[�Έ	�L��[I�_O��QS���T��O��[����]���]��\�Ә[YOH���X�X�\�X��H���]��\�Ә[YOH��]Y�ܞH��'n:�%O�]���ϓ�P�;&a;(!;(%z��H;'n:�%H;c*;`�;)��ς�]��\�Ә[YOH�\�ȏ�'(;f%z��:��z��;(!:�z��;a,;"�;(!:�i;e#:�";'m:�c;)��;e!:�";'�;&�;`k>��(:�&;,�:��;( H;& { �H:�%{'f��]���]��\�Ә[YOH���X�\�X�K\��ȏ��]��\�Ә[YOH���X�\�X�H����[��\�Ә[YOH�ܚY�[�[����K;&���[����[��\�Ә[YOH��\��[���M�K��[����[��\�Ә[YOH�[�]��&���[����]���H�Y�H�΋���Zؘ[��Y[�˛]�Z�\�˘��KȈ\��]H�؛[�Ȉ�\�Ә[YOH���X�^H��"&:�%{ef:�,�O���]����]����]�����ʈ;"�;a,:�%
+��B�]��\�Ә[YOH���X�X�\����]��\�Ә[YOH���X�X�\�Z[XY�H�YKX�ȏ���[��\�Ә[YOH���X�X�Y�H��%�:�:�:����[����[��[O^���۝�^�N�	�M�	��۝�ZY��	��	���܎�	��PN
+	�]\��X�[�Έ	�L��[I�_O��U�QR��QO��[����]���]��\�Ә[YOH���X�X�\�X��H���]��\�Ә[YOH��]Y�ܞH���(�;"�;a,:�%�]���ό�(�;)�{)$H�P�;"�;a,:�%�ς�]��\�Ә[YOH�\�ȏ��'n;!�:��:��H;/e;.kH
+��XZ���X�RH��;(':��K��(�;%b;%�;($;"&:�o;&+:�:�:� ;'�H;fe{"�;eg:�*z�K��]���]��\�Ә[YOH���X�\�X�K\��ȏ��]��\�Ә[YOH���X�\�X�H����[��\�Ә[YOH�ܚY�[�[��M�KL;&���[����[��\�Ә[YOH��\��[���MK��[����[��\�Ә[YOH�[�]��&���[����]���H�Y�H���YH��\�Ә[YOH���X�^H��'�;!.;g�:��:�,�O���]����]����]�����]����]�����X�[ۏ����ʈ�PR���P�RH
+��B��X�[ۈ�\�Ә[YOH��X�[ۈ�XZ���X�\�X�[ۈ�YH��XZ���X����]��\�Ә[YOH��۝Z[�\����]��\�Ә[YOH��XZ���X�YܚY���]��\�Ә[YOH��XZ���X�X�۝[����]��\�Ә[YOH�Yȏ�RKT��\�Y�]������:�;'f;"�;e/;`�{'a��ς��[��\�Ә[YOH�Y�Y���Rz� :��;!'O��[��ejz��:���������XZ���X�Rz�:�n{'c;eg:�;'/:�g:��{"�;'f�P�;&"; �H:��z�"z��;%o{($;'a:��;!'{ejz��:���:��;"';($;"&:� ;%a:��:�k;,�;( {'n:�d;(%H:�*{e�z�c;)�����]��\�Ә[YOH��XZ���X�Y�X]\�\ȏ��]��\�Ә[YOH��X]\�KZ][H���]��\�Ә[YOH��X]\�KZX�ۈ��[O^���۝�^�N�	�M�	�_O���]���]��\�Ә[YOH��X]\�K]^���
+���z��:�n{'c	��:��;ff�
+����[�RH�\�\�:�,:�&;(%z� ;'c;!,H;'n;"�O����]����]���]��\�Ә[YOH��X]\�KZ][H���]��\�Ә[YOH��X]\�KZX�ۈ��[O^���۝�^�N�	�M�	�_O�RO�]���]��\�Ә[YOH��X]\�K]^���
+���';.m;ac:��:�RH:��;!'O�
+����.:�K;%�;g&;'(;,/{!,H:��H; �{!.;"�;`�:��;e/:��:�,O����]����]���]��\�Ә[YOH��X]\�KZ][H���]��\�Ә[YOH��X]\�KZX�ۈ��[O^���۝�^�N�	�M	�_O��V�]���]��\�Ә[YOH��X]\�K]^���
+�%o{($:�d;(%H:��:��
+���� ;'�H;%o{eg;& {%�{'a;)�{)$H;f�:�*;ef:�
+���:�d;(%H;!.;!f����]����]���]��\�Ә[YOH��X]\�KZ][H���]��\�Ә[YOH��X]\�KZX�ۈ��[O^���۝�^�N�	�M	�_O�T��]���]��\�Ә[YOH��X]\�K]^���
+�"�;(!:�;'f:��; ��
+����z���M:�.;ekH;"�;('�P�;f%{"�H:�;'f;ac;"�;b�����]����]����]���H�Y�H�΋���Zؘ[��Y[�˜�\]�\Ȉ\��]H�؛[�Ȉ�\�Ә[YOH���\�[X\�H���-:��:�g:�:��z�"H;fe{'n;ef:�,8����O���]�����ʈS���T
+��B�]��\�Ә[YOH��XZ���X�[[���\���]��\�Ә[YOH�[���\ZXY\����]��\�Ә[YOH�[���\Y��Y���]���]��\�Ә[YOH�[���\Y�Y[�ȏ��]���]��\�Ә[YOH�[���\Y�ܙY[����]����]���]��\�Ә[YOH�[���\\�ܙY[����]��[O^���۝�^�N�	�L�	���܎�	���MPLI�X\��[����N�	�	�_O��XZ���X�RH:��;!'H:��:���]���]��\�Ә[YOH�[���\YܘYK\��ȏ��]���]��\�Ә[YOH�[���\YܘYH��R�]���]��\�Ә[YOH�[���\YܘYK[X�[��&"; �H:��z�"O�]����]���]��\�Ә[YOH�[���\X[\�؈���]��\�Ә[YOH��؋[�[H��
+�O�]���]��\�Ә[YOH��؋[X�[��S;fez�h�]����]����]���]��\�Ә[YOH�[���\X�\�ȏ��]��\�Ә[YOH�[���\X�\�Z][H���]��\�Ә[YOH�[���\X�\�[X�[��'(;,/{!,O�]���]��\�Ә[YOH�[���\X�\�]�X�ȏ�]��\�Ә[YOH�[���\X�\�Y�[��[O^���Y�	��	I�_O��]���]����]���]��\�Ә[YOH�[���\X�\�Z][H���]��\�Ә[YOH�[���\X�\�[X�[���.:�O�]���]��\�Ә[YOH�[���\X�\�]�X�ȏ�]��\�Ә[YOH�[���\X�\�Y�[ZY��[O^���Y�	͌�I�_O��]���]����]���]��\�Ә[YOH�[���\X�\�Z][H���]��\�Ә[YOH�[���\X�\�[X�[��%�;g&�]���]��\�Ә[YOH�[���\X�\�]�X�ȏ�]��\�Ә[YOH�[���\X�\�Y�[��[O^���Y�	�
+II�_O��]���]����]���]��\�Ә[YOH�[���\X�\�Z][H���]��\�Ә[YOH�[���\X�\�[X�[���';'c�]���]��\�Ә[YOH�[���\X�\�]�X�ȏ�]��\�Ә[YOH�[���\X�\�Y�[��[O^���Y�	���I�_O��]���]����]���]��\�Ә[YOH�[���\X�\�Z][H���]��\�Ә[YOH�[���\X�\�[X�[���k;!,z�)O�]���]��\�Ә[YOH�[���\X�\�]�X�ȏ�]��\�Ә[YOH�[���\X�\�Y�[�XZȈ�[O^���Y�	�
+II�_O��]���]����]����]���]��[O^��X\��[���	�M�	�Y[�Έ	�L�	��X��ܛ�[��	�ё��Q�I��ܙ\��Y]\Έ	�L	��۝�^�N�	�L�	���܎�	�ь
 
-      {/* STOR6 */}
-      <section className="section section-gray" id="store">
-        <div className="container">
-          <div className="section-header">
-            <div className="overline">Store</div>
-            <h2>OPIC {'\uc900\ube44\uc758 \ubaa8\ub4e0 \uac83'},<br />{'\uc5ec\uae30\uc11c \uc2dc\uc791\ud558\uc138\uc694'}</h2>
-            <p>{'\uc804\uc790\ucc45\ubd80\ud130 \uc778\uac15'}, 2{'\uc8fc \uc2a4\ud130\ub514\uae4c\uc9c0'}. {'\ub098\uc5d0\uac8c \ub9de\ub294 \ud559\uc2b5 \ubc29\ubc95\uc744 \uc120\ud0dd\ud558\uc138\uc694'}.</p>
-          </div>
-          <div className="products-grid">
 
-            {/* E-Book */}
-            <div className="product-card">
-              <div className="product-card-image ebook-bg">
-                <span className="product-badge hot">BEST</span>
-                <div className="product-icon-wrap ebook-icon">{'\ud83d\udcda'}</div>
-                <span className="product-card-label" style={{ color: 'var(--blue-primary)' }}>E-BOOK + {'\uae30\ucd9c \ubc88\ub4e4'}</span>
-              </div>
-              <div className="product-card-body">
-                <div className="category">{'\uc804\uc790\ucc45'}</div>
-                <h3>OPIC {'\uc804\uc790\ucc45'} + {'\uae30\ucd9c \ubc88\ub4e4'}</h3>
-                <div className="desc">{'\ud63c\uc790\uc11c\ub3c4 IL\u2192IM2 \uac00\ub2a5\ud55c \ud504\ub808\uc784\uc6cc\ud06c \ub2f5\ubcc0 \ud15c\ud50c\ub9bf'}. {'\ub9e4\uc77c 15\ubd84\ub9cc \ud22c\uc790\ud558\uba74 2\uc8fc \uc548\uc5d0 \uacb0\uacfc\uac00 \ubcf4\uc785\ub2c8\ub2e4'}.</div>
-                <div className="product-bonus" style={{ fontSize: '12px', color: '#1A8D48', fontWeight: 600, marginBottom: '12px', background: '#E8FFF0', padding: '8px 12px', borderRadius: '8px' }}>
-                  {'\ud83c\udf81'} {'\uad6c\ub9e4 \uc2dc \uae30\ucd9c\ubb38\uc81c \ubc88\ub4e4 + \ud544\uc218 \ud45c\ud604 \uc815\ub9ac PDF \ubb34\ub8cc \uc81c\uacf5'}
-                </div>
-                <div className="product-price-row">
-                  <div className="product-price">
-                    <span className="current">39,900</span>
-                    <span className="unit">{'\uc6d0'}</span>
-                  </div>
-                  <a href="https://blog.naver.com/lulu05/223353024018" target="_blank" className="btn-buy">{'\uad6c\ub9e4\ud558\uae30'}</a>
-                </div>
-              </div>
-            </div>
+L��_O����ۙϺ�k;!,z�)O���ۙϻ'm:� ;'�H;%o{eg;& {%�{'�z��:���:�d;(%H:��:�;'a;"�;'�{em:��;!.;&����]����]����]����]����]�����X�[ۏ����ʈ�P�S��
+��B��X�[ۈ�\�Ә[YOH��X�[ۈ�X�[ۋYܘ^H�YH��X�[�ȏ��]��\�Ә[YOH��۝Z[�\����]��\�Ә[YOH��X�[ۋZXY\����]��\�Ә[YOH�ݙ\�[�H���X�[���]������XZ���X�RH;&�:�";('�����.�;e/;eg;'�:�$�'/:�gRH;"�;e/;`�H;/e;.f:�o:��:�:��;!.;&������]���]��\�Ә[YOH��X�[��YܚY�����ʈ��QH
+��B�]��\�Ә[YOH��X�[��X�\����]��\�Ә[YOH�[�[�[YH���-:��;'m;&�{'��]���]��\�Ә[YOH�[�\�X�H���[��\�Ә[YOH��ۈ��&���[���]���]��\�Ә[YOH�[�\�X���� ;'�H;f�
+�'o:�!:�-:���]���[�\�Ә[YOH�[�Y�X]\�\ȏ��O��'o:�!:�-:��;,�;e��O��O�{'o{f�;%�;"�O�O��O�RH;e/:��:�,H	�[\�;($;"&�O���[��H�Y�H�΋���Zؘ[��Y[�˜�\]�\Ȉ\��]H�؛[�Ȉ�\�Ә[YOH���\[��][�H��[O^��\�^N�	؛����_O��-:��:�g;"�;'�{ef:�,�O���]�����ʈ��
+��B�]��\�Ә[YOH��X�[��X�\��X]\�Y���]��\�Ә[YOH��X��[Y[�X�Y�H��-�;,��]���]��\�Ә[YOH�[�[�[YH��e!:�g;c*;`�;)��]���]��\�Ә[YOH�[�[ܚY�[�[���KL;&��]���]��\�Ә[YOH�[�\�X�H���L�[��\�Ә[YOH��ۈ��&���[���]���]��\�Ә[YOH�[�\�X���&�:��;.�;e/
+�{'�:�$�0����';&�:�k:��H;"�
+��
+L;&��]���[�\�Ә[YOH�[�Y�X]\�\ȏ��O��-;(';eg;%�;"�O�O��O�L:�';'m; �H�P�:�.;('�O��O�'(;f%z��:��.i;ea;a,:��O�O��O� �{!.RH;e/:��:�,O�O���[��H�Y�H�΋���Zؘ[��Y[�˜�\]�\Ȉ\��]H�؛[�Ȉ�\�Ә[YOH���\[��[X\�H��[O^��\�^N�	؛����_O��-:��:�g;"�;'�{ef:�,�O���]�����ʈ�SRUSH
+��B�]��\�Ә[YOH��X�[��X�\����]��\�Ә[YOH�[�[�[YH��e!:�:��;%�;c*;`�;)��]���]��\�Ә[YOH�[�[ܚY�[�[��KL;&��]���]��\�Ә[YOH�[�\�X�H���L�[��\�Ә[YOH��ۈ��&���[���]���]��\�Ә[YOH�[�\�X���ef:��;%oHKM��&�;'/:�gS:��;!,H0����';&�K;&��]���[�\�Ә[YOH�[�Y�X]\�\ȏ��O�e!:�g:�:��:�,:�H;c�;ej�O��O�"�;(!:�;'f:��; �L;!.;b��O��O��]]�H�Y��[���O��O���:�"H;b�:�;`�H	�[\�;'n; �;'m;b��O���[��H�Y�H�΋���Zؘ[��Y[�˜�\]�\Ȉ\��]H�؛[�Ȉ�\�Ә[YOH���\[��][�H��[O^��\�^N�	؛����_O�e!:�:��;%�;'/:�g;"�;'�{ef:�,�O���]�����]����]�����X�[ۏ����ʈ�U�QU��
+��B��X�[ۈ�\�Ә[YOH��X�[ۈ�YH��]�Y]�ȏ��]��\�Ә[YOH��۝Z[�\����]��\�Ә[YOH��X�[ۋZXY\����]��\�Ә[YOH�ݙ\�[�H���]�Y]���]�����"�;(';"&:�%{ �z��;'f;'m;%o:�,�����K:�';'m; �{'f;"�;(';f�:�,:� ;)�z�{ejz��:�������]���]��\�Ә[YOH��]�Y]��]ܘ\\����]��\�Ә[YOH��]�Y]��\�ܛ���Y�^ܙ]�Y]��ܛ��Y�O���]��\�Ә[YOH��]�Y]�X�\����]��\�Ә[YOH��]�Y]�]����]��\�Ә[YOH��]�Y]�X]�]\�����]���]��\�Ә[YOH��]�Y]�[Y]H���]��\�Ә[YOH��[YH��(%J�f!�]���]��\�Ә[YOH�[��ȏ�� ;ef{ �H0���(�;"�;a,:�%�]����]����]���]��\�Ә[YOH��]�Y]�\�\�ȏ��!x�!x�!x�!x�!O�]���]��\�Ә[YOH��]�Y]�]^���(�:��;%�SL�%�;!'R:�g;&+:�;"�z��:���;e!:�";'�;&�;`k:��z��;'m;)�;)�;f�:��;( {'m;%�;&��;f/;'�;e�;'/:�m;( :� :��;&+:�.;'a;($;"&;'�z��:����]���]��\�Ә[YOH��]�Y]�\�\�[����[��\�Ә[YOH�ܘYKX�Y�H��SL�8���R��[����[��\�Ә[YOH�ܘYK]^���(�:��;%�:��z�"H; �{"�O��[����]����]����]��\�Ә[YOH��]�Y]�X�\����]��\�Ә[YOH��]�Y]�]����]��\�Ә[YOH��]�Y]�X]�]\�����]���]��\�Ә[YOH��]�Y]�[Y]H���]��\�Ә[YOH��[YH��!'
+�& O�]���]��\�Ә[YOH�[��ȏ�-�;) ; �H0��;"�;a,:�%
+�RO�]����]����]���]��\�Ә[YOH��]�Y]�\�\�ȏ��!x�!x�!x�!x�!O�]���]��\�Ә[YOH��]�Y]�]^���XZ���X�Rz�g:��;'o;%�;"�{ef:��;"�;a,:�%;%�;!';e/:��:�,H:�&�'/:��:�c:�;%o{($;'m;(%{fe{g�:��;& ;%�;&��:��:�kHS:�&�%f;"�z��:��O�]���]��\�Ә[YOH��]�Y]�\�\�[����[��\�Ә[YOH�ܘYKX�Y�H��R8���S��[����[��\�Ә[YOH�ܘYK]^��-g:��:��z�"H:��;!,O��[����]����]����]��\�Ә[YOH��]�Y]�X�\����]��\�Ә[YOH��]�Y]�]����]��\�Ә[YOH��]�Y]�X]�]\�����]���]��\�Ә[YOH��]�Y]�[Y]H���]��\�Ә[YOH��[YH���`
+�"&�]���]��\�Ә[YOH�[��ȏ�)�{'�{'n0��;(!;'�;,aH
+�RO�]����]����]���]��\�Ә[YOH��]�Y]�\�\�ȏ��!x�!x�!x�!O�[��\�Ә[YOH�[\H���!O��[���]���]��\�Ә[YOH��]�Y]�]^��a�:��;f�;"�:�!;'m;%�%�;!';(!;'�;,a{'/:�g;b�;'�z��Rz�g:��;'oMz��;'*H;%�;"�{e�;%�;&��;eg:��:��;%�SL�:�&�%f;"�z��:����]���]��\�Ә[YOH��]�Y]�\�\�[����[��\�Ә[YOH�ܘYKX�Y�H��S8���SL���[����[��\�Ә[YOH�ܘYK]^�����:��; �{"�O��[����]����]����]��\�Ә[YOH��]�Y]�X�\����]��\�Ә[YOH��]�Y]�]����]��\�Ә[YOH��]�Y]�X]�]\����]���]��\�Ә[YOH��]�Y]�[Y]H���]��\�Ә[YOH��[YH��'m
+�)��]���]��\�Ә[YOH�[��ȏ�� ;ea{ �H0���(�;"�;a,:�%�]����]����]���]��\�Ә[YOH��]�Y]�\�\�ȏ��!x�!x�!x�!x�!O�]���]��\�Ә[YOH��]�Y]�]^����{'m;!';c ;'/:�g;ef:��:�c:�-;'�z�$:��;'�:��;!':�g;e/:��:�,H;(�:�:��;)�;)�:��;&�:�$;%�;&��;-�;&!H:�m;($H;(!;%�;'�;"�:�$:��; �z��;"�z��:����]���]��\�Ә[YOH��]�Y]�\�\�[����[��\�Ә[YOH�ܘYKX�Y�H��SLH8���R��[����[��\�Ә[YOH�ܘYK]^���{dg:��z�"H:��;!,O��[����]����]����]��\�Ә[YOH��]�Y]�X�\����]��\�Ә[YOH��]�Y]�]����]��\�Ә[YOH��]�Y]�X]�]\����]���]��\�Ә[YOH��]�Y]�[Y]H���]��\�Ә[YOH��[YH���%J�gk�]���]��\�Ә[YOH�[��ȏ�'m;)�H;) :�a0��;'n:�%H
+�;"�;a,:�%�]����]����]���]��\�Ә[YOH��]�Y]�\�\�ȏ��!x�!x�!x�!x�!O�]���]��\�Ә[YOH��]�Y]�]^��'n:�%{'/:�g:�,:��:�,;'�z��;"�;a,:�%;%�;!';"�;(!;%�;"�{ef:��:�c;"�:�";)�:� :� :��;e�;%�;&��R:�{dg;& :�:�lS;'m:�;&e;"�z��:����]���]��\�Ә[YOH��]�Y]�\�\�[����[��\�Ә[YOH�ܘYKX�Y�H��SL�8���S��[����[��\�Ә[YOH�ܘYK]^���{dg;-":��:��;!,O��[����]����]����]��\�Ә[YOH��]�Y]�X�\����]��\�Ә[YOH��]�Y]�]����]��\�Ә[YOH��]�Y]�X]�]\�����]���]��\�Ә[YOH��]�Y]�[Y]H���]��\�Ә[YOH��[YH��-g
+�%a�]���]��\�Ә[YOH�[��ȏ�� ;ef{&�; �H0��;(!;'�;,aO�]����]����]���]��\�Ә[YOH��]�Y]�\�\�ȏ��!x�!x�!x�!x�!O�]���]��\�Ә[YOH��]�Y]�]^��e!:�";'�;&�;`k:� ;)�;)�;em{"�;'m;%�;%�;&��:��z��:�k;(l:�o;'�{'/:��:�c;%�:�;)�:�.;'m:�;&`:��:��{fj{ef;)�;%b���:�&;%�;&���]���]��\�Ә[YOH��]�Y]�\�\�[����[��\�Ә[YOH�ܘYKX�Y�H��SL�8���R��[����[��\�Ә[YOH�ܘYK]^��(!;'�;,az��;'/:�g; �{"�O��[����]����]�����]����]���]��\�Ә[YOH��]�Y]��X��[�X�Y�H����[���!;( H;"&:�%{ �H
+
+�0��;"�;(';f�:�(K
+�
+]�X�\��;'n;)�JO��[����]����]�����X�[ۏ����ʈ�TH
+��B��X�[ۈ�\�Ә[YOH��X�[ۈ�X�[ۋYܘ^H�YH��\H���]��\�Ә[YOH��۝Z[�\����]��\�Ә[YOH��X�[ۋZXY\����]��\�Ә[YOH�ݙ\�[�H���TO�]�����'�;(�:�.��;)�:�.�������z�";eg;($;'m;'�:��:�m:�/;( ;fe{'n;em:��;!.;&������]���]��\�Ә[YOH��\K[\����٘\R][\˛X\
 
-            {/* Video Course */}
-            <div className="product-card">
-              <div className="product-card-image course-bg">
-                <span className="product-badge new">NEW</span>
-                <div className="product-icon-wrap course-icon">{'\ud83c\udfa5'}</div>
-                <span className="product-card-label" style={{ color: '#7C5CFC' }}>VIDEO COURSE</span>
-              </div>
-              <div className="product-card-body">
-                <div className="category">{'\uc778\uac15'}</div>
-                <h3>OPIC {'\uc644\uc804\uc815\ubcf5 \uc778\uac15 \ud328\ud0a4\uc9c0'}</h3>
-                <div className="desc">{'\ubcf4\uace0 \ub530\ub77c\ud558\uae30\ub9cc \ud558\uba74 \ub418\ub294 \uc601\uc0c1 \uac15\uc758'}. {'\uc720\ud615\ubcc4 \ub2f5\ubcc0 \uc804\ub7b5 + \uc2e4\uc804 \ub864\ud50c\ub808\uc774\ub85c IH/AL \ub2ec\uc131 \uad6c\uc870\ub97c \uc644\uc131\ud569\ub2c8\ub2e4'}.</div>
-                <div className="product-bonus" style={{ fontSize: '12px', color: '#1A8D48', fontWeight: 600, marginBottom: '12px', background: '#E8FFF0', padding: '8px 12px', borderRadius: '8px' }}>
-                  {'\ud83c\udf81'} 37%{'\ud560\uc778'} + SpeakCoach AI 7{'\uc77c \ubb34\ub8cc \uc774\uc6a9\uad8c \uc81c\uacf5'}
-                </div>
-                <div className="product-price-row">
-                  <div className="product-price">
-                    <span className="original">269,000{'\uc6d0'}</span>
-                    <span className="current">169,000</span>
-                    <span className="unit">{'\uc6d0'}</span>
-                  </div>
-                  <a href="https://sikbang-eng.liveklass.com/" target="_blank" className="btn-buy">{'\uc218\uac15\ud558\uae30'}</a>
-                </div>
-              </div>
-            </div>
-
-            {/* 2-Week Study */}
-            <div className="product-card">
-              <div className="product-card-image study-bg">
-                <span className="product-badge">{'\uc5bc\ub9ac\ubc84\ub4dc'}</span>
-                <div className="product-icon-wrap study-icon">{'\ud83d\udcac'}</div>
-                <span className="product-card-label" style={{ color: '#1A8D48' }}>2-WEEK STUDY</span>
-              </div>
-              <div className="product-card-body">
-                <div className="category">2{'\uc8fc \uc2a4\ud130\ub514'}</div>
-                <h3>2{'\uc8fc \uc9d1\uc911'} OPIC {'\uc2a4\ud130\ub514'}</h3>
-                <div className="desc">{'\ub3c8 \ub0b4\uace0 \ub4f1\uae09 \ubabb \uc62c\ub9ac\uba74? \uac78\ub9b0 \uc2dc\uac04\ub9cc \ub0ad\ube44\uc785\ub2c8\ub2e4'}. {'\ucf54\uce58 1:1 \ud53c\ub4dc\ubc31 + AI \ubd84\uc11d\uc73c\ub85c 14\uc77c \ub9cc\uc5d0 \ubaa9\ud45c \ub4f1\uae09 \ub2ec\uc131'}.</div>
-                <div className="product-bonus" style={{ fontSize: '12px', color: '#F04452', fontWeight: 700, marginBottom: '12px', background: '#FFF5F5', padding: '8px 12px', borderRadius: '8px' }}>
-                  {'\ud83d\udd25'} {'\uc120\ucc29\uc21c'} {spotsLeft}{'\uc790\ub9ac \ub0a8\uc74c'} {'\u00b7'} SpeakCoach AI Pro 1{'\uac1c\uc6d4 \ubb34\ub8cc \ud3ec\ud568'}
-                </div>
-                <div className="product-price-row">
-                  <div className="product-price">
-                    <span className="original">179,900{'\uc6d0'}</span>
-                    <span className="current">149,000</span>
-                    <span className="unit">{'\uc6d0'}</span>
-                  </div>
-                  <Link href="/study" className="btn-buy">{'\uc790\uc138\ud788 \ubcf4\uae30'}</Link>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* SPEAKCOACH AI */}
-      <section className="section speakcoach-section" id="speakcoach">
-        <div className="container">
-          <div className="speakcoach-grid">
-            <div className="speakcoach-content">
-              <div className="tag">AI-Powered</div>
-              <h2>
-                {'\ub098\uc758 \uc2a4\ud53c\ud0b9\uc744'}<br />
-                <span className="highlight">AI{'\uac00 \ubd84\uc11d'}</span>{'\ud569\ub2c8\ub2e4'}
-              </h2>
-              <p>SpeakCoach AI{'\ub294 \ub179\uc74c \ud55c \ubc88\uc73c\ub85c \ub2f9\uc2e0\uc758'} OPIC {'\uc608\uc0c1 \ub4f1\uae09\uacfc \uc57d\uc810\uc744 \ubd84\uc11d\ud569\ub2c8\ub2e4'}. {'\ub2e8\uc21c \uc810\uc218\uac00 \uc544\ub2cc, \uad6c\uccb4\uc801\uc778 \uad50\uc815 \ubc29\ud5a5\uae4c\uc9c0'}.</p>
-              <div className="speakcoach-features">
-                <div className="feature-item">
-                  <div className="feature-icon" style={{ fontSize: '16px' }}>STT</div>
-                  <div className="feature-text">
-                    <h4>{'\ub2f5\ubcc0 \ub179\uc74c'} &amp; STT {'\ubcc0\ud658'}</h4>
-                    <p>OpenAI Whisper {'\uae30\ubc18 \uc815\ubc00 \uc74c\uc131 \uc778\uc2dd'}</p>
-                  </div>
-                </div>
-                <div className="feature-item">
-                  <div className="feature-icon" style={{ fontSize: '16px' }}>AI</div>
-                  <div className="feature-text">
-                    <h4>7{'\uac1c \uce74\ud14c\uace0\ub9ac'} AI {'\ubd84\uc11d'}</h4>
-                    <p>{'\ubb38\ubc95, \uc5b4\ud718, \uc720\ucc3d\uc131 \ub4f1 \uc0c1\uc138 \uc2a4\ud0ac\ubcc4 \ud53c\ub4dc\ubc31'}</p>
-                  </div>
-                </div>
-                <div className="feature-item">
-                  <div className="feature-icon" style={{ fontSize: '14px' }}>FIX</div>
-                  <div className="feature-text">
-                    <h4>{'\uc57d\uc810 \uad50\uc815 \ub4dc\ub9b4'}</h4>
-                    <p>{'\uac00\uc7a5 \uc57d\ud55c \uc601\uc5ed\uc744 \uc9d1\uc911 \ud6c8\ub828\ud558\ub294'} 7{'\ubd84 \uad50\uc815 \uc138\uc158'}</p>
-                  </div>
-                </div>
-                <div className="feature-item">
-                  <div className="feature-icon" style={{ fontSize: '14px' }}>TEST</div>
-                  <div className="feature-text">
-                    <h4>{'\uc2e4\uc804 \ubaa8\uc758\uace0\uc0ac'}</h4>
-                    <p>35{'\ubd84'} / 14{'\ubb38\ud56d \uc2e4\uc81c'} OPIC {'\ud615\uc2dd \ubaa8\uc758 \ud14c\uc2a4\ud2b8'}</p>
-                  </div>
-                </div>
-              </div>
-              <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-primary">{'\ubb34\ub8cc\ub85c \ub0b4 \ub4f1\uae09 \ud655\uc778\ud558\uae30'} &rarr;</a>
-            </div>
-
-            {/* MOCKUP */}
-            <div className="speakcoach-mockup">
-              <div className="mockup-header">
-                <div className="mockup-dot red"></div>
-                <div className="mockup-dot yellow"></div>
-                <div className="mockup-dot green"></div>
-              </div>
-              <div className="mockup-screen">
-                <div style={{ fontSize: '13px', color: '#8B95A1', marginBottom: '4px' }}>SpeakCoach AI {'\ubd84\uc11d \uacb0\uacfc'}</div>
-                <div className="mockup-grade-row">
-                  <div>
-                    <div className="mockup-grade">IH</div>
-                    <div className="mockup-grade-label">{'\uc608\uc0c1 \ub4f1\uae09'}</div>
-                  </div>
-                  <div className="mockup-al-prob">
-                    <div className="prob-num">47%</div>
-                    <div className="prob-label">AL {'\ud655\ub960'}</div>
-                  </div>
-                </div>
-                <div className="mockup-bars">
-                  <div className="mockup-bar-item">
-                    <div className="mockup-bar-label">{'\uc720\ucc3d\uc131'}</div>
-                    <div className="mockup-bar-track"><div className="mockup-bar-fill" style={{ width: '78%' }}></div></div>
-                  </div>
-                  <div className="mockup-bar-item">
-                    <div className="mockup-bar-label">{'\ubb38\ubc95'}</div>
-                    <div className="mockup-bar-track"><div className="mockup-bar-fill mid" style={{ width: '62%' }}></div></div>
-                  </div>
-                  <div className="mockup-bar-item">
-                    <div className="mockup-bar-label">{'\uc5b4\ud718'}</div>
-                    <div className="mockup-bar-track"><div className="mockup-bar-fill" style={{ width: '85%' }}></div></div>
-                  </div>
-                  <div className="mockup-bar-item">
-                    <div className="mockup-bar-label">{'\ubc1c\uc74c'}</div>
-                    <div className="mockup-bar-track"><div className="mockup-bar-fill" style={{ width: '73%' }}></div></div>
-                  </div>
-                  <div className="mockup-bar-item">
-                    <div className="mockup-bar-label">{'\uad6c\uc131\ub825'}</div>
-                    <div className="mockup-bar-track"><div className="mockup-bar-fill weak" style={{ width: '45%' }}></div></div>
-                  </div>
-                </div>
-                <div style={{ marginTop: '16px', padding: '12px', background: '#FFF5F5', borderRadius: '10px', fontSize: '12px', color: '#F04452' }}>
-                  <strong>{'\uad6c\uc131\ub825'}</strong>{'\uc774 \uac00\uc7a5 \uc57d\ud55c \uc601\uc5ed\uc785\ub2c8\ub2e4'}. {'\uad50\uc815 \ub4dc\ub9b4\uc744 \uc2dc\uc791\ud574\ubcf4\uc138\uc694'}.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section className="section section-gray" id="pricing">
-        <div className="container">
-          <div className="section-header">
-            <div className="overline">Pricing</div>
-            <h2>SpeakCoach AI {'\uc694\uae08\uc81c'}</h2>
-            <p>{'\ucee4\ud53c \ud55c \uc794 \uac12\uc73c\ub85c'} AI {'\uc2a4\ud53c\ud0b9 \ucf54\uce58\ub97c \ub9cc\ub098\ubcf4\uc138\uc694'}.</p>
-          </div>
-          <div className="pricing-grid">
-
-            {/* FREE */}
-            <div className="pricing-card">
-              <div className="plan-name">{'\ubb34\ub8cc \uc774\uc6a9\uc790'}</div>
-              <div className="plan-price">0<span className="won">{'\uc6d0'}</span></div>
-              <div className="plan-sub">{'\uac00\uc785 \ud6c4'} 7{'\uc77c\uac04 \ubb34\ub8cc'}</div>
-              <ul className="plan-features">
-                <li>7{'\uc77c\uac04 \ubb34\ub8cc \uccb4\ud5d8'}</li>
-                <li>1{'\uc77c'} 1{'\ud68c \uc5f0\uc2b5'}</li>
-                <li>AI {'\ud53c\ub4dc\ubc31'} &amp; {'\uc810\uc218'}</li>
-              </ul>
-              <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-plan outline" style={{ display: 'block' }}>{'\ubb34\ub8cc\ub85c \uc2dc\uc791\ud558\uae30'}</a>
-            </div>
-
-            {/* PRO */}
-            <div className="pricing-card featured">
-              <div className="recommend-badge">{'\ucd94\ucc9c'}</div>
-              <div className="plan-name">{'\ud504\ub85c \ud328\ud0a4\uc9c0'}</div>
-              <div className="plan-original">31,900{'\uc6d0'}</div>
-              <div className="plan-price">24,900<span className="won">{'\uc6d0'}</span></div>
-              <div className="plan-sub">{'\uc6d4 \ub2e8 \ucee4\ud53c'} 4~5{'\uc794 \uac12'} {'\u00b7'} 3{'\uac1c\uc6d4 \uad6c\ub3c5 \uc2dc'} 63,500{'\uc6d0'}</div>
-              <ul className="plan-features">
-                <li>{'\ubb34\uc81c\ud55c \uc5f0\uc2b5'}</li>
-                <li>500{'\uac1c \uc774\uc0c1'} OPIC {'\ubb38\uc81c'}</li>
-                <li>{'\uc720\ud615\ubcc4 \ub9de\ucda4 \ud544\ud130\ub9c1'}</li>
-                <li>{'\uc0c1\uc138'} AI {'\ud53c\ub4dc\ubc31'}</li>
-              </ul>
-              <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-plan primary" style={{ display: 'block' }}>{'\ubb34\ub8cc\ub85c \uc2dc\uc791\ud558\uae30'}</a>
-            </div>
-
-            {/* PREMIUM */}
-            <div className="pricing-card">
-              <div className="plan-name">{'\ud504\ub9ac\ubbf8\uc5c4 \ud328\ud0a4\uc9c0'}</div>
-              <div className="plan-original">41,900{'\uc6d0'}</div>
-              <div className="plan-price">34,900<span className="won">{'\uc6d0'}</span></div>
-              <div className="plan-sub">{'\ud558\ub8e8 \uc57d'} 1,163{'\uc6d0\uc73c\ub85c'} AL {'\ub2ec\uc131'} {'\u00b7'} 3{'\uac1c\uc6d4'} 89,000{'\uc6d0'}</div>
-              <ul className="plan-features">
-                <li>{'\ud504\ub85c \ubaa8\ub4e0 \uae30\ub2a5 \ud3ec\ud568'}</li>
-                <li>{'\uc2e4\uc804 \ubaa8\uc758\uace0\uc0ac'} 10{'\uc138\ud2b8'}</li>
-                <li>Native Shadowing</li>
-                <li>{'\uace0\uae09 \ud2b8\ub798\ud0b9'} &amp; {'\uc778\uc0ac\uc774\ud2b8'}</li>
-              </ul>
-              <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-plan outline" style={{ display: 'block' }}>{'\ud504\ub9ac\ubbf8\uc5c4\uc73c\ub85c \uc2dc\uc791\ud558\uae30'}</a>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* REVIEWS */}
-      <section className="section" id="reviews">
-        <div className="container">
-          <div className="section-header">
-            <div className="overline">Reviews</div>
-            <h2>{'\uc2e4\uc81c \uc218\uac15\uc0dd\ub4e4\uc758 \uc774\uc57c\uae30'}</h2>
-            <p>1,000{'\uac1c \uc774\uc0c1\uc758 \uc2e4\uc81c \ud6c4\uae30\uac00 \uc99d\uba85\ud569\ub2c8\ub2e4'}.</p>
-          </div>
-          <div className="reviews-wrapper">
-            <div
-              className={`reviews-scroll ${reviewsPaused ? 'paused' : ''}`}
-              ref={reviewScrollRef}
-              onMouseEnter={() => setReviewsPaused(true)}
-              onMouseLeave={() => setReviewsPaused(false)}
-              onTouchStart={() => setReviewsPaused(true)}
-              onTouchEnd={() => { setTimeout(() => setReviewsPaused(false), 2000); }}
-            >
-              {[...reviews, ...reviews].map((review, idx) => (
-                <div className="review-card" key={idx}>
-                  <div className="review-top">
-                    <div className="review-avatar">{review.initial}</div>
-                    <div className="review-meta">
-                      <div className="name">{review.name}</div>
-                      <div className="info">{review.info}</div>
-                    </div>
-                  </div>
-                  <div className="review-stars">
-                    {'â'.repeat(review.stars)}{review.stars < 5 && <span className="empty">{'â'.repeat(5 - review.stars)}</span>}
-                  </div>
-                  <div className="review-text">{review.text}</div>
-                  <div className="review-result">
-                    <span className="grade-badge">{review.badge}</span>
-                    <span className="grade-text">{review.result}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="reviews-count-badge">
-            <span>{'\ub204\uc801 \uc218\uac15\uc0dd'} 4,000+ {'\u00b7'} {'\uc2e4\uc81c \ud6c4\uae30'} 1,000+ (liveclass {'\uc778\uc99d'})</span>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="section section-gray" id="faq">
-        <div className="container">
-          <div className="section-header">
-            <div className="overline">FAQ</div>
-            <h2>{'\uc790\uc8fc \ubb3b\ub294 \uc9c8\ubb38'}</h2>
-            <p>{'\uad81\uae08\ud55c \uc810\uc774 \uc788\ub2e4\uba74 \uba3c\uc800 \ud655\uc778\ud574\ubcf4\uc138\uc694'}.</p>
-          </div>
-          <div className="faq-list">
-            {faqItems.map((item, index) => (
-              <div className="faq-item" key={index}>
-                <button
-                  className={`faq-question ${openFaqIndex === index ? 'open' : ''}`}
-                  onClick={() => toggleFaq(index)}
-                >
-                  {item.question}
-                  <span className="arrow">{'\u25bc'}</span>
-                </button>
-                <div
-                  className="faq-answer"
-                  ref={(el) => { faqAnswerRefs.current[index] = el; }}
-                >
-                  <div className="faq-answer-inner">
-                    {item.answer}
-                    {item.hasLink && (
-                      <>{' '}<Link href="/study" style={{ color: 'var(--blue-primary)', fontWeight: 600 }}>{'\uc2a4\ud130\ub514 \uc0c1\uc138 \ud398\uc774\uc9c0'}</Link>{'\uc5d0\uc11c \ud655\uc778\ud558\uc138\uc694'}.</>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA BANNER */}
-      <section className="cta-banner">
-        <div className="container">
-          <h2>{'\uc9c0\uae08 \ubc14\ub85c \uc2dc\uc791\ud558\uc138\uc694'}</h2>
-          <p>{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a5\ud2b8\ub85c \ub098\uc758'} OPIC {'\uc608\uc0c1 \ub4f1\uae09\uc744 \ud655\uc778\ud574\ubcf4\uc138\uc694'}.</p>
-          <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-white">{'\ubb34\ub8cc \uc2a4\ud53c\ud0b9 \ud14c\uc2a5\ud2b8 \uc2dc\uc791'} &rarr;</a>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand">
-              <div className="logo">{'\ud83c\udf5e'} {'\uc2dd\ube75\uc601\uc5b4'}</div>
-              <p>2{'\uc8fc \uc548\uc5d0'} OPIC {'\uc810\uc218\ub97c \uc62c\ub9ac\ub294'}<br />{'\uac00\uc7a5 \uad6c\uc870\uc801\uc778 \ubc29\ubc95'}.</p>
-            </div>
-            <div className="footer-col">
-              <h4>{'\uc81c\ud488'}</h4>
-              <a href="https://blog.naver.com/lulu05/223353024018" target="_blank">{'\uc804\uc790\ucc45'}</a>
-              <a href="https://sikbang-eng.liveklass.com/" target="_blank">{'\uc778\uac15'}</a>
-              <Link href="/study">2{'\uc8fc \uc2a4\ud130\ub514'}</Link>
-              <a href="https://sikbang-eng.replit.app/" target="_blank">SpeakCoach AI</a>
-            </div>
-            <div className="footer-col">
-              <h4>{'\uace0\uac1d\uc9c0\uc6d0'}</h4>
-              <a href="#faq">{'\uc790\uc8fc \ubb3b\ub294 \uc9c8\ubb38'}</a>
-              <a href="http://pf.kakao.com/_SJYQn" target="_blank">{'\uce74\uce74\uc624\ud1a1 \ubb38\uc758'}</a>
-              <a href="mailto:lulu066666@gmail.com">{'\uc774\uba54\uc77c \ubb38\uc758'}</a>
-            </div>
-            <div className="footer-col">
-              <h4>{'\uc18c\uc15c'}</h4>
-              <a href="https://instagram.com/sikbang.eng" target="_blank">Instagram @sikbang.eng</a>
-              <a href="https://blog.naver.com/lulu05" target="_blank">{'\ub124\uc774\ubc84 \ube14\ub85c\uadf8'}</a>
-              <a href="#free-resource">{'\ub274\uc2a4\ub808\ud130 \uad6c\ub3c5'}</a>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <span>&copy; 2025 {'\uc2dd\ube75\uc601\uc5b4'}. All rights reserved.</span>
-            <div className="social">
-              <a href="#">{'\uc774\uc6a9\uc57d\uad00'}</a>
-              <a href="#">{'\uac1c\uc778\uc815\ubcf4\ucc98\ub9ac\ubc29\uce68'}</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* KAKAOTALK FLOATING BUTTON */}
-      <div className="kakao-float">
-        <div className="kakao-tooltip">{'\uad81\uae08\ud55c \uc810\uc774 \uc788\uc73c\uc2e0\uac00\uc694'}?</div>
-        <a href="http://pf.kakao.com/_SJYQn" target="_blank" className="kakao-btn" aria-label={'\uce74\uce74\uc624\ud1a1 \uc0c1\ub2f4'}>
-          <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-            <path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919"/>
-            <g fill="#FEE500">
-              <path d="M70.5 146.6c-2.3 0-4.2-1.3-4.2-3V113h-9.8c-2.4 0-3.5-1.8-3.5-3.5s1.1-3.5 3.5-3.5h27.5c2.4 0 3.5 1.8 3.5 3.5s-1.1 3.5-3.5 3.5H74.7v30.6c0 1.7-1.9 3-4.2 3z"/>
-              <path d="M101.3 146.2c-2.2 0-4-1.5-4-3.3V109.8c0-1.8 1.8-3.3 4-3.3s4 1.5 4 3.3v29.8h14.7c2.2 0 3.3 1.5 3.3 3.3s-1.1 3.3-3.3 3.3h-18.7z"/>
-              <path d="M147.5 146.6c-1 0-2-.4-2.7-1.1l-8.2-9.6-8.2 9.6c-1.4 1.7-4 1.9-5.7.5-1.7-1.4-1.9-4-.5-5.7l9.5-11.2-9-10.6c-1.4-1.7-1.2-4.3.5-5.7 1.7-1.4 4.3-1.2 5.7.5l7.7 9.1 7.7-9.1c1.4-1.7 4-1.9 5.7-.5 1.7 1.4 1.9 4 .5 5.7l-9 10.6 9.5 11.2c1.4 1.7 1.2 4.3-.5 5.7-.8.7-1.8 1-2.8 1z"/>
-              <path d="M172.7 146.6c-1.6 0-3.1-.8-3.7-2.3l-14.2-33c-.9-2.1.1-4.5 2.2-5.4 2.1-.9 4.5.1 5.4 2.2l8.3 19.3 8.3-19.3c.9-2.1 3.3-3.1 5.4-2.2 2.1.9 3.1 3.3 2.2 5.4l-14.2 33c-.6 1.5-2.1 2.3-3.7 2.3z"/>
-            </g>
-          </svg>
-        </a>
-      </div>
-    </>
-  );
-}
+][K[�^
+HO�
+�]��^O^�[�^H�\�Ә[YOH��\KZ][H����]ۂ��\�Ә[YO^��\K\]Y\�[ۈ	��[��\R[�^OOH[�^�	��[���	��XB�ې�X��^�
+HO����Q�\J[�^
+_B����][K�]Y\�[۟B��[��\�Ә[YOH�\���ȏ�����[���؝]ۏ��]���\�Ә[YOH��\KX[���\����[O^�X^ZY���[��\R[�^OOH[�^�	ٚ]X�۝[�	��	�	_B���]��\�Ә[YOH��\KX[���\�Z[��\�����][K�[���\��[��Y\�	�"�;a,:�%; �{!.;c�;'m;)�	�H�
+����][K�[���\���]
+	�H�Y�H��Zؘ[��Y[��\�YK�[��V�_B�H�Y�H���YH��[O^����܎�	ݘ\�KX�YK\�[X\�JI��۝�ZY��	͌	�_O�"�;a,:�%; �{!.;c�;'m;)��O���][K�[���\���]
+	��O��V�W_B�ς�
+H�
+�][K�[���\��
+_B��]����]����]���
+J_B��]����]�����X�[ۏ����ʈ�H�S��T�
+��B��X�[ۈ�\�Ә[YOH��KX�[��\����]��\�Ә[YOH��۝Z[�\������)�:�":�%:�g;"�;'�{ef;!.;&�������-:��;"�;e/;`�H;ac;"�;b�:�g:�;'f�P�;&"; �H:��z�"{'a;fe{'n;em:��;!.;&�����H�Y�H�΋���Zؘ[��Y[�˜�\]�\Ȉ\��]H�؛[�Ȉ�\�Ә[YOH���]�]H���-:��;"�;e/;`�H;ac;"�;b�;"�;'�H8����O���]�����X�[ۏ����ʈ���T�
+��B����\��\�Ә[YOH����\����]��\�Ә[YOH��۝Z[�\����]��\�Ә[YOH����\�YܚY���]��\�Ә[YOH����\�X��[����]��\�Ә[YOH���ȏ�'�g�;"�z�m{& {%��]�����(�;%b;%��P�;($;"&:�o;&+:�:���Ϻ� ;'�H:�k;(l;( {'n:�*z�K�����]���]��\�Ә[YOH����\�X�����
+�(';d��
+��H�Y�H�΋�؛�˛�]�\����K�[L
+Ǩ���L��N�\��]H�؛[�ȏ�(!;'�;,aO�O��H�Y�H�΋���Zؘ[��Y[�˛]�Z�\�˘��KȈ\��]H�؛[�ȏ�'n:�%O�O��H�Y�H���YH���(�;"�;a,:�%�O��H�Y�H�΋���Zؘ[��Y[�˜�\]�\Ȉ\��]H�؛[�ȏ��XZ���X�RO�O���]���]��\�Ә[YOH����\�X�����
+���:�'{)�;&��
+��H�Y�H�٘\H��'�;(�:���;)�:�.�O��H�Y�H�������Z�[˘��K��Җ[��\��]H�؛[�ȏ��l:�l;&);a�H:�.;'f�O��H�Y�H�XZ[Λ[L
+������XZ[���H��'m:�e;'o:�.;'f�O���]���]��\�Ә[YOH����\�X�����
+�!�;!c�
+��H�Y�H�΋��[��Yܘ[K���K��Zؘ[�˙[�Ȉ\��]H�؛[�ȏ�[��Yܘ[H�Zؘ[�˙[���O��H�Y�H�΋�؛�˛�]�\����K�[L
+H�\��]H�؛[�ȏ��);'m:�:�%:�g:���O��H�Y�H�΋���Zؘ[��Y[�˜�X�YK���KȈ\��]H�؛[�ȏ��m;"�:�";a,:�k:��O�O���]����]���]��\�Ә[YOH����\�X���H����[�����N���H;"�z�n{& {%��[�Y���\�\��Y���[���]��\�Ә[YOH����X[���H�Y�H�ȏ�'m;&�{%oz� �O��H�Y�H�ȏ��';'n;(%z��;,�:�:�*{.o�O���]����]����]���ٛ��\�����ʈ�R�S�S���US���Uӈ
+��B�]��\�Ә[YOH��Z�[�Y��]���]��\�Ә[YOH��Z�[�]��\����z�";eg;($;'m;'�;'/;"�:� ;&���]���H�Y�H�������Z�[˘��K��Җ[��\��]H�؛[�Ȉ�\�Ә[YOH��Z�[�X���\�XK[X�[H�.m;.m;&);a�H; �z�����ݙ��Y]Л�H��M��M��[��H������˝�˛ܙ�̌�ݙȏ��]H�LL�͐����͈�
+̋���LM����HNK�H
+M�
+�
+��LK�H
+K��NK�͋��LL�����K��K�ˎH���K�K�����H���Hˌ�K�͋�L���
+���L���
+���HL�K��NK�HK��
+MˍL
+L͋��L
+N��N
+K�͈L�͞���[H��NLNLNH�ς���[H�ёQML���]H�M��HM
+����L���M��LK��M��LՌLL�NK��L��LˍKLK�LˍKLˍ\�K�KLˍHˍKLˍZ�ˍX̋�ˍHK�ˍHˍ\�LK�HˍKLˍHˍR
+��݌����K��LK�H�M��ވ�ς�]H�LLK��M
+����L���MLK�KMLˌՌLK��LK�K�Lˌ�
+Lˌ��K�H
+ˌ݌�K�M��̋��ˌ�K�Hˌ�ˌ��LK�Hˌ�Lˌ�ˌ�LN�ވ�ς�]H�LM
+ˍHM
+����LHL�K�L���LK�[N��NK��N��K���LK�K��MK�KMK�ˍKLK��LK�LK�KMK�KMK��K�KLLK��NKLL���LK�LK��LK��M�ˍKMK��K��LK�
+��LK��
+K�ˍ[
+ˍ�K�H
+ˍ�NK�X�K�LK��
+LK�H
+K��K�HK��K�K�H
+�H
+K��NHL��K�HLK���K�K��K��
+��K�H
+K��K���LK�KL��^��ς�]H�LM̋��M
+����LK��LˌKK�Lˍ�L���LM��L���K�KL��K�KM�H���MK���KK�H
+�K�H
+K������NK����LNK��ˎKL��Hˌ�LˌH
+K�L�����K�HˌHˌ����
+K�LM�����K��K�KL��H���Lˍ���ވ�ς��ς��ݙς��O���]���ς�
+NB
