@@ -65,7 +65,7 @@ export default function StudyPage() {
     },
     {
       question: '환불은 어떻게 되나요?',
-      answer: '인원 편성 이후(단톡방 초대 이후)에는 어떠한 사유로도 환불이 불가합니다. 본 스터디는 소규모 정원 기반으로 운영되며, 그룹 확정과 동시에 맞춤 커리큐럼과 울영 리소스가 슚l�� 배정되기 때문입니다. 단톡방 초대 전에는 전액 환불 가능합니다. 결제 시 본 환불 정책에 동의한 것으로 간주됩니다.'
+      answer: '인원 편성 이후(단톡방 초대 이후)에는 어떠한 사유로도 환불이 불가합니다. 본 스터디는 소규모 정원 기반으로 운영되며, 그룹 확정과 동시에 맞춤 커리큘럼과 운영 리소스가 즉시 배정되기 때문입니다. 단톡방 초대 전에는 전액 환불 가능합니다. 결제 시 본 환불 정책에 동의한 것으로 간주됩니다.'
     },
     {
       question: 'Premium 업그레이드는 꼭 해야 하나요?',
@@ -1414,7 +1414,7 @@ export default function StudyPage() {
                   <strong>Day 5</strong> 시제 중심 Grammar 영상 시청 + 댓글 영작 과제. 약점 질문 집중 재학습 + 암기 완료. Adverbs/비교 유형 푙현 암기.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 6</strong> 7 Core Templates 완전 암기 최종 점검. 복합 템플릿 2개 이상 자연스럽게 조합 연습. 스터디원 상호 Q&amp;A 쉩��� 훈련. SpeakCoach AI 발음/흐름 진단.
+                  <strong>Day 6</strong> 7 Core Templates 완전 암기 최종 점검. 복합 템플릿 2개 이상 자연스럽게 조합 연습. 스터디원 상호 Q&amp;A 즉답 훈련. SpeakCoach AI 발음/흐름 진단.
                 </div>
                 <div className="cur-day">
                   <strong>Day 7</strong> 1차 Mock Test(녹음) + SpeakCoach AI 전체 분섭. 구조/속도/발음 교정 시작. 유형별 표현 완벽 암기(2차 피드백 세션 테스트 대비).
@@ -1490,7 +1490,7 @@ export default function StudyPage() {
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>💬</div>
               <h3>코치 피드백</h3>
-              <p>담당 코치가 팀별로 모여 각자의 답변을 청�Ǭ하고, 개선점과 칭차을 카톡방에 공유합니다.</p>
+              <p>담당 코치가 팀별로 모여 각자의 답변을 청취하고, 개선점과 칭찬을 카톡방에 공유합니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>🔄</div>
@@ -1638,7 +1638,7 @@ export default function StudyPage() {
               <div className="review-card">
                 <div className="review-stars">★★★★★</div>
                 <div className="review-text">
-                  직장 다니면서 준비하기 힘들었는데 2주라서 집중할 수 있었어요. 매일 과제 내는 게 핵�"인
+                  직장 다니면서 준비하기 힘들었는데 2주라서 집중할 수 있었어요. 매일 과제 내는 게 핵심인
                   것 같아요.
                 </div>
                 <div className="review-author">
@@ -1702,7 +1702,7 @@ export default function StudyPage() {
               <div className="review-card">
                 <div className="review-stars">★★★★★</div>
                 <div className="review-text">
-                  온라인이라고 걱정했는데 카톡 채팅과 공유로 충분했어요. 팀원들이 열�"히 하니까 저도
+                  온라인이라고 걱정했는데 카톡 채팅과 공유로 충분했어요. 팀원들이 열심히 하니까 저도
                   자연스럽게 열심히 하게 됐습니다.
                 </div>
                 <div className="review-author">
