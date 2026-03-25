@@ -902,6 +902,73 @@ export default function StudyPage() {
           align-items: center;
           gap: 8px;
         }
+
+        /* === PHOTO REVIEWS CAROUSEL === */
+        .photo-review-section {
+          margin-top: 56px;
+        }
+        .photo-review-label {
+          text-align: center;
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--text-secondary);
+          margin-bottom: 24px;
+        }
+        .photo-carousel-wrap {
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+        }
+        .photo-carousel-wrap::before,
+        .photo-carousel-wrap::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 60px;
+          z-index: 2;
+          pointer-events: none;
+        }
+        .photo-carousel-wrap::before {
+          left: 0;
+          background: linear-gradient(to right, var(--bg-gray), transparent);
+        }
+        .photo-carousel-wrap::after {
+          right: 0;
+          background: linear-gradient(to left, var(--bg-gray), transparent);
+        }
+        .photo-carousel-track {
+          display: flex;
+          gap: 16px;
+          animation: photoScroll 120s linear infinite;
+          width: max-content;
+        }
+        .photo-carousel-track:hover {
+          animation-play-state: paused;
+        }
+        @keyframes photoScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .photo-review-item {
+          flex: 0 0 auto;
+          height: 360px;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+          background: white;
+          transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .photo-review-item:hover {
+          transform: scale(1.03);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+        .photo-review-item img {
+          height: 100%;
+          width: auto;
+          display: block;
+          object-fit: cover;
+        }
         .review-grade {
           background: var(--green);
           color: white;
@@ -1243,6 +1310,12 @@ export default function StudyPage() {
           }
           .review-card {
             flex: 0 0 300px;
+          }
+          .photo-review-item {
+            height: 280px;
+          }
+          .photo-carousel-track {
+            gap: 12px;
           }
           .faq-question {
             padding: 16px 20px;
@@ -1715,6 +1788,28 @@ export default function StudyPage() {
                     <div className="review-info">직장인 · 온라인 진행</div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Photo Reviews Carousel */}
+          <div className="photo-review-section">
+            <div className="photo-review-label">📸 실제 수강생 인증 후기</div>
+            <div className="photo-carousel-wrap">
+              <div className="photo-carousel-track">
+                {[...Array(2)].map((_, setIndex) =>
+                  [1,2,3,4,5,6,7,8,9,10,11,12,13].map((n) => (
+                    <div className="photo-review-item" key={`png-${setIndex}-${n}`}>
+                      <img src={`/reviews/review-${n}.png`} alt={`수강생 후기 ${n}`} loading="lazy" />
+                    </div>
+                  )).concat(
+                    [14,15,16,17,18,19,20,21,22,23,24,25,26].map((n) => (
+                      <div className="photo-review-item" key={`jpg-${setIndex}-${n}`}>
+                        <img src={`/reviews/review-${n}.jpeg`} alt={`수강생 후기 ${n}`} loading="lazy" />
+                      </div>
+                    ))
+                  )
+                )}
               </div>
             </div>
           </div>
