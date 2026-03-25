@@ -1395,17 +1395,17 @@ export default function StudyPage() {
             <div className="cur-week active">
               <div className="cur-week-dot"></div>
               <div className="cur-week-label">PHASE 1 - Survey Master</div>
-              <h3>Day 1-7 : 7개 핵심 테플릿 체화 + Survey 쉩답 루틴 완성</h3>
-              <p>테플릿을 외우는 것이 아니라 자동으로 튀어나오게 만드는 구간입니다. Survey 문제에서 첫 문장이 3초 안에 나오는 상태를 목표로 합니다.</p>
+              <h3>Day 1-7 : 7개 핵심 템플릿 체화 + Survey 즉답 루틴 완성</h3>
+              <p>템플릿을 외우는 것이 아니라 자동으로 튀어나오게 만드는 구간입니다. Survey 문제에서 첫 문장이 3초 안에 나오는 상태를 목표로 합니다.</p>
               <div className="cur-day-grid">
                 <div className="cur-day">
                   <strong>Day 1</strong> OPIc 채점 기준(Fluency/Structure/Coherence) 분석 + Template #1~3 구조 입력. SpeakCoach AI 주거 카테고리 학습 + 묘사 표현 암기 시작.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 2</strong> Template #4~6 학습 + 질문 키워드 보고 자동 묤칭 훈련. 1문제 1분 30초 녹음 + SpeakCoach AI 구조 체크. 취미/여가 Survey 집중 분석.
+                  <strong>Day 2</strong> Template #4~6 학습 + 질문 키워드 보고 자동 매칭 훈련. 1문제 1분 30초 녹음 + SpeakCoach AI 구조 체크. 취미/여가 Survey 집중 분석.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 3</strong> Template #1~7 전체 복습. 문장 단위가 아닌 답변 덩어리(문단)로 말하는 패턴 체득. 빈출 문제 즉답 연습(3초 이상 칢묵 금지).
+                  <strong>Day 3</strong> Template #1~7 전체 복습. 문장 단위가 아닌 답변 덩어리(문단)로 말하는 패턴 체득. 빈출 문제 즉답 연습(3초 이상 침묵 금지).
                 </div>
                 <div className="cur-day">
                   <strong>Day 4</strong> 전체 Survey 예상 질문 돌려보기 + 막히는 질문 체크. 개인 약점 영역 명확화. Conjunction/Transition 연결어 집중 암기.
@@ -1450,7 +1450,7 @@ export default function StudyPage() {
                   <strong>Day 11</strong> 최종 템플릿 전체 복습 + 무단(Paragraph) 형태 답변 연습. Speaking Marathon: Survey + RP 랜덤 혼합, 20문제 이상 연속 답변으로 유지력 훈련.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 12</strong> Speed Drill: 질문 듣고 5초 내 답변 시작(칢묵 시간 완전 제거). 파원과 3분 자웠 발화 녹음. SpeakCoach AI로 발음/유창성/문법 최종 점검.
+                  <strong>Day 12</strong> Speed Drill: 질문 듣고 5초 내 답변 시작(침묵 시간 완전 제거). 파원과 3분 자웠 발화 녹음. SpeakCoach AI로 발음/유창성/문법 최종 점검.
                 </div>
                 <div className="cur-day">
                   <strong>Day 13</strong> 최신 OPIc 기출 문제 분섭. 2차 Full Mock Test(40분, 실제 시험처럼 중단 없이 녹음). 사후 분석 + SpeakCoach AI 피드백 확인.
