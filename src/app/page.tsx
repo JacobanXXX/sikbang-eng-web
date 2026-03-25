@@ -136,7 +136,7 @@ export default function Home() {
     },
     {
       question: "2주 스터디는 어떤 식으로 진행되나요?",
-      answer: "3인 1팀으로 구성되며, 14일 동안 매일 스픴킸 과제를 제출합니다. 코치의 실시간 피드백 + SpeakCoach AI의 정밀 분석을 함께 받습니다. 카카오톡 그룹에서 소통하며, 1주차는 기본 프레임워크, 2주차는 실전 모의고사에 집중합니다. 자세한 내용은 스터디 상세 페이지에서 확인하세요."
+      answer: "3인 1팀으로 구성되며, 14일 동안 매일 스피킹 과제를 제출합니다. 코치의 실시간 피드백 + SpeakCoach AI의 정밀 분석을 함께 받습니다. 카카오톡 그룹에서 소통하며, 1주차는 기본 프레임워크, 2주차는 실전 모의고사에 집중합니다. 자세한 내용은 스터디 상세 페이지에서 확인하세요."
     },
     {
       question: "영어를 진짜 못하는데 따라갈 수 있을까요?",
@@ -204,7 +204,7 @@ export default function Home() {
           </p>
           <div className="hero-buttons animate delay-3">
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-primary">
-              무료 스픴킹 테스트 →
+              무료 스피킹 테스트 →
             </a>
             <a href="#free-resource" className="btn-secondary">
               무료 자료 받기
@@ -650,7 +650,7 @@ export default function Home() {
       <section className="cta-banner">
         <div className="container">
           <h2>지금 바로 시작하세요</h2>
-          <p>무료 스픴킹 테스트로 나의 OPIC 예상 등급을 확인해보세요.</p>
+          <p>무료 스피킹 테스트로 나의 OPIC 예상 등급을 확인해보세요.</p>
           <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-white">무료 스피킹 테스트 시작 →</a>
         </div>
       </section>
