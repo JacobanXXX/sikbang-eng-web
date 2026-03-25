@@ -132,26 +132,26 @@ export default function Home() {
     },
     {
       question: "SpeakCoach AI는 어떻게 사용하나요?",
-      answer: "SpeakCoach AI는 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 접속할 수 있어요. 가입 후 답변을 녹음하면 AI가 발음, 문법, 유창성, 어휘 등 7개 카테고리로 분석해서 예상 등급과 구체적인 피드백을 제공합니다. 무료 체험도 가능합니다."
+      answer: "SpeakCoach AI는 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 접속할 수 있어요. 가입 후 답별을 녹음하면 AI가 발음, 문법, 유창성, 어휘 등 7개 카테고리로 분석해서 예상 등급과 구체적인 피드백을 제공합니다. 무료 체헗도 가능합니다."
     },
     {
       question: "2주 스터디는 어떤 식으로 진행되나요?",
-      answer: "3인 1팀으로 구성되며, 14일 동안 매일 스피킹 과제를 제출합니다. 코치의 실시간 피드백 + SpeakCoach AI의 정밀 분석을 함께 받습니다. 카카오톡 그룹에서 소통하며, 1주차는 기본 프레임워크, 2주차는 실전 모의고사에 집중합니다. 자세한 내용은 스터디 상세 페이지에서 확인하세요."
+      answer: "3인 1팀으로 구성되며, 14일 동안 매일 스픴킸 과제를 제출합니다. 코치의 실시간 피드백 + SpeakCoach AI의 정밀 분석을 함께 받습니다. 카카오톡 그룹에서 소통하며, 1주차는 기본 프레임워크, 2주차는 실전 모의고사에 집중합니다. 자세한 내용은 스터디 상세 페이지에서 확인하세요."
     },
     {
       question: "영어를 진짜 못하는데 따라갈 수 있을까요?",
-      answer: "네, 가능합니다. 프레임워크 기반 훈련이라 영어를 잘 못하더라도 답변 구조를 따라가며 학습할 수 있어요. 실제로 IL 수준에서 시작해서 IM2, IH를 달성한 분들이 많습니다. 중요한 건 매일 꾸준히 과제를 제출하는 것입니다."
+      answer: "네, 가능합니다. 프레임워크 기반 훈렠이라 영어를 잘 못핔더라도 답변 구조를 따라가며 학습할 수 있어요. 실제로 IL 수준에서 시작해서 IM2, IH를 달성한 분들이 많습니다. 중요한 건 매일 꾸준히 과제를 제출하는 것입니다."
     },
     {
       question: "직장인인데 시간 투자가 많이 필요한가요?",
-      answer: "하루 평균 1~2시간이면 충분합니다. 학습 자료 확인 10분, 답변 준비 및 녹음 30~40분, AI 분석 확인 20분, 코치 피드백 반영 20분 정도예요. 출퇴근 시간에 자료를 보고, 퇴근 후 녹음하는 패턴으로 진행하시는 직장인분들이 많습니다."
+      answer: "하루 평균 1~2시간이면 충분합니다. 학습 자렌 확인 10분, 답변 준비 및 녹음 30~40분, AI 분석 확인 20분, 코치 피드백 반영 20분 정도예요. 출퇴근 시간에 자료를 보고, 퇴근 후 녹음하는 패턴으로 진행하시는 직장인분들이 많습니다."
     },
     {
       question: "환불은 어떻게 되나요?",
-      answer: "스터디의 경우 시작 전 100% 환불, 시작 후 3일 이내 50% 환���이 가능합니다. SpeakCoach AI 구독은 결제 후 7일 이내 환불 가능합니다. 자세한 사항은 카카오톡으로 문의해주세요."
+      answer: "스터디의 경우 단톡방 초대(조원 편성) 전에는 전액 환불이 가능하며, 편성 이후에는 환불이 불가합니다. SpeakCoach AI 구독은 결제 후 7일 이내 환불 가능합니다. 자세한 사항은 카카오톡으로 문의해주세요."
     },
     {
-      question: "전자책, 인강, 스터디 중 �� 선택해야 하나요?",
+      question: "전자책, 인강, 스터디 중 무엇을 선택해야 하나요?",
       answer: "목표와 상황에 따라 달라요. 독학 선호 + 기초 학습이면 전자책, 체계적 영상 강의를 원하면 인강, 단기간 확실한 성과를 원하면 2주 스터디를 추천합니다. 가장 효과가 좋은 조합은 인강 + 스터디이고, 예산이 제한적이라면 전자책 + SpeakCoach AI 무료 체험으로 시작해보세요."
     }
   ];
@@ -204,7 +204,7 @@ export default function Home() {
           </p>
           <div className="hero-buttons animate delay-3">
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-primary">
-              무료 스피킹 테스트 →
+              무료 스픴킹 테스트 →
             </a>
             <a href="#free-resource" className="btn-secondary">
               무료 자료 받기
@@ -233,7 +233,7 @@ export default function Home() {
           <div className="newsletter-inner">
             <div className="newsletter-icon">✉️</div>
             <h2>OPIC 무료 자료<br /><span className="highlight">질금 바로 받아보세요</span></h2>
-            <p>이메일을 구독하면 OPIC 준비에 꼭 필요한 무료 학습 자료를 보내드립니다.<br />매주 OPIC 꿀팁과 표현 정리도 함께 받아보세요.</p>
+            <p>이메일을 구도하면 OPIC 준비에 꼭 필요한 무료 학습 자료를 보내드립니다.<br />매주 OPIC 꿀팁과 표현 정리도 함께 받아보세요.</p>
 
             {!newsletterSuccess ? (
               <>
@@ -245,14 +245,14 @@ export default function Home() {
               </>
             ) : (
               <div className="newsletter-success show">
-                구돡 완료! 이메일로 무료 자료링크를 보내드림습니다.
+                구독 완료! 이메일로 무료 자료 맃크를 보내드렸습니다.
               </div>
             )}
 
             <div className="newsletter-benefits">
               <div className="newsletter-benefit">
                 <div className="check">✓</div>
-                OPIC 필수 표현 정리 
+                OPIC 필수 표현 정리
               </div>
               <div className="newsletter-benefit">
                 <div className="check">✓</div>
@@ -286,7 +286,7 @@ export default function Home() {
               <div className="product-card-body">
                 <div className="category">전자책</div>
                 <h3>OPIC 전자책 + 기출 번들</h3>
-                <div className="desc">실전 기출 문제와 프레임워크 답변 템플릿을 한 번에. 가장 많은 수강생이 선택한 베스트셌러.</div>
+                <div className="desc">실전 기출 문제와 프레임워크 답변 템플릿을 한 번에. 가장 많은 수강생이 선택한 베스트셀러.</div>
                 <div className="product-price-row">
                   <div className="product-price">
                     <span className="current">39,900</span>
@@ -359,7 +359,7 @@ export default function Home() {
                   <div className="feature-icon" style={{ fontSize: '16px' }}>STT</div>
                   <div className="feature-text">
                     <h4>답변 녹음 & STT 변환</h4>
-                    <p>OpenAI Whisper 기반 정밀 음성 인찝</p>
+                    <p>OpenAI Whisper 기반 정밀 음성 인식</p>
                   </div>
                 </div>
                 <div className="feature-item">
@@ -380,7 +380,7 @@ export default function Home() {
                   <div className="feature-icon" style={{ fontSize: '14px' }}>TEST</div>
                   <div className="feature-text">
                     <h4>실전 모의고사</h4>
-                    <p>35분 / 14문항 실제 OPIC 형식 모의 테스트</p>
+                    <p>35분 / 14문항 실제 OPIC 형시 모의 테스트</p>
                   </div>
                 </div>
               </div>
@@ -403,7 +403,7 @@ export default function Home() {
                   </div>
                   <div className="mockup-al-prob">
                     <div className="prob-num">47%</div>
-                    <div className="prob-label">AL 확률</div>
+                    <div className="prob-label">AL 확정</div>
                   </div>
                 </div>
                 <div className="mockup-bars">
@@ -429,7 +429,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div style={{ marginTop: '16px', padding: '12px', background: '#FFF5F5', borderRadius: '10px', fontSize: '12px', color: '#F04452' }}>
-                  <strong>구성력</strong>이 가장 약한 영역입니다. 교정 드릴을 시작해보세요.
+                  <strong>구성력</strong>이 가장 앝한 영역입니다. 교정 드릴을 시작해보세요.
                 </div>
               </div>
             </div>
@@ -443,7 +443,7 @@ export default function Home() {
           <div className="section-header">
             <div className="overline">Pricing</div>
             <h2>SpeakCoach AI 요금제</h2>
-            <p>츢피 한 잔 값으로 AI 스피킹 코치를 만나보세요.</p>
+            <p>커피 한 잔 값으로 AI 스피킹 코치를 만나보세요.</p>
           </div>
           <div className="pricing-grid">
 
@@ -451,7 +451,7 @@ export default function Home() {
             <div className="pricing-card">
               <div className="plan-name">무료 이용자</div>
               <div className="plan-price">0<span className="won">원</span></div>
-              <div className="plan-sub">가입 후 7일간 무료</div>
+              <div className="plan-sub">가입겻 7 일간 무료</div>
               <ul className="plan-features">
                 <li>7일간 무료 체험</li>
                 <li>1일 1회 연습</li>
@@ -470,7 +470,7 @@ export default function Home() {
               <ul className="plan-features">
                 <li>무제한 연습</li>
                 <li>500개 이상 OPIC 문제</li>
-                <li>유형별 맞춤 필터링</li>
+                <li>유형별 맞촤 필터링</li>
                 <li>상세 AI 피드백</li>
               </ul>
               <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-plan primary" style={{ display: 'block' }}>무료로 시작하기</a>
@@ -481,7 +481,7 @@ export default function Home() {
               <div className="plan-name">프리미엄 패키지</div>
               <div className="plan-original">41,900원</div>
               <div className="plan-price">34,900<span className="won">원</span></div>
-              <div className="plan-sub">하루 약 1,163원으로 AL 달성 · 3개월 89,000원</div>
+              <div className="plan-sub">한먌 약 1,163원으로 AL 달성 · 3개월 89,000원</div>
               <ul className="plan-features">
                 <li>프로 모든 기능 포함</li>
                 <li>실전 모의고사 10세트</li>
@@ -515,7 +515,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">2주 만에 IM2에서 IH로 윬랐습니다. 프레임워크 답변이 진짜 효과적이에요. 혼자 했으면 절대 못 올렸을 점수입니다.</div>
+                <div className="review-text">2주 만에 IM2에서 IH로 올랐습니다. 프레임워크 답변이 진짜 효과적이에요. 혼자 했으면 절대 못 올렸을 점수입니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM2 → IH</span>
                   <span className="grade-text">2주 만에 등급 상승</span>
@@ -563,7 +563,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">3명이서 팀으로 하니까 긴장감도 있고, 서로 피드백 주는 게 진짜 도움됐어요. 취업 면접 전에 자신감도 생겼습니다.</div>
+                <div className="review-text">3명이서 팀으로 하니까 긴장감도 있고, 서로 피드백 주는 게 진짜 도움됐어요. 취옅 면접 전에 자신감도 생겼습니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM1 → IH</span>
                   <span className="grade-text">목표 등급 달성</span>
@@ -595,7 +595,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">프레임워크가 진짜 핵심이었어요. 답변 구조를 잡으니까 어떤 질문이 나와도 당황하지 않게 되어요.</div>
+                <div className="review-text">프레임워크가 진짜 핵심이었어요. 답변 구조를 잡으니까 어떤 질문이 나완도 당황하지 않게 되어요.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM2 → IH</span>
                   <span className="grade-text">전자책만으로 상승</span>
@@ -620,30 +620,24 @@ export default function Home() {
           </div>
           <div className="faq-list">
             {faqItems.map((item, index) => (
-              <div key={index} className="faq-item">
+              <div key={index} className={`faq-item ${openFaqIndex === index ? 'open' : ''}`}>
                 <button
-                  className={`faq-question ${openFaqIndex === index ? 'open' : ''}`}
+                  className="faq-question"
                   onClick={() => toggleFaq(index)}
                 >
                   {item.question}
-                  <span className="arrow">▼</span>
+                  <span className="arrow">{openFaqIndex === index ? '\u25B2' : '\u25BC'}</span>
                 </button>
                 <div
                   className="faq-answer"
                   style={{
-                    maxHeight: openFaqIndex === index ? 'fit-content' : '0'
+                    maxHeight: openFaqIndex === index ? '500px' : '0',
+                    overflow: 'hidden',
+                    transition: 'max-height 0.3s ease'
                   }}
                 >
                   <div className="faq-answer-inner">
-                    {item.answer.includes('스터디 상세 페이지') ? (
-                      <>
-                        {item.answer.split('<a href="sikbang-eng-study.html"')[0]}
-                        <a href="/study" style={{ color: 'var(--blue-primary)', fontWeight: '600' }}>스터디 상세 페이지</a>
-                        {item.answer.split('</a>')[1]}
-                      </>
-                    ) : (
-                      item.answer
-                    )}
+                    {item.answer}
                   </div>
                 </div>
               </div>
@@ -656,7 +650,7 @@ export default function Home() {
       <section className="cta-banner">
         <div className="container">
           <h2>지금 바로 시작하세요</h2>
-          <p>무료 스피킹 테스트로 나의 OPIC 예상 등급을 확인해보세요.</p>
+          <p>무료 스픴킹 테스트로 나의 OPIC 예상 등급을 확인해보세요.</p>
           <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-white">무료 스피킹 테스트 시작 →</a>
         </div>
       </section>
