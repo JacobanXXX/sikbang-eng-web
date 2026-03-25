@@ -972,7 +972,7 @@ export default function StudyPage() {
           background: rgba(26, 141, 72, 0.02);
           max-height: 0;
         }
-      .faq-item.open .faq-answer { max-height: 500px; }
+      .faq-item.open .faq-answer { max-height: 500px !important; }
         .faq-item.open .faq-answer {
           max-height: 500px;
         }
