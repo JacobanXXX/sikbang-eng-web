@@ -4,253 +4,314 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 export default function StudyPage() {
-  // Slots and remaining state
-  const [remainingSlots, setRemainingSlots] = useState(9);
-  const [ctaRemainingSlots, setCtaRemainingSlots] = useState(9);
-  const [floatingRemainingSlots, setFloatingRemainingSlots] = useState(9);
+  // Queue counter state
+  const [currentQueue, setCurrentQueue] = useState(50);
+  const queueRef = useRef<HTMLDivElement>(null);
+  const ctaQueueRef = useRef<HTMLSpanElement>(null);
+  const floatingQueueRef = useRef<HTMLSpanElement>(null);
 
-  // Floating CTA state
+  // Toast state
+  const [toasts, setToasts] = useState<Array<{ id: number; name: string; action: string; loc: string; mins: number }>>([]);
+  const toastIdRef = useRef(0);
+
+  // Floating CTA visibility
   const [showFloatingCta, setShowFloatingCta] = useState(false);
+  const heroQueueRef = useRef<HTMLDivElement>(null);
 
-  // Google Form modal state
-  const [showFormModal, setShowFormModal] = useState(false);
+  // Spots countdown state
+  const [spotsLeft, setSpotsLeft] = useState(5);
+  const [spotToast, setSpotToast] = useState<string | null>(null);
 
-  // Toast notifications state
-  const [toasts, setToasts] = useState<Array<{ id: number; name: string; action: string; location: string; mins: number }>>([]);
+  // Reviews auto-scroll state
+  const reviewScrollRef = useRef<HTMLDivElement>(null);
+  const [reviewsPaused, setReviewsPaused] = useState(false);
 
   // FAQ state
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-  const [faqAnswerHeights, setFaqAnswerHeights] = useState<{ [key: number]: number }>({});
+  const faqAnswerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Review scroll state
-  const reviewScrollRef = useRef<HTMLDivElement>(null);
-  const [reviewDirection, setReviewDirection] = useState(1);
-  const [reviewPaused, setReviewPaused] = useState(false);
-
-  const totalSlots = 20;
-  const filledSlots = 11;
-  const slotsRef = useRef(remainingSlots);
-  const toastCounterRef = useRef(0);
-
-  const names = [
-    '김*준', '이*아', '박*현', '최*영', '정*미',
-    '한*수', '오*진', '서*연', '강*호', '윤*은',
-    '임*석', '신*희', '조*민', '장*우', '배*정'
-  ];
-
-  const actions = [
-    '님이 신청했습니다',
-    '님이 얼리버드로 등록했습니다',
-    '님이 자리를 확보했습니다'
-  ];
-
-  const locations = ['서울', '부산', '대구', '인천', '대전', '광주', '수원', '울산'];
-
-  const faqItems = [
-    {
-      question: '영어를 진짜 못하는데 따라갈 수 있을까요?',
-      answer: '네, 가능합니다. 스터디는 프레임워크 기반으로 진행되기 때문에 영어를 잘 못하더라도 구조를 따라가며 답변을 만들 수 있어요. 실제로 IL 수준에서 시작해서 IM2, IH를 달성한 사례가 많습니다.'
-    },
-    {
-      question: 'SpeakCoach AI는 어떻게 사용하나요?',
-      answer: '스터디 시작 시 SpeakCoach AI Pro 계정이 자동으로 활성화됩니다. 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 사용 가능합니다. 답변을 녹음하면 AI가 발음, 문법, 유창성, 어휘를 분석해서 피드백을 줍니다.'
-    },
-    {
-      question: '스터디는 언제 시작하나요?',
-      answer: '3인 1팀이 구성되는 즉시 시작합니다. 신청 후 팀이 매칭되면 시작일을 안내해드립니다. 보통 신청 후 1주 이내 시작됩니다.'
-    },
-    {
-      question: '하루에 얼마나 시간을 투자해야 하나요?',
-      answer: '하루 평균 1~2시간 정도입니다. 학습 자료 확인(10분) + 답변 준비 및 녹음(30~40분) + AI 분석 확인 및 교정 연습(30분) + 코치 피드백 반영(20분). 직장인도 충분히 병행 가능한 수준입니다.'
-    },
-    {
-      question: '환불은 어떻게 되나요?',
-      answer: '⚠️ 인원 편성 이후(단톡방 초대 이후)에는 어떠한 사유로도 환불이 불가합니다. 본 스터디는 소규모 정원 기반으로 운영되며, 그룹 확정과 동시에 맞춤 커리큘럼과 운영 리소스가 즉시 배정되기 때문입니다. 단톡방 초대 전에는 전액 환불 가능합니다. 결제 시 본 환불 정책에 동의한 것으로 간주됩니다.'
-    },
-    {
-      question: 'Premium 업그레이드는 꼭 해야 하나요?',
-      answer: '필수는 아닙니다. 기본 스터디에 Pro 플랜이 포함되어 있어서 충분히 학습 가능합니다. Premium은 풀 모의고사 세트와 고급 분석 기능이 추가되므로, AL을 목표로 하시는 분께 추천드립니다.'
-    }
-  ];
-
-  // Animate number counting up
-  const animateNumber = (current: number, target: number, setter: (val: number) => void) => {
-    const step = current < target ? 1 : -1;
-    const interval = setInterval(() => {
-      current += step;
-      setter(current);
-      if (current === target) clearInterval(interval);
-    }, 30);
-  };
-
-  // Remaining slots initialization and updates
+  // ===== QUEUE COUNTER LOGIC =====
   useEffect(() => {
-    const updateAllSlots = (num: number) => {
-      slotsRef.current = num;
-      setRemainingSlots(num);
-      setCtaRemainingSlots(num);
-      setFloatingRemainingSlots(num);
-    };
+    const BASE_QUEUE = 50;
+    let queue = BASE_QUEUE + Math.floor(Math.random() * 8);
+    setCurrentQueue(queue);
 
-    setTimeout(() => {
-      updateAllSlots(slotsRef.current);
-    }, 500);
+    const queueInterval = setInterval(() => {
+      setCurrentQueue((prev) => {
+        const change = Math.random();
+        let newQueue = prev;
+        if (change < 0.6) {
+          newQueue += Math.random() < 0.7 ? 1 : 2;
+        } else if (change < 0.85) {
+          newQueue = prev;
+        } else {
+          newQueue = Math.max(BASE_QUEUE - 3, prev - 1);
+        }
+        return newQueue;
+      });
+    }, 25000 + Math.random() * 20000);
 
-    const slotsInterval = setInterval(() => {
-      const change = Math.random();
-      let newSlots = slotsRef.current;
-      if (change < 0.15) {
-        // Occasionally decrease remaining (showing more slots filling)
-        newSlots = Math.max(1, newSlots - 1);
-      }
-      updateAllSlots(newSlots);
-    }, 35000 + Math.random() * 25000);
-
-    return () => clearInterval(slotsInterval);
+    return () => clearInterval(queueInterval);
   }, []);
 
-  // Toast notifications
+  // ===== TOAST NOTIFICATIONS LOGIC =====
   useEffect(() => {
+    const names = [
+      '김*준', '이*아', '박*현', '최*영', '정*미',
+      '한*수', '오*진', '서*연', '강*호', '윤*은',
+      '임*석', '신*희', '조*민', '장*우', '배*정'
+    ];
+    const actions = [
+      '님이 대기 신청했습니다',
+      '님이 얼리버드로 등록했습니다',
+      '님이 대기 명단에 합류했습니다'
+    ];
+    const locations = ['서울', '부산', '대구', '인천', '대전', '광주', '수원', '울산'];
+
     const showToast = () => {
       const name = names[Math.floor(Math.random() * names.length)];
       const action = actions[Math.floor(Math.random() * actions.length)];
-      const location = locations[Math.floor(Math.random() * locations.length)];
+      const loc = locations[Math.floor(Math.random() * locations.length)];
       const mins = Math.floor(Math.random() * 10) + 1;
-      const id = toastCounterRef.current++;
+      const id = ++toastIdRef.current;
 
-      setToasts((prev) => [...prev, { id, name, action, location, mins }]);
+      setToasts((prev) => [...prev, { id, name, action, loc, mins }]);
 
       setTimeout(() => {
         setToasts((prev) => prev.filter((t) => t.id !== id));
       }, 4200);
     };
 
-    setTimeout(() => {
+    const toastTimeout = setTimeout(() => {
       showToast();
-      const toastInterval = setInterval(() => {
-        showToast();
-      }, 15000 + Math.random() * 20000);
-
+      const toastInterval = setInterval(showToast, 15000 + Math.random() * 20000);
       return () => clearInterval(toastInterval);
     }, 8000);
+
+    return () => clearTimeout(toastTimeout);
   }, []);
 
-  // Floating CTA scroll listener
+  // ===== SPOTS COUNTDOWN (5 → 2) =====
+  useEffect(() => {
+    const spotNames = ['이*아', '김*준', '한*미'];
+    let spotIdx = 0;
+    const delays = [30000, 55000, 80000]; // 30s, 55s, 80s
+    const timers: NodeJS.Timeout[] = [];
+
+    delays.forEach((delay, i) => {
+      const t = setTimeout(() => {
+        setSpotsLeft(prev => {
+          const newVal = Math.max(2, prev - 1);
+          return newVal;
+        });
+        const name = spotNames[i] || spotNames[0];
+        setSpotToast(`${name}님이 방금 신청했습니다!`);
+        setTimeout(() => setSpotToast(null), 3500);
+      }, delay);
+      timers.push(t);
+    });
+
+    return () => timers.forEach(t => clearTimeout(t));
+  }, []);
+
+  // ===== FLOATING CTA VISIBILITY =====
   useEffect(() => {
     const handleScroll = () => {
-      const queueBox = document.querySelector('.queue-box');
-      if (!queueBox) return;
-
-      const rect = queueBox.getBoundingClientRect();
-      setShowFloatingCta(rect.bottom < 0);
+      if (heroQueueRef.current) {
+        const rect = heroQueueRef.current.getBoundingClientRect();
+        setShowFloatingCta(rect.bottom < 0);
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Auto-scroll reviews
-  useEffect(() => {
-    if (!reviewScrollRef.current) return;
+  // ===== REVIEWS - using CSS marquee animation =====
 
-    const scroll = reviewScrollRef.current;
-    let dir = reviewDirection;
-    let paused = reviewPaused;
-
-    const handleMouseEnter = () => setReviewPaused(true);
-    const handleMouseLeave = () => setReviewPaused(false);
-    const handleTouchStart = () => setReviewPaused(true);
-    const handleTouchEnd = () => {
-      setTimeout(() => setReviewPaused(false), 2000);
-    };
-
-    scroll.addEventListener('mouseenter', handleMouseEnter);
-    scroll.addEventListener('mouseleave', handleMouseLeave);
-    scroll.addEventListener('touchstart', handleTouchStart, { passive: true });
-    scroll.addEventListener('touchend', handleTouchEnd);
-
-    const scrollInterval = setInterval(() => {
-      if (reviewPaused) return;
-      const max = scroll.scrollWidth - scroll.clientWidth;
-      if (max <= 0) return;
-
-      let newDir = dir;
-      if (scroll.scrollLeft >= max - 2) newDir = -1;
-      if (scroll.scrollLeft <= 2) newDir = 1;
-
-      scroll.scrollLeft += newDir;
-      setReviewDirection(newDir);
-    }, 30);
-
-    return () => {
-      clearInterval(scrollInterval);
-      scroll.removeEventListener('mouseenter', handleMouseEnter);
-      scroll.removeEventListener('mouseleave', handleMouseLeave);
-      scroll.removeEventListener('touchstart', handleTouchStart);
-      scroll.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [reviewPaused, reviewDirection]);
-
-  // FAQ toggle
+  // ===== FAQ TOGGLE =====
   const toggleFaq = (index: number) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
+    if (openFaqIndex === index) {
+      setOpenFaqIndex(null);
+    } else {
+      setOpenFaqIndex(index);
+    }
   };
 
-  // Calculate FAQ answer heights
   useEffect(() => {
-    const heights: { [key: number]: number } = {};
-    faqItems.forEach((_, index) => {
-      const answer = document.querySelector(`#faq-answer-${index}`);
-      if (answer) {
-        heights[index] = (answer as HTMLElement).scrollHeight;
+    faqAnswerRefs.current.forEach((ref, index) => {
+      if (ref) {
+        if (index === openFaqIndex) {
+          ref.style.maxHeight = ref.scrollHeight + 'px';
+        } else {
+          ref.style.maxHeight = '0px';
+        }
       }
     });
-    setFaqAnswerHeights(heights);
-  }, []);
+  }, [openFaqIndex]);
 
-  // Smooth scroll for anchor links
+  // ===== SMOOTH SCROLL =====
   useEffect(() => {
     const handleAnchorClick = (e: Event) => {
       const target = e.currentTarget as HTMLAnchorElement;
       const href = target.getAttribute('href');
-      if (!href || href === '#') return;
+      if (!href || href === '#' || !href.startsWith('#')) return;
 
-      try {
-        const el = document.querySelector(href);
-        if (el) {
-          e.preventDefault();
-          const nav = document.getElementById('nav');
-          const navHeight = nav?.offsetHeight || 64;
-          const top = el.getBoundingClientRect().top + window.pageYOffset - navHeight;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
-      } catch (err) {}
+      const id = href.slice(1);
+      const element = document.getElementById(id);
+      if (element) {
+        e.preventDefault();
+        const nav = document.getElementById('nav');
+        const navHeight = nav?.offsetHeight || 64;
+        const top = element.getBoundingClientRect().top + window.pageYOffset - navHeight;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
     };
 
-    const anchors = document.querySelectorAll('a[href^="#"]');
-    anchors.forEach((anchor) => {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener('click', handleAnchorClick);
     });
 
     return () => {
-      anchors.forEach((anchor) => {
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.removeEventListener('click', handleAnchorClick);
       });
     };
   }, []);
 
+  const faqItems = [
+    {
+      question: '영어를 진짜 못하는데 따라갈 수 있을까요?',
+      answer:
+        '네, 가능합니다. 스터디는 프레임워크 기반으로 진행되기 때문에 영어를 잘 못하더라도 구조를 따라가며 답변을 만들 수 있어요. 실제로 IL 수준에서 시작해서 IM2, IH를 달성한 사례가 많습니다.'
+    },
+    {
+      question: 'SpeakCoach AI는 어떻게 사용하나요?',
+      answer:
+        '스터디 시작 시 SpeakCoach AI Pro 계정이 자동으로 활성화됩니다. 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 사용 가능합니다. 답변을 녹음하면 AI가 발음, 문법, 유창성, 어휘를 분석해서 피드백을 줍니다.'
+    },
+    {
+      question: '스터디는 언제 시작하나요?',
+      answer:
+        '3인 1팀이 구성되는 즉시 시작합니다. 대기 신청 후 팀이 매칭되면 시작일을 안내해드립니다. 보통 신청 후 1주 이내 시작됩니다.'
+    },
+    {
+      question: '하루에 얼마나 시간을 투자해야 하나요?',
+      answer:
+        '하루 평균 1~2시간 정도입니다. 학습 자료 확인(10분) + 답변 준비 및 녹음(30~40분) + AI 분석 확인 및 교정 연습(30분) + 코치 피드백 반영(20분). 직장인도 충분히 병행 가능한 수준입니다.'
+    },
+    {
+      question: '환불은 어떻게 되나요?',
+      answer:
+        '스터디 시작 전 100% 환불, 시작 후 3일 이내 50% 환불이 가능합니다. 3일 이후에는 환불이 불가합니다. 대기 중 취소는 언제든 가능합니다.'
+    },
+    {
+      question: 'Premium 업그레이드는 꼭 해야 하나요?',
+      answer:
+        '필수는 아닙니다. 기본 스터디에 Pro 플랜이 포함되어 있어서 충분히 학습 가능합니다. Premium은 풀 모의고사 세트와 고급 분석 기능이 추가되므로, AL을 목표로 하시는 분께 추천드립니다.'
+    }
+  ];
+
+  const reviews = [
+    {
+      text: '2주 만에 IM3에서 IH로 올랐어요. 프레임워크가 진짜 효과 있었습니다. 답변할 때 구조가 잡히니까 자신감이 다릅니다.',
+      avatar: '👋',
+      name: '김*현',
+      grade: 'IH',
+      info: '대학생 · 2주 스터디'
+    },
+    {
+      text: 'SpeakCoach AI로 매일 연습하고, 스터디에서 피드백 받으니까 내 약점이 정확히 보였어요. 결국 AL 받았습니다!',
+      avatar: '💪',
+      name: '이*준',
+      grade: 'AL',
+      info: '취준생 · 스터디 + AI'
+    },
+    {
+      text: '직장 다니면서 준비하기 힘들었는데 2주라서 집중할 수 있었어요. 매일 과제 내는 게 핵심의 것 같아요.',
+      avatar: '💻',
+      name: '박*영',
+      grade: 'IH',
+      info: '직장인 · 승진 준비'
+    },
+    {
+      text: '혼자 했으면 절대 못 했을 거예요. 3명이니까 서로 자극도 되고 포기할 수가 없었어요. IL에서 IM2 찍었습니다.',
+      avatar: '🌅',
+      name: '정*아',
+      grade: 'IM2',
+      info: '대학생 · 2주 스터디'
+    },
+    {
+      text: '인강으로 기본기 잡고 스터디에서 실전 연습하니까 시너지가 대단했어요. IH 목표였는데 AL이 나왔습니다.',
+      avatar: '🚀',
+      name: '최*민',
+      grade: 'AL',
+      info: '이직 준비 · 인강 + 스터디'
+    },
+    {
+      text: '피드백이 정말 꼼꼼해요. AI 분석이릅 코치 피드백 둘 다 받으니까 어디를 고쳐야 하는지 확실히 알겠더라고요.',
+      avatar: '💡',
+      name: '한*수',
+      grade: 'IH',
+      info: '취준생 · 공채 준비'
+    },
+    {
+      text: '오픽은 식빵영어.. 2년 뒤에도 만료되고 다시 찾아오겠습니다. 그만큼 체계적이에요.',
+      avatar: '🏆',
+      name: '서*연',
+      grade: 'AL',
+      info: '직장인 · 재응시'
+    },
+    {
+      text: 'IM1에서 IH로 14일 만에 올래어요. 프레임워크 진짜 핵심이에요. 매일 과제 안 하면 안 되는 분위기가 좋았어요.',
+      avatar: '⚡',
+      name: '강*호',
+      grade: 'IH',
+      info: '대학생 · 졸업요건'
+    },
+    {
+      text: '회사에서 IH 필수였는데 두 번 떨어지고 여기서 드디어 합격했습니다. 코치님 피드백이 핵심이에요.',
+      avatar: '🎯',
+      name: '황*우',
+      grade: 'IH',
+      info: '직장인 · 승진요건'
+    },
+    {
+      text: '처음엔 반신반의였는데 첫 주 끝나고 말하는 게 달라진 걸 느꼈어요. 결과는 IM2에서 AL!',
+      avatar: '🌟',
+      name: '윤*린',
+      grade: 'AL',
+      info: '대학생 · 인강+스터디'
+    },
+    {
+      text: '매일 아침 15분씩 AI로 연습하고 저녁에 과제 제출하는 루틴이 생겼어요. 2주가 짧게 느껴질 정도로 몰입했습니다.',
+      avatar: '📱',
+      name: '문*희',
+      grade: 'IH',
+      info: '취준생 · AI+스터디'
+    },
+    {
+      text: '3인 팀이라 서로 동기부여가 확실해요. 과제 안 내면 민폐니까 자연스럽게 매일 하게 됩니다. 결과도 좋았어요.',
+      avatar: '👥',
+      name: '안*준',
+      grade: 'IH',
+      info: '직장인 · 스터디'
+    },
+    {
+      text: '다른 스터디 여러 개 해봤는데 여기가 압도적으로 체계적이에요. AI 분석 + 코치 피드백 조합이 최고입니다.',
+      avatar: '💎',
+      name: '조*민',
+      grade: 'AL',
+      info: '대학원생 · 유학준비'
+    }
+  ];
+
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style>{`
         /* === RESET & BASE === */
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-        html {
-          scroll-behavior: smooth;
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
           font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
           background: #FFFFFF;
@@ -259,15 +320,8 @@ export default function StudyPage() {
           -webkit-font-smoothing: antialiased;
           overflow-x: hidden;
         }
-        a {
-          text-decoration: none;
-          color: inherit;
-        }
-        button {
-          cursor: pointer;
-          border: none;
-          font-family: inherit;
-        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; border: none; font-family: inherit; }
 
         /* === TOSS COLOR SYSTEM === */
         :root {
@@ -287,1005 +341,544 @@ export default function StudyPage() {
           --orange: #F59E0B;
         }
 
-        .container {
-          max-width: 1140px;
-          margin: 0 auto;
-          padding: 0 24px;
-        }
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
 
         /* === NAV === */
         .nav {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          background: rgba(255,255,255,0.95);
-          backdrop-filter: blur(12px);
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          background: rgba(255,255,255,0.85);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
           border-bottom: 1px solid var(--border);
-          z-index: 100;
-          height: 64px;
-          display: flex;
-          align-items: center;
         }
         .nav-inner {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          max-width: 1140px;
-          margin: 0 auto;
-          padding: 0 24px;
+          max-width: 1140px; margin: 0 auto; padding: 0 24px;
+          display: flex; align-items: center; justify-content: space-between;
+          height: 64px;
         }
         .nav-logo {
-          font-size: 18px;
-          font-weight: 700;
-          color: var(--text-primary);
-          display: flex;
-          align-items: center;
-          gap: 8px;
+          font-size: 20px; font-weight: 800; color: var(--text-primary);
+          display: flex; align-items: center; gap: 8px;
         }
-        .bread-icon {
-          font-size: 20px;
-        }
-        .nav-links {
-          display: flex;
-          gap: 32px;
-          margin: 0 auto;
-        }
+        .nav-logo .bread-icon { font-size: 24px; }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
         .nav-links a {
-          font-size: 14px;
-          color: var(--text-secondary);
+          font-size: 15px; font-weight: 500; color: var(--text-secondary);
           transition: color 0.2s;
         }
-        .nav-links a:hover {
-          color: var(--text-primary);
-        }
+        .nav-links a:hover { color: var(--blue-primary); }
         .nav-cta {
-          background: var(--green);
-          color: white !important;
-          padding: 10px 20px;
-          border-radius: 8px;
-          font-size: 14px;
-          font-weight: 600;
+          background: var(--blue-primary); color: white;
+          padding: 10px 20px; border-radius: 12px;
+          font-size: 14px; font-weight: 600;
           transition: background 0.2s;
+          display: inline-block;
         }
-        .nav-cta:hover {
-          background: #15753c;
-        }
+        .nav-cta:hover { background: var(--blue-dark); }
 
         /* === HERO === */
         .hero {
-          padding: 120px 0 80px;
-          margin-top: 64px;
-          background: linear-gradient(135deg, rgba(26,141,72,0.03) 0%, rgba(51,102,255,0.03) 100%);
+          padding: 140px 0 80px;
+          background: linear-gradient(180deg, #F0FFF4 0%, #FFFFFF 100%);
           position: relative;
           overflow: hidden;
         }
-        .hero-content {
-          text-align: center;
-        }
+        .hero-content { text-align: center; position: relative; z-index: 1; }
         .hero-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: var(--green-light);
-          color: var(--green);
-          padding: 8px 16px;
-          border-radius: 20px;
-          font-size: 12px;
-          font-weight: 600;
-          margin-bottom: 24px;
+          display: inline-flex; align-items: center; gap: 8px;
+          background: white; border: 1px solid var(--border);
+          padding: 8px 20px; border-radius: 100px;
+          font-size: 14px; font-weight: 600; color: var(--green);
+          margin-bottom: 28px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         .hero-badge .dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
+          width: 8px; height: 8px; border-radius: 50%;
           background: var(--green);
-          animation: pulse 1.5s infinite;
+          animation: pulse 2s infinite;
         }
         @keyframes pulse {
-          0%, 100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.4;
-          }
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(1.3); }
         }
         .hero h1 {
-          font-size: 56px;
-          font-weight: 800;
-          line-height: 1.2;
-          letter-spacing: -0.03em;
-          color: var(--text-primary);
+          font-size: 52px; font-weight: 800; line-height: 1.2;
+          letter-spacing: -0.03em; color: var(--text-primary);
           margin-bottom: 20px;
         }
-        .hero h1 .accent {
-          color: var(--green);
-        }
+        .hero h1 .accent { color: var(--green); }
         .hero .subtitle {
-          font-size: 20px;
-          color: var(--text-secondary);
-          line-height: 1.6;
-          margin-bottom: 40px;
+          font-size: 20px; color: var(--text-secondary);
+          line-height: 1.6; margin-bottom: 40px;
           font-weight: 400;
         }
-        .hero .subtitle strong {
-          font-weight: 700;
-          color: var(--text-primary);
-        }
+        .hero .subtitle strong { font-weight: 700; color: var(--text-primary); }
 
         /* === QUEUE COUNTER (FOMO) === */
         .queue-box {
-          display: inline-flex;
-          flex-direction: column;
-          align-items: center;
+          display: inline-flex; flex-direction: column; align-items: center;
           background: white;
           border: 2px solid var(--green);
           border-radius: 24px;
           padding: 32px 48px;
-          box-shadow: 0 4px 24px rgba(26, 141, 72, 0.12);
+          box-shadow: 0 4px 24px rgba(26,141,72,0.12);
           margin-bottom: 36px;
         }
         .queue-label {
-          font-size: 14px;
-          font-weight: 600;
-          color: var(--text-secondary);
+          font-size: 14px; font-weight: 600; color: var(--text-secondary);
           margin-bottom: 8px;
-          display: flex;
-          align-items: center;
-          gap: 6px;
+          display: flex; align-items: center; gap: 6px;
         }
-        .queue-progress-bar {
-          width: 100%;
-          height: 8px;
-          background: rgba(51,102,255,0.15);
-          border-radius: 4px;
-          margin: 12px 0;
-          overflow: hidden;
+        .queue-number {
+          font-size: 64px; font-weight: 900; color: var(--green);
+          line-height: 1;
+          letter-spacing: -0.03em;
+          font-variant-numeric: tabular-nums;
         }
-        .queue-progress-fill {
-          height: 100%;
-          background: linear-gradient(90deg, #3366FF, #FF3B5C);
-          border-radius: 4px;
-          transition: width 1s ease;
-        }
-        .queue-stats {
-          display: flex;
-          justify-content: space-between;
-          font-size: 14px;
-          color: #666;
-          margin-bottom: 8px;
-          gap: 24px;
-        }
-        .queue-stats strong {
-          color: #FF3B5C;
+        .queue-unit {
+          font-size: 20px; font-weight: 700; color: var(--green);
+          margin-top: 4px;
         }
         .queue-sub {
-          font-size: 13px;
-          color: var(--text-tertiary);
+          font-size: 13px; color: var(--text-tertiary);
           margin-top: 12px;
-          display: flex;
-          align-items: center;
-          gap: 6px;
+          display: flex; align-items: center; gap: 6px;
         }
         .queue-sub .live-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
+          width: 6px; height: 6px; border-radius: 50%;
           background: var(--red);
           animation: pulse 1.5s infinite;
         }
 
         /* live notification toast */
         .toast-area {
-          position: fixed;
-          bottom: 24px;
-          left: 24px;
-          z-index: 200;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
+          position: fixed; bottom: 24px; left: 24px; z-index: 200;
+          display: flex; flex-direction: column; gap: 8px;
         }
         .toast {
-          background: rgba(25, 31, 40, 0.92);
+          background: rgba(25,31,40,0.92);
           backdrop-filter: blur(12px);
           color: white;
           padding: 14px 20px;
           border-radius: 16px;
-          font-size: 14px;
-          font-weight: 500;
-          display: flex;
-          align-items: center;
-          gap: 10px;
+          font-size: 14px; font-weight: 500;
+          display: flex; align-items: center; gap: 10px;
           animation: toastIn 0.4s ease, toastOut 0.4s ease 3.6s forwards;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.2);
           max-width: 340px;
         }
         .toast .toast-icon {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          background: var(--green);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 16px;
-          flex-shrink: 0;
+          width: 32px; height: 32px; border-radius: 50%;
+          background: var(--green); display: flex; align-items: center;
+          justify-content: center; font-size: 16px; flex-shrink: 0;
         }
         @keyframes toastIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
+          from { opacity: 0; transform: translateY(20px) scale(0.95); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
         }
         @keyframes toastOut {
-          from {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          to {
-            opacity: 0;
-            transform: translateY(20px);
-          }
+          from { opacity: 1; transform: translateY(0); }
+          to { opacity: 0; transform: translateY(20px); }
         }
 
-        .hero-cta-group {
-          display: flex;
-          gap: 16px;
-          justify-content: center;
-          flex-wrap: wrap;
-        }
+        .hero-cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
         .btn-primary {
-          background: var(--green);
-          color: white;
-          padding: 18px 40px;
-          border-radius: 16px;
-          font-size: 18px;
-          font-weight: 700;
-          transition: all 0.2s;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          box-shadow: 0 4px 16px rgba(26, 141, 72, 0.3);
+          background: var(--green); color: white;
+          padding: 18px 40px; border-radius: 16px;
+          font-size: 18px; font-weight: 700;
+          transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+          box-shadow: 0 4px 16px rgba(26,141,72,0.3);
+          text-decoration: none;
         }
-        .btn-primary:hover {
-          background: #15753c;
-          box-shadow: 0 8px 24px rgba(26, 141, 72, 0.4);
-          transform: translateY(-2px);
-        }
+        .btn-primary:hover { background: #15753c; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(26,141,72,0.4); }
         .btn-secondary {
-          background: white;
-          color: var(--text-primary);
-          padding: 18px 40px;
-          border: 2px solid var(--border);
-          border-radius: 16px;
-          font-size: 18px;
-          font-weight: 700;
+          background: white; color: var(--text-primary);
+          padding: 18px 40px; border-radius: 16px;
+          font-size: 18px; font-weight: 700;
+          border: 1.5px solid var(--border);
           transition: all 0.2s;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
+          text-decoration: none;
         }
-        .btn-secondary:hover {
-          border-color: var(--text-primary);
-          background: var(--bg-gray);
-        }
+        .btn-secondary:hover { border-color: var(--blue-primary); color: var(--blue-primary); }
 
-        /* === SECTION === */
-        .section {
-          padding: 80px 0;
-        }
-        .section-gray {
-          background: var(--bg-gray);
-        }
+        /* === SECTION COMMON === */
+        .section { padding: 100px 0; }
+        .section-gray { background: var(--bg-gray); }
         .section-title {
-          font-size: 40px;
-          font-weight: 800;
-          color: var(--text-primary);
-          margin-bottom: 16px;
+          font-size: 36px; font-weight: 800; letter-spacing: -0.03em;
+          color: var(--text-primary); margin-bottom: 16px;
         }
         .section-desc {
-          font-size: 18px;
-          color: var(--text-secondary);
-          margin-bottom: 48px;
+          font-size: 18px; color: var(--text-secondary); margin-bottom: 48px;
+          line-height: 1.6;
         }
 
-        /* === WHY GRID === */
+        /* === WHY THIS STUDY === */
         .why-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 32px;
-          margin-top: 56px;
+          display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+          margin-top: 48px;
         }
         .why-card {
-          background: white;
-          padding: 40px 32px;
-          border-radius: 16px;
-          box-shadow: var(--card-shadow);
-          text-align: center;
-          transition: all 0.3s;
+          background: white; border-radius: 20px; padding: 36px 28px;
+          box-shadow: var(--card-shadow); transition: transform 0.2s;
         }
-        .why-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 8px 40px rgba(0,0,0,0.1);
-        }
+        .why-card:hover { transform: translateY(-4px); }
         .why-icon {
-          font-size: 48px;
-          margin-bottom: 16px;
-          display: inline-block;
+          width: 56px; height: 56px; border-radius: 16px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 28px; margin-bottom: 20px;
         }
+        .why-icon.green { background: var(--green-light); }
+        .why-icon.blue { background: var(--blue-light); }
+        .why-icon.orange { background: #FFF7ED; }
         .why-card h3 {
-          font-size: 20px;
-          font-weight: 700;
-          color: var(--text-primary);
-          margin-bottom: 12px;
+          font-size: 20px; font-weight: 700; margin-bottom: 10px;
+          letter-spacing: -0.02em;
         }
         .why-card p {
-          font-size: 15px;
-          color: var(--text-secondary);
-          line-height: 1.6;
+          font-size: 15px; color: var(--text-secondary); line-height: 1.6;
         }
 
         /* === CURRICULUM === */
-        .curriculum-timeline {
-          margin-top: 56px;
-        }
+        .curriculum-timeline { max-width: 720px; margin: 0 auto; }
         .cur-week {
-          position: relative;
-          padding-left: 60px;
-          margin-bottom: 48px;
-          opacity: 0.5;
-          transition: opacity 0.3s;
-        }
-        .cur-week.active {
-          opacity: 1;
-        }
-        .cur-week-dot {
-          position: absolute;
-          left: 16px;
-          top: 2px;
-          width: 24px;
-          height: 24px;
-          background: white;
-          border: 3px solid var(--border);
-          border-radius: 50%;
-          z-index: 1;
-        }
-        .cur-week.active .cur-week-dot {
-          background: var(--green);
-          border-color: var(--green);
+          margin-bottom: 40px; position: relative;
+          padding-left: 36px;
         }
         .cur-week::before {
-          content: '';
-          position: absolute;
-          left: 27px;
-          top: 30px;
-          width: 2px;
-          height: 100%;
-          background: var(--border);
+          content: ''; position: absolute; left: 12px; top: 36px; bottom: -40px;
+          width: 2px; background: var(--border);
         }
-        .cur-week.active::before {
-          background: var(--green);
+        .cur-week:last-child::before { display: none; }
+        .cur-week-dot {
+          position: absolute; left: 4px; top: 8px;
+          width: 18px; height: 18px; border-radius: 50%;
+          border: 3px solid var(--green); background: white;
         }
+        .cur-week.active .cur-week-dot { background: var(--green); }
         .cur-week-label {
-          font-size: 13px;
-          font-weight: 700;
-          color: var(--green);
+          font-size: 13px; font-weight: 700; color: var(--green);
+          text-transform: uppercase; letter-spacing: 0.05em;
           margin-bottom: 8px;
         }
         .cur-week h3 {
-          font-size: 24px;
-          font-weight: 700;
-          color: var(--text-primary);
-          margin-bottom: 8px;
+          font-size: 22px; font-weight: 700; margin-bottom: 12px;
+          letter-spacing: -0.02em;
         }
-        .cur-week > p {
-          font-size: 15px;
-          color: var(--text-secondary);
-          margin-bottom: 20px;
-          line-height: 1.6;
+        .cur-week p {
+          font-size: 15px; color: var(--text-secondary); line-height: 1.7;
         }
         .cur-day-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 10px; margin-top: 16px;
         }
         .cur-day {
-          background: rgba(26,141,72,0.05);
-          padding: 16px;
-          border-radius: 12px;
-          font-size: 14px;
-          color: var(--text-primary);
-          line-height: 1.5;
+          background: var(--bg-gray); border-radius: 12px; padding: 14px 16px;
+          font-size: 14px; font-weight: 500; color: var(--text-secondary);
         }
-        .cur-day strong {
-          font-weight: 600;
-          color: var(--green);
+        .cur-day strong { color: var(--text-primary); font-weight: 700; }
+
+        /* === DAILY FLOW === */
+        .flow-steps {
+          display: flex; align-items: stretch; gap: 0;
+          justify-content: center; flex-wrap: wrap;
+          margin-top: 48px;
+        }
+        .flow-step {
+          text-align: center; flex: 1; min-width: 160px; max-width: 220px;
+          position: relative; padding: 0 16px;
+        }
+        .flow-step:not(:last-child)::after {
+          content: ''; position: absolute; top: 30px; right: -8px;
+          width: 16px; height: 16px;
+          border-right: 2.5px solid var(--green);
+          border-top: 2.5px solid var(--green);
+          transform: rotate(45deg);
+        }
+        .flow-icon {
+          width: 64px; height: 64px; border-radius: 20px;
+          background: var(--green-light);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 28px; margin: 0 auto 16px;
+        }
+        .flow-step h4 {
+          font-size: 16px; font-weight: 700; margin-bottom: 6px;
+        }
+        .flow-step p {
+          font-size: 13px; color: var(--text-secondary); line-height: 1.5;
         }
 
         /* === PRICING === */
-        .pricing-section {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          background: white;
-          padding: 40px;
-          border-radius: 20px;
-          box-shadow: var(--card-shadow);
-          margin-top: 56px;
+        .pricing-area { max-width: 540px; margin: 0 auto; }
+        .pricing-card {
+          background: white; border-radius: 24px; padding: 48px 40px;
+          box-shadow: var(--card-shadow); text-align: center;
+          border: 2px solid var(--green);
+          position: relative; overflow: hidden;
         }
-        .pricing-badge {
-          background: var(--blue-light);
-          color: var(--blue-primary);
-          padding: 8px 16px;
-          border-radius: 20px;
-          font-size: 13px;
-          font-weight: 600;
-          margin-bottom: 16px;
+        .pricing-card::before {
+          content: ''; position: absolute; top: 0; left: 0; right: 0;
+          height: 4px; background: linear-gradient(90deg, var(--green), #34D399);
         }
-        .pricing-header h3 {
-          font-size: 28px;
-          font-weight: 700;
-          color: var(--text-primary);
+        .pricing-popular {
+          position: absolute; top: 16px; right: -32px;
+          background: var(--green); color: white;
+          font-size: 12px; font-weight: 700; padding: 6px 40px;
+          transform: rotate(45deg);
+        }
+        .pricing-name {
+          font-size: 14px; font-weight: 700; color: var(--green);
+          text-transform: uppercase; letter-spacing: 0.05em;
           margin-bottom: 8px;
         }
-        .pricing-header .pricing-duration {
-          font-size: 15px;
-          color: var(--text-secondary);
+        .pricing-title {
+          font-size: 24px; font-weight: 800; margin-bottom: 24px;
+          letter-spacing: -0.02em;
         }
-        .pricing-price-main {
-          font-size: 64px;
-          font-weight: 900;
-          color: var(--green);
-          line-height: 1;
-          margin: 28px 0;
-          letter-spacing: -0.03em;
-          font-variant-numeric: tabular-nums;
+        .pricing-original {
+          font-size: 18px; color: var(--text-tertiary);
+          text-decoration: line-through; margin-bottom: 4px;
         }
-        .pricing-desc {
-          font-size: 15px;
-          color: var(--text-secondary);
-          margin-bottom: 32px;
-          text-align: center;
-          line-height: 1.6;
+        .pricing-amount {
+          font-size: 48px; font-weight: 900; color: var(--text-primary);
+          letter-spacing: -0.03em; margin-bottom: 4px;
+        }
+        .pricing-amount .won { font-size: 24px; font-weight: 700; }
+        .pricing-period {
+          font-size: 14px; color: var(--text-tertiary); margin-bottom: 32px;
         }
         .pricing-features {
-          width: 100%;
-          margin-bottom: 32px;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
+          text-align: left; margin-bottom: 36px;
+          list-style: none;
         }
-        .pricing-feature {
-          display: flex;
-          align-items: flex-start;
-          gap: 10px;
-          font-size: 14px;
-          color: var(--text-secondary);
+        .pricing-features li {
+          padding: 10px 0;
+          font-size: 15px; color: var(--text-secondary);
+          display: flex; align-items: flex-start; gap: 12px;
+          border-bottom: 1px solid var(--bg-gray);
         }
-        .pricing-feature::before {
-          content: '✓';
-          font-weight: 700;
-          color: var(--green);
-          flex-shrink: 0;
-          margin-top: 2px;
+        .pricing-features li:last-child { border-bottom: none; }
+        .pricing-features .check {
+          color: var(--green); font-size: 18px; flex-shrink: 0; margin-top: 1px;
         }
         .pricing-btn {
-          width: 100%;
-          padding: 18px;
-          background: var(--green);
-          color: white;
-          border: none;
-          border-radius: 12px;
-          font-size: 18px;
-          font-weight: 700;
-          cursor: pointer;
-          transition: all 0.2s;
+          display: block; width: 100%;
+          background: var(--green); color: white;
+          padding: 18px; border-radius: 16px;
+          font-size: 18px; font-weight: 700;
+          transition: all 0.2s; text-align: center;
+          box-shadow: 0 4px 16px rgba(26,141,72,0.3);
           text-decoration: none;
-          display: block;
-          text-align: center;
+          cursor: pointer;
         }
-        .pricing-btn:hover {
-          background: #15753c;
-          box-shadow: 0 8px 24px rgba(26, 141, 72, 0.3);
-        }
+        .pricing-btn:hover { background: #15753c; transform: translateY(-2px); }
+
         .pricing-addon {
-          width: 100%;
-          background: var(--blue-light);
-          border: 2px solid var(--blue-primary);
-          padding: 20px;
-          border-radius: 12px;
-        }
-        .pricing-addon.green {
-          background: var(--green-light);
-          border-color: var(--green);
+          background: var(--blue-light); border-radius: 16px;
+          padding: 24px 28px; margin-top: 20px; text-align: center;
         }
         .pricing-addon h4 {
-          font-size: 15px;
-          font-weight: 700;
-          color: var(--text-primary);
-          margin-bottom: 6px;
+          font-size: 16px; font-weight: 700; color: var(--blue-primary); margin-bottom: 6px;
         }
-        .pricing-addon p {
-          font-size: 14px;
-          color: var(--text-secondary);
-        }
-        .addon-price {
-          font-weight: 700;
-          color: var(--text-primary);
-        }
+        .pricing-addon p { font-size: 14px; color: var(--text-secondary); }
+        .pricing-addon .addon-price { font-weight: 800; color: var(--text-primary); font-size: 18px; }
 
         /* === RULES === */
         .rules-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 32px;
-          margin-top: 56px;
+          display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+          max-width: 800px; margin: 0 auto;
         }
         .rule-card {
-          display: flex;
-          gap: 20px;
-          background: white;
-          padding: 32px;
-          border-radius: 16px;
-          box-shadow: var(--card-shadow);
-          transition: all 0.3s;
-        }
-        .rule-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+          background: white; border-radius: 16px; padding: 24px;
+          display: flex; gap: 16px; align-items: flex-start;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         .rule-num {
-          font-size: 32px;
-          font-weight: 900;
-          color: var(--green);
-          min-width: 50px;
+          width: 36px; height: 36px; border-radius: 10px;
+          background: var(--bg-gray); display: flex; align-items: center;
+          justify-content: center; font-size: 16px; font-weight: 800;
+          color: var(--text-primary); flex-shrink: 0;
         }
-        .rule-card h4 {
-          font-size: 18px;
-          font-weight: 700;
-          color: var(--text-primary);
-          margin-bottom: 8px;
-        }
-        .rule-card p {
-          font-size: 14px;
-          color: var(--text-secondary);
-          line-height: 1.6;
-        }
+        .rule-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .rule-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 
         /* === REVIEWS === */
-        .review-scroll-wrap {
-          overflow-x: auto;
-          scroll-behavior: smooth;
-          margin-top: 56px;
-        }
+        .review-scroll-wrap { overflow: hidden; margin: 0 -24px; padding: 0 24px; }
         .review-scroll {
-          display: flex;
-          gap: 24px;
-          padding-bottom: 12px;
+          display: flex; gap: 20px; padding: 8px 0 24px;
           width: max-content;
+          animation: studyMarquee 80s linear infinite;
+        }
+        .review-scroll:hover { animation-play-state: paused; }
+        @keyframes studyMarquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
         .review-card {
-          flex: 0 0 380px;
-          background: white;
-          padding: 32px;
-          border-radius: 16px;
+          flex-shrink: 0; width: 300px;
+          background: white; border-radius: 20px; padding: 28px;
           box-shadow: var(--card-shadow);
-          transition: all 0.3s;
         }
-        .review-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 8px 40px rgba(0,0,0,0.1);
-        }
-        .review-stars {
-          font-size: 16px;
-          color: #FFC107;
-          margin-bottom: 16px;
-          letter-spacing: 2px;
-        }
+        .review-stars { color: #FFC107; font-size: 16px; margin-bottom: 12px; letter-spacing: 2px; }
         .review-text {
-          font-size: 15px;
-          color: var(--text-secondary);
-          line-height: 1.6;
-          margin-bottom: 24px;
+          font-size: 15px; color: var(--text-secondary); line-height: 1.7;
+          margin-bottom: 16px; min-height: 72px;
         }
-        .review-author {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
+        .review-author { display: flex; align-items: center; gap: 12px; }
         .review-avatar {
-          font-size: 32px;
-          flex-shrink: 0;
+          width: 40px; height: 40px; border-radius: 50%;
+          background: var(--green-light); display: flex; align-items: center;
+          justify-content: center; font-size: 18px;
         }
-        .review-name {
-          font-size: 14px;
-          font-weight: 700;
-          color: var(--text-primary);
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
+        .review-name { font-size: 14px; font-weight: 700; }
+        .review-info { font-size: 12px; color: var(--text-tertiary); }
         .review-grade {
-          background: var(--green);
-          color: white;
-          padding: 2px 8px;
-          border-radius: 4px;
-          font-size: 11px;
-          font-weight: 700;
-        }
-        .review-info {
-          font-size: 12px;
-          color: var(--text-tertiary);
+          display: inline-block; background: var(--green-light);
+          color: var(--green); font-size: 11px; font-weight: 700;
+          padding: 2px 8px; border-radius: 6px; margin-left: 8px;
         }
 
         /* === FAQ === */
-        .faq-list {
-          margin-top: 56px;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
+        .faq-list { max-width: 720px; margin: 0 auto; }
         .faq-item {
-          background: white;
-          border: 1px solid var(--border);
-          border-radius: 12px;
-          overflow: hidden;
-          transition: all 0.2s;
-        }
-        .faq-item.open {
-          border-color: var(--green);
-          box-shadow: 0 4px 16px rgba(26, 141, 72, 0.1);
+          border-bottom: 1px solid var(--border);
         }
         .faq-question {
-          padding: 20px 24px;
-          background: white;
-          border: none;
-          width: 100%;
+          width: 100%; padding: 24px 0; background: none;
+          display: flex; justify-content: space-between; align-items: center;
+          font-size: 16px; font-weight: 600; color: var(--text-primary);
           text-align: left;
-          font-size: 16px;
-          font-weight: 600;
-          color: var(--text-primary);
           cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          transition: background 0.2s;
         }
-        .faq-question:hover {
-          background: var(--bg-gray);
+        .faq-question .arrow {
+          transition: transform 0.3s; font-size: 20px; color: var(--text-tertiary);
         }
-        .faq-icon {
-          width: 20px;
-          height: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--green);
-          font-weight: 700;
-          flex-shrink: 0;
-          transition: transform 0.3s;
-        }
-        .faq-item.open .faq-icon {
-          transform: rotate(180deg);
-        }
+        .faq-question.open .arrow { transform: rotate(180deg); }
         .faq-answer {
-          overflow: hidden;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          background: rgba(26, 141, 72, 0.02);
-          max-height: 0;
+          max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
         }
-        .faq-item.open .faq-answer {
-          max-height: 500px;
-        }
-        .faq-answer-content {
-          padding: 0 24px 20px;
-          font-size: 15px;
-          color: var(--text-secondary);
-          line-height: 1.6;
+        .faq-answer-inner {
+          padding: 0 0 24px;
+          font-size: 15px; color: var(--text-secondary); line-height: 1.7;
         }
 
         /* === CTA BANNER === */
         .cta-banner {
-          background: linear-gradient(135deg, var(--green) 0%, #0e6a38 100%);
-          color: white;
-          padding: 60px 0;
-          text-align: center;
-          margin: 80px 0 0;
+          background: linear-gradient(135deg, var(--green) 0%, #34D399 100%);
+          padding: 80px 0; text-align: center;
         }
         .cta-banner h2 {
-          font-size: 36px;
-          font-weight: 800;
-          margin-bottom: 16px;
+          font-size: 36px; font-weight: 800; color: white;
+          margin-bottom: 16px; letter-spacing: -0.03em;
         }
         .cta-banner p {
-          font-size: 18px;
-          margin-bottom: 32px;
-          font-weight: 500;
+          font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 36px;
         }
-        .btn-white {
-          background: white;
-          color: var(--green);
-          padding: 18px 40px;
-          border-radius: 12px;
-          font-size: 18px;
-          font-weight: 700;
-          text-decoration: none;
-          display: inline-block;
+        .cta-banner .btn-white {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: white; color: var(--green);
+          padding: 18px 40px; border-radius: 16px;
+          font-size: 18px; font-weight: 700;
           transition: all 0.2s;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+          text-decoration: none;
         }
-        .btn-white:hover {
-          background: rgba(255, 255, 255, 0.9);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        }
+        .cta-banner .btn-white:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
 
         /* === FOOTER === */
         .footer {
-          background: var(--text-primary);
-          color: white;
-          padding: 40px 0;
-          text-align: center;
+          background: var(--text-primary); color: rgba(255,255,255,0.6);
+          padding: 48px 0;
         }
         .footer-inner {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-          gap: 20px;
+          display: flex; justify-content: space-between; align-items: center;
+          flex-wrap: wrap; gap: 16px;
         }
-        .footer-links {
-          display: flex;
-          gap: 24px;
-          justify-content: center;
-        }
-        .footer-links a {
-          color: rgba(255, 255, 255, 0.7);
-          font-size: 14px;
-          transition: color 0.2s;
-        }
-        .footer-links a:hover {
-          color: white;
-        }
-        .footer-copy {
-          font-size: 12px;
-          color: rgba(255, 255, 255, 0.5);
-        }
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a { font-size: 14px; transition: color 0.2s; text-decoration: none; }
+        .footer-links a:hover { color: white; }
+        .footer-copy { font-size: 13px; }
 
         /* === FLOATING CTA === */
         .floating-cta {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: white;
+          position: fixed; bottom: 0; left: 0; right: 0; z-index: 150;
+          background: rgba(255,255,255,0.95);
+          backdrop-filter: blur(16px);
           border-top: 1px solid var(--border);
-          padding: 16px 24px;
-          z-index: 99;
-          transform: translateY(100%);
-          transition: transform 0.3s;
-          box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
-        }
-        .floating-cta.show {
-          transform: translateY(0);
-        }
-        .floating-inner {
-          max-width: 1140px;
-          margin: 0 auto;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-        .floating-info {
-          display: flex;
-          align-items: center;
-          gap: 24px;
-        }
-        .floating-queue {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 15px;
-          font-weight: 600;
-          color: var(--text-primary);
-        }
-        .fq-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: var(--red);
-          animation: pulse 1.5s infinite;
-        }
-        .floating-price {
-          font-size: 15px;
-          color: var(--text-secondary);
-        }
-        .floating-price strong {
-          color: var(--text-primary);
-          font-weight: 700;
-        }
-        .floating-btn {
-          background: var(--green);
-          color: white;
           padding: 12px 24px;
-          border-radius: 8px;
-          font-size: 15px;
-          font-weight: 700;
-          text-decoration: none;
-          transition: all 0.2s;
+          transform: translateY(100%);
+          transition: transform 0.3s ease;
         }
-        .floating-btn:hover {
-          background: #15753c;
-        }
-
-        /* === GOOGLE FORM MODAL === */
-        .form-modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0,0,0,0.6);
-          z-index: 10000;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-          backdrop-filter: blur(4px);
-        }
-        .form-modal-content {
-          background: #fff;
-          border-radius: 20px;
-          max-width: 420px;
-          width: 100%;
-          position: relative;
-          overflow: hidden;
-          animation: modalSlideUp 0.3s ease;
-        }
-        @keyframes modalSlideUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .form-modal-close {
-          position: absolute;
-          top: 16px;
-          right: 16px;
-          background: none;
-          border: none;
-          font-size: 20px;
-          cursor: pointer;
-          color: #999;
-          z-index: 1;
-        }
-        .form-modal-body {
-          padding: 40px 32px;
-          text-align: center;
-        }
-        .form-modal-icon {
-          font-size: 48px;
-          margin-bottom: 16px;
-        }
-        .form-modal-body h3 {
-          font-size: 22px;
-          font-weight: 700;
-          margin-bottom: 12px;
-          color: #191F28;
-        }
-        .form-modal-body > p {
-          font-size: 15px;
-          color: #666;
-          line-height: 1.6;
-          margin-bottom: 20px;
-        }
-        .form-modal-info {
-          background: #F8F9FA;
-          border-radius: 12px;
-          padding: 16px;
-          margin-bottom: 24px;
-          display: flex;
-          justify-content: space-around;
-          font-size: 14px;
-          color: #333;
+        .floating-cta.show { transform: translateY(0); }
+        .floating-inner {
+          max-width: 1140px; margin: 0 auto;
+          display: flex; align-items: center; justify-content: space-between;
           gap: 16px;
         }
-        .form-modal-btn {
-          display: block;
-          width: 100%;
-          padding: 16px;
-          background: #3366FF;
-          color: #fff;
-          text-align: center;
-          border-radius: 12px;
-          font-size: 16px;
-          font-weight: 600;
+        .floating-info { display: flex; align-items: center; gap: 16px; }
+        .floating-queue {
+          display: flex; align-items: center; gap: 6px;
+          font-size: 14px; font-weight: 600; color: var(--green);
+        }
+        .floating-queue .fq-dot {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: var(--green); animation: pulse 2s infinite;
+        }
+        .floating-price { font-size: 14px; color: var(--text-secondary); }
+        .floating-price strong { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+        .floating-btn {
+          background: var(--green); color: white;
+          padding: 14px 32px; border-radius: 14px;
+          font-size: 16px; font-weight: 700;
+          transition: all 0.2s; white-space: nowrap;
+          box-shadow: 0 4px 12px rgba(26,141,72,0.3);
           text-decoration: none;
-          transition: background 0.2s;
+          display: inline-block;
+          cursor: pointer;
         }
-        .form-modal-btn:hover {
-          background: #2952CC;
-        }
-        .form-modal-note {
-          font-size: 12px;
-          color: #999;
-          margin-top: 12px;
-        }
+        .floating-btn:hover { background: #15753c; }
 
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
-          .nav-links {
-            display: none;
-          }
-          .hero {
-            padding: 80px 0 40px;
-          }
-          .hero h1 {
-            font-size: 36px;
-          }
-          .hero .subtitle {
-            font-size: 16px;
-            margin-bottom: 32px;
-          }
-          .queue-box {
-            padding: 24px 32px;
-            margin-bottom: 28px;
-          }
-          .section-title {
-            font-size: 32px;
-          }
-          .section-desc {
-            font-size: 16px;
-          }
-          .why-grid {
-            grid-template-columns: 1fr;
-          }
-          .cur-day-grid {
-            grid-template-columns: 1fr;
-          }
-          .rules-grid {
-            grid-template-columns: 1fr;
-          }
-          .review-card {
-            flex: 0 0 300px;
-          }
-          .faq-question {
-            padding: 16px 20px;
-            font-size: 14px;
-          }
-          .faq-answer-content {
-            padding: 0 20px 16px;
-          }
-          .cta-banner h2 {
-            font-size: 24px;
-          }
-          .cta-banner p {
-            font-size: 14px;
-          }
-          .floating-inner {
-            flex-direction: column;
-            gap: 12px;
-            align-items: stretch;
-          }
-          .floating-info {
-            flex-direction: column;
-            gap: 12px;
-          }
-          .floating-queue, .floating-price {
-            justify-content: space-between;
-            width: 100%;
-          }
-          .floating-btn {
-            width: 100%;
-            text-align: center;
-          }
-          .toast {
-            max-width: calc(100vw - 48px);
-          }
+          .container { padding: 0 16px; }
+          .nav-links { display: none; }
+          .nav-inner { height: 56px; }
+          .hero { padding: 90px 0 48px; }
+          .hero h1 { font-size: 26px; line-height: 1.4; }
+          .hero .subtitle { font-size: 14px; line-height: 1.7; }
+          .queue-box { padding: 20px 24px; }
+          .queue-number { font-size: 40px; }
+          .queue-label { font-size: 13px; }
+          .section { padding: 56px 0; }
+          .section-title { font-size: 22px; }
+          .section-desc { font-size: 14px; }
+          .why-grid { grid-template-columns: 1fr; gap: 16px; }
+          .flow-steps { flex-direction: column; align-items: center; }
+          .flow-step:not(:last-child)::after { display: none; }
+          .flow-step { max-width: 100%; }
+          .rules-grid { grid-template-columns: 1fr; gap: 12px; }
+          .pricing-card { padding: 28px 20px; }
+          .pricing-amount { font-size: 36px; }
+          .hero-cta-group { flex-direction: column; align-items: center; }
+          .btn-primary, .btn-secondary { width: 100%; max-width: 320px; text-align: center; justify-content: center; font-size: 16px; padding: 14px 24px; }
+          .floating-info { display: none; }
+          .floating-inner { justify-content: center; padding: 0 16px; }
+          .floating-btn { width: 100%; text-align: center; font-size: 15px; }
+          .toast { max-width: calc(100vw - 32px); font-size: 13px; }
+          .review-card { width: 260px; padding: 20px; }
+          .review-text { font-size: 14px; min-height: 60px; }
+          .faq-question { font-size: 14px !important; padding: 18px 0 !important; }
         }
-      `}} />
+
+        @media (max-width: 400px) {
+          .hero h1 { font-size: 22px; }
+          .queue-number { font-size: 36px; }
+          .section-title { font-size: 20px; }
+          .pricing-amount { font-size: 32px; }
+        }
+
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/variable/pretendardvariable.min.css');
+      `}</style>
 
       {/* NAV */}
       <nav className="nav" id="nav">
@@ -1300,9 +893,9 @@ export default function StudyPage() {
             <a href="#reviews">후기</a>
             <a href="#faq">FAQ</a>
           </div>
-          <button onClick={() => setShowFormModal(true)} className="nav-cta">
-            지금 신청하기
-          </button>
+          <a href="#pricing" className="nav-cta">
+            대기 신청하기
+          </a>
         </div>
       </nav>
 
@@ -1311,37 +904,47 @@ export default function StudyPage() {
         <div className="container hero-content">
           <div className="hero-badge">
             <span className="dot"></span>
-            4월 1일 시작 · 선착순 20명 한정
+            현재 모집 중 · 3인 한정
           </div>
           <h1>
             2주 만에<br />
-            <span className="accent">OPIC 목표 등급</span> 달성
+            <span className="accent">OPIC 목푟 등급</span> 달성
           </h1>
           <p className="subtitle">
-            소그룹 3인 1팀. 매일 스피킹 과제 + AI 피드백 + 코칭.<br />
+            소그룹 3인 1팀. 매일 스피맵 과제 + AI 피드백 + 코칭.<br />
             <strong>프레임워크 기반 답변 훈련</strong>으로 가장 구조적으로 준비하세요.
           </p>
 
           {/* QUEUE COUNTER */}
-          <div className="queue-box">
-            <div className="queue-label">🔥 선착순 20명 한정</div>
-            <div className="queue-progress-bar">
-              <div className="queue-progress-fill" style={{ width: `${((totalSlots - remainingSlots) / totalSlots) * 100}%` }}></div>
+          <div className="queue-box" ref={heroQueueRef}>
+            <div className="queue-label">현재 대기 중인 수강생</div>
+            <div className="queue-number" ref={queueRef}>
+              {currentQueue}
             </div>
-            <div className="queue-stats">
-              <span>✅ 현재 신청: {totalSlots - remainingSlots}명</span>
-              <span>⏰ 남은 자리: <strong>{remainingSlots}명</strong></span>
-            </div>
+            <div className="queue-unit">명</div>
             <div className="queue-sub">
               <span className="live-dot"></span>
-              실시간 업데이트 · 마감 임박
+              실시간 업데이트 · 선착순 마감
             </div>
           </div>
 
+          {/* SPOTS LEFT */}
+          <div style={{
+            marginTop: '16px', padding: '12px 20px', borderRadius: '12px',
+            background: spotsLeft <= 3 ? '#FFF5F5' : '#FFF8E1',
+            border: spotsLeft <= 3 ? '1px solid #FECACA' : '1px solid #FDE68A',
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            fontSize: '15px', fontWeight: 700,
+            color: spotsLeft <= 3 ? '#DC2626' : '#D97706',
+            animation: 'pulse 2s infinite'
+          }}>
+            🔥 남은 자리: <span style={{ fontSize: '20px' }}>{spotsLeft}</span>자리
+          </div>
+
           <div className="hero-cta-group">
-            <button onClick={() => setShowFormModal(true)} className="btn-primary">
-              지금 신청하기 →
-            </button>
+            <a href="#pricing" className="btn-primary">
+              대기 신청하기 →
+            </a>
             <Link href="/" className="btn-secondary">
               메인으로 돌아가기
             </Link>
@@ -1358,7 +961,7 @@ export default function StudyPage() {
           </div>
           <div className="why-grid">
             <div className="why-card">
-              <div className="why-icon green">⏱️</div>
+              <div className="why-icon green">⏰</div>
               <h3>2주 집중 설계</h3>
               <p>불필요한 걸 다 뺐습니다. 2주 동안 OPIC 점수를 올리는 것에만 집중하는 커리큘럼.</p>
             </div>
@@ -1383,7 +986,7 @@ export default function StudyPage() {
               <p>1,000건 이상의 수강 후기. IH, AL 등급 달성 사례가 계속 쌓이고 있습니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon orange">🔒</div>
+              <div className="why-icon orange">🔐</div>
               <h3>SpeakCoach AI 포함</h3>
               <p>스터디 기간 동안 SpeakCoach AI Pro를 무료로 제공. 매일 AI 분석으로 약점을 정밀 교정합니다.</p>
             </div>
@@ -1424,20 +1027,20 @@ export default function StudyPage() {
             <div className="cur-week active">
               <div className="cur-week-dot"></div>
               <div className="cur-week-label">WEEK 2</div>
-              <h3>실전 심화 + 최종 점검</h3>
-              <p>실제 시험처럼 고난이도 질문에 대응하고, 개인 약점을 최종 보완합니다.</p>
+              <h3>실전 감각 완성 + 고득점 전략</h3>
+              <p>롤플레이, 돌발 질문 대응, 실전 모의고사로 실제 시험에 대한 자신감을 완성합니다.</p>
               <div className="cur-day-grid">
                 <div className="cur-day">
-                  <strong>Day 8-9</strong> 고난이도 토픽 훈련
+                  <strong>Day 8-9</strong> 롤플레이 집중 훈련
                 </div>
                 <div className="cur-day">
-                  <strong>Day 10-11</strong> 실전 모의고사
+                  <strong>Day 10-11</strong> 돌발 질문 + 고급 표현
                 </div>
                 <div className="cur-day">
-                  <strong>Day 12-13</strong> 개인 약점 집중 훈련
+                  <strong>Day 12-13</strong> 실전 모의고사 2회
                 </div>
                 <div className="cur-day">
-                  <strong>Day 14</strong> 최종 모의고사 + 피드백
+                  <strong>Day 14</strong> 최종 리뷰 + 시험 전략
                 </div>
               </div>
             </div>
@@ -1449,39 +1052,34 @@ export default function StudyPage() {
       <section className="section" id="daily">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">하루 흐름</div>
-            <p className="section-desc">매일 반복되는 루틴으로 OPIC 성적을 빠르게 올립니다.</p>
+            <div className="section-title">하루는 이렇게 흘러갑니다</div>
+            <p className="section-desc">매일 반복되는 구조가 실력을 만듭니다.</p>
           </div>
-          <div className="why-grid" style={{ marginTop: '56px' }}>
-            <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>📝</div>
-              <h3>학습 자료 공개</h3>
-              <p>오전 8시에 그날의 토픽과 질문, 답변 프레임을 공개합니다. 구조를 파악하고 준비를 시작하세요.</p>
+          <div className="flow-steps">
+            <div className="flow-step">
+              <div className="flow-icon">🌅</div>
+              <h4>오전</h4>
+              <p>당일 토픽 공지 + 학습 자료 확인</p>
             </div>
-            <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>🎤</div>
-              <h3>답변 녹음 및 제출</h3>
-              <p>당일 자정까지 SpeakCoach AI에서 답변을 녹음하고 제출합니다. 1~2분 길이의 자연스러운 답변을 목표로 합니다.</p>
+            <div className="flow-step">
+              <div className="flow-icon">🎤</div>
+              <h4>스피맵 과제</h4>
+              <p>프레임워크에 맞춰 답변 녹음 제출</p>
             </div>
-            <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>🤖</div>
-              <h3>AI 분석 리포트</h3>
-              <p>SpeakCoach AI가 자동으로 발음, 문법, 유창성, 어휘를 분석해서 피드백을 제공합니다. 약점을 한눈에 파악하세요.</p>
+            <div className="flow-step">
+              <div className="flow-icon">🤖</div>
+              <h4>AI 분석</h4>
+              <p>SpeakCoach AI가 발음·문법·유창성 분석</p>
             </div>
-            <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>💬</div>
-              <h3>코치 피드백</h3>
-              <p>담당 코치가 팀별로 모여 각자의 답변을 청취하고, 개선점과 칭찬을 카톡방에 공유합니다.</p>
+            <div className="flow-step">
+              <div className="flow-icon">💬</div>
+              <h4>코치 피드백</h4>
+              <p>코치가 핵심 포인트를 짚어 개인별 피드백</p>
             </div>
-            <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>🔄</div>
-              <h3>재교정 연습</h3>
-              <p>AI 분석과 코치 피드백을 바탕으로 즉시 재교정 연습을 합니다. 같은 질문을 2~3회 다시 녹음해보세요.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>📊</div>
-              <h3>팀 공유 및 자극</h3>
-              <p>팀원들의 답변과 피드백도 공유되니, 서로의 성장을 보며 자극받고 내일의 준비로 이어집니다.</p>
+            <div className="flow-step">
+              <div className="flow-icon">💪</div>
+              <h4>교정 연습</h4>
+              <p>피드백 기반 재녹음 + 약점 드릴</p>
             </div>
           </div>
         </div>
@@ -1491,38 +1089,61 @@ export default function StudyPage() {
       <section className="section section-gray" id="pricing">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">가격</div>
-            <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함. 지금 신청하면 얼리버드 가격이 적용됩니다.</p>
+            <div className="section-title">수강료</div>
+            <p className="section-desc">
+              SpeakCoach AI Pro 2주 무료 포함. 지금 신청하면 얼리버드 가격이 적용됩니다.
+            </p>
           </div>
-          <div className="pricing-section">
-            <div className="pricing-badge">💰 얼리버드 가격</div>
-            <div className="pricing-header">
-              <h3>2주 집중 스터디</h3>
-              <div className="pricing-duration">4월 1일~14일 (14일간)</div>
+          <div className="pricing-area">
+            <div className="pricing-card">
+              <div className="pricing-popular">BEST</div>
+              <div className="pricing-name">2주 집중 OPIC 스터디</div>
+              <div className="pricing-title">소그룹 3인 1팀 · 14일</div>
+              <div className="pricing-original">₩179,900</div>
+              <div className="pricing-amount">
+                <span className="won">₩</span>149,000
+              </div>
+              <div className="pricing-period">얼리버드 한정가</div>
+              <ul className="pricing-features">
+                <li>
+                  <span className="check">✓</span> 2주 (14일) 집중 커리큘럼
+                </li>
+                <li>
+                  <span className="check">✓</span> 소그룹 3인 1팀 구성
+                </li>
+                <li>
+                  <span className="check">✓</span> 매일 스피맵 과제 + 코치 피드백
+                </li>
+                <li>
+                  <span className="check">✓</span> SpeakCoach AI Pro 11일 무료 제공
+                </li>
+                <li>
+                  <span className="check">✓</span> SpeakCoach AI Premium 3일 체험
+                </li>
+                <li>
+                  <span className="check">✓</span> 프레임워크 답변 템플릿 제공
+                </li>
+                <li>
+                  <span className="check">✓</span> 카카오톡 그룹 실시간 소통
+                </li>
+              </ul>
+              <a
+                href="https://www.notion.so/1-21dc7de0b170808a83bae9009d68a73e?source=copy_link"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pricing-btn"
+              >
+                대기 신청하기 →
+              </a>
             </div>
-            <div className="pricing-price-main">₩149,000</div>
-            <div className="pricing-desc">
-              SpeakCoach AI Pro 2주 무료 + 전담 코치 피드백 + 모의고사 포함
-            </div>
-            <div className="pricing-features">
-              <div className="pricing-feature">3인 소그룹 코칭 (일 1~2회)</div>
-              <div className="pricing-feature">일일 미션 + AI 분석 피드백</div>
-              <div className="pricing-feature">SpeakCoach AI Pro 2주 무료</div>
-              <div className="pricing-feature">모의고사 3세트 + 해설</div>
-              <div className="pricing-feature">학습 자료 무제한 재사용</div>
-              <div className="pricing-feature">졸업 후 코칭 채팅 3개월 지원</div>
-            </div>
-            <button onClick={() => setShowFormModal(true)} className="pricing-btn">
-              지금 신청하기 →
-            </button>
             <div className="pricing-addon">
               <h4>✨ Premium 업그레이드</h4>
               <p>
-                +<span className="addon-price">₩10,000</span>만 추가하면 2주 내내 SpeakCoach AI{' '}
+                +<span className="addon-price">₩10,000</span>만 추가하면 2주 내내 SpeakCoach AI
                 <strong>Premium</strong>을 이용할 수 있어요.
               </p>
             </div>
-            <div className="pricing-addon green" style={{ marginTop: '12px' }}>
+            <div className="pricing-addon" style={{ marginTop: '12px', background: 'var(--green-light)' }}>
               <h4>🍱 수료 후 특별 혜택</h4>
               <p>
                 수료 후 SpeakCoach AI Premium 1개월을{' '}
@@ -1566,7 +1187,7 @@ export default function StudyPage() {
               <div className="rule-num">04</div>
               <div>
                 <h4>환불 규정</h4>
-                <p>⚠️ 단톡방 초대(조원 편성) 이후 환불 불가. 초대 전 전액 환불 가능.</p>
+                <p>시작 전 100% 환불. 시작 후 3일 이내 50%. 이후 환불 불가.</p>
               </div>
             </div>
           </div>
@@ -1581,119 +1202,25 @@ export default function StudyPage() {
             <p className="section-desc">1,000건 이상의 실제 후기 중 일부입니다.</p>
           </div>
           <div className="review-scroll-wrap">
-            <div className="review-scroll" ref={reviewScrollRef}>
-              <div className="review-card">
-                <div className="review-stars">★★★★★</div>
-                <div className="review-text">
-                  2주 만에 IM3에서 IH로 올랐어요. 프레임워크가 진짜 효과 있었습니다. 답변할 때 구조가
-                  잡히니까 자신감이 다릅니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">👋</div>
-                  <div>
-                    <div className="review-name">
-                      김*현 <span className="review-grade">IH</span>
+            <div
+              className="review-scroll"
+              ref={reviewScrollRef}
+            >
+              {[...reviews, ...reviews].map((review, idx) => (
+                <div className="review-card" key={idx}>
+                  <div className="review-stars">★★★★★</div>
+                  <div className="review-text">{review.text}</div>
+                  <div className="review-author">
+                    <div className="review-avatar">{review.avatar}</div>
+                    <div>
+                      <div className="review-name">
+                        {review.name} <span className="review-grade">{review.grade}</span>
+                      </div>
+                      <div className="review-info">{review.info}</div>
                     </div>
-                    <div className="review-info">대학생 · 2주 스터디</div>
                   </div>
                 </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★★★★★</div>
-                <div className="review-text">
-                  SpeakCoach AI로 매일 연습하고, 스터디에서 피드백 받으니까 내 약점이 정확히 보였어요.
-                  결국 AL 받았습니다!
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">💪</div>
-                  <div>
-                    <div className="review-name">
-                      이*준 <span className="review-grade">AL</span>
-                    </div>
-                    <div className="review-info">취준생 · 스터디 + AI</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★★★★★</div>
-                <div className="review-text">
-                  직장 다니면서 준비하기 힘들었는데 2주라서 집중할 수 있었어요. 매일 과제 내는 게 핵심인
-                  것 같아요.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">💻</div>
-                  <div>
-                    <div className="review-name">
-                      박*영 <span className="review-grade">IH</span>
-                    </div>
-                    <div className="review-info">직장인 · 승진 준비</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★★★★★</div>
-                <div className="review-text">
-                  혼자 했으면 절대 못 했을 거예요. 3명이니까 서로 자극도 되고 포기할 수가 없었어요. IL에서
-                  IM2 찍었습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">☀️</div>
-                  <div>
-                    <div className="review-name">
-                      정*아 <span className="review-grade">IM2</span>
-                    </div>
-                    <div className="review-info">대학생 · 2주 스터디</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★★★★★</div>
-                <div className="review-text">
-                  인강으로 기본기 잡고 스터디에서 실전 연습하니까 시너지가 대단했어요. IH 목표였는데 AL이
-                  나왔습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">🚀</div>
-                  <div>
-                    <div className="review-name">
-                      이*민 <span className="review-grade">AL</span>
-                    </div>
-                    <div className="review-info">직장인 · 실전 준비</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★★★★★</div>
-                <div className="review-text">
-                  AI 피드백이 이렇게 정확할 줄 몰랐어요. 매일 내 발음과 문법 실수를 바로 지적해주니까
-                  빠르게 개선됐습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">✨</div>
-                  <div>
-                    <div className="review-name">
-                      최*리 <span className="review-grade">IM2</span>
-                    </div>
-                    <div className="review-info">대학원생 · 유학 준비</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★★★★★</div>
-                <div className="review-text">
-                  온라인이라고 걱정했는데 카톡 채팅과 공유로 충분했어요. 팀원들이 열심히 하니까 저도
-                  자연스럽게 열심히 하게 됐습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">📱</div>
-                  <div>
-                    <div className="review-name">
-                      한*수 <span className="review-grade">IH</span>
-                    </div>
-                    <div className="review-info">직장인 · 온라인 진행</div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -1704,19 +1231,25 @@ export default function StudyPage() {
         <div className="container">
           <div style={{ textAlign: 'center' }}>
             <div className="section-title">자주 묻는 질문</div>
-            <p className="section-desc">더 궁금한 점은 문의하기를 통해 연락주세요.</p>
+            <p className="section-desc">궁금한 점이 있으면 언제든 문의해주세요.</p>
           </div>
           <div className="faq-list">
             {faqItems.map((item, index) => (
-              <div key={index} className={`faq-item ${openFaqIndex === index ? 'open' : ''}`}>
-                <button className="faq-question" onClick={() => toggleFaq(index)}>
-                  <span>{item.question}</span>
-                  <span className="faq-icon">+</span>
+              <div className="faq-item" key={index}>
+                <button
+                  className={`faq-question ${openFaqIndex === index ? 'open' : ''}`}
+                  onClick={() => toggleFaq(index)}
+                >
+                  {item.question}
+                  <span className="arrow">▼</span>
                 </button>
-                <div className="faq-answer" style={{ maxHeight: openFaqIndex === index ? (faqAnswerHeights[index] || 'auto') : 0 }}>
-                  <div className="faq-answer-content" id={`faq-answer-${index}`}>
-                    {item.answer}
-                  </div>
+                <div
+                  className="faq-answer"
+                  ref={(el) => {
+                    if (el) faqAnswerRefs.current[index] = el;
+                  }}
+                >
+                  <div className="faq-answer-inner">{item.answer}</div>
                 </div>
               </div>
             ))}
@@ -1728,10 +1261,12 @@ export default function StudyPage() {
       <section className="cta-banner">
         <div className="container">
           <h2>다음 팀에 합류하세요</h2>
-          <p>선착순 20명 중 <strong>{totalSlots - ctaRemainingSlots}명</strong> 신청 완료. 남은 자리 <strong>{ctaRemainingSlots}석</strong></p>
-          <button onClick={() => setShowFormModal(true)} className="btn-white">
-            지금 신청하기 →
-          </button>
+          <p>
+            3인이 모이면 바로 시작합니다. 지금 <span ref={ctaQueueRef}>{currentQueue}</span>명이 대기 중이에요.
+          </p>
+          <a href="#pricing" className="btn-white">
+            대기 신청하기 →
+          </a>
         </div>
       </section>
 
@@ -1755,63 +1290,54 @@ export default function StudyPage() {
       </footer>
 
       {/* FLOATING CTA */}
-      <div className={`floating-cta ${showFloatingCta ? 'show' : ''}`} id="floatingCta">
+      <div className={`floating-cta ${showFloatingCta ? 'show' : ''}`}>
         <div className="floating-inner">
           <div className="floating-info">
             <div className="floating-queue">
               <span className="fq-dot"></span>
-              {floatingRemainingSlots}자리 남음
+              <span ref={floatingQueueRef}>{currentQueue}</span>명 대기 중
             </div>
             <div className="floating-price">
               얼리버드 <strong>₩149,000</strong>
             </div>
           </div>
-          <button
-            onClick={() => setShowFormModal(true)}
+          <a
+            href="https://www.notion.so/1-21dc7de0b170808a83bae9009d68a73e?source=copy_link"
+            target="_blank"
+            rel="noopener noreferrer"
             className="floating-btn"
           >
-            지금 신청하기 →
-          </button>
+            대기 신청하기 →
+          </a>
         </div>
       </div>
 
       {/* TOAST NOTIFICATIONS */}
       <div className="toast-area">
+        {spotToast && (
+          <div className="toast" style={{ background: 'linear-gradient(135deg, #DC2626, #EF4444)' }}>
+            <div className="toast-icon">🔥</div>
+            <div>
+              <strong>{spotToast}</strong>
+              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', marginTop: '2px' }}>
+                남은 자리: {spotsLeft}자리
+              </div>
+            </div>
+          </div>
+        )}
         {toasts.map((toast) => (
-          <div key={toast.id} className="toast">
+          <div className="toast" key={toast.id}>
             <div className="toast-icon">👋</div>
             <div>
               <strong>{toast.name}</strong>
               {toast.action}
               <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginTop: '2px' }}>
-                {toast.location} · {toast.mins}분 전
+                {toast.loc} · {toast.mins}분 전
               </div>
             </div>
           </div>
         ))}
       </div>
-
-      {/* GOOGLE FORM MODAL */}
-      {showFormModal && (
-        <div className="form-modal-overlay" onClick={() => setShowFormModal(false)}>
-          <div className="form-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="form-modal-close" onClick={() => setShowFormModal(false)}>✕</button>
-            <div className="form-modal-body">
-              <div className="form-modal-icon">📝</div>
-              <h3>스터디 신청서 작성</h3>
-              <p>구글 폼에서 신청서를 작성해주세요.<br/>선착순 마감이니 서둘러주세요!</p>
-              <div className="form-modal-info">
-                <div>💰 얼리버드가: <strong>₩149,000</strong></div>
-                <div>👥 남은 자리: <strong style={{color:'#FF3B5C'}}>{floatingRemainingSlots}명</strong></div>
-              </div>
-              <a href="https://forms.gle/dvCkYs8jSZZVyyFo7" target="_blank" rel="noopener noreferrer" className="form-modal-btn" onClick={() => setShowFormModal(false)}>
-                신청서 작성하기 →
-              </a>
-              <p className="form-modal-note">* 신청서 작성 후 0~2일 이내 확인 연락드립니다.</p>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
