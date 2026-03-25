@@ -465,6 +465,7 @@ img { max-width: 100%; display: block; }
 }
 .faq-question.open .arrow { transform: rotate(180deg); }
 .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.faq-item.open .faq-answer { max-height: 500px; }
 .faq-answer-inner {
   padding: 0 0 24px;
   font-size: 15px; color: var(--text-secondary); line-height: 1.7;
