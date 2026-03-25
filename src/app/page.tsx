@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [navShadow, setNavShadow] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
-  const reviewScrollRef = useRef<HTMLDivElement>(null);
+  // reviewScrollRef removed - now using CSS animation
 
   // Nav shadow on scroll
   useEffect(() => {
@@ -18,43 +18,7 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Auto-scroll reviews
-  useEffect(() => {
-    const scroll = reviewScrollRef.current;
-    if (!scroll) return;
-
-    let dir = 1;
-    let paused = false;
-
-    const handleMouseEnter = () => { paused = true; };
-    const handleMouseLeave = () => { paused = false; };
-    const handleTouchStart = () => { paused = true; };
-    const handleTouchEnd = () => {
-      setTimeout(() => { paused = false; }, 2000);
-    };
-
-    scroll.addEventListener('mouseenter', handleMouseEnter);
-    scroll.addEventListener('mouseleave', handleMouseLeave);
-    scroll.addEventListener('touchstart', handleTouchStart, { passive: true } as any);
-    scroll.addEventListener('touchend', handleTouchEnd);
-
-    const interval = setInterval(() => {
-      if (paused) return;
-      const max = scroll.scrollWidth - scroll.clientWidth;
-      if (max <= 0) return;
-      if (scroll.scrollLeft >= max - 2) dir = -1;
-      if (scroll.scrollLeft <= 2) dir = 1;
-      scroll.scrollLeft += dir;
-    }, 30);
-
-    return () => {
-      clearInterval(interval);
-      scroll.removeEventListener('mouseenter', handleMouseEnter);
-      scroll.removeEventListener('mouseleave', handleMouseLeave);
-      scroll.removeEventListener('touchstart', handleTouchStart);
-      scroll.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, []);
+  // Auto-scroll reviews now handled by CSS animation
 
   // Smooth scroll for anchor links
   useEffect(() => {
@@ -132,7 +96,7 @@ export default function Home() {
     },
     {
       question: "SpeakCoach AI는 어떻게 사용하나요?",
-      answer: "SpeakCoach AI는 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 접속할 수 있어요. 가입 후 답별을 녹음하면 AI가 발음, 문법, 유창성, 어휘 등 7개 카테고리로 분석해서 예상 등급과 구체적인 피드백을 제공합니다. 무료 체헗도 가능합니다."
+      answer: "SpeakCoach AI는 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 접속할 수 있어요. 가입 후 답변을 녹음하면 AI가 발음, 문법, 유창성, 어휘 등 7개 카테고리로 분석해서 예상 등급과 구체적인 피드백을 제공합니다. 무료 체험도 가능합니다."
     },
     {
       question: "2주 스터디는 어떤 식으로 진행되나요?",
@@ -140,11 +104,11 @@ export default function Home() {
     },
     {
       question: "영어를 진짜 못하는데 따라갈 수 있을까요?",
-      answer: "네, 가능합니다. 프레임워크 기반 훈렠이라 영어를 잘 못핔더라도 답변 구조를 따라가며 학습할 수 있어요. 실제로 IL 수준에서 시작해서 IM2, IH를 달성한 분들이 많습니다. 중요한 건 매일 꾸준히 과제를 제출하는 것입니다."
+      answer: "네, 가능합니다. 프레임워크 기반 훈련이라 영어를 잘 못하더라도 답변 구조를 따라가며 학습할 수 있어요. 실제로 IL 수준에서 시작해서 IM2, IH를 달성한 분들이 많습니다. 중요한 건 매일 꾸준히 과제를 제출하는 것입니다."
     },
     {
       question: "직장인인데 시간 투자가 많이 필요한가요?",
-      answer: "하루 평균 1~2시간이면 충분합니다. 학습 자렌 확인 10분, 답변 준비 및 녹음 30~40분, AI 분석 확인 20분, 코치 피드백 반영 20분 정도예요. 출퇴근 시간에 자료를 보고, 퇴근 후 녹음하는 패턴으로 진행하시는 직장인분들이 많습니다."
+      answer: "하루 평균 1~2시간이면 충분합니다. 학습 자료 확인 10분, 답변 준비 및 녹음 30~40분, AI 분석 확인 20분, 코치 피드백 반영 20분 정도예요. 출퇴근 시간에 자료를 보고, 퇴근 후 녹음하는 패턴으로 진행하시는 직장인분들이 많습니다."
     },
     {
       question: "환불은 어떻게 되나요?",
@@ -232,8 +196,8 @@ export default function Home() {
         <div className="container">
           <div className="newsletter-inner">
             <div className="newsletter-icon">✉️</div>
-            <h2>OPIC 무료 자료<br /><span className="highlight">질금 바로 받아보세요</span></h2>
-            <p>이메일을 구도하면 OPIC 준비에 꼭 필요한 무료 학습 자료를 보내드립니다.<br />매주 OPIC 꿀팁과 표현 정리도 함께 받아보세요.</p>
+            <h2>OPIC 무료 자료<br /><span className="highlight">지금 바로 받아보세요</span></h2>
+            <p>이메일을 구독하면 OPIC 준비에 꼭 필요한 무료 학습 자료를 보내드립니다.<br />매주 OPIC 꿀팁과 표현 정리도 함께 받아보세요.</p>
 
             {!newsletterSuccess ? (
               <>
@@ -245,7 +209,7 @@ export default function Home() {
               </>
             ) : (
               <div className="newsletter-success show">
-                구독 완료! 이메일로 무료 자료 맃크를 보내드렸습니다.
+                구독 완료! 이메일로 무료 자료 링크를 보내드렸습니다.
               </div>
             )}
 
@@ -372,7 +336,7 @@ export default function Home() {
                 <div className="feature-item">
                   <div className="feature-icon" style={{ fontSize: '14px' }}>FIX</div>
                   <div className="feature-text">
-                    <h4>약점 교정 드릸</h4>
+                    <h4>약점 교정 드릴</h4>
                     <p>가장 약한 영역을 집중 훈련하는 7분 교정 세션</p>
                   </div>
                 </div>
@@ -380,7 +344,7 @@ export default function Home() {
                   <div className="feature-icon" style={{ fontSize: '14px' }}>TEST</div>
                   <div className="feature-text">
                     <h4>실전 모의고사</h4>
-                    <p>35분 / 14문항 실제 OPIC 형시 모의 테스트</p>
+                    <p>35분 / 14문항 실제 OPIC 형식 모의 테스트</p>
                   </div>
                 </div>
               </div>
@@ -403,7 +367,7 @@ export default function Home() {
                   </div>
                   <div className="mockup-al-prob">
                     <div className="prob-num">47%</div>
-                    <div className="prob-label">AL 확정</div>
+                    <div className="prob-label">AL 확률</div>
                   </div>
                 </div>
                 <div className="mockup-bars">
@@ -429,7 +393,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div style={{ marginTop: '16px', padding: '12px', background: '#FFF5F5', borderRadius: '10px', fontSize: '12px', color: '#F04452' }}>
-                  <strong>구성력</strong>이 가장 앝한 영역입니다. 교정 드릴을 시작해보세요.
+                  <strong>구성력</strong>이 가장 약한 영역입니다. 교정 드릴을 시작해보세요.
                 </div>
               </div>
             </div>
@@ -437,175 +401,140 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PRICING */}
-      <section className="section section-gray" id="pricing">
-        <div className="container">
-          <div className="section-header">
-            <div className="overline">Pricing</div>
-            <h2>SpeakCoach AI 요금제</h2>
-            <p>커피 한 잔 값으로 AI 스피킹 코치를 만나보세요.</p>
-          </div>
-          <div className="pricing-grid">
-
-            {/* FREE */}
-            <div className="pricing-card">
-              <div className="plan-name">무료 이용자</div>
-              <div className="plan-price">0<span className="won">원</span></div>
-              <div className="plan-sub">가입겻 7 일간 무료</div>
-              <ul className="plan-features">
-                <li>7일간 무료 체험</li>
-                <li>1일 1회 연습</li>
-                <li>AI 피드백 &amp; 점수</li>
-              </ul>
-              <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-plan outline" style={{ display: 'block' }}>무료로 시작하기</a>
-            </div>
-
-            {/* PRO */}
-            <div className="pricing-card featured">
-              <div className="recommend-badge">추천</div>
-              <div className="plan-name">프로 패키지</div>
-              <div className="plan-original">31,900원</div>
-              <div className="plan-price">24,900<span className="won">원</span></div>
-              <div className="plan-sub">월 단 커피 4~5잔 값 · 3개월 구독 시 63,500원</div>
-              <ul className="plan-features">
-                <li>무제한 연습</li>
-                <li>500개 이상 OPIC 문제</li>
-                <li>유형별 맞촤 필터링</li>
-                <li>상세 AI 피드백</li>
-              </ul>
-              <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-plan primary" style={{ display: 'block' }}>무료로 시작하기</a>
-            </div>
-
-            {/* PREMIUM */}
-            <div className="pricing-card">
-              <div className="plan-name">프리미엄 패키지</div>
-              <div className="plan-original">41,900원</div>
-              <div className="plan-price">34,900<span className="won">원</span></div>
-              <div className="plan-sub">한먌 약 1,163원으로 AL 달성 · 3개월 89,000원</div>
-              <ul className="plan-features">
-                <li>프로 모든 기능 포함</li>
-                <li>실전 모의고사 10세트</li>
-                <li>Native Shadowing</li>
-                <li>고급 트래킹 &amp; 인사이트</li>
-              </ul>
-              <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-plan outline" style={{ display: 'block' }}>프리미엄으로 시작하기</a>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* REVIEWS */}
+      {/* REVIEWS SECTION */}
       <section className="section" id="reviews">
         <div className="container">
           <div className="section-header">
             <div className="overline">Reviews</div>
-            <h2>실제 수강생들의 이야기</h2>
-            <p>1,000개 이상의 실제 후기가 증명합니다.</p>
+            <h2>1,000+ 수강생들의 후기</h2>
+            <p>식빵영어 프로그램으로 목표 점수를 달성한 수강생들의 생생한 경험담</p>
           </div>
-          <div className="reviews-wrapper">
-            <div className="reviews-scroll" ref={reviewScrollRef}>
 
+          <div className="reviews-wrapper" style={{ background: 'var(--bg-white)', borderRadius: '20px', padding: '40px 0' }}>
+            <div className="reviews-scroll">
+              {/* Review 1 */}
               <div className="review-card">
                 <div className="review-top">
-                  <div className="review-avatar">J</div>
+                  <div className="review-avatar">김</div>
                   <div className="review-meta">
-                    <div className="name">정*현</div>
-                    <div className="info">대학생 · 2주 스터디</div>
+                    <div className="name">김민지</div>
+                    <div className="info">2주 스터디 수강생</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">2주 만에 IM2에서 IH로 올랐습니다. 프레임워크 답변이 진짜 효과적이에요. 혼자 했으면 절대 못 올렸을 점수입니다.</div>
+                <div className="review-text">프레임워크를 배우니까 말할 게 정말 많아졌어요. 2주 동안 꾸준히 따라가니 점수가 정말 많이 올랐습니다!</div>
                 <div className="review-result">
-                  <span className="grade-badge">IM2 → IH</span>
-                  <span className="grade-text">2주 만에 등급 상승</span>
+                  <div className="grade-badge">IH 달성</div>
+                  <div className="grade-text">IL → IH (2주)</div>
                 </div>
               </div>
 
+              {/* Review 2 */}
               <div className="review-card">
                 <div className="review-top">
-                  <div className="review-avatar">S</div>
+                  <div className="review-avatar">이</div>
                   <div className="review-meta">
-                    <div className="name">서*영</div>
-                    <div className="info">취준생 · 스터디 + AI</div>
+                    <div className="name">이준호</div>
+                    <div className="info">인강 수강생</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">SpeakCoach AI로 매일 연습하고, 스터디에서 피드백 받으니까 내 약점이 정확히 보였어요. 결국 AL 받았습니다!</div>
+                <div className="review-text">AI 분석이 정말 정확해요. 어떤 부분을 집중해야 할지 명확하게 보여줘서 공부하기 좋았습니다.</div>
                 <div className="review-result">
-                  <span className="grade-badge">IH → AL</span>
-                  <span className="grade-text">최고 등급 달성</span>
+                  <div className="grade-badge">IM2 달성</div>
+                  <div className="grade-text">IM1 → IM2 (3주)</div>
                 </div>
               </div>
 
+              {/* Review 3 */}
               <div className="review-card">
                 <div className="review-top">
-                  <div className="review-avatar">K</div>
+                  <div className="review-avatar">박</div>
                   <div className="review-meta">
-                    <div className="name">김*수</div>
-                    <div className="info">직장인 · 전자책 + AI</div>
-                  </div>
-                </div>
-                <div className="review-stars">★★★★<span className="empty">★</span></div>
-                <div className="review-text">퇴근 후 시간이 없어서 전자책으로 틀 잡고, AI로 매일 15분씩 연습했어요. 한 달 만에 IM3 받았습니다.</div>
-                <div className="review-result">
-                  <span className="grade-badge">IL → IM3</span>
-                  <span className="grade-text">3단계 상승</span>
-                </div>
-              </div>
-
-              <div className="review-card">
-                <div className="review-top">
-                  <div className="review-avatar">L</div>
-                  <div className="review-meta">
-                    <div className="name">이*진</div>
-                    <div className="info">대핅생 · 2주 스터디</div>
+                    <div className="name">박영희</div>
+                    <div className="info">전자책 + AI 사용자</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">3명이서 팀으로 하니까 긴장감도 있고, 서로 피드백 주는 게 진짜 도움됐어요. 취옅 면접 전에 자신감도 생겼습니다.</div>
+                <div className="review-text">전자책의 예제들이 정말 실용적이고, 무료 AI로도 충분히 도움이 됐어요. 가성비 최고!</div>
                 <div className="review-result">
-                  <span className="grade-badge">IM1 → IH</span>
-                  <span className="grade-text">목표 등급 달성</span>
+                  <div className="grade-badge">IM2 달성</div>
+                  <div className="grade-text">IM1 → IM2</div>
                 </div>
               </div>
 
+              {/* Review 4 */}
               <div className="review-card">
                 <div className="review-top">
-                  <div className="review-avatar">P</div>
+                  <div className="review-avatar">최</div>
                   <div className="review-meta">
-                    <div className="name">박*희</div>
-                    <div className="info">이직 준비 · 인강 + 스터디</div>
+                    <div className="name">최동욱</div>
+                    <div className="info">2주 스터디 수강생</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">인강으로 기본기 잡고 스터디에서 실전 연습하니까 시너지가 대단했어요. IH 목표였는데 AL이 나왔습니다.</div>
+                <div className="review-text">팀원들과 함께하니까 동기부여가 정말 좋았어요. 코치님 피드백도 실용적이고 좋았습니다.</div>
                 <div className="review-result">
-                  <span className="grade-badge">IM3 → AL</span>
-                  <span className="grade-text">목표 초과 달성</span>
+                  <div className="grade-badge">AL 달성</div>
+                  <div className="grade-text">IH → AL (2주)</div>
                 </div>
               </div>
 
+              {/* Review 5 */}
               <div className="review-card">
                 <div className="review-top">
-                  <div className="review-avatar">C</div>
+                  <div className="review-avatar">정</div>
                   <div className="review-meta">
-                    <div className="name">최*아</div>
-                    <div className="info">대학원생 · 전자책</div>
+                    <div className="name">정수진</div>
+                    <div className="info">인강 + 스터디 수강생</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">프레임워크가 진짜 핵심이었어요. 답변 구조를 잡으니까 어떤 질문이 나완도 당황하지 않게 되어요.</div>
+                <div className="review-text">인강으로 기초를 다지고 스터디로 실전을 연습했어요. 완벽한 조합입니다!</div>
                 <div className="review-result">
-                  <span className="grade-badge">IM2 → IH</span>
-                  <span className="grade-text">전자책만으로 상승</span>
+                  <div className="grade-badge">AL 달성</div>
+                  <div className="grade-text">IM2 → AL (4주)</div>
                 </div>
               </div>
 
+              {/* Review 6 */}
+              <div className="review-card">
+                <div className="review-top">
+                  <div className="review-avatar">홍</div>
+                  <div className="review-meta">
+                    <div className="name">홍기선</div>
+                    <div className="info">AI 무료 체험 후 결제</div>
+                  </div>
+                </div>
+                <div className="review-stars">★★★★★</div>
+                <div className="review-text">무료로 AI를 체험한 후 유료 구독했어요. 매번 조금씩 점수가 올라가는 게 느껴집니다.</div>
+                <div className="review-result">
+                  <div className="grade-badge">IH 달성</div>
+                  <div className="grade-text">IM1 → IH (5주)</div>
+                </div>
+              </div>
+
+              {/* Duplicate for seamless loop */}
+              <div className="review-card">
+                <div className="review-top">
+                  <div className="review-avatar">김</div>
+                  <div className="review-meta">
+                    <div className="name">김민지</div>
+                    <div className="info">2주 스터디 수강생</div>
+                  </div>
+                </div>
+                <div className="review-stars">★★★★★</div>
+                <div className="review-text">프레임워크를 배우니까 말할 게 정말 많아졌어요. 2주 동안 꾸준히 따라가니 점수가 정말 많이 올랐습니다!</div>
+                <div className="review-result">
+                  <div className="grade-badge">IH 달성</div>
+                  <div className="grade-text">IL → IH (2주)</div>
+                </div>
+              </div>
             </div>
           </div>
+
           <div className="reviews-count-badge">
-            <span>누적 수강생 4,000+ · 실제 후기 1,000+ (liveclass 인증)</span>
+            <span>🎉 현재까지 1,000+ 명의 학생들이 목표 점수를 달성했습니다</span>
           </div>
         </div>
       </section>
@@ -616,24 +545,24 @@ export default function Home() {
           <div className="section-header">
             <div className="overline">FAQ</div>
             <h2>자주 묻는 질문</h2>
-            <p>궁금한 점이 있다면 먼저 확인해보세요.</p>
           </div>
           <div className="faq-list">
             {faqItems.map((item, index) => (
-              <div key={index} className={`faq-item ${openFaqIndex === index ? 'open' : ''}`}>
+              <div key={index} className="faq-item">
                 <button
-                  className="faq-question"
+                  className={`faq-question ${openFaqIndex === index ? 'open' : ''}`}
                   onClick={() => toggleFaq(index)}
                 >
-                  {item.question}
-                  <span className="arrow">{openFaqIndex === index ? '\u25B2' : '\u25BC'}</span>
+                  <span>{item.question}</span>
+                  <span className="arrow">▼</span>
                 </button>
                 <div
                   className="faq-answer"
+                  style={{
+                    maxHeight: openFaqIndex === index ? '200px' : '0',
+                  }}
                 >
-                  <div className="faq-answer-inner">
-                    {item.answer}
-                  </div>
+                  <div className="faq-answer-inner">{item.answer}</div>
                 </div>
               </div>
             ))}
@@ -645,8 +574,10 @@ export default function Home() {
       <section className="cta-banner">
         <div className="container">
           <h2>지금 바로 시작하세요</h2>
-          <p>무료 스피킹 테스트로 나의 OPIC 예상 등급을 확인해보세요.</p>
-          <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-white">무료 스피킹 테스트 시작 →</a>
+          <p>식빵영어와 함께 OPIC 목표 점수를 달성하세요</p>
+          <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-white">
+            무료 스피킹 테스트 시작 →
+          </a>
         </div>
       </section>
 
@@ -655,51 +586,45 @@ export default function Home() {
         <div className="container">
           <div className="footer-grid">
             <div className="footer-brand">
-              <div className="logo">🍞 식빵영어</div>
-              <p>2주 안에 OPIC 점수를 올리는<br />가장 구조적인 방법.</p>
+              <div className="logo">
+                <span>🍞</span> 식빵영어
+              </div>
+              <p>OPIC 점수를 올리는 가장 구조적인 방법. 프레임워크 기반의 체계적인 교육과 AI 피드백으로 당신의 목표를 이루세요.</p>
             </div>
             <div className="footer-col">
-              <h4>제품</h4>
-              <a href="https://blog.naver.com/lulu05/223353024018" target="_blank">전자책</a>
-              <a href="https://sikbang-eng.liveklass.com/" target="_blank">인강</a>
+              <h4>서비스</h4>
+              <a href="#store">스토어</a>
+              <a href="#speakcoach">SpeakCoach AI</a>
               <a href="/study">2주 스터디</a>
-              <a href="https://sikbang-eng.replit.app/" target="_blank">SpeakCoach AI</a>
             </div>
             <div className="footer-col">
-              <h4>고객지원</h4>
-              <a href="#faq">자주 묻는 질문</a>
-              <a href="http://pf.kakao.com/_SJYQn" target="_blank">카카오톡 문의</a>
-              <a href="mailto:lulu066666@gmail.com">이메일 문의</a>
+              <h4>정보</h4>
+              <a href="#">이용약관</a>
+              <a href="#">개인정보처리방침</a>
+              <a href="#">FAQ</a>
             </div>
             <div className="footer-col">
-              <h4>소셜</h4>
-              <a href="https://instagram.com/sikbang.eng" target="_blank">Instagram @sikbang.eng</a>
-              <a href="https://blog.naver.com/lulu05" target="_blank">네이버 블로그</a>
-              <a href="https://sikbang-eng.stibee.com/" target="_blank">뉴스레터 구독</a>
+              <h4>연락</h4>
+              <a href="http://pf.kakao.com/_SJYQn">카카오톡 문의</a>
+              <a href="mailto:support@sikbang-eng.com">이메일</a>
             </div>
           </div>
           <div className="footer-bottom">
-            <span>&copy; 2025 식빵영어. All rights reserved.</span>
+            <div>© 2024 식빵영어. All rights reserved.</div>
             <div className="social">
-              <a href="#">이용약관</a>
-              <a href="#">개인정보처리방침</a>
+              <a href="#">Twitter</a>
+              <a href="#">Instagram</a>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* KAKAOTALK FLOATING BUTTON */}
+      {/* KAKAO FLOATING BUTTON */}
       <div className="kakao-float">
-        <div className="kakao-tooltip">궁금한 점이 있으신가요?</div>
-        <a href="http://pf.kakao.com/_SJYQn" target="_blank" className="kakao-btn" aria-label="카카오톡 상담">
-          <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-            <path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919" />
-            <g fill="#FEE500">
-              <path d="M70.5 146.6c-2.3 0-4.2-1.3-4.2-3V113h-9.8c-2.4 0-3.5-1.8-3.5-3.5s1.1-3.5 3.5-3.5h27.5c2.4 0 3.5 1.8 3.5 3.5s-1.1 3.5-3.5 3.5H74.7v30.6c0 1.7-1.9 3-4.2 3z" />
-              <path d="M101.3 146.2c-2.2 0-4-1.5-4-3.3V109.8c0-1.8 1.8-3.3 4-3.3s4 1.5 4 3.3v29.8h14.7c2.2 0 3.3 1.5 3.3 3.3s-1.1 3.3-3.3 3.3h-18.7z" />
-              <path d="M147.5 146.6c-1 0-2-.4-2.7-1.1l-8.2-9.6-8.2 9.6c-1.4 1.7-4 1.9-5.7.5-1.7-1.4-1.9-4-.5-5.7l9.5-11.2-9-10.6c-1.4-1.7-1.2-4.3.5-5.7 1.7-1.4 4.3-1.2 5.7.5l7.7 9.1 7.7-9.1c1.4-1.7 4-1.9 5.7-.5 1.7 1.4 1.9 4 .5 5.7l-9 10.6 9.5 11.2c1.4 1.7 1.2 4.3-.5 5.7-.8.7-1.8 1-2.8 1z" />
-              <path d="M172.7 146.6c-1.6 0-3.1-.8-3.7-2.3l-14.2-33c-.9-2.1.1-4.5 2.2-5.4 2.1-.9 4.5.1 5.4 2.2l8.3 19.3 8.3-19.3c.9-2.1 3.3-3.1 5.4-2.2 2.1.9 3.1 3.3 2.2 5.4l-14.2 33c-.6 1.5-2.1 2.3-3.7 2.3z" />
-            </g>
+        <div className="kakao-tooltip">카카오톡 문의</div>
+        <a href="http://pf.kakao.com/_SJYQn" target="_blank" className="kakao-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 5.58 2 10c0 2.54 1.51 4.79 3.75 6.16l-.6 2.17 2.5-1.53c.83.16 1.7.24 2.6.24 5.52 0 10-3.58 10-8 0-4.42-4.48-8-10-8zm0 14c-.84 0-1.66-.1-2.46-.28l-1.8 1.09.43-1.57C4.5 13.75 3 12 3 10c0-3.87 3.91-7 8.73-7 4.82 0 8.73 3.13 8.73 7s-3.91 7-8.73 7z"/>
           </svg>
         </a>
       </div>
