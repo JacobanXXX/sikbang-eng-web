@@ -384,7 +384,7 @@ img { max-width: 100%; display: block; }
   padding: 6px 0; display: flex; align-items: center; gap: 8px;
 }
 .pricing-card .plan-features li::before {
-  content: 'â'; color: var(--blue-primary); font-weight: 700;
+  content: '\2713'; color: var(--blue-primary); font-weight: 700;
 }
 .btn-plan {
   width: 100%; padding: 14px; border-radius: 14px;
