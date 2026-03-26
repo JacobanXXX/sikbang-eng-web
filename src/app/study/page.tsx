@@ -1536,6 +1536,32 @@ export default function StudyPage() {
               </div>
             </div>
           </div>
+          <div style={{ textAlign: 'center', marginTop: '48px' }}>
+            <a
+              href="https://stibee.com/api/v1.0/emails/share/Lr1WERPFWH_d-6HiiXB2MZ5_063PB1Y"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '16px 36px',
+                background: 'white',
+                color: '#16a34a',
+                border: '2px solid #16a34a',
+                borderRadius: '12px',
+                fontSize: '17px',
+                fontWeight: 700,
+                textDecoration: 'none',
+                transition: 'all 0.2s',
+                cursor: 'pointer',
+              }}
+              onMouseOver={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#16a34a'; e.currentTarget.style.color = 'white'; }}
+              onMouseOut={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = '#16a34a'; }}
+            >
+              📋 상세 커리큘럼 보기
+            </a>
+          </div>
         </div>
       </section>
 
@@ -1657,11 +1683,23 @@ export default function StudyPage() {
                 <p>팀 단체방에서 과제 제출, 피드백 공유, 질문이 진행됩니다.</p>
               </div>
             </div>
-            <div className="rule-card">
-              <div className="rule-num">04</div>
-              <div>
-                <h4>환불 규정</h4>
-                <p>단톡방 초대(조원 편성) 이후 환불 불가. 초대 전 전액 환불 가능.</p>
+            <div className="rule-card" style={{ flexDirection: 'column', gap: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
+                <div className="rule-num">04</div>
+                <h4 style={{ margin: 0 }}>환불 규정</h4>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '15px', lineHeight: '1.7', color: '#444' }}>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <span style={{ color: '#22c55e', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                  <span><strong>스터디 시작 전 (단톡방 초대 전)</strong> — 전액 환불 가능. 별도 수수료 없이 100% 환불됩니다.</span>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <span style={{ color: '#ef4444', fontWeight: 700, flexShrink: 0 }}>✕</span>
+                  <span><strong>스터디 시작 후 (단톡방 초대 후)</strong> — 환불 불가. 소규모 정원제로 운영되며, 팀 편성과 동시에 맞춤 커리큘럼 및 운영 리소스가 배정되기 때문입니다.</span>
+                </div>
+                <div style={{ marginTop: '4px', padding: '12px 16px', background: '#f8f9fa', borderRadius: '8px', fontSize: '13px', color: '#666' }}>
+                  💡 결제 시 본 환불 정책에 동의한 것으로 간주됩니다. 환불 관련 문의는 카카오톡 채널로 연락주세요.
+                </div>
               </div>
             </div>
           </div>
