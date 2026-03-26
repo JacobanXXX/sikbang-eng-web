@@ -294,8 +294,10 @@ export default function Home() {
                 <div className="desc">3인 소그룹 코칭 + SpeakCoach AI Pro 제공. 2주 안에 점수를 올리는 가장 확실한 방법.</div>
                 <div className="product-price-row">
                   <div className="product-price">
+                    <span style={{textDecoration:'line-through',color:'#999',fontSize:'14px',marginRight:'4px'}}>259,900</span>
                     <span className="current">179,900</span>
                     <span className="unit">원</span>
+                    <span style={{background:'#dc2626',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px',marginLeft:'6px'}}>-31%</span>
                   </div>
                   <a href="/study" className="btn-buy">자세히 보기</a>
                 </div>

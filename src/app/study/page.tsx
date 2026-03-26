@@ -711,13 +711,21 @@ export default function StudyPage() {
           margin-top: 56px;
         }
         .pricing-badge {
-          background: var(--blue-light);
-          color: var(--blue-primary);
+          background: #fee2e2;
+          color: #dc2626;
           padding: 8px 16px;
           border-radius: 20px;
           font-size: 13px;
-          font-weight: 600;
+          font-weight: 700;
           margin-bottom: 16px;
+          letter-spacing: -0.02em;
+        }
+        .pricing-original {
+          font-size: 22px;
+          color: #999;
+          text-decoration: line-through;
+          font-weight: 500;
+          margin-top: 8px;
         }
         .pricing-header h3 {
           font-size: 28px;
@@ -1511,6 +1519,15 @@ export default function StudyPage() {
           .compare-table-wrap {
             margin-top: 32px;
           }
+          .pricing-price-main {
+            font-size: 44px !important;
+          }
+          .pricing-original {
+            font-size: 18px;
+          }
+          .pricing-section {
+            padding: 28px 20px !important;
+          }
         }
       `}} />
 
@@ -1875,7 +1892,7 @@ export default function StudyPage() {
                   <td>교재비만</td>
                   <td>10~30만원</td>
                   <td>40~80만원</td>
-                  <td className="highlight-col"><strong>179,900원</strong> (올인원)</td>
+                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'#999',fontSize:'13px'}}>259,900원</span><br/><strong>179,900원</strong> <span style={{color:'#dc2626',fontSize:'12px',fontWeight:700}}>-31%</span></td>
                 </tr>
                 <tr>
                   <td>평균 소요 기간</td>
@@ -1898,12 +1915,17 @@ export default function StudyPage() {
             <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함</p>
           </div>
           <div className="pricing-section">
-            <div className="pricing-badge">💰 정식 수강료</div>
+            <div className="pricing-badge">🔥 31% 할인 중 · 선착순 마감 임박</div>
             <div className="pricing-header">
               <h3>2주 집중 스터디</h3>
               <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
             </div>
-            <div className="pricing-price-main" style={{marginTop:'16px'}}>₩179,900</div>
+            <div className="pricing-original">₩259,900</div>
+            <div className="pricing-price-main" style={{marginTop:'8px'}}>₩179,900</div>
+            <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'16px'}}>
+              <span style={{background:'#dc2626',color:'white',fontSize:'13px',fontWeight:700,padding:'4px 10px',borderRadius:'6px'}}>80,000원 할인</span>
+              <span style={{fontSize:'14px',color:'#dc2626',fontWeight:600}}>오늘 신청 시 적용</span>
+            </div>
             <div className="pricing-desc">
               교재비 포함 · SpeakCoach AI · 1:1 피드백 3회 · 모의고사 포함
             </div>
@@ -1917,7 +1939,7 @@ export default function StudyPage() {
               <div className="pricing-feature">졸업 후 코칭 채팅 3개월 지원</div>
             </div>
             <button onClick={() => setShowFormModal(true)} className="pricing-btn">
-              지금 신청하기 →
+              선착순 마감 전 신청하기 →
             </button>
             <div className="pricing-addon">
               <h4>✨ Premium 업그레이드</h4>
@@ -2201,7 +2223,9 @@ export default function StudyPage() {
               {floatingRemainingSlots}자리 남음
             </div>
             <div className="floating-price">
+              <span style={{textDecoration:'line-through',color:'#999',fontSize:'13px',marginRight:'6px'}}>₩259,900</span>
               <strong>₩179,900</strong>
+              <span style={{background:'#dc2626',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px',marginLeft:'6px'}}>-31%</span>
             </div>
           </div>
           <button
@@ -2239,7 +2263,7 @@ export default function StudyPage() {
               <h3>스터디 신청서 작성</h3>
               <p>구글 폼에서 신청서를 작성해주세요.<br/>선착순 마감이니 서둘러주세요!</p>
               <div className="form-modal-info">
-                <div>💰 수강료: <strong>₩179,900</strong></div>
+                <div>💰 수강료: <span style={{textDecoration:'line-through',color:'#999',fontSize:'14px'}}>₩259,900</span> → <strong style={{color:'var(--green)'}}>₩179,900</strong> <span style={{color:'#dc2626',fontWeight:700,fontSize:'13px'}}>(-31%)</span></div>
                 <div>👥 남은 자리: <strong style={{color:'#FF3B5C'}}>{floatingRemainingSlots}명</strong></div>
               </div>
               <a href="https://forms.gle/dvCkYs8jSZZVyyFo7" target="_blank" rel="noopener noreferrer" className="form-modal-btn" onClick={() => setShowFormModal(false)}>
