@@ -952,6 +952,7 @@ export default function StudyPage() {
         }
         .photo-review-item {
           flex: 0 0 auto;
+          width: 270px;
           height: 360px;
           border-radius: 12px;
           overflow: hidden;
@@ -964,8 +965,8 @@ export default function StudyPage() {
           box-shadow: 0 8px 32px rgba(0,0,0,0.15);
         }
         .photo-review-item img {
+          width: 100%;
           height: 100%;
-          width: auto;
           display: block;
           object-fit: cover;
         }
@@ -1311,6 +1312,7 @@ export default function StudyPage() {
             flex: 0 0 300px;
           }
           .photo-review-item {
+            width: 210px;
             height: 280px;
           }
           .photo-carousel-track {
