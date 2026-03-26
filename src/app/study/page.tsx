@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 export default function StudyPage() {
   // Slots and remaining state
-  const [remainingSlots, setRemainingSlots] = useState(9);
-  const [ctaRemainingSlots, setCtaRemainingSlots] = useState(9);
-  const [floatingRemainingSlots, setFloatingRemainingSlots] = useState(9);
+  const [remainingSlots, setRemainingSlots] = useState(4);
+  const [ctaRemainingSlots, setCtaRemainingSlots] = useState(4);
+  const [floatingRemainingSlots, setFloatingRemainingSlots] = useState(4);
 
   // Floating CTA state
   const [showFloatingCta, setShowFloatingCta] = useState(false);
@@ -28,7 +28,7 @@ export default function StudyPage() {
   const [reviewPaused, setReviewPaused] = useState(false);
 
   const totalSlots = 40;
-  const filledSlots = 35;
+  const filledSlots = 36;
   const slotsRef = useRef(remainingSlots);
   const toastCounterRef = useRef(0);
 
