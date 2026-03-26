@@ -40,7 +40,7 @@ export default function StudyPage() {
 
   const actions = [
     '님이 신청했습니다',
-    '님이 얼리버드로 등록했습니다',
+    '님이 등록했습니다',
     '님이 자리를 확보했습니다'
   ];
 
@@ -1584,16 +1584,15 @@ export default function StudyPage() {
         <div className="container">
           <div style={{ textAlign: 'center' }}>
             <div className="section-title">가격</div>
-            <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함. 지금 신청하면 얼리버드 가격이 적용됩니다.</p>
+            <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함</p>
           </div>
           <div className="pricing-section">
-            <div className="pricing-badge">💰 얼리버드 특별가</div>
+            <div className="pricing-badge">💰 정식 수강료</div>
             <div className="pricing-header">
               <h3>2주 집중 스터디</h3>
               <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
             </div>
-            <div style={{fontSize:'20px',color:'var(--text-tertiary)',textDecoration:'line-through',marginTop:'16px'}}>정가 ₩179,900</div>
-            <div className="pricing-price-main">₩149,000</div>
+            <div className="pricing-price-main" style={{marginTop:'16px'}}>₩179,900</div>
             <div className="pricing-desc">
               교재비 포함 · SpeakCoach AI · 1:1 피드백 3회 · 모의고사 포함
             </div>
@@ -1879,8 +1878,7 @@ export default function StudyPage() {
               {floatingRemainingSlots}자리 남음
             </div>
             <div className="floating-price">
-              <span style={{textDecoration:'line-through', opacity:0.5, fontSize:'13px', marginRight:'6px'}}>₩179,900</span>
-              <strong>₩149,000</strong>
+              <strong>₩179,900</strong>
             </div>
           </div>
           <button
@@ -1918,7 +1916,7 @@ export default function StudyPage() {
               <h3>스터디 신청서 작성</h3>
               <p>구글 폼에서 신청서를 작성해주세요.<br/>선착순 마감이니 서둘러주세요!</p>
               <div className="form-modal-info">
-                <div>💰 얼리버드가: <span style={{textDecoration:'line-through', opacity:0.5, fontSize:'13px', marginRight:'4px'}}>₩179,900</span> <strong>₩149,000</strong></div>
+                <div>💰 수강료: <strong>₩179,900</strong></div>
                 <div>👥 남은 자리: <strong style={{color:'#FF3B5C'}}>{floatingRemainingSlots}명</strong></div>
               </div>
               <a href="https://forms.gle/dvCkYs8jSZZVyyFo7" target="_blank" rel="noopener noreferrer" className="form-modal-btn" onClick={() => setShowFormModal(false)}>
