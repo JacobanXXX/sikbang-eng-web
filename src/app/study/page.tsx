@@ -1274,6 +1274,151 @@ export default function StudyPage() {
           margin-top: 12px;
         }
 
+        /* === STATS SECTION === */
+        .stats-section {
+          padding: 80px 0;
+          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+          color: white;
+          position: relative;
+          overflow: hidden;
+        }
+        .stats-section::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle at 30% 50%, rgba(34,197,94,0.08) 0%, transparent 50%),
+                      radial-gradient(circle at 70% 50%, rgba(59,130,246,0.06) 0%, transparent 50%);
+          pointer-events: none;
+        }
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 40px;
+          text-align: center;
+          position: relative;
+          z-index: 1;
+        }
+        .stat-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+        .stat-number {
+          font-size: 52px;
+          font-weight: 800;
+          color: #22c55e;
+          line-height: 1.1;
+          letter-spacing: -2px;
+        }
+        .stat-label {
+          font-size: 15px;
+          color: rgba(255,255,255,0.7);
+          font-weight: 500;
+        }
+        .stat-sub {
+          font-size: 12px;
+          color: rgba(255,255,255,0.4);
+          margin-top: 2px;
+        }
+        .stats-trust {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 32px;
+          margin-top: 48px;
+          padding-top: 32px;
+          border-top: 1px solid rgba(255,255,255,0.1);
+          position: relative;
+          z-index: 1;
+        }
+        .trust-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 14px;
+          color: rgba(255,255,255,0.6);
+        }
+        .trust-item span:first-child {
+          font-size: 20px;
+        }
+
+        /* === COMPARE TABLE === */
+        .compare-section {
+          padding: 80px 0;
+        }
+        .compare-table-wrap {
+          overflow-x: auto;
+          margin-top: 48px;
+          border-radius: 16px;
+          border: 1px solid #e5e7eb;
+          background: white;
+        }
+        .compare-table {
+          width: 100%;
+          border-collapse: collapse;
+          min-width: 600px;
+        }
+        .compare-table thead th {
+          padding: 20px 16px;
+          font-size: 15px;
+          font-weight: 700;
+          text-align: center;
+          border-bottom: 2px solid #e5e7eb;
+          background: #f9fafb;
+        }
+        .compare-table thead th:first-child {
+          text-align: left;
+          padding-left: 24px;
+          width: 180px;
+        }
+        .compare-table thead th.highlight-col {
+          background: #22c55e;
+          color: white;
+          border-radius: 12px 12px 0 0;
+          position: relative;
+        }
+        .compare-table tbody td {
+          padding: 16px;
+          text-align: center;
+          border-bottom: 1px solid #f3f4f6;
+          font-size: 14px;
+          color: #4b5563;
+        }
+        .compare-table tbody td:first-child {
+          text-align: left;
+          padding-left: 24px;
+          font-weight: 600;
+          color: #1f2937;
+        }
+        .compare-table tbody td.highlight-col {
+          background: #f0fdf4;
+          font-weight: 600;
+          color: #166534;
+        }
+        .compare-table tbody tr:last-child td {
+          border-bottom: none;
+        }
+        .compare-check {
+          color: #22c55e;
+          font-weight: 700;
+          font-size: 18px;
+        }
+        .compare-x {
+          color: #d1d5db;
+          font-size: 18px;
+        }
+        .compare-tag {
+          display: inline-block;
+          padding: 3px 10px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 700;
+        }
+
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
           .nav-links {
@@ -1350,6 +1495,21 @@ export default function StudyPage() {
           }
           .toast {
             max-width: calc(100vw - 48px);
+          }
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px 24px;
+          }
+          .stat-number {
+            font-size: 36px;
+          }
+          .stats-trust {
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+          }
+          .compare-table-wrap {
+            margin-top: 32px;
           }
         }
       `}} />
@@ -1453,6 +1613,48 @@ export default function StudyPage() {
               <div className="why-icon orange">🔒</div>
               <h3>SpeakCoach AI 포함</h3>
               <p>스터디 기간 동안 SpeakCoach AI Pro를 무료로 제공. 매일 AI 분석으로 약점을 정밀 교정합니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section className="stats-section">
+        <div className="container">
+          <div className="stats-grid">
+            <div className="stat-item">
+              <div className="stat-number">94%</div>
+              <div className="stat-label">목표 등급 달성률</div>
+              <div className="stat-sub">2주 스터디 수료생 기준</div>
+            </div>
+            <div className="stat-item">
+              <div className="stat-number">1.5↑</div>
+              <div className="stat-label">평균 등급 상승</div>
+              <div className="stat-sub">IM2→IH, IM3→AL 등</div>
+            </div>
+            <div className="stat-item">
+              <div className="stat-number">4,000+</div>
+              <div className="stat-label">누적 수강생</div>
+              <div className="stat-sub">2024~2026년 기준</div>
+            </div>
+            <div className="stat-item">
+              <div className="stat-number">1,000+</div>
+              <div className="stat-label">실제 인증 후기</div>
+              <div className="stat-sub">liveclass 인증 포함</div>
+            </div>
+          </div>
+          <div className="stats-trust">
+            <div className="trust-item">
+              <span>🏢</span>
+              <span>삼성전자 초청 OPIc 세미나 진행</span>
+            </div>
+            <div className="trust-item">
+              <span>📚</span>
+              <span>OPIc 전자책 베스트셀러</span>
+            </div>
+            <div className="trust-item">
+              <span>🤖</span>
+              <span>자체 AI 스피킹 분석 시스템 운영</span>
             </div>
           </div>
         </div>
@@ -1603,6 +1805,87 @@ export default function StudyPage() {
               <h3>팀 공유 및 자극</h3>
               <p>팀원들의 답변과 피드백도 공유되니, 서로의 성장을 보며 자극받고 내일의 준비로 이어집니다.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* COMPARE */}
+      <section className="compare-section">
+        <div className="container">
+          <div style={{ textAlign: 'center' }}>
+            <div className="section-title">왜 스터디가 가장 빠를까?</div>
+            <p className="section-desc">같은 2주, 어떤 방법을 선택하느냐에 따라 결과가 달라집니다.</p>
+          </div>
+          <div className="compare-table-wrap">
+            <table className="compare-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>독학</th>
+                  <th>인강</th>
+                  <th>학원</th>
+                  <th className="highlight-col">식빵영어 스터디</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>학습 구조</td>
+                  <td>스스로 계획</td>
+                  <td>영상 시청 위주</td>
+                  <td>강사 커리큘럼</td>
+                  <td className="highlight-col">14일 프레임워크 시스템</td>
+                </tr>
+                <tr>
+                  <td>스피킹 연습</td>
+                  <td className="compare-x">✕</td>
+                  <td className="compare-x">✕</td>
+                  <td>수업 시간만</td>
+                  <td className="highlight-col"><span className="compare-check">✓</span> 매일 녹음 + AI 분석</td>
+                </tr>
+                <tr>
+                  <td>1:1 피드백</td>
+                  <td className="compare-x">✕</td>
+                  <td className="compare-x">✕</td>
+                  <td>제한적</td>
+                  <td className="highlight-col"><span className="compare-check">✓</span> 코치 + AI 이중 피드백</td>
+                </tr>
+                <tr>
+                  <td>AI 발음/문법 분석</td>
+                  <td className="compare-x">✕</td>
+                  <td className="compare-x">✕</td>
+                  <td className="compare-x">✕</td>
+                  <td className="highlight-col"><span className="compare-check">✓</span> SpeakCoach AI 제공</td>
+                </tr>
+                <tr>
+                  <td>동기부여</td>
+                  <td>혼자 → 흐지부지</td>
+                  <td>혼자 → 완강률 낮음</td>
+                  <td>출석만 하면 됨</td>
+                  <td className="highlight-col"><span className="compare-check">✓</span> 3인 팀 + 매일 과제</td>
+                </tr>
+                <tr>
+                  <td>모의고사</td>
+                  <td className="compare-x">✕</td>
+                  <td>별도 구매</td>
+                  <td>포함</td>
+                  <td className="highlight-col"><span className="compare-check">✓</span> 2회 Full Mock Test</td>
+                </tr>
+                <tr>
+                  <td>비용</td>
+                  <td>교재비만</td>
+                  <td>10~30만원</td>
+                  <td>40~80만원</td>
+                  <td className="highlight-col"><strong>179,900원</strong> (올인원)</td>
+                </tr>
+                <tr>
+                  <td>평균 소요 기간</td>
+                  <td>2~3개월</td>
+                  <td>1~2개월</td>
+                  <td>1개월</td>
+                  <td className="highlight-col"><strong>2주</strong></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
