@@ -34,7 +34,7 @@ export default function StudyPage() {
 
   const names = [
     '김*준', '이*아', '박*현', '최*영', '정*미',
-    '한*수', '오*진', '서*연', '강*호', '씤*은',
+    '한*수', '오*진', '서*연', '강*호', '윤*은',
     '임*석', '신*희', '조*민', '장*우', '배*정'
   ];
 
@@ -61,7 +61,7 @@ export default function StudyPage() {
     },
     {
       question: '하루에 얼마나 시간을 투자해야 하나요?',
-      answer: '하루 평균 1~2시간 정도입니다. 학습 자료 확인(10분) + 답변 준비 및 녹음(30~40분) + AI 분석 확인 및 교정 연습(30분) + 코치 피드백 반영(20분). 직장인도 충불히 병행 가능한 수준입니다.'
+      answer: '하루 평균 1~2시간 정도입니다. 학습 자료 확인(10분) + 답변 준비 및 녹음(30~40분) + AI 분석 확인 및 교정 연습(30분) + 코치 피드백 반영(20분). 직장인도 충분히 병행 가능한 수준입니다.'
     },
     {
       question: '환불은 어떻게 되나요?',
@@ -69,7 +69,7 @@ export default function StudyPage() {
     },
     {
       question: 'Premium 업그레이드는 꼭 해야 하나요?',
-      answer: '필수는 아닙니다. 기본 스터디에 Pro 플랜이 포함되어 있어서 충분히 학습 가능합니다. Premium은 풀 모의고사 세트와 고급 분석 기능이 추가되므로, AL을 목표로 하시는 분껔 추천드립니다.'
+      answer: '필수는 아닙니다. 기본 스터디에 Pro 플랜이 포함되어 있어서 충분히 학습 가능합니다. Premium은 풀 모의고사 세트와 고급 분석 기능이 추가되므로, AL을 목표로 하시는 분께 추천드립니다.'
     }
   ];
 
@@ -1035,11 +1035,10 @@ export default function StudyPage() {
         }
         .faq-answer {
           overflow: hidden;
-          transition: none !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           background: rgba(26, 141, 72, 0.02);
           max-height: 0;
         }
-      .faq-item.open .faq-answer { max-height: 500px !important; }
         .faq-item.open .faq-answer {
           max-height: 500px;
         }
@@ -1384,7 +1383,7 @@ export default function StudyPage() {
             <span className="accent">OPIC 목표 등급</span> 달성
           </h1>
           <p className="subtitle">
-            소그룩 3인 1팀. 매일 스피킹 과제 + AI 피드백 + 코칭.<br />
+            소그룹 3인 1팀. 매일 스피킹 과제 + AI 피드백 + 코칭.<br />
             <strong>프레임워크 기반 답변 훈련</strong>으로 가장 구조적으로 준비하세요.
           </p>
 
@@ -1426,22 +1425,22 @@ export default function StudyPage() {
             <div className="why-card">
               <div className="why-icon green">⏱️</div>
               <h3>2주 집중 설계</h3>
-              <p>불필요한 걄 다 뺐습니다. 2주 동안 OPIC 점수를 올리는 것에만 집중하는 커리큜럼.</p>
+              <p>불필요한 걸 다 뺐습니다. 2주 동안 OPIC 점수를 올리는 것에만 집중하는 커리큘럼.</p>
             </div>
             <div className="why-card">
               <div className="why-icon blue">🤖</div>
               <h3>사람 + AI 피드백</h3>
-              <p>코치의 실전 피드백과 SpeakCoach AI의 정밀 분섭을 동시에. 혼자 연습할 때도 AI가 함께합니다.</p>
+              <p>코치의 실전 피드백과 SpeakCoach AI의 정밀 분석을 동시에. 혼자 연습할 때도 AI가 함께합니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon orange">🏆</div>
               <h3>프레임워크 답변 훈련</h3>
-              <p>막연히 말하지 않습니다. OPIC에 최적화된 답변 구조를 익형서 어떤 질문에도 흔들리지 않는 실력을.</p>
+              <p>막연히 말하지 않습니다. OPIC에 최적화된 답변 구조를 익혀서 어떤 질문에도 흔들리지 않는 실력을.</p>
             </div>
             <div className="why-card">
               <div className="why-icon green">👥</div>
               <h3>3인 소그룹</h3>
-              <p>혼자면 포기하고, 맞으면 뫻힘니다. 3인이라 모두가 말하고, 서로 자극이 됩니다.</p>
+              <p>혼자면 포기하고, 많으면 묻힙니다. 3인이라 모두가 말하고, 서로 자극이 됩니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon blue">📊</div>
@@ -1451,7 +1450,7 @@ export default function StudyPage() {
             <div className="why-card">
               <div className="why-icon orange">🔒</div>
               <h3>SpeakCoach AI 포함</h3>
-              <p>스터디 기간 동안 SpeakCoach AI Pro를 무료로 제공. 매일 AI 분석으로 약점을 정반 교정합니다.</p>
+              <p>스터디 기간 동안 SpeakCoach AI Pro를 무료로 제공. 매일 AI 분석으로 약점을 정밀 교정합니다.</p>
             </div>
           </div>
         </div>
@@ -1485,13 +1484,13 @@ export default function StudyPage() {
                   <strong>Day 4</strong> 전체 Survey 예상 질문 돌려보기 + 막히는 질문 체크. 개인 약점 영역 명확화. Conjunction/Transition 연결어 집중 암기.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 5</strong> 시제 중심 Grammar 영상 시청 + 댓글 영작 과제. 약점 질문 집중 재학습 + 암기 완료. Adverbs/비교 유형 푙현 암기.
+                  <strong>Day 5</strong> 시제 중심 Grammar 영상 시청 + 댓글 영작 과제. 약점 질문 집중 재학습 + 암기 완료. Adverbs/비교 유형 표현 암기.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 6~7</strong> Core Templates 완전 암기 최종 점검. 복합 템플릿 2개 이상 자연스럽게 조합 연습. 스터디원 상호 Q&amp;A 즉답 훈련. SpeakCoach AI 발음/흐름 진단.
+                  <strong>Day 6</strong> 7 Core Templates 완전 암기 최종 점검. 복합 템플릿 2개 이상 자연스럽게 조합 연습. 스터디원 상호 Q&amp;A 즉답 훈련. SpeakCoach AI 발음/흐름 진단.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 7</strong> 1차 Mock Test(녹음) + SpeakCoach AI 전체 분섭. 구조/속도/발음 교정 시작. 유형별 표현 완벽 암기(2차 피드백 세션 테스트 대비).
+                  <strong>Day 7</strong> 1차 Mock Test(녹음) + SpeakCoach AI 전체 분석. 구조/속도/발음 교정 시작. 유형별 표현 완벽 암기(2차 피드백 세션 테스트 대비).
                 </div>
               </div>
             </div>
@@ -1503,10 +1502,10 @@ export default function StudyPage() {
               <p>Role Play와 돌발 질문을 무서운 파트에서 공식으로 해결하는 파트로 바꿉니다. RP가 나오면 이건 이 공식이구나 하고 자동 반응하는 상태를 목표로 합니다.</p>
               <div className="cur-day-grid">
                 <div className="cur-day">
-                  <strong>Day 8</strong> RP 핵심 13개 시나리오 완전 분석(전화 문의/예약 변경/불만 제기). Q11 질문 능력 + Q12 대안 제시 구조 파악. Reusable Sentences 암기 + 타이먴 즉답 훈련.
+                  <strong>Day 8</strong> RP 핵심 13개 시나리오 완전 분석(전화 문의/예약 변경/불만 제기). Q11 질문 능력 + Q12 대안 제시 구조 파악. Reusable Sentences 암기 + 타이머 즉답 훈련.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 9</strong> 돌발 질문 대응 훈련. 답변 확장 전략(관계사/접속사/이웠 추가). 짧은 답변을 부드럽게 확장하고 끁김 없이 연결하는 기술 체득. 필러(Filler) 푙현 암기.
+                  <strong>Day 9</strong> 돌발 질문 대응 훈련. 답변 확장 전략(관계사/접속사/이유 추가). 짧은 답변을 부드럽게 확장하고 끊김 없이 연결하는 기술 체득. 필러(Filler) 표현 암기.
                 </div>
                 <div className="cur-day">
                   <strong>Day 10</strong> RP 추가 시나리오 3종(길 안내/문제 설명/문제 보고). RP Part 1+2 전체 복습. Fluency Challenge: 모든 RP 질문을 끊김 없이 + 자연스러운 감정 표현으로 답변.
@@ -1516,21 +1515,21 @@ export default function StudyPage() {
             {/* Phase 3 */}
             <div className="cur-week active">
               <div className="cur-week-dot"></div>
-              <div className="cur-week-label">PHASE 3 - 실전 모입</div>
+              <div className="cur-week-label">PHASE 3 - 실전 몰입</div>
               <h3>Day 11-14 : 실전 Mock Test + 시험 당일 컨디션 세팅</h3>
-              <p>말을 더 잘하게 만드는 구간이 아닙니다. 시험장에서 흔들리지 않게 만드는 구간입니다. 퍼징 없는 말하기 유지력과 당황하지 않는 세션을 키웍니다.</p>
+              <p>말을 더 잘하게 만드는 구간이 아닙니다. 시험장에서 흔들리지 않게 만드는 구간입니다. 퍼징 없는 말하기 유지력과 당황하지 않는 센스를 키웁니다.</p>
               <div className="cur-day-grid">
                 <div className="cur-day">
-                  <strong>Day 11</strong> 최종 템플릿 전체 복습 + 무단(Paragraph) 형태 답변 연습. Speaking Marathon: Survey + RP 랜덤 혼합, 20문제 이상 연속 답변으로 유지력 훈련.
+                  <strong>Day 11</strong> 최종 템플릿 전체 복습 + 문단(Paragraph) 형태 답변 연습. Speaking Marathon: Survey + RP 랜덤 혼합, 20문제 이상 연속 답변으로 유지력 훈련.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 12</strong> Speed Drill: 질문 듣고 5초 내 답변 시작(침묵 시간 완전 제거). 파원과 3분 자웠 발화 녹음. SpeakCoach AI로 발음/유창성/문법 최종 점검.
+                  <strong>Day 12</strong> Speed Drill: 질문 듣고 5초 내 답변 시작(침묵 시간 완전 제거). 팀원과 3분 자유 발화 녹음. SpeakCoach AI로 발음/유창성/문법 최종 점검.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 13</strong> 최신 OPIc 기출 문제 분섭. 2차 Full Mock Test(40분, 실제 시험처럼 중단 없이 녹음). 사후 분석 + SpeakCoach AI 피드백 확인.
+                  <strong>Day 13</strong> 최신 OPIc 기출 문제 분석. 2차 Full Mock Test(40분, 실제 시험처럼 중단 없이 녹음). 사후 분석 + SpeakCoach AI 피드백 확인.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 14</strong> 오전: 전체 모의고사 실시(실전 환경 시뮬레이션). 오후: 어려웝던 질문/푑현 최종 복습 + 자신감 향상. 저녅: 가볍게 복습 후 충분한 수메과 휴식. 막판 무리한 암기 금지.
+                  <strong>Day 14</strong> 오전: 전체 모의고사 실시(실전 환경 시뮬레이션). 오후: 어려웠던 질문/표현 최종 복습 + 자신감 향상. 저녁: 가볍게 복습 후 충분한 수면과 휴식. 막판 무리한 암기 금지.
                 </div>
               </div>
             </div>
@@ -1549,7 +1548,7 @@ export default function StudyPage() {
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>📝</div>
               <h3>학습 자료 공개</h3>
-              <p>오전 8시에 그날의 토픹과 질문, 답변 프레임을 공같합니다. 구조를 파악하고 준비를 시작하세요.</p>
+              <p>오전 8시에 그날의 토픽과 질문, 답변 프레임을 공개합니다. 구조를 파악하고 준비를 시작하세요.</p>
             </div>
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>🎤</div>
@@ -1574,7 +1573,7 @@ export default function StudyPage() {
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>📊</div>
               <h3>팀 공유 및 자극</h3>
-              <p>팀원들의 답변과 피드백도 공유되니, 서로의 성장을 보며 자극받고 내이의 준비로 이어집니다.</p>
+              <p>팀원들의 답변과 피드백도 공유되니, 서로의 성장을 보며 자극받고 내일의 준비로 이어집니다.</p>
             </div>
           </div>
         </div>
@@ -1591,7 +1590,7 @@ export default function StudyPage() {
             <div className="pricing-badge">💰 얼리버드 특별가</div>
             <div className="pricing-header">
               <h3>2주 집중 스터디</h3>
-              <div className="pricing-duration">14일 커리큜럼 · 교재비 포함</div>
+              <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
             </div>
             <div style={{fontSize:'20px',color:'var(--text-tertiary)',textDecoration:'line-through',marginTop:'16px'}}>정가 ₩179,900</div>
             <div className="pricing-price-main">₩149,000</div>
@@ -1599,8 +1598,8 @@ export default function StudyPage() {
               교재비 포함 · SpeakCoach AI · 1:1 피드백 3회 · 모의고사 포함
             </div>
             <div className="pricing-features">
-              <div className="pricing-feature">14일 체계적 커리큜럼 (교재 포함)</div>
-              <div className="pricing-feature">1:1 피드백(세션 3회 (기초 세팅 / 개인별 교정 / 실전 마무리)</div>
+              <div className="pricing-feature">14일 체계적 커리큘럼 (교재 포함)</div>
+              <div className="pricing-feature">1:1 피드백 세션 3회 (기초 세팅 / 개인별 교정 / 실전 마무리)</div>
               <div className="pricing-feature">SpeakCoach AI Pro 2주 무료 제공</div>
               <div className="pricing-feature">7개 핵심 템플릿 + 즉답 루틴 훈련</div>
               <div className="pricing-feature">모의고사 2회 (1차 + 2차 Full Mock Test)</div>
@@ -1620,7 +1619,7 @@ export default function StudyPage() {
             <div className="pricing-addon green" style={{ marginTop: '12px' }}>
               <h4>🍱 수료 후 특별 혜택</h4>
               <p>
-                수렌 후 SpeakCoach AI Premium 1개월을{' '}
+                수료 후 SpeakCoach AI Premium 1개월을{' '}
                 <span className="addon-price">50% 할인</span>된 가격에 이어서 이용할 수 있습니다.
               </p>
             </div>
@@ -1640,7 +1639,7 @@ export default function StudyPage() {
               <div className="rule-num">01</div>
               <div>
                 <h4>매일 과제 제출</h4>
-                <p>당일 민션은 당일 자정까지 제출. 꾸준함이 실력을 만듭니다.</p>
+                <p>당일 미션은 당일 자정까지 제출. 꾸준함이 실력을 만듭니다.</p>
               </div>
             </div>
             <div className="rule-card">
@@ -1680,7 +1679,7 @@ export default function StudyPage() {
               <div className="review-card">
                 <div className="review-stars">★★★★★</div>
                 <div className="review-text">
-                  2주 만에 IM3에서 IH로 올래어요. 프레임워크가 진짜 효과 있었습니다. 답변할 때 구조가
+                  2주 만에 IM3에서 IH로 올랐어요. 프레임워크가 진짜 효과 있었습니다. 답변할 때 구조가
                   잡히니까 자신감이 다릅니다.
                 </div>
                 <div className="review-author">
@@ -1744,7 +1743,7 @@ export default function StudyPage() {
               <div className="review-card">
                 <div className="review-stars">★★★★★</div>
                 <div className="review-text">
-                  인강으로 기본기 잡고 스터디에서 실전 연습한닉까 시너지가 대단했어요. IH 목표였는데 AL이
+                  인강으로 기본기 잡고 스터디에서 실전 연습하니까 시너지가 대단했어요. IH 목표였는데 AL이
                   나왔습니다.
                 </div>
                 <div className="review-author">
@@ -1830,7 +1829,7 @@ export default function StudyPage() {
                   <span>{item.question}</span>
                   <span className="faq-icon">+</span>
                 </button>
-                <div className="faq-answer">
+                <div className="faq-answer" style={{ maxHeight: openFaqIndex === index ? '500px' : '0' }}>
                   <div className="faq-answer-content">
                     {item.answer}
                   </div>
@@ -1925,7 +1924,7 @@ export default function StudyPage() {
               <a href="https://forms.gle/dvCkYs8jSZZVyyFo7" target="_blank" rel="noopener noreferrer" className="form-modal-btn" onClick={() => setShowFormModal(false)}>
                 신청서 작성하기 →
               </a>
-              <p className="form-modal-note">* 신청서 작성 후 0~2일 이내 확인 연락 드립니다.</p>
+              <p className="form-modal-note">* 신청서 작성 후 0~2일 이내 확인 연락드립니다.</p>
             </div>
           </div>
         </div>
