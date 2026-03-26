@@ -686,4 +686,30 @@ img { max-width: 100%; display: block; }
   .kakao-float { bottom: 20px; right: 20px; }
   .kakao-btn { width: 52px; height: 52px; }
   .kakao-btn svg { width: 28px; height: 28px; }
+  .newsletter-form {
+    flex-direction: column;
+    max-width: 100%;
+  }
+  .newsletter-form input {
+    width: 100%;
+  }
+  .newsletter-form button {
+    width: 100%;
+    text-align: center;
+  }
+  .newsletter-section {
+    padding: 60px 0;
+  }
+  .newsletter-inner h2 {
+    font-size: 26px;
+  }
+  .product-price-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .product-price {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
 }

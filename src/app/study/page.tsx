@@ -1528,6 +1528,14 @@ export default function StudyPage() {
           .pricing-section {
             padding: 28px 20px !important;
           }
+          .form-modal-info {
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+          }
+          .form-modal-content {
+            margin: 16px;
+          }
         }
       `}} />
 
