@@ -7,6 +7,7 @@ export default function Home() {
   const [navShadow, setNavShadow] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
   // reviewScrollRef removed - now using CSS animation
 
   // Nav shadow on scroll
@@ -67,6 +68,10 @@ export default function Home() {
 
   const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!marketingConsent) {
+      alert('광고성 정보 수신에 동의해주세요.');
+      return;
+    }
     const email = (e.currentTarget.querySelector('#emailInput') as HTMLInputElement)?.value;
     if (email) {
       // Save email to Stibee via API route
@@ -203,9 +208,17 @@ export default function Home() {
               <>
                 <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
                   <input type="email" id="emailInput" placeholder="이메일 주소를 입력하세요" required />
-                  <button type="submit">무료 자료 받기</button>
+                  <button type="submit" style={{ opacity: marketingConsent ? 1 : 0.5, cursor: marketingConsent ? 'pointer' : 'not-allowed' }}>무료 자료 받기</button>
                 </form>
-                <div className="newsletter-note">스팸 없이, 언제든 구독 해지 가능합니다.</div>
+                <label className="consent-check" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', maxWidth: '480px', margin: '14px auto 0', cursor: 'pointer', fontSize: '13px', color: '#666', lineHeight: '1.5', textAlign: 'left' }}>
+                  <input
+                    type="checkbox"
+                    checked={marketingConsent}
+                    onChange={(e) => setMarketingConsent(e.target.checked)}
+                    style={{ marginTop: '3px', width: '16px', height: '16px', accentColor: '#3366FF', flexShrink: 0 }}
+                  />
+                  <span>[필수] 광고성 정보 수신에 동의합니다. 이메일을 통해 OPIC 학습 자료, 프로모션, 이벤트 등의 마케팅 정보를 받는 것에 동의합니다. 언제든 구독 해지가 가능합니다.</span>
+                </label>
               </>
             ) : (
               <div className="newsletter-success show">
