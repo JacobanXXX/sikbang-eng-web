@@ -729,12 +729,12 @@ export default function StudyPage() {
         .pricing-earlybird {
           margin-top: 12px;
           padding: 12px 20px;
-          background: linear-gradient(135deg, #fff7ed, #fef3c7);
-          border: 1.5px solid #f59e0b;
+          background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+          border: 1.5px solid #22c55e;
           border-radius: 10px;
           text-align: center;
           font-size: 14px;
-          color: #92400e;
+          color: #15803d;
           line-height: 1.6;
         }
         .pricing-header h3 {
@@ -1960,7 +1960,7 @@ export default function StudyPage() {
             </button>
             <div className="pricing-earlybird">
               🎯 <strong>얼리버드 특가 ₩149,900</strong>은 기간 한정 할인가입니다.<br/>
-              현재 정식가 ₩179,900으로 제공 중입니다.
+              259,900원에서 할인가 ₩179,900으로 제공 중입니다.
             </div>
             <div className="pricing-addon">
               <h4>✨ Premium 업그레이드</h4>
