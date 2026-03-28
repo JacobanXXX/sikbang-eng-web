@@ -711,13 +711,31 @@ export default function StudyPage() {
           margin-top: 56px;
         }
         .pricing-badge {
-          background: var(--blue-light);
-          color: var(--blue-primary);
+          background: #fee2e2;
+          color: #dc2626;
           padding: 8px 16px;
           border-radius: 20px;
           font-size: 13px;
-          font-weight: 600;
+          font-weight: 700;
           margin-bottom: 16px;
+        }
+        .pricing-original {
+          font-size: 22px;
+          color: #999;
+          text-decoration: line-through;
+          font-weight: 500;
+          margin-top: 8px;
+        }
+        .pricing-earlybird {
+          margin-top: 12px;
+          padding: 12px 20px;
+          background: linear-gradient(135deg, #fff7ed, #fef3c7);
+          border: 1.5px solid #f59e0b;
+          border-radius: 10px;
+          text-align: center;
+          font-size: 14px;
+          color: #92400e;
+          line-height: 1.6;
         }
         .pricing-header h3 {
           font-size: 28px;
@@ -1894,7 +1912,7 @@ export default function StudyPage() {
                   <td>교재비만</td>
                   <td>10~30만원</td>
                   <td>40~80만원</td>
-                  <td className="highlight-col"><strong>179,900원</strong> (올인원)</td>
+                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'#999',fontSize:'13px'}}>259,900원</span> → <strong>179,900원</strong> (올인원)</td>
                 </tr>
                 <tr>
                   <td>평균 소요 기간</td>
@@ -1917,12 +1935,13 @@ export default function StudyPage() {
             <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함</p>
           </div>
           <div className="pricing-section">
-            <div className="pricing-badge">💰 정식 수강료</div>
+            <div className="pricing-badge">🔥 31% 할인 중</div>
             <div className="pricing-header">
               <h3>2주 집중 스터디</h3>
               <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
             </div>
-            <div className="pricing-price-main" style={{marginTop:'16px'}}>₩179,900</div>
+            <div className="pricing-original">₩259,900</div>
+            <div className="pricing-price-main" style={{marginTop:'8px'}}>₩179,900</div>
             <div className="pricing-desc">
               교재비 포함 · SpeakCoach AI · 1:3 피드백 총 180분 · 매일 녹음과제 피드백 · 비공개 모의고사 영상 포함
             </div>
@@ -1939,6 +1958,10 @@ export default function StudyPage() {
             <button onClick={() => setShowFormModal(true)} className="pricing-btn">
               지금 신청하기 →
             </button>
+            <div className="pricing-earlybird">
+              🎯 <strong>얼리버드 특가 ₩149,900</strong>은 기간 한정 할인가입니다.<br/>
+              현재 정식가 ₩179,900으로 제공 중입니다.
+            </div>
             <div className="pricing-addon">
               <h4>✨ Premium 업그레이드</h4>
               <p>
@@ -2222,6 +2245,7 @@ export default function StudyPage() {
               {floatingRemainingSlots}자리 남음
             </div>
             <div className="floating-price">
+              <span style={{textDecoration:'line-through',color:'#999',fontSize:'13px',marginRight:'6px'}}>₩259,900</span>
               <strong>₩179,900</strong>
             </div>
           </div>
@@ -2260,7 +2284,7 @@ export default function StudyPage() {
               <h3>스터디 신청서 작성</h3>
               <p>구글 폼에서 신청서를 작성해주세요.<br/>선착순 마감이니 서둘러주세요!</p>
               <div className="form-modal-info">
-                <div>💰 수강료: <strong>₩179,900</strong></div>
+                <div>💰 수강료: <span style={{textDecoration:'line-through',color:'#999',fontSize:'14px',marginRight:'4px'}}>₩259,900</span> → <strong>₩179,900</strong> <span style={{color:'#dc2626',fontSize:'13px',fontWeight:700}}>31% 할인</span></div>
                 <div>👥 남은 자리: <strong style={{color:'#FF3B5C'}}>{floatingRemainingSlots}명</strong></div>
               </div>
               <a href="https://forms.gle/dvCkYs8jSZZVyyFo7" target="_blank" rel="noopener noreferrer" className="form-modal-btn" onClick={() => setShowFormModal(false)}>
