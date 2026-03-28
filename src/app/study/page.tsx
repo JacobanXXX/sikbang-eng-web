@@ -1862,11 +1862,11 @@ export default function StudyPage() {
                   <td className="highlight-col"><span className="compare-check">✓</span> 매일 녹음 + AI 분석</td>
                 </tr>
                 <tr>
-                  <td>1:1 피드백</td>
+                  <td>코치 피드백</td>
                   <td className="compare-x">✕</td>
                   <td className="compare-x">✕</td>
                   <td>제한적</td>
-                  <td className="highlight-col"><span className="compare-check">✓</span> 코치 + AI 이중 피드백</td>
+                  <td className="highlight-col"><span className="compare-check">✓</span> 매일 녹음 교정 + 1:3 피드백</td>
                 </tr>
                 <tr>
                   <td>AI 발음/문법 분석</td>
@@ -1924,11 +1924,12 @@ export default function StudyPage() {
             </div>
             <div className="pricing-price-main" style={{marginTop:'16px'}}>₩179,900</div>
             <div className="pricing-desc">
-              교재비 포함 · SpeakCoach AI · 1:1 피드백 3회 · 비공개 모의고사 영상 포함
+              교재비 포함 · SpeakCoach AI · 1:3 피드백 총 180분 · 매일 녹음과제 피드백 · 비공개 모의고사 영상 포함
             </div>
             <div className="pricing-features">
               <div className="pricing-feature">14일 체계적 커리큘럼 (교재 포함)</div>
-              <div className="pricing-feature">1:1 피드백 세션 3회 (기초 세팅 / 개인별 교정 / 실전 마무리)</div>
+              <div className="pricing-feature">1:3 소그룹 피드백 2주간 총 180분 진행</div>
+              <div className="pricing-feature">매일(월-금) 녹음과제 → 코치가 AL 스크립트·문법·발음 직접 교정</div>
               <div className="pricing-feature">SpeakCoach AI Pro 2주 무료 제공</div>
               <div className="pricing-feature">7개 핵심 템플릿 + 즉답 루틴 훈련</div>
               <div className="pricing-feature">비공개 모의고사 영상 7개 제공 (2주차 실전 대비)</div>
@@ -2184,10 +2185,11 @@ export default function StudyPage() {
       {/* CTA BANNER */}
       <section className="cta-banner">
         <div className="container">
-          <h2>다음 팀에 합류하세요</h2>
-          <p>선착순 40명 중 <strong>{totalSlots - ctaRemainingSlots}명</strong> 신청 완료. 남은 자리 <strong>{ctaRemainingSlots}석</strong></p>
+          <h2>다음 기수 대기 접수 중</h2>
+          <p style={{fontSize:'18px',marginBottom:'8px'}}>📅 다음 기수: <strong>4월 15일 ~ 4월 29일</strong></p>
+          <p>현재 기수(4/1)가 마감되었습니다. 다음 기수에 참여를 원하시면 대기 접수해주세요.</p>
           <button onClick={() => setShowFormModal(true)} className="btn-white">
-            지금 신청하기 →
+            대기 접수하기 →
           </button>
         </div>
       </section>
