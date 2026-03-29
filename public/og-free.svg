@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#3182F6"/>
+
+  <!-- Main Title -->
+  <text x="600" y="240" font-family="sans-serif" font-size="64" font-weight="bold" fill="white" text-anchor="middle">
+    무료 OPIC 강의
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="330" font-family="sans-serif" font-size="28" fill="white" text-anchor="middle">
+    원어민이 배우는 영문법 시리즈 + 학습 자료
+  </text>
+
+  <!-- URL -->
+  <text x="600" y="580" font-family="sans-serif" font-size="20" fill="white" text-anchor="middle">
+    sikbang.co/free
+  </text>
+</svg>

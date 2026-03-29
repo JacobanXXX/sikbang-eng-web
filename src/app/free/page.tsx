@@ -687,6 +687,68 @@ export default function FreePage() {
           display: block;
         }
 
+        /* SHARE ROW */
+        .share-row {
+          display: flex;
+          justify-content: center;
+          gap: 12px;
+          margin-top: 48px;
+        }
+        .share-btn {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 24px;
+          border-radius: 12px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          border: none;
+          transition: all 0.2s;
+        }
+        .share-btn.kakao {
+          background: #FEE500;
+          color: #191919;
+        }
+        .share-btn.kakao:hover {
+          background: #F5DC00;
+        }
+        .share-btn.link {
+          background: #F2F4F6;
+          color: #4E5968;
+        }
+        .share-btn.link:hover {
+          background: #E5E8EB;
+        }
+
+        /* MID CTA */
+        .mid-cta {
+          background: #F8F9FA;
+          padding: 40px 24px;
+          border-top: 1px solid #E5E8EB;
+          border-bottom: 1px solid #E5E8EB;
+        }
+        .mid-cta-text {
+          font-size: 18px;
+          font-weight: 600;
+          color: #191F28;
+          margin-bottom: 16px;
+        }
+        .mid-cta-btn {
+          display: inline-block;
+          background: #3182F6;
+          color: white;
+          padding: 14px 32px;
+          border-radius: 12px;
+          font-size: 15px;
+          font-weight: 700;
+          text-decoration: none;
+          transition: background 0.2s;
+        }
+        .mid-cta-btn:hover {
+          background: #1B64DA;
+        }
+
         /* FOOTER */
         .footer {
           background: var(--text-primary);
@@ -843,8 +905,8 @@ export default function FreePage() {
         <div className="container">
           <div className="section-header">
             <div className="overline">Free Lectures</div>
-            <h2>무료 강의</h2>
-            <p>유튜브에서 가장 많이 본 OPIC 강의를 모았습니다.</p>
+            <h2>원어민이 배우는 영문법</h2>
+            <p>삼성전자 초청 오픽 강사가 알려주는 영문법 시리즈. 무료로 시청하세요.</p>
           </div>
           <div className="lecture-grid">
             {lectures.map((lecture) => {
@@ -889,6 +951,33 @@ export default function FreePage() {
               );
             })}
           </div>
+
+          {/* Share + Mid CTA */}
+          <div className="share-row">
+            <button className="share-btn kakao" onClick={() => {
+              const url = encodeURIComponent('https://sikbang.co/free');
+              const text = encodeURIComponent('오픽 준비하는 친구한테 공유해주세요! 무료 영문법 강의 13편 + 학습 자료');
+              window.open(`https://story.kakao.com/share?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
+            }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#191919"><path d="M12 3C6.48 3 2 6.58 2 10.89c0 2.79 1.86 5.24 4.66 6.62-.15.53-.96 3.41-1 3.57 0 0-.02.15.06.21.08.06.19.03.19.03.25-.04 2.9-1.91 3.36-2.22.56.08 1.14.13 1.73.13 5.52 0 10-3.58 10-7.89S17.52 3 12 3z"/></svg>
+              카카오로 공유하기
+            </button>
+            <button className="share-btn link" onClick={() => {
+              navigator.clipboard.writeText('https://sikbang.co/free');
+              alert('링크가 복사되었습니다!');
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              링크 복사
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* MID CTA - 유료 전환 유도 */}
+      <section className="mid-cta">
+        <div className="container" style={{ textAlign: 'center' }}>
+          <p className="mid-cta-text">영문법 기초를 잡았다면, 실전 스피킹은 2주면 됩니다.</p>
+          <a href="/study" className="mid-cta-btn">2주 스터디 알아보기 →</a>
         </div>
       </section>
 

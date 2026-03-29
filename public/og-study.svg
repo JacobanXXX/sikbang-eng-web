@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#1A8D48"/>
+
+  <!-- Main Title -->
+  <text x="600" y="240" font-family="sans-serif" font-size="64" font-weight="bold" fill="white" text-anchor="middle">
+    2주 집중 OPIC 스터디
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="330" font-family="sans-serif" font-size="28" fill="white" text-anchor="middle">
+    코치 피드백 + AI 분석 · 수료생 94% 목표 달성
+  </text>
+
+  <!-- URL -->
+  <text x="600" y="580" font-family="sans-serif" font-size="20" fill="white" text-anchor="middle">
+    sikbang.co/study
+  </text>
+</svg>
