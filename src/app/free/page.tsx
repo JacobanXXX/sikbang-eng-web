@@ -789,6 +789,18 @@ export default function FreePage() {
         .footer-col a:hover {
           color: white;
         }
+        .business-info {
+          max-width: 1080px;
+          margin: 0 auto;
+          padding: 20px 0;
+          border-top: 1px solid rgba(255,255,255,0.1);
+          font-size: 12px;
+          color: rgba(255,255,255,0.4);
+          line-height: 1.8;
+        }
+        .business-info p {
+          margin: 0;
+        }
         .footer-bottom {
           max-width: 1080px;
           margin: 0 auto;
@@ -955,12 +967,19 @@ export default function FreePage() {
           {/* Share + Mid CTA */}
           <div className="share-row">
             <button className="share-btn kakao" onClick={() => {
-              const url = encodeURIComponent('https://sikbang.co/free');
-              const text = encodeURIComponent('오픽 준비하는 친구한테 공유해주세요! 무료 영문법 강의 13편 + 학습 자료');
-              window.open(`https://story.kakao.com/share?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
+              if (navigator.share) {
+                navigator.share({
+                  title: '식빵영어 무료 OPIC 강의',
+                  text: '오픽 준비하는 친구한테 공유해주세요! 무료 영문법 강의 13편 + 학습 자료',
+                  url: 'https://sikbang.co/free'
+                }).catch(() => {});
+              } else {
+                navigator.clipboard.writeText('https://sikbang.co/free');
+                alert('링크가 복사되었습니다! 카카오톡에 붙여넣기 해주세요.');
+              }
             }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="#191919"><path d="M12 3C6.48 3 2 6.58 2 10.89c0 2.79 1.86 5.24 4.66 6.62-.15.53-.96 3.41-1 3.57 0 0-.02.15.06.21.08.06.19.03.19.03.25-.04 2.9-1.91 3.36-2.22.56.08 1.14.13 1.73.13 5.52 0 10-3.58 10-7.89S17.52 3 12 3z"/></svg>
-              카카오로 공유하기
+              공유하기
             </button>
             <button className="share-btn link" onClick={() => {
               navigator.clipboard.writeText('https://sikbang.co/free');
@@ -1101,6 +1120,10 @@ export default function FreePage() {
               <a href="https://blog.naver.com/lulu05" target="_blank">Blog</a>
               <a href="https://sikbang-eng.stibee.com/" target="_blank">Newsletter</a>
             </div>
+          </div>
+          <div className="business-info">
+            <p>식빵영어 | 대표: 안준영 | 사업자등록번호: 807-29-01639</p>
+            <p>이메일: lulu066666@gmail.com</p>
           </div>
           <div className="footer-bottom">
             <span>&copy; 2025 식빵영어 All rights reserved.</span>
