@@ -1015,7 +1015,7 @@ export default function FreePage() {
             <h2>내 현재 OPIC 예상 등급은?</h2>
             <p>SpeakCoach AI에서 1분 녹음하면 바로 확인할 수 있어요.</p>
             <div className="ai-trial-sub">무료 체험 · 7일간 무제한 · 카드 등록 없음</div>
-            <a href="https://speakcoach.app" target="_blank" className="btn-primary">무료로 내 등급 확인하기</a>
+            <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-primary">무료로 내 등급 확인하기</a>
           </div>
         </div>
       </section>
@@ -1088,7 +1088,7 @@ export default function FreePage() {
               <a href="https://blog.naver.com/lulu05/223353024018" target="_blank">전자책</a>
               <a href="https://sikbang-eng.liveklass.com/" target="_blank">인강</a>
               <a href="/study">2주 스터디</a>
-              <a href="https://speakcoach.app" target="_blank">SpeakCoach AI</a>
+              <a href="https://sikbang-eng.replit.app/" target="_blank">SpeakCoach AI</a>
             </div>
             <div className="footer-col">
               <h4>고객지원</h4>
