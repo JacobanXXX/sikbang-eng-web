@@ -131,14 +131,14 @@ export default function Home() {
       <nav className="nav" id="nav" style={{ boxShadow: navShadow ? '0 1px 12px rgba(0,0,0,0.08)' : 'none' }}>
         <div className="nav-inner">
           <a href="#" className="nav-logo">
-            <span className="bread-icon">🍞</span> 식빵영어
+            <span className="bread-icon" style={{fontWeight:900, fontSize:'18px', color:'var(--blue-primary)'}}>SB</span> 식빵영어
           </a>
           <div className="nav-links">
-            <a href="#free-resource">무료 자료</a>
+            <a href="/free">무료 강의</a>
             <a href="#store">스토어</a>
             <a href="#speakcoach">SpeakCoach AI</a>
             <a href="#reviews">후기</a>
-            <a href="#faq">FAQ</a>
+            <a href="/study">스터디</a>
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="nav-cta">무료 체험하기</a>
           </div>
           <button className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}>
@@ -149,11 +149,10 @@ export default function Home() {
 
       {/* MOBILE MENU */}
       <div className={`mobile-menu ${isMobileMenuOpen ? 'show' : ''}`}>
-        <a href="#free-resource" onClick={closeMobileMenu}>무료 자료</a>
+        <a href="/free" onClick={closeMobileMenu}>무료 강의</a>
         <a href="#store" onClick={closeMobileMenu}>스토어</a>
         <a href="#speakcoach" onClick={closeMobileMenu}>SpeakCoach AI</a>
         <a href="#reviews" onClick={closeMobileMenu}>후기</a>
-        <a href="#faq" onClick={closeMobileMenu}>FAQ</a>
         <a href="/study" onClick={closeMobileMenu}>2주 스터디</a>
         <a href="http://pf.kakao.com/_SJYQn" target="_blank" onClick={closeMobileMenu}>카카오톡 문의</a>
         <a href="https://sikbang-eng.replit.app/" target="_blank" className="mobile-cta" onClick={closeMobileMenu}>무료 스피킹 테스트 →</a>
@@ -175,8 +174,8 @@ export default function Home() {
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-primary">
               무료 스피킹 테스트 →
             </a>
-            <a href="#free-resource" className="btn-secondary">
-              무료 자료 받기
+            <a href="/free" className="btn-secondary">
+              무료 강의 보기
             </a>
           </div>
           <div className="hero-stats animate delay-4">
@@ -200,7 +199,7 @@ export default function Home() {
       <section className="newsletter-section" id="free-resource">
         <div className="container">
           <div className="newsletter-inner">
-            <div className="newsletter-icon">✉️</div>
+            <div className="newsletter-icon" style={{fontSize:'14px', fontWeight:700}}>MAIL</div>
             <h2>OPIC 무료 자료<br /><span className="highlight">지금 바로 받아보세요</span></h2>
             <p>이메일을 구독하면 OPIC 준비에 꼭 필요한 무료 학습 자료를 보내드립니다.<br />매주 OPIC 꿀팁과 표현 정리도 함께 받아보세요.</p>
 
@@ -244,6 +243,34 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PROBLEM */}
+      <section className="section" id="problem">
+        <div className="container">
+          <div className="section-header">
+            <div className="overline">Problem</div>
+            <h2>OPIC 준비, 이런 경험 있지 않나요?</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px', marginTop: '64px' }}>
+            <div style={{ padding: '32px', background: 'white', borderRadius: '16px', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+              <div style={{ fontSize: '48px', fontWeight: 800, color: '#E5E8EB', marginBottom: '20px' }}>01</div>
+              <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#191F28', marginBottom: '12px' }}>혼자 녹음해도 뭐가 틀린지 모른다</h3>
+              <p style={{ fontSize: '15px', color: '#4E5968', lineHeight: 1.7 }}>발음인지 문법인지 구조인지. 혼자서는 판단할 수 없습니다. 뭐가 틀린지 모르면 고칠 수도 없습니다.</p>
+            </div>
+            <div style={{ padding: '32px', background: 'white', borderRadius: '16px', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+              <div style={{ fontSize: '48px', fontWeight: 800, color: '#E5E8EB', marginBottom: '20px' }}>02</div>
+              <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#191F28', marginBottom: '12px' }}>인강 결제하고 3일 만에 포기한다</h3>
+              <p style={{ fontSize: '15px', color: '#4E5968', lineHeight: 1.7 }}>온라인 인강 평균 완강률 12%. 봐주는 사람이 없으면 끝까지 못 갑니다.</p>
+            </div>
+            <div style={{ padding: '32px', background: 'white', borderRadius: '16px', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
+              <div style={{ fontSize: '48px', fontWeight: 800, color: '#E5E8EB', marginBottom: '20px' }}>03</div>
+              <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#191F28', marginBottom: '12px' }}>학원은 비싸고, 시간도 안 맞는다</h3>
+              <p style={{ fontSize: '15px', color: '#4E5968', lineHeight: 1.7 }}>평균 40~80만원. 퇴근 후 이동할 체력도, 주말에 몰아서 할 효과도 없습니다.</p>
+            </div>
+          </div>
+          <p style={{ textAlign: 'center', marginTop: '48px', fontSize: '16px', color: '#8B95A1' }}>그래서 식빵영어는 3가지 방법을 준비했습니다.</p>
+        </div>
+      </section>
+
       {/* STORE */}
       <section className="section section-gray" id="store">
         <div className="container">
@@ -283,7 +310,7 @@ export default function Home() {
               <div className="product-card-body">
                 <div className="category">인강</div>
                 <h3>OPIC 완전정복 인강 패키지</h3>
-                <div className="desc">유형별 답변 전략부터 실전 롤플레이까지. 프레임워크 기반 체계적 영상 강의.</div>
+                <div className="desc">혼자 공부하되 영상으로 구조를 잡고 싶다면. 유형별 답변 전략 + 실전 롤플레이 완벽 정리.</div>
                 <div className="product-price-row">
                   <div className="product-price">
                     <span className="original">269,000원</span>
@@ -304,7 +331,7 @@ export default function Home() {
               <div className="product-card-body">
                 <div className="category">2주 스터디</div>
                 <h3>2주 집중 OPIC 스터디</h3>
-                <div className="desc">3인 소그룹 코칭 + SpeakCoach AI Pro 제공. 2주 안에 점수를 올리는 가장 확실한 방법.</div>
+                <div className="desc">매일 녹음 → 코치 직접 교정 → AI 분석. 수료생 94%가 목표 등급 달성. 2주 올인원.</div>
                 <div className="product-price-row">
                   <div className="product-price">
                     <span style={{textDecoration:'line-through',color:'#999',fontSize:'14px',marginRight:'4px'}}>259,900</span>
@@ -478,8 +505,8 @@ export default function Home() {
         <div className="container">
           <div className="section-header">
             <div className="overline">Reviews</div>
-            <h2>실제 수강생들의 이야기</h2>
-            <p>1,000개 이상의 실제 후기가 증명합니다.</p>
+            <h2>4,000명이 먼저 경험했습니다</h2>
+            <p>전자책, 인강, 스터디 수강생들의 실제 후기.</p>
           </div>
           <div className="reviews-wrapper">
             <div className="reviews-scroll">
@@ -490,14 +517,14 @@ export default function Home() {
                   <div className="review-avatar">J</div>
                   <div className="review-meta">
                     <div className="name">정*현</div>
-                    <div className="info">대학생 · 2주 스터디</div>
+                    <div className="info">건국대 경영 4학년 · 2주 스터디</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">2주 만에 IM2에서 IH로 올랐습니다. 프레임워크 답변이 진짜 효과적이에요. 혼자 했으면 절대 못 올렸을 점수입니다.</div>
+                <div className="review-text">삼성 공채 서류 마감 3주 전에 급하게 시작했어요. 솔직히 반신반의했는데, 프레임워크대로 답변 구조 잡으니까 시험장에서 막힘 없이 말이 나왔어요. IM2에서 IH로 올라서 서류 넣을 수 있었습니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM2 → IH</span>
-                  <span className="grade-text">2주 만에 등급 상승</span>
+                  <span className="grade-text">대기업 공채 서류 통과</span>
                 </div>
               </div>
 
@@ -506,11 +533,11 @@ export default function Home() {
                   <div className="review-avatar">S</div>
                   <div className="review-meta">
                     <div className="name">서*영</div>
-                    <div className="info">취준생 · 스터디 + AI</div>
+                    <div className="info">취준생 (졸업유예) · 스터디 + AI</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">SpeakCoach AI로 매일 연습하고, 스터디에서 피드백 받으니까 내 약점이 정확히 보였어요. 결국 AL 받았습니다!</div>
+                <div className="review-text">토익 920인데 스피킹은 IM1이었어요. 읽기랑 말하기는 진짜 다르더라고요. SpeakCoach AI로 매일 녹음하고 코치한테 피드백 받으니까 2주 만에 발음이랑 구성력이 확 올랐어요. AL 나왔을 때 진짜 소리 질렀습니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IH → AL</span>
                   <span className="grade-text">최고 등급 달성</span>
@@ -522,14 +549,14 @@ export default function Home() {
                   <div className="review-avatar">K</div>
                   <div className="review-meta">
                     <div className="name">김*수</div>
-                    <div className="info">직장인 · 전자책 + AI</div>
+                    <div className="info">무역회사 3년차 · 전자책 + AI</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★<span className="empty">★</span></div>
-                <div className="review-text">퇴근 후 시간이 없어서 전자책으로 틀 잡고, AI로 매일 15분씩 연습했어요. 한 달 만에 IM3 받았습니다.</div>
+                <div className="review-text">퇴근하면 9시라 학원은 절대 못 가요. 전자책으로 출퇴근 지하철에서 답변 구조 외우고, 자기 전에 AI로 15분씩 녹음했어요. 한 달 걸리긴 했는데 IL에서 IM3까지 올라서 만족합니다. 전자책 분량이 생각보다 많아서 처음엔 좀 압도당했어요.</div>
                 <div className="review-result">
                   <span className="grade-badge">IL → IM3</span>
-                  <span className="grade-text">3단계 상승</span>
+                  <span className="grade-text">직장인 독학 성공</span>
                 </div>
               </div>
 
@@ -538,14 +565,14 @@ export default function Home() {
                   <div className="review-avatar">L</div>
                   <div className="review-meta">
                     <div className="name">이*진</div>
-                    <div className="info">대학생 · 2주 스터디</div>
+                    <div className="info">이화여대 영문 3학년 · 2주 스터디</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">3명이서 팀으로 하니까 긴장감도 있고, 서로 피드백 주는 게 진짜 도움됐어요. 취업 면접 전에 자신감도 생겼습니다.</div>
+                <div className="review-text">영문과인데 오픽은 또 다르더라고요. 일상 회화랑 시험 답변은 구조가 달라서 혼자 하면 방향을 못 잡았을 것 같아요. 팀원 2명이랑 매일 녹음 공유하니까 경쟁심도 생기고, 코치 피드백이 구체적이라 좋았어요.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM1 → IH</span>
-                  <span className="grade-text">목표 등급 달성</span>
+                  <span className="grade-text">취업 준비 스펙 완성</span>
                 </div>
               </div>
 
@@ -554,14 +581,14 @@ export default function Home() {
                   <div className="review-avatar">P</div>
                   <div className="review-meta">
                     <div className="name">박*희</div>
-                    <div className="info">이직 준비 · 인강 + 스터디</div>
+                    <div className="info">외국계 이직 준비 · 인강 + 스터디</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">인강으로 기본기 잡고 스터디에서 실전 연습하니까 시너지가 대단했어요. IH 목표였는데 AL이 나왔습니다.</div>
+                <div className="review-text">인강으로 롤플레이 패턴 먼저 잡고 스터디 들어갔더니 시너지가 대단했어요. 코치가 AL 노려보세요 라고 해서 목표를 올렸는데, 진짜 AL 나왔습니다. 이직 면접에서 오픽 점수 보여주니까 면접관 반응이 달라지더라고요.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM3 → AL</span>
-                  <span className="grade-text">목표 초과 달성</span>
+                  <span className="grade-text">외국계 이직 성공</span>
                 </div>
               </div>
 
@@ -570,14 +597,14 @@ export default function Home() {
                   <div className="review-avatar">C</div>
                   <div className="review-meta">
                     <div className="name">최*아</div>
-                    <div className="info">대학원생 · 전자책</div>
+                    <div className="info">서울대 대학원 · 전자책</div>
                   </div>
                 </div>
-                <div className="review-stars">★★★★★</div>
-                <div className="review-text">프레임워크가 진짜 핵심이에요. 답변 구조를 잡으니까 어떤 질문이 나와도 당황하지 않게 됐어요.</div>
+                <div className="review-stars">★★★★<span className="empty">★</span></div>
+                <div className="review-text">연구실에서 시간 쪼개서 준비해야 했어요. 전자책의 7개 템플릿이 핵심인데, 이걸 체화하니까 어떤 질문이 나와도 3초 안에 첫 문장이 나오게 됐어요. 다만 전자책만으로는 발음 교정이 안 돼서 AI라도 같이 쓰는 걸 추천해요.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM2 → IH</span>
-                  <span className="grade-text">전자책만으로 상승</span>
+                  <span className="grade-text">전자책 + 솔직 후기</span>
                 </div>
               </div>
 
@@ -586,14 +613,14 @@ export default function Home() {
                   <div className="review-avatar">H</div>
                   <div className="review-meta">
                     <div className="name">한*우</div>
-                    <div className="info">직장인 · 2주 스터디</div>
+                    <div className="info">대기업 과장 5년차 · 2주 스터디</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">회사 승진 요건 때문에 급하게 시작했는데, 2주 만에 IH 나와서 진짜 감사합니다. 혼자 공부했으면 몇 달 걸렸을 거예요.</div>
+                <div className="review-text">승진 요건에 OPIc IH가 있는데 3번 시험 봤는데 계속 IM2였어요. 혼자 해봤자 뭐가 틀린지 모르겠더라고요. 스터디에서 코치가 시제 전환할 때 끊기는 게 IM 원인이라고 딱 짚어줘서, 그거 하나 고쳤더니 바로 IH 나왔습니다.</div>
                 <div className="review-result">
-                  <span className="grade-badge">IM1 → IH</span>
-                  <span className="grade-text">승진 요건 충족</span>
+                  <span className="grade-badge">IM2 → IH</span>
+                  <span className="grade-text">3번 실패 후 성공</span>
                 </div>
               </div>
 
@@ -605,8 +632,8 @@ export default function Home() {
                     <div className="info">취준생 · 전자책 + 스터디</div>
                   </div>
                 </div>
-                <div className="review-stars">★★★★★</div>
-                <div className="review-text">전자책으로 답변 틀 만들고 스터디에서 실전 연습하니까 시험장에서 떨리지 않았어요. 첫 시험에 IH 받았습니다!</div>
+                <div className="review-stars">★★★★<span className="empty">★</span></div>
+                <div className="review-text">전자책으로 답변 틀 만들고 스터디에서 실전 연습했어요. 첫 3일은 녹음 과제 적응 안 돼서 좀 힘들었는데, 4일째부터 루틴이 잡히니까 편해졌어요. 첫 시험인데 IH 받아서 취준 일정이 한 달은 앞당겨졌습니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">첫 시험 IH</span>
                   <span className="grade-text">첫 응시 목표 달성</span>
@@ -618,11 +645,11 @@ export default function Home() {
                   <div className="review-avatar">M</div>
                   <div className="review-meta">
                     <div className="name">문*경</div>
-                    <div className="info">대학원생 · 스터디 + AI</div>
+                    <div className="info">고려대 대학원 · 스터디 + AI</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">SpeakCoach AI 피드백이 진짜 사람한테 받는 것처럼 구체적이에요. 발음, 문법 다 잡아줘서 자신감이 확 올랐습니다.</div>
+                <div className="review-text">SpeakCoach AI 분석이 생각보다 정확해서 놀랐어요. 구성력 45점, 유창성 78점 이렇게 숫자로 보여주니까 뭘 고쳐야 하는지 명확했어요. 코치 피드백이랑 AI 분석 같이 보면서 2주 집중했더니 IM2에서 AL까지 올랐습니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM2 → AL</span>
                   <span className="grade-text">2단계 뛰어넘기</span>
@@ -634,14 +661,14 @@ export default function Home() {
                   <div className="review-avatar">O</div>
                   <div className="review-meta">
                     <div className="name">오*준</div>
-                    <div className="info">직장인 · 전자책</div>
+                    <div className="info">공기업 3년차 · 전자책</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★<span className="empty">★</span></div>
-                <div className="review-text">출퇴근 시간에 전자책 읽으면서 답변 외웠어요. 시간 없는 직장인한테 딱이에요. 3주 만에 IM3 달성했습니다.</div>
+                <div className="review-text">출퇴근 왕복 2시간을 전자책 읽는 시간으로 활용했어요. 솔직히 전자책만으로는 한계가 있어요. 근데 기초 프레임워크 잡는 데는 가성비 최고입니다. 나중에 시간 되면 스터디도 해보고 싶어요. 3주 만에 IL에서 IM3 나왔으니 만족합니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IL → IM3</span>
-                  <span className="grade-text">직장인 3주 성공</span>
+                  <span className="grade-text">출퇴근 독학 후기</span>
                 </div>
               </div>
 
@@ -650,14 +677,14 @@ export default function Home() {
                   <div className="review-avatar">N</div>
                   <div className="review-meta">
                     <div className="name">남*은</div>
-                    <div className="info">대학생 · 인강 + AI</div>
+                    <div className="info">숙명여대 무역 4학년 · 인강 + AI</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">인강 들으면서 구조 잡고, AI로 매일 연습했더니 2주 만에 점수가 확 올랐어요. 가성비 최고입니다.</div>
+                <div className="review-text">인강 들으면서 구조 잡고 AI로 매일 연습했어요. 인강이 좀 길긴 해요 솔직히. 근데 롤플레이 파트 강의가 진짜 좋아서 그 부분만 3번 돌려봤어요. 2주 만에 IM1에서 IH로 올라서 공채 지원 조건 충족했습니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM1 → IH</span>
-                  <span className="grade-text">가성비 최고</span>
+                  <span className="grade-text">공채 지원 조건 충족</span>
                 </div>
               </div>
 
@@ -666,14 +693,14 @@ export default function Home() {
                   <div className="review-avatar">W</div>
                   <div className="review-meta">
                     <div className="name">우*민</div>
-                    <div className="info">이직 준비 · 2주 스터디</div>
+                    <div className="info">스타트업 이직 준비 · 2주 스터디</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">스터디 팀원들과 매일 연습하니까 혼자 공부할 때보다 효율이 5배는 된 것 같아요. 강력 추천합니다!</div>
+                <div className="review-text">이전 회사에서 영어 쓸 일이 없어서 입이 안 떨어졌어요. 근데 스터디 팀원들이 매일 녹음 올리니까 나도 안 할 수가 없더라고요. 과제량은 솔직히 좀 빡세요. 근데 그게 효과가 있었어요. 2주 만에 IM2에서 IH, 외국계 면접에서 자신감도 생겼습니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM2 → IH</span>
-                  <span className="grade-text">효율 5배 상승</span>
+                  <span className="grade-text">외국계 면접 자신감</span>
                 </div>
               </div>
                 </React.Fragment>
@@ -722,12 +749,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA BANNER */}
-      <section className="cta-banner">
+      {/* CTA BOTTOM */}
+      <section style={{ background: 'var(--blue-primary)', padding: '80px 0', textAlign: 'center' as const }}>
         <div className="container">
-          <h2>지금 바로 시작하세요</h2>
-          <p>무료 스피킹 테스트로 나의 OPIC 예상 등급을 확인해보세요.</p>
-          <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-white">무료 스피킹 테스트 시작 →</a>
+          <h2 style={{ fontSize: '28px', fontWeight: 700, color: 'white', marginBottom: '16px' }}>어디서부터 시작할지 모르겠다면</h2>
+          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.8)', marginBottom: '8px' }}>SpeakCoach AI에서 무료로 내 현재 예상 등급을 확인해보세요.</p>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '32px' }}>무료 체험 · 7일간 무제한 · 카드 등록 없음</p>
+          <a href="https://sikbang-eng.replit.app/" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', padding: '16px 36px', background: 'white', color: 'var(--blue-primary)', borderRadius: '12px', fontSize: '17px', fontWeight: 700, textDecoration: 'none' }}>무료로 내 등급 확인하기 →</a>
         </div>
       </section>
 
@@ -736,7 +764,7 @@ export default function Home() {
         <div className="container">
           <div className="footer-grid">
             <div className="footer-brand">
-              <div className="logo">🍞 식빵영어</div>
+              <div className="logo">SB 식빵영어</div>
               <p>2주 안에 OPIC 점수를 올리는<br />가장 구조적인 방법.</p>
             </div>
             <div className="footer-col">

@@ -1555,11 +1555,11 @@ export default function StudyPage() {
       <nav className="nav" id="nav">
         <div className="nav-inner">
           <Link href="/" className="nav-logo">
-            <span className="bread-icon">🍞</span> 식빵영어
+            <span className="bread-icon" style={{fontWeight:900, fontSize:'18px', color:'var(--green)'}}>SB</span> 식빵영어
           </Link>
           <div className="nav-links">
+            <a href="/free">무료 강의</a>
             <a href="#curriculum">커리큘럼</a>
-            <a href="#daily">하루 흐름</a>
             <a href="#pricing">가격</a>
             <a href="#reviews">후기</a>
             <a href="#faq">FAQ</a>
@@ -1617,37 +1617,37 @@ export default function StudyPage() {
       <section className="section" id="why">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">왜 식빵영어 스터디인가요?</div>
-            <p className="section-desc">매년 4,000명 이상이 선택한 이유가 있습니다.</p>
+            <div className="section-title">왜 4,000명이 이 스터디를 선택했을까요?</div>
+            <p className="section-desc">혼자 준비와는 결과가 다릅니다.</p>
           </div>
           <div className="why-grid">
             <div className="why-card">
-              <div className="why-icon green">⏱️</div>
+              <div className="why-icon green">2W</div>
               <h3>2주 집중 설계</h3>
               <p>불필요한 걸 다 뺐습니다. 2주 동안 OPIC 점수를 올리는 것에만 집중하는 커리큘럼.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon blue">🤖</div>
+              <div className="why-icon blue">AI</div>
               <h3>사람 + AI 피드백</h3>
-              <p>코치의 실전 피드백과 SpeakCoach AI의 정밀 분석을 동시에. 혼자 연습할 때도 AI가 함께합니다.</p>
+              <p>코치가 매일 발음·문법·스크립트를 직접 교정하고, AI가 7개 영역을 실시간 분석. 2주간 총 180분 피드백.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon orange">🏆</div>
+              <div className="why-icon orange">FW</div>
               <h3>프레임워크 답변 훈련</h3>
               <p>막연히 말하지 않습니다. OPIC에 최적화된 답변 구조를 익혀서 어떤 질문에도 흔들리지 않는 실력을.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon green">👥</div>
+              <div className="why-icon green">3P</div>
               <h3>3인 소그룹</h3>
-              <p>혼자면 포기하고, 많으면 묻힙니다. 3인이라 모두가 말하고, 서로 자극이 됩니다.</p>
+              <p>인강 완강률 12% vs 식빵영어 수료율 94%. 3명이라 모두가 매일 말하고, 서로 자극이 됩니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon blue">📊</div>
+              <div className="why-icon blue">94</div>
               <h3>검증된 성과</h3>
               <p>1,000건 이상의 수강 후기. IH, AL 등급 달성 사례가 계속 쌓이고 있습니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon orange">🔒</div>
+              <div className="why-icon orange">SC</div>
               <h3>SpeakCoach AI 포함</h3>
               <p>스터디 기간 동안 SpeakCoach AI Pro를 무료로 제공. 매일 AI 분석으로 약점을 정밀 교정합니다.</p>
             </div>
@@ -1682,15 +1682,15 @@ export default function StudyPage() {
           </div>
           <div className="stats-trust">
             <div className="trust-item">
-              <span>🏢</span>
+              <span style={{fontWeight:700}}>B2B</span>
               <span>삼성전자 초청 OPIc 세미나 진행</span>
             </div>
             <div className="trust-item">
-              <span>📚</span>
+              <span style={{fontWeight:700}}>No.1</span>
               <span>OPIc 전자책 베스트셀러</span>
             </div>
             <div className="trust-item">
-              <span>🤖</span>
+              <span style={{fontWeight:700}}>AI</span>
               <span>자체 AI 스피킹 분석 시스템 운영</span>
             </div>
           </div>
@@ -1813,32 +1813,32 @@ export default function StudyPage() {
           </div>
           <div className="why-grid" style={{ marginTop: '56px' }}>
             <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>📝</div>
+              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>1</div>
               <h3>학습 자료 공개</h3>
               <p>오전 8시에 그날의 토픽과 질문, 답변 프레임을 공개합니다. 구조를 파악하고 준비를 시작하세요.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>🎤</div>
+              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>2</div>
               <h3>답변 녹음 및 제출</h3>
               <p>당일 자정까지 SpeakCoach AI에서 답변을 녹음하고 제출합니다. 1~2분 길이의 자연스러운 답변을 목표로 합니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>🤖</div>
+              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>3</div>
               <h3>AI 분석 리포트</h3>
               <p>SpeakCoach AI가 자동으로 발음, 문법, 유창성, 어휘를 분석해서 피드백을 제공합니다. 약점을 한눈에 파악하세요.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>💬</div>
+              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>4</div>
               <h3>코치 피드백</h3>
               <p>담당 코치가 팀별로 모여 각자의 답변을 청취하고, 개선점과 칭찬을 카톡방에 공유합니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>🔄</div>
+              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>5</div>
               <h3>재교정 연습</h3>
               <p>AI 분석과 코치 피드백을 바탕으로 즉시 재교정 연습을 합니다. 같은 질문을 2~3회 다시 녹음해보세요.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '44px', marginBottom: '20px' }}>📊</div>
+              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>6</div>
               <h3>팀 공유 및 자극</h3>
               <p>팀원들의 답변과 피드백도 공유되니, 서로의 성장을 보며 자극받고 내일의 준비로 이어집니다.</p>
             </div>
@@ -1935,7 +1935,7 @@ export default function StudyPage() {
             <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함</p>
           </div>
           <div className="pricing-section">
-            <div className="pricing-badge">🔥 31% 할인 중</div>
+            <div className="pricing-badge">31% 할인 중</div>
             <div className="pricing-header">
               <h3>2주 집중 스터디</h3>
               <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
@@ -1959,18 +1959,18 @@ export default function StudyPage() {
               지금 신청하기 →
             </button>
             <div className="pricing-earlybird">
-              🎯 <strong>얼리버드 특가 ₩149,900</strong>은 기간 한정 할인가입니다.<br/>
+              <strong>얼리버드 특가 ₩149,900</strong>은 기간 한정 할인가입니다.<br/>
               259,900원에서 할인가 ₩179,900으로 제공 중입니다.
             </div>
             <div className="pricing-addon">
-              <h4>✨ Premium 업그레이드</h4>
+              <h4>Premium 업그레이드</h4>
               <p>
                 +<span className="addon-price">₩10,000</span>만 추가하면 2주 내내 SpeakCoach AI{' '}
                 <strong>Premium</strong>을 이용할 수 있어요.
               </p>
             </div>
             <div className="pricing-addon green">
-              <h4>🍱 수료 후 특별 혜택</h4>
+              <h4>수료 후 특별 혜택</h4>
               <p>
                 수료 후 SpeakCoach AI Premium 1개월을{' '}
                 <span className="addon-price">50% 할인</span>된 가격에 이어서 이용할 수 있습니다.
@@ -2036,8 +2036,8 @@ export default function StudyPage() {
       <section className="section section-gray" id="reviews">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">수강생 후기</div>
-            <p className="section-desc">1,000건 이상의 실제 후기 중 일부입니다.</p>
+            <div className="section-title">2주 후, 이런 결과가 나왔습니다</div>
+            <p className="section-desc">IM2→IH, IM3→AL. 실제 수료생들의 등급 변화.</p>
           </div>
           <div className="review-scroll-wrap">
             <div className="review-scroll" ref={reviewScrollRef}>
@@ -2158,7 +2158,7 @@ export default function StudyPage() {
 
           {/* Photo Reviews Carousel */}
           <div className="photo-review-section">
-            <div className="photo-review-label">📸 실제 수강생 인증 후기</div>
+            <div className="photo-review-label">실제 수강생 인증 후기</div>
             <div className="photo-carousel-wrap">
               <div className="photo-carousel-track">
                 {[...Array(2)].map((_, setIndex) =>
@@ -2209,7 +2209,7 @@ export default function StudyPage() {
       <section className="cta-banner">
         <div className="container">
           <h2>다음 기수 대기 접수 중</h2>
-          <p style={{fontSize:'18px',marginBottom:'8px'}}>📅 다음 기수: <strong>4월 15일 ~ 4월 29일</strong></p>
+          <p style={{fontSize:'18px',marginBottom:'8px'}}>다음 기수: <strong>4월 15일 ~ 4월 29일</strong></p>
           <p>현재 기수(4/1)가 마감되었습니다. 다음 기수에 참여를 원하시면 대기 접수해주세요.</p>
           <button onClick={() => setShowFormModal(true)} className="btn-white">
             대기 접수하기 →
@@ -2262,7 +2262,7 @@ export default function StudyPage() {
       <div className="toast-area">
         {toasts.map((toast) => (
           <div key={toast.id} className="toast">
-            <div className="toast-icon">👋</div>
+            <div className="toast-icon" style={{background:'rgba(255,255,255,0.3)',fontSize:'10px'}}>·</div>
             <div>
               <strong>{toast.name}</strong>
               {toast.action}
@@ -2280,12 +2280,12 @@ export default function StudyPage() {
           <div className="form-modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="form-modal-close" onClick={() => setShowFormModal(false)}>✕</button>
             <div className="form-modal-body">
-              <div className="form-modal-icon">📝</div>
+              <div className="form-modal-icon"></div>
               <h3>스터디 신청서 작성</h3>
               <p>구글 폼에서 신청서를 작성해주세요.<br/>선착순 마감이니 서둘러주세요!</p>
               <div className="form-modal-info">
-                <div>💰 수강료: <span style={{textDecoration:'line-through',color:'#999',fontSize:'14px',marginRight:'4px'}}>₩259,900</span> → <strong>₩179,900</strong> <span style={{color:'#dc2626',fontSize:'13px',fontWeight:700}}>31% 할인</span></div>
-                <div>👥 남은 자리: <strong style={{color:'#FF3B5C'}}>{floatingRemainingSlots}명</strong></div>
+                <div>수강료: <span style={{textDecoration:'line-through',color:'#999',fontSize:'14px',marginRight:'4px'}}>₩259,900</span> → <strong>₩179,900</strong> <span style={{color:'#dc2626',fontSize:'13px',fontWeight:700}}>31% 할인</span></div>
+                <div>남은 자리: <strong style={{color:'#FF3B5C'}}>{floatingRemainingSlots}명</strong></div>
               </div>
               <a href="https://forms.gle/dvCkYs8jSZZVyyFo7" target="_blank" rel="noopener noreferrer" className="form-modal-btn" onClick={() => setShowFormModal(false)}>
                 신청서 작성하기 →

@@ -712,4 +712,5 @@ img { max-width: 100%; display: block; }
     flex-wrap: wrap;
     gap: 4px;
   }
+  #problem > .container > div:nth-child(2) { grid-template-columns: 1fr !important; }
 }
