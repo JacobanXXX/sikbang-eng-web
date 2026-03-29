@@ -794,8 +794,8 @@ export default function Home() {
           <div className="footer-bottom">
             <span>&copy; 2025 식빵영어. All rights reserved.</span>
             <div className="social">
-              <a href="#">이용약관</a>
-              <a href="#">개인정보처리방침</a>
+              <a href="/terms">이용약관</a>
+              <a href="/privacy">개인정보처리방침</a>
             </div>
           </div>
         </div>
