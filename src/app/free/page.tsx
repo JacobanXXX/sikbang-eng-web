@@ -3,11 +3,55 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
+interface Lecture {
+  id: number;
+  title: string;
+  description: string;
+  tag: string;
+  youtubeId: string;
+  youtubeUrl: string;
+}
+
+interface Resource {
+  id: number;
+  category: string;
+  title: string;
+  preview: string;
+  url: string;
+}
+
+const TAG_COLORS: Record<string, string> = {
+  '입문': '#3182F6',
+  '중급': '#6B4EFF',
+  '실전': '#FF6B35',
+};
+
+const CATEGORY_COLORS: Record<string, string> = {
+  '표현': '#1A8D48',
+  '문법': '#E53935',
+  '전략': '#3182F6',
+  '발음': '#FF6B35',
+};
+
 export default function FreePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [navShadow, setNavShadow] = useState(false);
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
   const [marketingConsent, setMarketingConsent] = useState(false);
+  const [lectures, setLectures] = useState<Lecture[]>([]);
+  const [resources, setResources] = useState<Resource[]>([]);
+
+  // Fetch data from JSON files
+  useEffect(() => {
+    fetch('/data/lectures.json')
+      .then(res => res.json())
+      .then(data => setLectures(data))
+      .catch(() => {});
+    fetch('/data/resources.json')
+      .then(res => res.json())
+      .then(data => setResources(data))
+      .catch(() => {});
+  }, []);
 
   // Nav shadow on scroll
   useEffect(() => {
@@ -52,102 +96,6 @@ export default function FreePage() {
       setNewsletterSuccess(true);
     }
   };
-
-  const lectures = [
-    {
-      tag: '입문',
-      tagColor: '#3182F6',
-      title: '오픽 자기소개, 이렇게 시작하세요',
-      description: '첫 문장에서 면접관의 인상이 결정됩니다. 3문장 공식.'
-    },
-    {
-      tag: '입문',
-      tagColor: '#3182F6',
-      title: '오픽 서베이 항목, 이렇게 고르세요',
-      description: '잘못 고르면 2주 낭비. 본인 스토리와 맞는 항목 선택법.'
-    },
-    {
-      tag: '입문',
-      tagColor: '#3182F6',
-      title: '오픽 답변 3단 공식',
-      description: '도입-본론-마무리. 이 구조만 익히면 어떤 질문이든 1분 30초 채울 수 있습니다.'
-    },
-    {
-      tag: '중급',
-      tagColor: '#6B4EFF',
-      title: 'IM vs IH vs AL, 실제 답변 비교',
-      description: '같은 질문에 대한 등급별 답변을 들어보세요. 차이가 들립니다.'
-    },
-    {
-      tag: '중급',
-      tagColor: '#6B4EFF',
-      title: '오픽 롤플레이, 공식으로 풀기',
-      description: '롤플레이는 외우는 게 아니라 패턴입니다. 전화/예약/불만 3가지 공식.'
-    },
-    {
-      tag: '실전',
-      tagColor: '#FF6B35',
-      title: '오픽 돌발 질문 Top 5',
-      description: '당황하면 끝. 미리 패턴을 익혀두면 돌발이 돌발이 아닙니다.'
-    },
-    {
-      tag: '실전',
-      tagColor: '#FF6B35',
-      title: '오픽 시험 당일 루틴 & 꿀팁',
-      description: '시험 전날부터 당일까지 컨디션 관리. 수료생 500명이 공유한 팁 모음.'
-    },
-    {
-      tag: '입문',
-      tagColor: '#3182F6',
-      title: '토익스피킹 vs 오픽, 뭘 볼까?',
-      description: '둘 다 스피킹 시험인데 전략이 완전 다릅니다. 나에게 맞는 시험 고르기.'
-    }
-  ];
-
-  const resources = [
-    {
-      category: '표현',
-      categoryColor: '#1A8D48',
-      title: 'OPIC 필수 표현 30선',
-      description: 'IH 이상 받으려면 이 표현들은 자동으로 나와야 합니다',
-      link: '#'
-    },
-    {
-      category: '문법',
-      categoryColor: '#E53935',
-      title: '한국인이 자주 틀리는 시제 실수 5가지',
-      description: '"I go to school yesterday" — 이러면 IM 못 벗어납니다',
-      link: '#'
-    },
-    {
-      category: '전략',
-      categoryColor: '#3182F6',
-      title: '서베이 항목별 답변 전략 총정리',
-      description: '집/음식/여행/운동 — 항목별 킬러 답변 구조',
-      link: '#'
-    },
-    {
-      category: '발음',
-      categoryColor: '#FF6B35',
-      title: 'L과 R 발음, 이것만 고쳐도 등급이 오릅니다',
-      description: '한국인 발음 약점 Top 3와 교정 방법',
-      link: '#'
-    },
-    {
-      category: '전략',
-      categoryColor: '#3182F6',
-      title: '돌발 질문 대처법 완전판',
-      description: '모르는 주제가 나왔을 때 시간 버는 3가지 기술',
-      link: '#'
-    },
-    {
-      category: '표현',
-      categoryColor: '#1A8D48',
-      title: '비즈니스 상황 영어 표현 20선',
-      description: '직장인 서베이 선택 시 필수 표현 모음',
-      link: '#'
-    }
-  ];
 
   const products = [
     {
@@ -453,6 +401,25 @@ export default function FreePage() {
           justify-content: center;
           color: #B8BBBD;
           font-size: 14px;
+          position: relative;
+          overflow: hidden;
+        }
+        .play-btn {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 48px;
+          height: 48px;
+          background: rgba(0,0,0,0.6);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.2s;
+        }
+        .lecture-card:hover .play-btn {
+          background: rgba(0,0,0,0.8);
           font-weight: 600;
         }
         .lecture-content {
@@ -880,18 +847,47 @@ export default function FreePage() {
             <p>유튜브에서 가장 많이 본 OPIC 강의를 모았습니다.</p>
           </div>
           <div className="lecture-grid">
-            {lectures.map((lecture, idx) => (
-              <div key={idx} className="lecture-card">
-                <div className="lecture-thumbnail">COMING SOON</div>
-                <div className="lecture-content">
-                  <div className="lecture-tag" style={{ backgroundColor: lecture.tagColor }}>
-                    {lecture.tag}
+            {lectures.map((lecture) => {
+              const hasVideo = lecture.youtubeId || lecture.youtubeUrl;
+              const thumbnailUrl = lecture.youtubeId
+                ? `https://img.youtube.com/vi/${lecture.youtubeId}/mqdefault.jpg`
+                : '';
+              const videoLink = lecture.youtubeUrl || (lecture.youtubeId ? `https://www.youtube.com/watch?v=${lecture.youtubeId}` : '');
+
+              const cardContent = (
+                <>
+                  <div className="lecture-thumbnail">
+                    {thumbnailUrl ? (
+                      <img src={thumbnailUrl} alt={lecture.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <span>COMING SOON</span>
+                    )}
+                    {hasVideo && (
+                      <div className="play-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21" /></svg>
+                      </div>
+                    )}
                   </div>
-                  <h3>{lecture.title}</h3>
-                  <p>{lecture.description}</p>
+                  <div className="lecture-content">
+                    <div className="lecture-tag" style={{ backgroundColor: TAG_COLORS[lecture.tag] || '#3182F6' }}>
+                      {lecture.tag}
+                    </div>
+                    <h3>{lecture.title}</h3>
+                    <p>{lecture.description}</p>
+                  </div>
+                </>
+              );
+
+              return hasVideo ? (
+                <a key={lecture.id} href={videoLink} target="_blank" rel="noopener noreferrer" className="lecture-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                  {cardContent}
+                </a>
+              ) : (
+                <div key={lecture.id} className="lecture-card">
+                  {cardContent}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -905,14 +901,18 @@ export default function FreePage() {
             <p>매주 발행하는 뉴스레터에서 엄선한 핵심 콘텐츠.</p>
           </div>
           <div className="resource-grid">
-            {resources.map((resource, idx) => (
-              <div key={idx} className="resource-card">
-                <div className="resource-category" style={{ backgroundColor: resource.categoryColor }}>
+            {resources.map((resource) => (
+              <div key={resource.id} className="resource-card">
+                <div className="resource-category" style={{ backgroundColor: CATEGORY_COLORS[resource.category] || '#3182F6' }}>
                   {resource.category}
                 </div>
                 <h3>{resource.title}</h3>
-                <p>{resource.description}</p>
-                <a href={resource.link} className="resource-link">읽어보기</a>
+                <p>{resource.preview}</p>
+                {resource.url ? (
+                  <a href={resource.url} target="_blank" rel="noopener noreferrer" className="resource-link">읽어보기</a>
+                ) : (
+                  <span className="resource-link" style={{ opacity: 0.4, cursor: 'default' }}>준비 중</span>
+                )}
               </div>
             ))}
           </div>

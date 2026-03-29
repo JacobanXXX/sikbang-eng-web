@@ -2262,7 +2262,7 @@ export default function StudyPage() {
       <div className="toast-area">
         {toasts.map((toast) => (
           <div key={toast.id} className="toast">
-            <div className="toast-icon" style={{background:'rgba(255,255,255,0.3)',fontSize:'10px'}}>·</div>
+            <div className="toast-icon" style={{background:'rgba(255,255,255,0.15)',fontSize:'16px'}}>👋</div>
             <div>
               <strong>{toast.name}</strong>
               {toast.action}
