@@ -1931,7 +1931,7 @@ export default function StudyPage() {
       <section className="section section-gray" id="pricing">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">가격</div>
+            <div className="section-title">💰 가격</div>
             <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함</p>
           </div>
           <div className="pricing-section">
