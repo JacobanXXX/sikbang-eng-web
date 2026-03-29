@@ -291,12 +291,12 @@ export default function Home() {
                 <div className="category">전자책</div>
                 <h3>OPIC 전자책 + 기출 번들</h3>
                 <div className="desc">실전 기출 문제와 프레임워크 답변 템플릿을 한 번에. 가장 많은 수강생이 선택한 베스트셀러.</div>
-                <div className="product-price-row">
+                <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
                   <div className="product-price">
                     <span className="current">39,900</span>
                     <span className="unit">원</span>
                   </div>
-                  <a href="https://blog.naver.com/lulu05/223353024018" target="_blank" className="btn-buy">구매하기</a>
+                  <a href="https://blog.naver.com/lulu05/223353024018" target="_blank" className="btn-buy" style={{width:'100%', textAlign:'center', padding:'12px 20px'}}>구매하기</a>
                 </div>
               </div>
             </div>
@@ -311,13 +311,13 @@ export default function Home() {
                 <div className="category">인강</div>
                 <h3>OPIC 완전정복 인강 패키지</h3>
                 <div className="desc">혼자 공부하되 영상으로 구조를 잡고 싶다면. 유형별 답변 전략 + 실전 롤플레이 완벽 정리.</div>
-                <div className="product-price-row">
+                <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
                   <div className="product-price">
                     <span className="original">269,000원</span>
                     <span className="current">169,000</span>
                     <span className="unit">원</span>
                   </div>
-                  <a href="https://sikbang-eng.liveklass.com/" target="_blank" className="btn-buy">수강하기</a>
+                  <a href="https://sikbang-eng.liveklass.com/" target="_blank" className="btn-buy" style={{width:'100%', textAlign:'center', padding:'12px 20px'}}>수강하기</a>
                 </div>
               </div>
             </div>
@@ -332,14 +332,14 @@ export default function Home() {
                 <div className="category">2주 스터디</div>
                 <h3>2주 집중 OPIC 스터디</h3>
                 <div className="desc">매일 녹음 → 코치 직접 교정 → AI 분석. 수료생 94%가 목표 등급 달성. 2주 올인원.</div>
-                <div className="product-price-row">
-                  <div className="product-price">
-                    <span style={{textDecoration:'line-through',color:'#999',fontSize:'14px',marginRight:'4px'}}>259,900</span>
+                <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
+                  <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>
+                    <span className="original">259,900원</span>
                     <span className="current">149,900</span>
                     <span className="unit">원</span>
-                    <span style={{background:'#dc2626',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px',marginLeft:'6px'}}>-42%</span>
+                    <span style={{background:'#dc2626',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px'}}>-42%</span>
                   </div>
-                  <a href="/study" className="btn-buy">자세히 보기</a>
+                  <a href="/study" className="btn-buy" style={{width:'100%', textAlign:'center', padding:'12px 20px'}}>자세히 보기</a>
                 </div>
               </div>
             </div>
