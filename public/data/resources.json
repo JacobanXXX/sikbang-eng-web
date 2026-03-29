@@ -1,44 +1,51 @@
 [
   {
     "id": 1,
-    "category": "표현",
-    "title": "OPIC 필수 표현 30선",
-    "preview": "IH 이상 받으려면 이 표현들은 자동으로 나와야 합니다",
-    "url": ""
+    "category": "전략",
+    "title": "오픽 시험장에서 망하는 사람들의 공통점",
+    "preview": "시험장에서 반복되는 실수 패턴, 미리 알면 피할 수 있습니다.",
+    "url": "https://stib.ee/qJfL"
   },
   {
     "id": 2,
-    "category": "문법",
-    "title": "한국인이 자주 틀리는 시제 실수 5가지",
-    "preview": "\"I go to school yesterday\" — 이러면 IM 못 벗어납니다",
-    "url": ""
+    "category": "전략",
+    "title": "기출 — IM과 IH를 가른 결정적 차이",
+    "preview": "같은 질문에 IM과 IH 답변이 갈리는 결정적 포인트.",
+    "url": "https://stib.ee/KJgL"
   },
   {
     "id": 3,
-    "category": "전략",
-    "title": "서베이 항목별 답변 전략 총정리",
-    "preview": "집/음식/여행/운동 — 항목별 킬러 답변 구조",
-    "url": ""
+    "category": "표현",
+    "title": "지난주 패턴 4가지, 이렇게 고치면 됩니다",
+    "preview": "자주 반복되는 패턴 실수 4가지와 교정 방법.",
+    "url": "https://stib.ee/qXiL"
   },
   {
     "id": 4,
-    "category": "발음",
-    "title": "L과 R 발음, 이것만 고쳐도 등급이 오릅니다",
-    "preview": "한국인 발음 약점 Top 3와 교정 방법",
-    "url": ""
+    "category": "전략",
+    "title": "오픽 채점관은 사실 이것만 봅니다",
+    "preview": "채점 기준의 핵심, 이걸 알면 준비 방향이 달라집니다.",
+    "url": "https://stib.ee/mWkL"
   },
   {
     "id": 5,
     "category": "전략",
-    "title": "돌발 질문 대처법 완전판",
-    "preview": "모르는 주제가 나왔을 때 시간 버는 3가지 기술",
-    "url": ""
+    "title": "오픽 강사들이 절대 안 알려주는 것",
+    "preview": "대부분의 강의에서 빠져 있는 실전 핵심 포인트.",
+    "url": "https://stib.ee/ufnL"
   },
   {
     "id": 6,
-    "category": "표현",
-    "title": "비즈니스 상황 영어 표현 20선",
-    "preview": "직장인 서베이 선택 시 필수 표현 모음",
-    "url": ""
+    "category": "전략",
+    "title": "IH랑 AL, 딱 한 가지 차이입니다",
+    "preview": "IH에서 AL로 올라가는 데 필요한 결정적 한 가지.",
+    "url": "https://stib.ee/zjqL"
+  },
+  {
+    "id": 7,
+    "category": "전략",
+    "title": "서베이 잘못 고르면 시작부터 지는 겁니다",
+    "preview": "서베이 항목 선택이 점수를 좌우하는 이유와 선택법.",
+    "url": "https://stib.ee/70tL"
   }
 ]
