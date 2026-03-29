@@ -68,6 +68,11 @@ export default function StudyPage() {
       answer: '인원 편성 이후(단톡방 초대 이후)에는 어떠한 사유로도 환불이 불가합니다. 본 스터디는 소규모 정원 기반으로 운영되며, 그룹 확정과 동시에 맞춤 커리큘럼과 운영 리소스가 즉시 배정되기 때문입니다. 단톡방 초대 전에는 전액 환불 가능합니다. 결제 시 본 환불 정책에 동의한 것으로 간주됩니다.'
     },
     {
+      question: '[필독] 참여 규정 및 환불 제한 안내',
+      answer: '본 스터디는 소규모 그룹(3인 1팀)으로 운영되며, 한 명의 불참이나 비협조가 팀 전체에 직접적인 피해를 줍니다. 아래 사항에 해당할 경우 환불이 불가하며, 스터디 참여가 제한될 수 있습니다.\n\n• 스터디 초대(단톡방) 후 지속적인 미응답 또는 무시\n• 스터디 시간 조율 시 연락 두절 또는 비협조\n• 사전 고지 없는 무단 불참 (2회 이상)\n• 과제 미제출이 3일 이상 연속될 경우\n• 다른 팀원의 학습을 방해하는 행위\n• 운영진의 안내 및 공지에 대한 지속적 무응답\n\n위 규정은 함께 참여하는 다른 수강생의 학습권을 보호하기 위한 것입니다. 신청 및 결제 시 본 참여 규정에 동의한 것으로 간주되며, 위 사유로 인한 환불 요청은 불가합니다.',
+      important: true
+    },
+    {
       question: 'Premium 업그레이드는 꼭 해야 하나요?',
       answer: '필수는 아닙니다. 기본 스터디에 Pro 플랜이 포함되어 있어서 충분히 학습 가능합니다. Premium은 고급 분석 기능이 추가되므로, AL을 목표로 하시는 분께 추천드립니다.'
     }
@@ -1068,6 +1073,39 @@ export default function StudyPage() {
           font-size: 15px;
           color: var(--text-secondary);
           line-height: 1.6;
+        }
+
+        /* FAQ important */
+        .faq-important {
+          border: 2px solid #dc2626;
+          background: #FFF5F5;
+        }
+        .faq-important .faq-question {
+          background: #FFF5F5;
+        }
+        .faq-important .faq-question:hover {
+          background: #FEE2E2;
+        }
+        .faq-important.open {
+          border-color: #dc2626;
+          box-shadow: 0 4px 16px rgba(220, 38, 38, 0.12);
+        }
+        .faq-important .faq-icon {
+          color: #dc2626;
+        }
+        .faq-important .faq-answer {
+          background: #FFF5F5;
+        }
+        .faq-badge {
+          display: inline-block;
+          background: #dc2626;
+          color: white;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 4px;
+          margin-right: 8px;
+          vertical-align: middle;
         }
 
         /* === CTA BANNER === */
@@ -2188,14 +2226,14 @@ export default function StudyPage() {
             <p className="section-desc">더 궁금한 점은 문의하기를 통해 연락주세요.</p>
           </div>
           <div className="faq-list">
-            {faqItems.map((item, index) => (
-              <div key={index} className={`faq-item ${openFaqIndex === index ? 'open' : ''}`}>
+            {faqItems.map((item: { question: string; answer: string; important?: boolean }, index: number) => (
+              <div key={index} className={`faq-item ${openFaqIndex === index ? 'open' : ''} ${item.important ? 'faq-important' : ''}`}>
                 <button className="faq-question" onClick={() => toggleFaq(index)}>
-                  <span>{item.question}</span>
+                  <span>{item.important && <span className="faq-badge">필독</span>}{item.question}</span>
                   <span className="faq-icon">+</span>
                 </button>
-                <div className="faq-answer" style={{ maxHeight: openFaqIndex === index ? '500px' : '0' }}>
-                  <div className="faq-answer-content">
+                <div className="faq-answer" style={{ maxHeight: openFaqIndex === index ? '800px' : '0' }}>
+                  <div className="faq-answer-content" style={{ whiteSpace: 'pre-line' }}>
                     {item.answer}
                   </div>
                 </div>
