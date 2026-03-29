@@ -199,7 +199,7 @@ export default function Home() {
       <section className="newsletter-section" id="free-resource">
         <div className="container">
           <div className="newsletter-inner">
-            <div className="newsletter-icon" style={{fontSize:'14px', fontWeight:700}}>MAIL</div>
+            <div className="newsletter-icon">✉️</div>
             <h2>OPIC 무료 자료<br /><span className="highlight">지금 바로 받아보세요</span></h2>
             <p>이메일을 구독하면 OPIC 준비에 꼭 필요한 무료 학습 자료를 보내드립니다.<br />매주 OPIC 꿀팁과 표현 정리도 함께 받아보세요.</p>
 
