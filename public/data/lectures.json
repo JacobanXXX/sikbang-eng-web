@@ -1,66 +1,106 @@
 [
   {
     "id": 1,
-    "title": "오픽 자기소개, 이렇게 시작하세요",
-    "description": "첫 문장에서 면접관의 인상이 결정됩니다. 3문장 공식.",
+    "title": "Ep1. 현재진행형 — 원어민이 배우는 방법 그대로",
+    "description": "한번 들으면 평생 기억하는 현재진행형의 진짜 의미와 사용법.",
     "tag": "입문",
-    "youtubeId": "",
-    "youtubeUrl": ""
+    "youtubeId": "NFvF-I_nrDQ",
+    "youtubeUrl": "https://youtu.be/NFvF-I_nrDQ"
   },
   {
     "id": 2,
-    "title": "오픽 서베이 항목, 이렇게 고르세요",
-    "description": "잘못 고르면 2주 낭비. 본인 스토리와 맞는 항목 선택법.",
+    "title": "Ep2. 현재시제 — 영문법 완벽정리",
+    "description": "어학연수 비용을 아껴드리는 현재시제 핵심 정리.",
     "tag": "입문",
-    "youtubeId": "",
-    "youtubeUrl": ""
+    "youtubeId": "ql7YWNDldSY",
+    "youtubeUrl": "https://youtu.be/ql7YWNDldSY"
   },
   {
     "id": 3,
-    "title": "오픽 답변 3단 공식",
-    "description": "도입-본론-마무리. 이 구조만 익히면 어떤 질문이든 1분 30초 채울 수 있습니다.",
+    "title": "Ep3. 현재진행형 vs 현재시제 — 10분 한 방 정리",
+    "description": "둘의 차이를 원어민이 배우는 방식 그대로 설명합니다.",
     "tag": "입문",
-    "youtubeId": "",
-    "youtubeUrl": ""
+    "youtubeId": "qTBB2hGIsZM",
+    "youtubeUrl": "https://youtu.be/qTBB2hGIsZM"
   },
   {
     "id": 4,
-    "title": "IM vs IH vs AL, 실제 답변 비교",
-    "description": "같은 질문에 대한 등급별 답변을 들어보세요. 차이가 들립니다.",
-    "tag": "중급",
-    "youtubeId": "",
-    "youtubeUrl": ""
+    "title": "Ep4. 과거시제 — 영문법 완벽정리",
+    "description": "원어민들은 영어를 어떻게 배울까? 과거시제 핵심 정리.",
+    "tag": "입문",
+    "youtubeId": "LaYjT6iR_5U",
+    "youtubeUrl": "https://youtu.be/LaYjT6iR_5U"
   },
   {
     "id": 5,
-    "title": "오픽 롤플레이, 공식으로 풀기",
-    "description": "롤플레이는 외우는 게 아니라 패턴입니다. 전화/예약/불만 3가지 공식.",
-    "tag": "중급",
-    "youtubeId": "",
-    "youtubeUrl": ""
+    "title": "Ep5. 과거진행형 — 삼성전자 OPIc 초청 강사의 영문법",
+    "description": "삼성전자 초청 강사가 알려주는 과거진행형 수업.",
+    "tag": "입문",
+    "youtubeId": "O1W7JiOU-Nw",
+    "youtubeUrl": "https://youtu.be/O1W7JiOU-Nw"
   },
   {
     "id": 6,
-    "title": "오픽 돌발 질문 Top 5",
-    "description": "당황하면 끝. 미리 패턴을 익혀두면 돌발이 돌발이 아닙니다.",
-    "tag": "실전",
-    "youtubeId": "",
-    "youtubeUrl": ""
+    "title": "Ep6. 현재완료 — 이거 모르고 영어 공부하는 사람 많습니다",
+    "description": "현재완료의 진짜 의미와 올바른 사용법 총정리.",
+    "tag": "중급",
+    "youtubeId": "vmRD6K3bSsE",
+    "youtubeUrl": "https://youtu.be/vmRD6K3bSsE"
   },
   {
     "id": 7,
-    "title": "오픽 시험 당일 루틴 & 꿀팁",
-    "description": "시험 전날부터 당일까지 컨디션 관리. 수료생 500명이 공유한 팁 모음.",
-    "tag": "실전",
-    "youtubeId": "",
-    "youtubeUrl": ""
+    "title": "Ep7. 현재완료 심화 — 삼성 초청 오픽 강사의 영문법",
+    "description": "현재완료를 제대로 쓰려면 이 영상 하나면 됩니다.",
+    "tag": "중급",
+    "youtubeId": "1y4kLuVseWU",
+    "youtubeUrl": "https://youtu.be/1y4kLuVseWU"
   },
   {
     "id": 8,
-    "title": "토익스피킹 vs 오픽, 뭘 볼까?",
-    "description": "둘 다 스피킹 시험인데 전략이 완전 다릅니다. 나에게 맞는 시험 고르기.",
-    "tag": "입문",
-    "youtubeId": "",
-    "youtubeUrl": ""
+    "title": "Ep8. 현재완료 진행형 — 10분만에 세상에서 가장 쉽게",
+    "description": "딱 10분이면 현재완료 진행형을 완벽하게 이해할 수 있습니다.",
+    "tag": "중급",
+    "youtubeId": "o3w-nT4Zpug",
+    "youtubeUrl": "https://youtu.be/o3w-nT4Zpug"
+  },
+  {
+    "id": 9,
+    "title": "Ep9. 오픽 14일 안에 끝내려면 이 문법만 정리해",
+    "description": "오픽에 꼭 필요한 핵심 문법만 속성으로 정리.",
+    "tag": "실전",
+    "youtubeId": "PsYlgscM4W8",
+    "youtubeUrl": "https://youtu.be/PsYlgscM4W8"
+  },
+  {
+    "id": 10,
+    "title": "Ep10. How long have you been — 오픽 필수 영문법",
+    "description": "오픽에 꼭 필요한 영문법만 속성으로 정리합니다.",
+    "tag": "실전",
+    "youtubeId": "r8HTbBe4A6M",
+    "youtubeUrl": "https://youtu.be/r8HTbBe4A6M"
+  },
+  {
+    "id": 11,
+    "title": "Ep11. 과거완료 — 오픽에서 반드시 알아야 하는 영문법",
+    "description": "과거완료를 확실하게 정리하는 영상.",
+    "tag": "실전",
+    "youtubeId": "YzGSUIO2ltM",
+    "youtubeUrl": "https://youtu.be/YzGSUIO2ltM"
+  },
+  {
+    "id": 12,
+    "title": "이 시제 하나 때문에 당신의 영어가 부자연스럽다",
+    "description": "한국인이 자주 놓치는 시제 하나가 영어를 어색하게 만듭니다.",
+    "tag": "중급",
+    "youtubeId": "_mSK0kTI46c",
+    "youtubeUrl": "https://youtu.be/_mSK0kTI46c"
+  },
+  {
+    "id": 13,
+    "title": "Prefer vs Would rather — 한국인 99%가 모르는 진짜 영어",
+    "description": "Prefer와 Would rather의 실제 차이와 올바른 사용법.",
+    "tag": "중급",
+    "youtubeId": "mUtT73Y41uw",
+    "youtubeUrl": "https://youtu.be/mUtT73Y41uw"
   }
 ]
