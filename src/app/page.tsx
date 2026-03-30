@@ -342,10 +342,11 @@ export default function Home() {
                 <h3>OPIC 완전정복 인강 패키지</h3>
                 <div className="desc">혼자 공부하되 영상으로 구조를 잡고 싶다면. 유형별 답변 전략 + 실전 롤플레이 완벽 정리.</div>
                 <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
-                  <div className="product-price">
+                  <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>
                     <span className="original">269,000원</span>
                     <span className="current">169,000</span>
                     <span className="unit">원</span>
+                    <span style={{background:'#dc2626',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px'}}>-37%</span>
                   </div>
                   <a href="https://sikbang-eng.liveklass.com/" target="_blank" className="btn-buy" style={{width:'100%', textAlign:'center', padding:'12px 20px'}}>수강하기</a>
                 </div>
