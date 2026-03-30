@@ -1843,33 +1843,33 @@ export default function StudyPage() {
           <div className="why-grid">
             <div className="why-card">
               <div className="why-icon green">2W</div>
-              <h3>2주 집중 설계</h3>
-              <p>불필요한 걸 다 뺐습니다. 2주 동안 OPIC 점수를 올리는 것에만 집중하는 커리큘럼.</p>
+              <h3>2주 완성 커리큘럼</h3>
+              <p>시험에 나오지 않는 건 가르치지 않습니다. 실제 OPIC 출제 패턴만 분석해서 설계한 14일 집중 코스.</p>
             </div>
             <div className="why-card">
               <div className="why-icon blue">AI</div>
-              <h3>사람 + AI 피드백</h3>
-              <p>코치가 매일 발음·문법·스크립트를 직접 교정하고, AI가 7개 영역을 실시간 분석. 2주간 총 180분 피드백.</p>
+              <h3>코치 교정 + AI 분석</h3>
+              <p>삼성 초청 OPIC 강사가 매일 1:1 음성 피드백. 동시에 AI가 발음·유창성·문법 등 7개 영역을 정량 분석합니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon orange">FW</div>
               <h3>프레임워크 답변 훈련</h3>
-              <p>막연히 말하지 않습니다. OPIC에 최적화된 답변 구조를 익혀서 어떤 질문에도 흔들리지 않는 실력을.</p>
+              <p>돌발 질문에도 15초 안에 답변을 시작하는 구조화된 스피킹 프레임워크. 암기가 아닌 체화 훈련입니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon green">3P</div>
-              <h3>3인 소그룹</h3>
-              <p>인강 완강률 12% vs 식빵영어 수료율 94%. 3명이라 모두가 매일 말하고, 서로 자극이 됩니다.</p>
+              <h3>3인 1팀 소그룹</h3>
+              <p>일반 인강 완강률 12%, 식빵영어 수료율 94%. 매일 팀원과 실전 롤플레이를 하기 때문에 포기할 수 없는 구조입니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon blue">94</div>
-              <h3>검증된 성과</h3>
-              <p>1,000건 이상의 수강 후기. IH, AL 등급 달성 사례가 계속 쌓이고 있습니다.</p>
+              <h3>4,000명이 검증한 성과</h3>
+              <p>누적 수강생 4,000명, 후기 1,000건 이상. IM2에서 IH, IL에서 AL까지 — 평균 1~2등급 상승 사례가 매 기수 나옵니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon orange">SC</div>
-              <h3>SpeakCoach AI 포함</h3>
-              <p>스터디 기간 동안 SpeakCoach AI Pro를 무료로 제공. 매일 AI 분석으로 약점을 정밀 교정합니다.</p>
+              <h3>SpeakCoach AI Pro 포함</h3>
+              <p>월 29,900원 상당의 AI 스피킹 분석 도구를 스터디 기간 내 무제한 무료 제공. 매일 녹음하고 즉시 교정받으세요.</p>
             </div>
           </div>
         </div>
