@@ -1838,7 +1838,7 @@ export default function StudyPage() {
         <div className="container">
           <div style={{ textAlign: 'center' }}>
             <div className="section-title">왜 4,000명이 이 스터디를 선택했을까요?</div>
-            <p className="section-desc">혼자 준비와는 결과가 다릅니다.</p>
+            <p className="section-desc">2주 만에 등급이 바뀌는 데는 이유가 있습니다.</p>
           </div>
           <div className="why-grid">
             <div className="why-card">
@@ -1864,12 +1864,12 @@ export default function StudyPage() {
             <div className="why-card">
               <div className="why-icon blue">↑2</div>
               <h3>평균 2등급 상승</h3>
-              <p>누적 수강생 4,000명, 실제 후기 1,000건 이상. IM2→IH, IL→IM — 매 기수 평균 2등급 상승이라는 결과가 반복되고 있습니다.</p>
+              <p>누적 수강생 4,000명, 실제 후기 1,000건 이상. 매 기수 평균 2등급 상승이라는 결과가 반복되고 있습니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon orange">SC</div>
-              <h3>29,900원 AI 도구 무료</h3>
-              <p>월 29,900원 상당의 SpeakCoach AI Pro를 스터디 기간 내 무제한 제공. 녹음 즉시 발음·억양·문법 교정 리포트를 받아 매일 실력이 올라갑니다.</p>
+              <h3>41,900원 AI 도구 무료</h3>
+              <p>월 41,900원 상당의 SpeakCoach AI Pro를 스터디 기간 내 무제한 제공. 녹음 즉시 발음·억양·문법 교정 리포트를 받아 매일 실력이 올라갑니다.</p>
             </div>
           </div>
         </div>
