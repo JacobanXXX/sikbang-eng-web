@@ -2087,7 +2087,6 @@ export default function StudyPage() {
               <thead>
                 <tr>
                   <th></th>
-                  <th>독학</th>
                   <th>인강</th>
                   <th>학원</th>
                   <th className="highlight-col">식빵영어 스터디</th>
@@ -2096,7 +2095,6 @@ export default function StudyPage() {
               <tbody>
                 <tr>
                   <td>학습 구조</td>
-                  <td>스스로 계획</td>
                   <td>영상 시청 위주</td>
                   <td>강사 커리큘럼</td>
                   <td className="highlight-col">14일 프레임워크 시스템</td>
@@ -2104,13 +2102,11 @@ export default function StudyPage() {
                 <tr>
                   <td>스피킹 연습</td>
                   <td className="compare-x">✕</td>
-                  <td className="compare-x">✕</td>
                   <td>수업 시간만</td>
                   <td className="highlight-col"><span className="compare-check">✓</span> 매일 녹음 + AI 분석</td>
                 </tr>
                 <tr>
                   <td>코치 피드백</td>
-                  <td className="compare-x">✕</td>
                   <td className="compare-x">✕</td>
                   <td>제한적</td>
                   <td className="highlight-col"><span className="compare-check">✓</span> 매일 녹음 교정 + 1:3 피드백</td>
@@ -2119,33 +2115,28 @@ export default function StudyPage() {
                   <td>AI 발음/문법 분석</td>
                   <td className="compare-x">✕</td>
                   <td className="compare-x">✕</td>
-                  <td className="compare-x">✕</td>
                   <td className="highlight-col"><span className="compare-check">✓</span> SpeakCoach AI 제공</td>
                 </tr>
                 <tr>
                   <td>동기부여</td>
-                  <td>혼자 → 흐지부지</td>
                   <td>혼자 → 완강률 낮음</td>
                   <td>출석만 하면 됨</td>
                   <td className="highlight-col"><span className="compare-check">✓</span> 3인 팀 + 매일 과제</td>
                 </tr>
                 <tr>
                   <td>모의고사</td>
-                  <td className="compare-x">✕</td>
                   <td>별도 구매</td>
                   <td>포함</td>
                   <td className="highlight-col"><span className="compare-check">✓</span> 비공개 모의고사 영상 7개</td>
                 </tr>
                 <tr>
                   <td>비용</td>
-                  <td>교재비만</td>
                   <td>10~30만원</td>
                   <td>40~80만원</td>
                   <td className="highlight-col"><span style={{textDecoration:'line-through',color:'#999',fontSize:'13px'}}>259,900원</span> → <strong>179,900원</strong> (올인원)</td>
                 </tr>
                 <tr>
                   <td>평균 소요 기간</td>
-                  <td>2~3개월</td>
                   <td>1~2개월</td>
                   <td>1개월</td>
                   <td className="highlight-col"><strong>2주</strong></td>
