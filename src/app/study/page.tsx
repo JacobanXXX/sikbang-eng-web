@@ -2453,7 +2453,7 @@ export default function StudyPage() {
             </div>
             <div className="business-info" style={{fontSize:'12px',color:'rgba(255,255,255,0.4)',textAlign:'center',lineHeight:'1.8'}}>
               <p style={{margin:0}}>식빵영어 | 대표: 안준영 | 사업자등록번호: 807-29-01639</p>
-              <p style={{margin:0}}>이메일: lulu066666@gmail.com</p>
+              <p style={{margin:0}}>소재지: 부산광역시 진구 만리산로98, 2층 | 이메일: lulu066666@gmail.com</p>
             </div>
             <div className="footer-copy">&copy; 2025 식빵영어. All rights reserved.</div>
           </div>

@@ -258,7 +258,7 @@ export default function PrivacyPage() {
       </div>
 
       <div className="legal-footer">
-        <p>식빵영어 | 대표: 안준영 | 사업자등록번호: 807-29-01639 | 이메일: lulu066666@gmail.com</p>
+        <p>식빵영어 | 대표: 안준영 | 사업자등록번호: 807-29-01639 | 소재지: 부산광역시 진구 만리산로98, 2층 | 이메일: lulu066666@gmail.com</p>
         <p style={{marginTop: '8px'}}>
           <Link href="/terms">이용약관</Link>
           <Link href="/privacy">개인정보처리방침</Link>
