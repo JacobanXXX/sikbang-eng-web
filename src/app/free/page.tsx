@@ -41,6 +41,8 @@ export default function FreePage() {
   const [lectures, setLectures] = useState<Lecture[]>([]);
   const [resources, setResources] = useState<Resource[]>([]);
   const [darkMode, setDarkMode] = useState(false);
+  const [lecturePage, setLecturePage] = useState(1);
+  const lecturesPerPage = 4;
 
   useEffect(() => {
     const saved = localStorage.getItem('sikbang-theme');
@@ -962,7 +964,7 @@ export default function FreePage() {
             <p>삼성전자 초청 오픽 강사가 알려주는 영문법 시리즈. 무료로 시청하세요.</p>
           </div>
           <div className="lecture-grid">
-            {lectures.map((lecture) => {
+            {lectures.slice(0, lecturePage * lecturesPerPage).map((lecture) => {
               const hasVideo = lecture.youtubeId || lecture.youtubeUrl;
               const thumbnailUrl = lecture.youtubeId
                 ? `https://img.youtube.com/vi/${lecture.youtubeId}/mqdefault.jpg`
@@ -1004,6 +1006,29 @@ export default function FreePage() {
               );
             })}
           </div>
+
+          {lectures.length > lecturePage * lecturesPerPage && (
+            <div style={{ textAlign: 'center', marginTop: '24px' }}>
+              <button
+                onClick={() => setLecturePage(lecturePage + 1)}
+                style={{
+                  padding: '14px 32px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg-white)',
+                  color: 'var(--text-secondary)',
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+                onMouseOver={(e) => { e.currentTarget.style.borderColor = '#3182F6'; e.currentTarget.style.color = '#3182F6'; }}
+                onMouseOut={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+              >
+                더 보기 ({Math.min(lecturePage * lecturesPerPage, lectures.length)}/{lectures.length})
+              </button>
+            </div>
+          )}
 
           {/* Share + Mid CTA */}
           <div className="share-row">
