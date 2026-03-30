@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "slug": "opic-ih-tips",
+    "title": "오픽 IH 받는 사람들의 공통점 5가지",
+    "excerpt": "IH를 받는 사람들은 어떤 공통된 습관을 갖고 있을까요? 4,000명 수강생 데이터에서 찾은 핵심 패턴을 공유합니다.",
+    "category": "전략",
+    "date": "2025-03-15",
+    "readTime": 5
+  },
+  {
+    "id": 2,
+    "slug": "opic-frequent-topics",
+    "title": "오픽 빈출 주제 TOP 10 — 2025년 최신 정리",
+    "excerpt": "2025년 오픽 시험에서 가장 자주 나오는 주제와 효과적인 대비 방법을 정리했습니다.",
+    "category": "전략",
+    "date": "2025-03-10",
+    "readTime": 7
+  },
+  {
+    "id": 3,
+    "slug": "opic-self-study-guide",
+    "title": "오픽 독학 완벽 가이드 — 2주 플랜",
+    "excerpt": "혼자서 오픽을 준비하는 분들을 위한 체계적인 2주 학습 플랜을 소개합니다.",
+    "category": "가이드",
+    "date": "2025-03-05",
+    "readTime": 8
+  },
+  {
+    "id": 4,
+    "slug": "opic-im-vs-ih",
+    "title": "오픽 IM과 IH, 결정적 차이는 이것",
+    "excerpt": "IM에서 IH로 올라가기 위해 반드시 바꿔야 하는 답변 습관 3가지.",
+    "category": "전략",
+    "date": "2025-02-28",
+    "readTime": 6
+  },
+  {
+    "id": 5,
+    "slug": "opic-speaking-framework",
+    "title": "프레임워크로 말하면 오픽이 쉬워진다",
+    "excerpt": "식빵영어만의 프레임워크 기반 답변 구조를 활용한 스피킹 전략을 공개합니다.",
+    "category": "가이드",
+    "date": "2025-02-20",
+    "readTime": 6
+  }
+]

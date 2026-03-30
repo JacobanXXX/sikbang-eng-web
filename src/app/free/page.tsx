@@ -40,6 +40,18 @@ export default function FreePage() {
   const [marketingConsent, setMarketingConsent] = useState(false);
   const [lectures, setLectures] = useState<Lecture[]>([]);
   const [resources, setResources] = useState<Resource[]>([]);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('sikbang-theme');
+    if (saved === 'dark') { setDarkMode(true); document.documentElement.setAttribute('data-theme', 'dark'); }
+  }, []);
+  const toggleDarkMode = () => {
+    const next = !darkMode;
+    setDarkMode(next);
+    document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light');
+    localStorage.setItem('sikbang-theme', next ? 'dark' : 'light');
+  };
 
   // Fetch data from JSON files
   useEffect(() => {
@@ -161,6 +173,32 @@ export default function FreePage() {
           --border: #E5E8EB;
           --card-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06);
         }
+        [data-theme="dark"] {
+          --blue-primary: #4A9AFF;
+          --blue-dark: #3182F6;
+          --blue-light: #1A2A40;
+          --text-primary: #EAEDF0;
+          --text-secondary: #B0B8C1;
+          --text-tertiary: #6B7684;
+          --bg-white: #1A1D23;
+          --bg-gray: #22262E;
+          --border: #333840;
+          --card-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.3);
+        }
+        [data-theme="dark"] body { background: #1A1D23; color: #EAEDF0; }
+        [data-theme="dark"] .nav { background: rgba(26,29,35,0.95); }
+        [data-theme="dark"] .mobile-menu { background: rgba(26,29,35,0.98); }
+        [data-theme="dark"] .hero { background: #1A1D23; }
+        [data-theme="dark"] .lecture-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .resource-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .product-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .newsletter-section { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .newsletter-form input { background: #2A2E36; color: #EAEDF0; border-color: #333840; }
+        [data-theme="dark"] .share-btn { background: #22262E; color: #B0B8C1; border-color: #333840; }
+        [data-theme="dark"] .mid-cta { background: #22262E; }
+        [data-theme="dark"] .ai-trial { background: linear-gradient(135deg, #1A2A40, #22334D); }
+        [data-theme="dark"] .tag { background: #1A2A40; }
+        [data-theme="dark"] .section-resources { background: #1A1D23; }
 
         .container {
           max-width: 1080px;
@@ -890,6 +928,9 @@ export default function FreePage() {
             <Link href="/study">스터디</Link>
             <Link href="/">메인</Link>
           </div>
+          <button className="theme-toggle" onClick={toggleDarkMode} aria-label="다크모드 전환">
+            {darkMode ? '☀️' : '🌙'}
+          </button>
           <button className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}>
             <span></span><span></span><span></span>
           </button>
@@ -1067,6 +1108,7 @@ export default function FreePage() {
         <div className="container">
           <div className="newsletter-inner">
             <h2>OPIC 학습 자료, 매주 이메일로 받아보세요</h2>
+            <p style={{fontSize:'13px',color:'#3182F6',fontWeight:600,marginBottom:'4px'}}>5,200명이 구독 중</p>
             <p>구독하면 매주 발행되는 표현·문법·전략 콘텐츠를 받을 수 있습니다.</p>
 
             {!newsletterSuccess ? (

@@ -8,6 +8,32 @@ export default function Home() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [newsletterSuccess, setNewsletterSuccess] = useState(false);
   const [marketingConsent, setMarketingConsent] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [showKakaoPopup, setShowKakaoPopup] = useState(false);
+
+  useEffect(() => {
+    const lastShown = localStorage.getItem('sikbang-kakao-popup');
+    const now = Date.now();
+    if (!lastShown || now - parseInt(lastShown) > 24 * 60 * 60 * 1000) {
+      const timer = setTimeout(() => setShowKakaoPopup(true), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+  const closeKakaoPopup = () => {
+    setShowKakaoPopup(false);
+    localStorage.setItem('sikbang-kakao-popup', Date.now().toString());
+  };
+
+  useEffect(() => {
+    const saved = localStorage.getItem('sikbang-theme');
+    if (saved === 'dark') { setDarkMode(true); document.documentElement.setAttribute('data-theme', 'dark'); }
+  }, []);
+  const toggleDarkMode = () => {
+    const next = !darkMode;
+    setDarkMode(next);
+    document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light');
+    localStorage.setItem('sikbang-theme', next ? 'dark' : 'light');
+  };
   // reviewScrollRef removed - now using CSS animation
 
   // Nav shadow on scroll
@@ -141,6 +167,9 @@ export default function Home() {
             <a href="/study">스터디</a>
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="nav-cta">무료 체험하기</a>
           </div>
+          <button className="theme-toggle" onClick={toggleDarkMode} aria-label="다크모드 전환">
+            {darkMode ? '☀️' : '🌙'}
+          </button>
           <button className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}>
             <span></span><span></span><span></span>
           </button>
@@ -201,6 +230,7 @@ export default function Home() {
           <div className="newsletter-inner">
             <div className="newsletter-icon">✉️</div>
             <h2>OPIC 무료 자료<br /><span className="highlight">지금 바로 받아보세요</span></h2>
+            <p style={{fontSize:'13px',color:'#3182F6',fontWeight:600,marginBottom:'4px'}}>5,200명이 구독 중</p>
             <p>이메일을 구독하면 OPIC 준비에 꼭 필요한 무료 학습 자료를 보내드립니다.<br />매주 OPIC 꿀팁과 표현 정리도 함께 받아보세요.</p>
 
             {!newsletterSuccess ? (
@@ -816,6 +846,24 @@ export default function Home() {
           </svg>
         </a>
       </div>
+
+      {/* KAKAO CHANNEL POPUP */}
+      {showKakaoPopup && (
+        <div className="kakao-popup-overlay" onClick={closeKakaoPopup}>
+          <div className="kakao-popup" onClick={(e) => e.stopPropagation()}>
+            <button className="kakao-popup-close" onClick={closeKakaoPopup}>&times;</button>
+            <div style={{fontSize:'40px',marginBottom:'12px'}}>💬</div>
+            <h3 style={{fontSize:'20px',fontWeight:800,marginBottom:'8px',color:'var(--text-primary)'}}>카카오톡 채널 추가하기</h3>
+            <p style={{fontSize:'14px',color:'var(--text-secondary)',lineHeight:1.7,marginBottom:'20px'}}>
+              채널 추가하시면 스터디 모집 알림,<br/>할인 쿠폰, OPIC 꿀팁을 받으실 수 있어요!
+            </p>
+            <a href="http://pf.kakao.com/_SJYQn" target="_blank" rel="noopener noreferrer" className="kakao-popup-btn" onClick={closeKakaoPopup}>
+              채널 추가하고 혜택 받기
+            </a>
+            <button className="kakao-popup-skip" onClick={closeKakaoPopup}>다음에 할게요</button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -666,6 +666,53 @@ img { max-width: 100%; display: block; }
   width: 32px; height: 32px;
 }
 
+/* === KAKAO CHANNEL POPUP === */
+.kakao-popup-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+.kakao-popup {
+  background: var(--bg-white); border-radius: 24px;
+  padding: 40px 32px 32px; max-width: 360px; width: 100%;
+  text-align: center; position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.kakao-popup-close {
+  position: absolute; top: 12px; right: 16px;
+  background: none; border: none; font-size: 24px;
+  color: var(--text-tertiary); cursor: pointer;
+  width: 32px; height: 32px; display: flex;
+  align-items: center; justify-content: center;
+  border-radius: 8px;
+}
+.kakao-popup-close:hover { background: var(--bg-gray); }
+.kakao-popup-btn {
+  display: block; width: 100%; padding: 14px;
+  background: #FEE500; color: #191F28;
+  border-radius: 12px; font-size: 15px; font-weight: 700;
+  text-align: center; transition: all 0.2s;
+}
+.kakao-popup-btn:hover { background: #FDD835; transform: translateY(-1px); }
+.kakao-popup-skip {
+  background: none; border: none; color: var(--text-tertiary);
+  font-size: 13px; margin-top: 12px; cursor: pointer;
+}
+.kakao-popup-skip:hover { color: var(--text-secondary); }
+[data-theme="dark"] .kakao-popup { background: #22262E; }
+[data-theme="dark"] .kakao-popup-btn { color: #191F28; }
+
 /* === ANIMATIONS === */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -676,6 +723,64 @@ img { max-width: 100%; display: block; }
 .animate.delay-2 { animation-delay: 0.2s; }
 .animate.delay-3 { animation-delay: 0.3s; }
 .animate.delay-4 { animation-delay: 0.4s; }
+
+/* === DARK MODE TOGGLE === */
+.theme-toggle {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--bg-gray); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; cursor: pointer;
+  transition: all 0.2s; flex-shrink: 0;
+}
+.theme-toggle:hover { background: var(--border); }
+
+/* === DARK MODE === */
+[data-theme="dark"] {
+  --blue-primary: #4A9AFF;
+  --blue-dark: #3182F6;
+  --blue-light: #1A2A40;
+  --blue-bg: #1A1D23;
+  --text-primary: #EAEDF0;
+  --text-secondary: #B0B8C1;
+  --text-tertiary: #6B7684;
+  --text-white: #FFFFFF;
+  --bg-white: #1A1D23;
+  --bg-gray: #22262E;
+  --border: #333840;
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.3);
+  --card-hover: 0 4px 16px rgba(0,0,0,0.3), 0 12px 40px rgba(0,0,0,0.4);
+  --kakao-yellow: #FEE500;
+}
+[data-theme="dark"] body {
+  background: #1A1D23;
+  color: #EAEDF0;
+}
+[data-theme="dark"] .nav {
+  background: rgba(26,29,35,0.9);
+  border-bottom-color: #333840;
+}
+[data-theme="dark"] .mobile-menu {
+  background: rgba(26,29,35,0.98);
+}
+[data-theme="dark"] .hero { background: #1A1D23; }
+[data-theme="dark"] .newsletter-section { background: #22262E; }
+[data-theme="dark"] .newsletter-form input {
+  background: #2A2E36; color: #EAEDF0; border-color: #333840;
+}
+[data-theme="dark"] .newsletter-form input::placeholder { color: #6B7684; }
+[data-theme="dark"] .newsletter-success { background: #1A3A2A; color: #4ADE80; }
+[data-theme="dark"] .product-card-image { background: linear-gradient(135deg, #1A2A40 0%, #22334D 100%); }
+[data-theme="dark"] .product-card-image.ebook-bg { background: linear-gradient(135deg, #1A2A40 0%, #1E3355 100%); }
+[data-theme="dark"] .product-card-image.course-bg { background: linear-gradient(135deg, #2A1A40 0%, #332255 100%); }
+[data-theme="dark"] .product-card-image.study-bg { background: linear-gradient(135deg, #1A3A2A 0%, #224433 100%); }
+[data-theme="dark"] .btn-secondary { background: #2A2E36; color: #EAEDF0; }
+[data-theme="dark"] .btn-secondary:hover { background: #333840; }
+[data-theme="dark"] .mockup-screen { background: #2A2E36; }
+[data-theme="dark"] .review-stars .empty { color: #333840; }
+[data-theme="dark"] .kakao-tooltip { background: #333840; }
+[data-theme="dark"] .kakao-tooltip::after { background: #333840; }
+[data-theme="dark"] .theme-toggle { background: #2A2E36; border-color: #333840; }
+[data-theme="dark"] .theme-toggle:hover { background: #333840; }
 
 /* === MOBILE === */
 @media (max-width: 768px) {

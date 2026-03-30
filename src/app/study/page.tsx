@@ -18,8 +18,74 @@ export default function StudyPage() {
   // Toast notifications state
   const [toasts, setToasts] = useState<Array<{ id: number; name: string; action: string; location: string; mins: number }>>([]);
 
+  // Countdown timer state
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0, label: '', nextDate: '' });
+
+  useEffect(() => {
+    const calcCountdown = () => {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth(); // 0-indexed
+
+      // 스터디 진행: 매월 1일, 15일
+      // 마감: 진행일 하루 전 (말일 23:59, 14일 23:59)
+      const getDeadlines = (y: number, m: number) => {
+        // 14일 23:59:59 (15일 스터디 마감)
+        const d14 = new Date(y, m, 14, 23, 59, 59);
+        // 말일 23:59:59 (다음달 1일 스터디 마감)
+        const lastDay = new Date(y, m + 1, 0).getDate();
+        const dLast = new Date(y, m, lastDay, 23, 59, 59);
+        return [
+          { deadline: d14, studyDate: `${m + 1}월 15일`, label: `${m + 1}월 15일 기수` },
+          { deadline: dLast, studyDate: `${m + 2 > 12 ? 1 : m + 2}월 1일`, label: `${m + 2 > 12 ? 1 : m + 2}월 1일 기수` }
+        ];
+      };
+
+      // Check current month and next month deadlines
+      const deadlines = [
+        ...getDeadlines(year, month),
+        ...getDeadlines(year, month + 1)
+      ];
+
+      // Find next upcoming deadline
+      let target = deadlines.find(d => d.deadline > now);
+      if (!target) {
+        target = getDeadlines(year, month + 2)[0];
+      }
+
+      const diff = target!.deadline.getTime() - now.getTime();
+      if (diff <= 0) {
+        setCountdown({ days: 0, hours: 0, mins: 0, secs: 0, label: '다음 기수 접수 중', nextDate: target!.studyDate });
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+      setCountdown({ days, hours, mins, secs, label: `${target!.label} 마감까지`, nextDate: target!.studyDate });
+    };
+
+    calcCountdown();
+    const timer = setInterval(calcCountdown, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   // FAQ state
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  // Dark mode state
+  const [darkMode, setDarkMode] = useState(false);
+  useEffect(() => {
+    const saved = localStorage.getItem('sikbang-theme');
+    if (saved === 'dark') { setDarkMode(true); document.documentElement.setAttribute('data-theme', 'dark'); }
+  }, []);
+  const toggleDarkMode = () => {
+    const next = !darkMode;
+    setDarkMode(next);
+    document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light');
+    localStorage.setItem('sikbang-theme', next ? 'dark' : 'light');
+  };
   // faqAnswerHeights removed - using CSS max-height instead
 
   // Review scroll state
@@ -282,6 +348,91 @@ export default function StudyPage() {
           --green-light: #E8FFF0;
           --red: #E74C3C;
           --orange: #F59E0B;
+        }
+        [data-theme="dark"] {
+          --blue-primary: #4A9AFF;
+          --blue-dark: #3182F6;
+          --blue-light: #1A2A40;
+          --text-primary: #EAEDF0;
+          --text-secondary: #B0B8C1;
+          --text-tertiary: #6B7684;
+          --bg-white: #1A1D23;
+          --bg-gray: #22262E;
+          --border: #333840;
+          --card-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.3);
+          --green: #22C55E;
+          --green-light: #1A3A2A;
+          --red: #F87171;
+          --orange: #FBBF24;
+        }
+        [data-theme="dark"] body { background: #1A1D23; color: #EAEDF0; }
+        [data-theme="dark"] .nav { background: rgba(26,29,35,0.95); border-bottom-color: #333840; }
+        [data-theme="dark"] .hero { background: linear-gradient(180deg, #1A2A1E 0%, #1A1D23 100%); }
+        [data-theme="dark"] .section-gray { background: #22262E; }
+        [data-theme="dark"] .curriculum-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .pricing-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .review-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .faq-item { border-color: #333840; }
+        [data-theme="dark"] .toast { background: rgba(26,29,35,0.95); }
+        [data-theme="dark"] .theme-toggle { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .theme-toggle:hover { background: #333840; }
+        [data-theme="dark"] .countdown-box { background: rgba(26,29,35,0.8); border-color: #333840; }
+        [data-theme="dark"] .countdown-num { background: #22262E; color: #EAEDF0; }
+
+        /* === COUNTDOWN === */
+        .countdown-box {
+          background: rgba(255,255,255,0.9);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(26,141,72,0.15);
+          border-radius: 16px;
+          padding: 20px 28px;
+          margin-bottom: 24px;
+          display: inline-block;
+        }
+        .countdown-label {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--green);
+          margin-bottom: 12px;
+        }
+        .countdown-timer {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          justify-content: center;
+        }
+        .countdown-unit {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+        }
+        .countdown-num {
+          background: var(--bg-white);
+          border-radius: 10px;
+          padding: 8px 12px;
+          min-width: 48px;
+          font-size: 24px;
+          font-weight: 800;
+          color: var(--text-primary);
+          text-align: center;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .countdown-unit-label {
+          font-size: 11px;
+          color: var(--text-tertiary);
+          font-weight: 600;
+        }
+        .countdown-sep {
+          font-size: 24px;
+          font-weight: 800;
+          color: var(--text-tertiary);
+          padding-bottom: 18px;
+        }
+        .countdown-closed {
+          font-size: 16px;
+          font-weight: 700;
+          color: var(--green);
         }
 
         .container {
@@ -1602,6 +1753,9 @@ export default function StudyPage() {
             <a href="#reviews">후기</a>
             <a href="#faq">FAQ</a>
           </div>
+          <button className="theme-toggle" onClick={toggleDarkMode} aria-label="다크모드 전환" style={{marginRight:'8px'}}>
+            {darkMode ? '☀️' : '🌙'}
+          </button>
           <button onClick={() => setShowFormModal(true)} className="nav-cta">
             지금 신청하기
           </button>
@@ -1613,7 +1767,35 @@ export default function StudyPage() {
         <div className="container hero-content">
           <div className="hero-badge">
             <span className="dot"></span>
-            4월 1일 시작 · 선착순 40명 한정
+            {countdown.nextDate} 시작 · 선착순 40명 한정
+          </div>
+          <div className="countdown-box">
+            <div className="countdown-label">{countdown.label}</div>
+            {countdown.days === 0 && countdown.hours === 0 && countdown.mins === 0 && countdown.secs === 0 ? (
+              <div className="countdown-closed">모집 마감 — 다음 기수를 기다려주세요!</div>
+            ) : (
+              <div className="countdown-timer">
+                <div className="countdown-unit">
+                  <div className="countdown-num">{String(countdown.days).padStart(2, '0')}</div>
+                  <div className="countdown-unit-label">일</div>
+                </div>
+                <span className="countdown-sep">:</span>
+                <div className="countdown-unit">
+                  <div className="countdown-num">{String(countdown.hours).padStart(2, '0')}</div>
+                  <div className="countdown-unit-label">시간</div>
+                </div>
+                <span className="countdown-sep">:</span>
+                <div className="countdown-unit">
+                  <div className="countdown-num">{String(countdown.mins).padStart(2, '0')}</div>
+                  <div className="countdown-unit-label">분</div>
+                </div>
+                <span className="countdown-sep">:</span>
+                <div className="countdown-unit">
+                  <div className="countdown-num">{String(countdown.secs).padStart(2, '0')}</div>
+                  <div className="countdown-unit-label">초</div>
+                </div>
+              </div>
+            )}
           </div>
           <h1>
             2주 만에<br />
