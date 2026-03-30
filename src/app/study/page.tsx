@@ -386,7 +386,7 @@ export default function StudyPage() {
           border: 1px solid rgba(26,141,72,0.15);
           border-radius: 16px;
           padding: 20px 28px;
-          margin-bottom: 24px;
+          margin-bottom: 0;
           display: inline-block;
         }
         .countdown-label {
@@ -512,6 +512,13 @@ export default function StudyPage() {
         .hero-content {
           text-align: center;
         }
+        .hero-top-group {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 16px;
+          margin-bottom: 32px;
+        }
         .hero-badge {
           display: inline-flex;
           align-items: center;
@@ -522,7 +529,7 @@ export default function StudyPage() {
           border-radius: 20px;
           font-size: 12px;
           font-weight: 600;
-          margin-bottom: 24px;
+          margin-bottom: 0;
         }
         .hero-badge .dot {
           width: 6px;
@@ -1765,6 +1772,7 @@ export default function StudyPage() {
       {/* HERO */}
       <section className="hero">
         <div className="container hero-content">
+          <div className="hero-top-group">
           <div className="hero-badge">
             <span className="dot"></span>
             {countdown.nextDate} 시작 · 선착순 40명 한정
@@ -1796,6 +1804,7 @@ export default function StudyPage() {
                 </div>
               </div>
             )}
+          </div>
           </div>
           <h1>
             2주 만에<br />
