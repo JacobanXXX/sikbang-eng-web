@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     description: "사람의 코칭 + AI 피드백. 4,000+ 수강생이 검증한 2주 OPIC 스터디.",
     images: ["/og-main.svg"],
   },
+  icons: {
+    icon: "/icon.svg",
+  },
   alternates: {
     canonical: "https://sikbang.co",
   },
