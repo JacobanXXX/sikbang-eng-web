@@ -102,5 +102,61 @@
     "tag": "중급",
     "youtubeId": "mUtT73Y41uw",
     "youtubeUrl": "https://youtu.be/mUtT73Y41uw"
+  },
+  {
+    "id": 14,
+    "title": "오픽 스피킹 실전 팁 — 이것만 알면 달라진다",
+    "description": "실전에서 바로 쓸 수 있는 오픽 스피킹 핵심 팁.",
+    "tag": "실전",
+    "youtubeId": "5EEZqBZXShQ",
+    "youtubeUrl": "https://youtu.be/5EEZqBZXShQ"
+  },
+  {
+    "id": 15,
+    "title": "오픽 고득점 전략 — 등급을 올리는 결정적 차이",
+    "description": "고득점자들이 공통적으로 하는 답변 전략을 분석합니다.",
+    "tag": "실전",
+    "youtubeId": "x0y65oJ0n1s",
+    "youtubeUrl": "https://youtu.be/x0y65oJ0n1s"
+  },
+  {
+    "id": 16,
+    "title": "반복암기 표현 1편 — 매일 듣고 입에 붙이기",
+    "description": "오픽 필수 표현을 반복 청취로 자연스럽게 체화합니다.",
+    "tag": "표현",
+    "youtubeId": "C1LreF6-Dho",
+    "youtubeUrl": "https://youtu.be/C1LreF6-Dho"
+  },
+  {
+    "id": 17,
+    "title": "반복암기 표현 2편 — 듣기만 해도 외워지는 영어 표현",
+    "description": "반복 리스닝으로 핵심 표현을 자동 암기합니다.",
+    "tag": "표현",
+    "youtubeId": "E3958jhobN0",
+    "youtubeUrl": "https://youtu.be/E3958jhobN0"
+  },
+  {
+    "id": 18,
+    "title": "반복암기 표현 3편 — 입이 먼저 기억하는 표현 훈련",
+    "description": "머리보다 입이 먼저 반응하도록 설계된 표현 훈련.",
+    "tag": "표현",
+    "youtubeId": "ce5yK3TTntM",
+    "youtubeUrl": "https://youtu.be/ce5yK3TTntM"
+  },
+  {
+    "id": 19,
+    "title": "반복암기 표현 4편 — 출퇴근길 표현 암기 루틴",
+    "description": "이동 시간에 틀어두면 자연스럽게 외워지는 표현 모음.",
+    "tag": "표현",
+    "youtubeId": "DnfLKtQJNHU",
+    "youtubeUrl": "https://youtu.be/DnfLKtQJNHU"
+  },
+  {
+    "id": 20,
+    "title": "반복암기 표현 5편 — 실전 빈출 표현 총정리",
+    "description": "오픽 시험에 자주 나오는 표현만 모아 반복 훈련합니다.",
+    "tag": "표현",
+    "youtubeId": "WZZAXLo7Up8",
+    "youtubeUrl": "https://youtu.be/WZZAXLo7Up8"
   }
 ]

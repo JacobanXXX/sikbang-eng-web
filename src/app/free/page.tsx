@@ -24,6 +24,7 @@ const TAG_COLORS: Record<string, string> = {
   '입문': '#3182F6',
   '중급': '#6B4EFF',
   '실전': '#FF6B35',
+  '표현': '#E5533D',
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
