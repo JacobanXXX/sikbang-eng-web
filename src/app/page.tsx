@@ -502,7 +502,7 @@ export default function Home() {
               <div className="plan-name">프로 패키지</div>
               <div className="plan-original">31,900원</div>
               <div className="plan-price">24,900<span className="won">원</span></div>
-              <div className="plan-sub">월 단 커피 4~5잔 값 · 3개월 구독 시 74,700원</div>
+              <div className="plan-sub">월 단 커피 4~5잔 값 · 3개월 구독 시 63,500원</div>
               <ul className="plan-features">
                 <li>무제한 연습</li>
                 <li>500개 이상 OPIC 문제</li>
