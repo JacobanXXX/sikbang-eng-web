@@ -1797,6 +1797,9 @@ export default function StudyPage() {
           .compare-table-wrap {
             margin-top: 32px;
           }
+          .compare-scroll-hint {
+            display: block !important;
+          }
           .pricing-price-main {
             font-size: 44px !important;
           }
@@ -2152,6 +2155,7 @@ export default function StudyPage() {
             <div className="section-title">왜 스터디가 가장 빠를까?</div>
             <p className="section-desc">같은 2주, 어떤 방법을 선택하느냐에 따라 결과가 달라집니다.</p>
           </div>
+          <div className="compare-scroll-hint" style={{display:'none',textAlign:'center',fontSize:'13px',color:'var(--text-tertiary)',marginBottom:'8px'}}>👆 좌우로 스크롤해서 비교하세요</div>
           <div className="compare-table-wrap">
             <table className="compare-table">
               <thead>
@@ -2225,13 +2229,14 @@ export default function StudyPage() {
             <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함</p>
           </div>
           <div className="pricing-section">
-            <div className="pricing-badge">{currentCycleState.isEarlyBird ? '얼리버드 특가' : `${currentCycleState.discount}% 할인 중`}</div>
+            <div className="pricing-badge">{currentCycleState.isEarlyBird ? `얼리버드 ${currentCycleState.discount}% 할인` : `${currentCycleState.discount}% 할인 중`}</div>
             <div className="pricing-header">
               <h3>2주 집중 스터디</h3>
               <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
             </div>
             <div className="pricing-original">₩259,900</div>
             <div className="pricing-price-main" style={{marginTop:'8px'}}>₩{currentCycleState.price.toLocaleString()}</div>
+            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'#FF6B35',fontWeight:600,marginTop:'4px'}}>얼리버드 종료 후 ₩179,900</div>}
             <div className="pricing-desc">
               교재비 포함 · SpeakCoach AI · 1:3 피드백 총 180분 · 매일 녹음과제 피드백 · 비공개 모의고사 영상 포함
             </div>
@@ -2251,13 +2256,11 @@ export default function StudyPage() {
             <div className="pricing-earlybird">
               {currentCycleState.isEarlyBird ? (
                 <>
-                  <strong>지금은 얼리버드 기간!</strong> ₩259,900 → <strong>₩149,900</strong> ({currentCycleState.discount}% 할인)<br/>
-                  얼리버드 종료 후 ₩179,900으로 변경됩니다.
+                  ⏰ 얼리버드는 <strong>{countdown.nextDate}</strong> 기수 한정입니다. 종료 후 ₩179,900으로 변경돼요.
                 </>
               ) : (
                 <>
-                  <strong>₩259,900</strong>에서 <strong>₩179,900</strong>으로 {currentCycleState.discount}% 할인 중입니다.<br/>
-                  마감 전 서둘러 신청하세요!
+                  🔥 {countdown.nextDate} 기수 마감 임박 — 지금 신청하면 <strong>{currentCycleState.discount}% 할인</strong>이 적용됩니다.
                 </>
               )}
             </div>

@@ -11,6 +11,10 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [showKakaoPopup, setShowKakaoPopup] = useState(false);
 
+  // 추천 퀴즈 상태
+  const [quizStep, setQuizStep] = useState(0); // 0=시작 전, 1~3=질문, 4=결과
+  const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
+
   useEffect(() => {
     const lastShown = localStorage.getItem('sikbang-kakao-popup');
     const now = Date.now();
@@ -139,11 +143,11 @@ export default function Home() {
     },
     {
       question: "직장인인데 시간 투자가 많이 필요한가요?",
-      answer: "하루 평균 1~2시간이면 충분합니다. 학습 자료 확인 10분, 답변 준비 및 녹음 30~40분, AI 분석 확인 20분, 코치 피드백 반영 20분 정도예요. 출퇴근 시간에 자료를 보고, 퇴근 후 녹음하는 패턴으로 진행하시는 직장인분들이 많습니다."
+      answer: "하루 1~2시간이면 충분합니다. 출퇴근 시간에 자료를 보고, 퇴근 후 녹음 과제를 제출하는 패턴으로 진행하시는 직장인분들이 많아요."
     },
     {
       question: "전자책, 인강, 스터디 중 무엇을 선택해야 하나요?",
-      answer: "목표와 상황에 따라 달라요. 독학 선호 + 기초 학습이면 전자책, 체계적 영상 강의를 원하면 인강, 단기간 확실한 성과를 원하면 2주 스터디를 추천합니다. 가장 효과가 좋은 조합은 인강 + 스터디이고, 예산이 제한적이라면 전자책 + SpeakCoach AI 무료 체험으로 시작해보세요."
+      answer: "단기간 확실한 성과를 원하면 2주 스터디, 영상으로 체계적으로 배우고 싶으면 인강, 독학 + 기초 학습이면 전자책을 추천합니다. 가장 효과적인 조합은 인강 + 스터디예요."
     }
   ];
 
@@ -197,10 +201,10 @@ export default function Home() {
           </p>
           <div className="hero-buttons animate delay-3">
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-primary">
-              무료 스피킹 테스트 →
+              AI 스피킹 무료 분석 받기 →
             </a>
             <a href="/free" className="btn-secondary">
-              무료 강의 보기
+              무료 강의 20개 보기
             </a>
           </div>
           <div className="hero-stats animate delay-4">
@@ -498,7 +502,7 @@ export default function Home() {
               <div className="plan-name">프로 패키지</div>
               <div className="plan-original">31,900원</div>
               <div className="plan-price">24,900<span className="won">원</span></div>
-              <div className="plan-sub">월 단 커피 4~5잔 값 · 3개월 구독 시 63,500원</div>
+              <div className="plan-sub">월 단 커피 4~5잔 값 · 3개월 구독 시 74,700원</div>
               <ul className="plan-features">
                 <li>무제한 연습</li>
                 <li>500개 이상 OPIC 문제</li>
@@ -737,6 +741,83 @@ export default function Home() {
           <div className="reviews-count-badge">
             <span>누적 수강생 4,000+ · 실제 후기 1,000+ (liveclass 인증)</span>
           </div>
+        </div>
+      </section>
+
+      {/* RECOMMENDATION QUIZ */}
+      <section className="section" id="quiz" style={{background:'linear-gradient(135deg, rgba(49,130,246,0.04) 0%, rgba(26,141,72,0.04) 100%)'}}>
+        <div className="container" style={{maxWidth:'640px',textAlign:'center'}}>
+          <div className="overline" style={{color:'var(--blue-primary)'}}>Product Match</div>
+          <h2 style={{fontSize:'28px',fontWeight:800,color:'var(--text-primary)',marginBottom:'8px'}}>나에게 맞는 학습법은?</h2>
+          <p style={{fontSize:'15px',color:'var(--text-secondary)',marginBottom:'32px'}}>3가지 질문으로 최적의 상품을 추천해드려요.</p>
+
+          {quizStep === 0 && (
+            <button onClick={() => setQuizStep(1)} style={{background:'var(--blue-primary)',color:'white',border:'none',padding:'14px 32px',borderRadius:'12px',fontSize:'16px',fontWeight:700,cursor:'pointer'}}>
+              30초 테스트 시작하기
+            </button>
+          )}
+
+          {quizStep === 1 && (
+            <div>
+              <p style={{fontSize:'17px',fontWeight:700,marginBottom:'16px',color:'var(--text-primary)'}}>1/3. OPIC 시험까지 얼마나 남았나요?</p>
+              <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                {['2주 이내', '1~2개월', '3개월 이상 또는 미정'].map((opt, i) => (
+                  <button key={i} onClick={() => { setQuizAnswers([...quizAnswers, i]); setQuizStep(2); }}
+                    style={{padding:'14px 20px',borderRadius:'12px',border:'1px solid #e5e7eb',background:'white',fontSize:'15px',fontWeight:600,cursor:'pointer',textAlign:'left',transition:'all 0.2s',color:'var(--text-primary)'}}>
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {quizStep === 2 && (
+            <div>
+              <p style={{fontSize:'17px',fontWeight:700,marginBottom:'16px',color:'var(--text-primary)'}}>2/3. 현재 영어 스피킹 수준은?</p>
+              <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                {['거의 못 함 (NL~IL)', '간단한 문장 가능 (IM1~IM2)', '어느 정도 대화 가능 (IM3~IH)'].map((opt, i) => (
+                  <button key={i} onClick={() => { setQuizAnswers([...quizAnswers, i]); setQuizStep(3); }}
+                    style={{padding:'14px 20px',borderRadius:'12px',border:'1px solid #e5e7eb',background:'white',fontSize:'15px',fontWeight:600,cursor:'pointer',textAlign:'left',transition:'all 0.2s',color:'var(--text-primary)'}}>
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {quizStep === 3 && (
+            <div>
+              <p style={{fontSize:'17px',fontWeight:700,marginBottom:'16px',color:'var(--text-primary)'}}>3/3. 선호하는 학습 방식은?</p>
+              <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                {['혼자 독학 (내 페이스대로)', '영상 강의 중심', '코치 + 팀원과 함께 (강제성 필요)'].map((opt, i) => (
+                  <button key={i} onClick={() => { setQuizAnswers([...quizAnswers, i]); setQuizStep(4); }}
+                    style={{padding:'14px 20px',borderRadius:'12px',border:'1px solid #e5e7eb',background:'white',fontSize:'15px',fontWeight:600,cursor:'pointer',textAlign:'left',transition:'all 0.2s',color:'var(--text-primary)'}}>
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {quizStep === 4 && (() => {
+            const score = (quizAnswers[0] === 0 ? 3 : quizAnswers[0] === 1 ? 2 : 1)
+              + (quizAnswers[2] === 2 ? 3 : quizAnswers[2] === 1 ? 2 : 1);
+            const rec = score >= 5 ? 'study' : score >= 3 ? 'course' : 'ebook';
+            const info = {
+              study: { name: '2주 집중 스터디', desc: '시간이 촉박하고 확실한 성과가 필요하다면, 코치와 팀원이 함께하는 2주 스터디가 가장 효과적이에요.', link: '/study', btn: '스터디 자세히 보기', color: '#1A8D48' },
+              course: { name: 'OPIC 완전정복 인강', desc: '체계적인 영상 강의로 내 페이스에 맞게 학습하고 싶다면, 인강 패키지를 추천합니다.', link: 'https://sikbang-eng.liveklass.com/', btn: '인강 자세히 보기', color: '#7C5CFC' },
+              ebook: { name: 'OPIC 전자책 + 기출 번들', desc: '기초부터 독학으로 차근차근 준비하고 싶다면, 전자책으로 시작해보세요.', link: 'https://blog.naver.com/sikbang_eng', btn: '전자책 보러가기', color: '#3182F6' }
+            }[rec];
+            return (
+              <div style={{background:'white',borderRadius:'16px',padding:'32px 24px',border:'1px solid #e5e7eb'}}>
+                <div style={{fontSize:'13px',fontWeight:700,color:info.color,marginBottom:'8px'}}>추천 결과</div>
+                <h3 style={{fontSize:'22px',fontWeight:800,color:'var(--text-primary)',marginBottom:'12px'}}>{info.name}</h3>
+                <p style={{fontSize:'15px',color:'var(--text-secondary)',lineHeight:1.6,marginBottom:'20px'}}>{info.desc}</p>
+                <a href={info.link} style={{display:'inline-block',background:info.color,color:'white',padding:'12px 28px',borderRadius:'12px',fontWeight:700,fontSize:'15px',textDecoration:'none'}}>{info.btn} →</a>
+                <button onClick={() => { setQuizStep(0); setQuizAnswers([]); }} style={{display:'block',margin:'16px auto 0',background:'none',border:'none',color:'var(--text-tertiary)',fontSize:'13px',cursor:'pointer',textDecoration:'underline'}}>다시 테스트하기</button>
+              </div>
+            );
+          })()}
         </div>
       </section>
 

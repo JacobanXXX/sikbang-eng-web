@@ -45,6 +45,23 @@ export default function FreePage() {
   const [lecturePage, setLecturePage] = useState(1);
   const lecturesPerPage = 4;
 
+  // 수강 진행률 (localStorage 기반)
+  const [watchedLectures, setWatchedLectures] = useState<Set<number>>(new Set());
+  useEffect(() => {
+    const saved = localStorage.getItem('sikbang-watched');
+    if (saved) {
+      try { setWatchedLectures(new Set(JSON.parse(saved))); } catch {}
+    }
+  }, []);
+  const markWatched = (id: number) => {
+    setWatchedLectures(prev => {
+      const next = new Set(prev);
+      next.add(id);
+      localStorage.setItem('sikbang-watched', JSON.stringify([...next]));
+      return next;
+    });
+  };
+
   useEffect(() => {
     const saved = localStorage.getItem('sikbang-theme');
     if (saved === 'dark') { setDarkMode(true); document.documentElement.setAttribute('data-theme', 'dark'); }
@@ -953,17 +970,35 @@ export default function FreePage() {
           <div className="hero-badge">무료 공개 · 로그인 불필요</div>
           <h1>OPIC 준비, 여기서부터 시작하세요</h1>
           <p>식빵영어가 무료로 공개하는 강의와 학습 자료. 유료 스터디에서 가르치는 프레임워크의 기초를 먼저 경험해보세요.</p>
+          <div style={{marginTop:'24px',display:'flex',gap:'12px',justifyContent:'center',flexWrap:'wrap'}}>
+            <a href="#lectures" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'var(--blue-primary)',color:'white',padding:'12px 24px',borderRadius:'12px',fontWeight:700,fontSize:'15px',textDecoration:'none',transition:'all 0.2s'}}>무료 강의 바로 보기 ↓</a>
+            <a href="/study" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'white',color:'var(--text-primary)',padding:'12px 24px',borderRadius:'12px',fontWeight:600,fontSize:'15px',textDecoration:'none',border:'1px solid #e5e7eb',transition:'all 0.2s'}}>2주 스터디 알아보기</a>
+          </div>
         </div>
       </section>
 
       {/* FREE LECTURES */}
-      <section className="section">
+      <section className="section" id="lectures">
         <div className="container">
           <div className="section-header">
             <div className="overline">Free Lectures</div>
             <h2>원어민이 배우는 영문법</h2>
             <p>삼성전자 초청 오픽 강사가 알려주는 영문법 시리즈. 무료로 시청하세요.</p>
           </div>
+          {lectures.length > 0 && (
+            <div style={{maxWidth:'480px',margin:'0 auto 32px',textAlign:'center'}}>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:'13px',color:'var(--text-tertiary)',marginBottom:'6px'}}>
+                <span>수강 진행률</span>
+                <span><strong style={{color:'var(--blue-primary)'}}>{watchedLectures.size}</strong> / {lectures.length}개 시청</span>
+              </div>
+              <div style={{height:'8px',borderRadius:'4px',background:'#e5e7eb',overflow:'hidden'}}>
+                <div style={{height:'100%',borderRadius:'4px',background:'linear-gradient(90deg, #3182F6, #6B4EFF)',width:`${(watchedLectures.size / lectures.length) * 100}%`,transition:'width 0.5s ease'}}></div>
+              </div>
+              {watchedLectures.size === lectures.length && lectures.length > 0 && (
+                <p style={{fontSize:'13px',color:'#1A8D48',fontWeight:600,marginTop:'8px'}}>🎉 모든 강의를 시청했어요! 이제 2주 스터디로 실전 훈련을 시작해보세요.</p>
+              )}
+            </div>
+          )}
           <div className="lecture-grid">
             {lectures.slice(0, lecturePage * lecturesPerPage).map((lecture) => {
               const hasVideo = lecture.youtubeId || lecture.youtubeUrl;
@@ -997,7 +1032,8 @@ export default function FreePage() {
               );
 
               return hasVideo ? (
-                <a key={lecture.id} href={videoLink} target="_blank" rel="noopener noreferrer" className="lecture-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <a key={lecture.id} href={videoLink} target="_blank" rel="noopener noreferrer" className="lecture-card" style={{ textDecoration: 'none', color: 'inherit', position:'relative' }} onClick={() => markWatched(lecture.id)}>
+                  {watchedLectures.has(lecture.id) && <div style={{position:'absolute',top:'8px',right:'8px',background:'#1A8D48',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 8px',borderRadius:'10px',zIndex:2}}>✓ 시청 완료</div>}
                   {cardContent}
                 </a>
               ) : (
@@ -1062,8 +1098,9 @@ export default function FreePage() {
       {/* MID CTA - 유료 전환 유도 */}
       <section className="mid-cta">
         <div className="container" style={{ textAlign: 'center' }}>
-          <p className="mid-cta-text">영문법 기초를 잡았다면, 실전 스피킹은 2주면 됩니다.</p>
-          <a href="/study" className="mid-cta-btn">2주 스터디 알아보기 →</a>
+          <p className="mid-cta-text">영문법 기초를 잡았다면, 다음 단계는 실전 스피킹입니다.</p>
+          <p style={{fontSize:'14px',color:'var(--text-tertiary)',marginTop:'4px',marginBottom:'16px'}}>2주 스터디 참여자 평균 2등급 상승 · 수료율 94%</p>
+          <a href="/study" className="mid-cta-btn">2주 스터디로 등급 올리기 →</a>
         </div>
       </section>
 
