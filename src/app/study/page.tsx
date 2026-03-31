@@ -3,11 +3,111 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
+// === 자동 기수 운영 시스템 (컴포넌트 외부) ===
+// 스터디: 매월 1일, 15일 시작 (월 2회)
+// 모집: 이전 기수 시작일 ~ 다음 기수 시작 전날 23:59:59
+// 얼리버드: 모집 시작 ~ 시작 5일 전 (149,900원, 원가 259,900원)
+// 정가: 시작 5일 전 ~ 마감 (179,900원, 원가 259,900원)
+
+interface StudyCycle {
+  studyStart: Date;
+  recruitStart: Date;
+  recruitEnd: Date;
+  earlyBirdEnd: Date;
+  studyDateStr: string;
+  label: string;
+}
+
+function getStudyCycles(now: Date): StudyCycle[] {
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const cycles: StudyCycle[] = [];
+
+  for (let offset = -1; offset <= 2; offset++) {
+    // JavaScript Date 생성자가 월 오버플로우를 자동 보정
+    const baseMonth = month + offset;
+
+    // 1일 기수: 모집 = 전월 15일 ~ 전월 말일
+    const start1 = new Date(year, baseMonth, 1, 0, 0, 0);
+    const recruit1Start = new Date(year, baseMonth - 1, 15, 0, 0, 0);
+    const recruit1End = new Date(year, baseMonth, 0, 23, 59, 59); // day 0 = 전월 말일
+    const earlyBird1End = new Date(year, baseMonth, -4, 23, 59, 59); // 1일 - 5일 = 전월 26~27일
+    const displayMonth1 = start1.getMonth() + 1;
+    cycles.push({
+      studyStart: start1,
+      recruitStart: recruit1Start,
+      recruitEnd: recruit1End,
+      earlyBirdEnd: earlyBird1End,
+      studyDateStr: `${displayMonth1}월 1일`,
+      label: `${displayMonth1}월 1일 기수`
+    });
+
+    // 15일 기수: 모집 = 같은달 1일 ~ 14일
+    const start15 = new Date(year, baseMonth, 15, 0, 0, 0);
+    const recruit15Start = new Date(year, baseMonth, 1, 0, 0, 0);
+    const recruit15End = new Date(year, baseMonth, 14, 23, 59, 59);
+    const earlyBird15End = new Date(year, baseMonth, 10, 23, 59, 59); // 15일 - 5일 = 10일
+    const displayMonth15 = start15.getMonth() + 1;
+    cycles.push({
+      studyStart: start15,
+      recruitStart: recruit15Start,
+      recruitEnd: recruit15End,
+      earlyBirdEnd: earlyBird15End,
+      studyDateStr: `${displayMonth15}월 15일`,
+      label: `${displayMonth15}월 15일 기수`
+    });
+  }
+
+  return cycles.sort((a, b) => a.studyStart.getTime() - b.studyStart.getTime());
+}
+
+function getCurrentCycle(now: Date): StudyCycle | null {
+  const cycles = getStudyCycles(now);
+  // 현재 모집 중인 기수 찾기: recruitStart <= now <= recruitEnd
+  const active = cycles.find(c => now >= c.recruitStart && now <= c.recruitEnd);
+  if (active) return active;
+  // 없으면 다음 모집 시작될 기수
+  return cycles.find(c => c.recruitStart > now) || null;
+}
+
+function checkIsEarlyBird(now: Date, cycle: StudyCycle): boolean {
+  return now <= cycle.earlyBirdEnd;
+}
+
+function getCurrentPrice(now: Date, cycle: StudyCycle): number {
+  return checkIsEarlyBird(now, cycle) ? 149900 : 179900;
+}
+
+function getDiscountPercent(price: number): number {
+  return Math.round((1 - price / 259900) * 100);
+}
+
+// 남은 인원 자동 계산 (모집 기간 진행률 기반, 시드 기반 일별 변동)
+function getAutoRemainingSlots(now: Date, cycle: StudyCycle): number {
+  const totalDuration = cycle.recruitEnd.getTime() - cycle.recruitStart.getTime();
+  if (totalDuration <= 0) return 40;
+  const elapsed = now.getTime() - cycle.recruitStart.getTime();
+  const progress = Math.max(0, Math.min(1, elapsed / totalDuration));
+
+  // 시드 기반 일별 변동 (같은 날 같은 값)
+  const dayKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}-${cycle.studyDateStr}`;
+  let hash = 0;
+  for (let i = 0; i < dayKey.length; i++) {
+    hash = ((hash << 5) - hash) + dayKey.charCodeAt(i);
+    hash |= 0;
+  }
+  const dailyVariation = (Math.abs(hash) % 3) - 1; // -1, 0, 1
+
+  // 40명에서 시작 → 마감 직전 3~5명
+  const baseRemaining = Math.round(40 - (progress * 36));
+  return Math.max(3, Math.min(40, baseRemaining + dailyVariation));
+}
+
 export default function StudyPage() {
   // Slots and remaining state
-  const [remainingSlots, setRemainingSlots] = useState(4);
-  const [ctaRemainingSlots, setCtaRemainingSlots] = useState(4);
-  const [floatingRemainingSlots, setFloatingRemainingSlots] = useState(4);
+  const [remainingSlots, setRemainingSlots] = useState(40);
+  const [ctaRemainingSlots, setCtaRemainingSlots] = useState(40);
+  const [floatingRemainingSlots, setFloatingRemainingSlots] = useState(40);
 
   // Floating CTA state
   const [showFloatingCta, setShowFloatingCta] = useState(false);
@@ -17,106 +117,6 @@ export default function StudyPage() {
 
   // Toast notifications state
   const [toasts, setToasts] = useState<Array<{ id: number; name: string; action: string; location: string; mins: number }>>([]);
-
-  // === 자동 기수 운영 시스템 ===
-  // 스터디: 매월 1일, 15일 시작 (월 2회)
-  // 모집: 이전 기수 시작일 ~ 다음 기수 시작 전날 23:59:59
-  // 얼리버드: 모집 시작 ~ 시작 5일 전 (149,900원, 원가 259,900원)
-  // 정가: 시작 5일 전 ~ 마감 (179,900원, 원가 259,900원)
-
-  interface StudyCycle {
-    studyStart: Date;
-    recruitStart: Date;
-    recruitEnd: Date;
-    earlyBirdEnd: Date;
-    studyDateStr: string;
-    label: string;
-  }
-
-  const getStudyCycles = (now: Date): StudyCycle[] => {
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const cycles: StudyCycle[] = [];
-
-    for (let m = month - 1; m <= month + 2; m++) {
-      const adjYear = m > 11 ? year + 1 : m < 0 ? year - 1 : year;
-      const adjMonth = ((m % 12) + 12) % 12;
-
-      // 1일 기수
-      const start1 = new Date(adjYear, adjMonth, 1, 0, 0, 0);
-      const lastDayPrev = new Date(adjYear, adjMonth, 0).getDate();
-      const recruit1End = new Date(adjYear, adjMonth, 0, 23, 59, 59); // 전월 말일
-      const recruit1Start = new Date(adjYear, adjMonth - 1, 15, 0, 0, 0); // 전월 15일부터
-      const earlyBird1End = new Date(adjYear, adjMonth, -4, 23, 59, 59); // 시작 5일 전
-      const monthDisplay = adjMonth + 1;
-      cycles.push({
-        studyStart: start1,
-        recruitStart: recruit1Start,
-        recruitEnd: recruit1End,
-        earlyBirdEnd: earlyBird1End,
-        studyDateStr: `${monthDisplay}월 1일`,
-        label: `${monthDisplay}월 1일 기수`
-      });
-
-      // 15일 기수
-      const start15 = new Date(adjYear, adjMonth, 15, 0, 0, 0);
-      const recruit15End = new Date(adjYear, adjMonth, 14, 23, 59, 59); // 14일
-      const recruit15Start = new Date(adjYear, adjMonth, 1, 0, 0, 0); // 1일부터
-      const earlyBird15End = new Date(adjYear, adjMonth, 10, 23, 59, 59); // 시작 5일 전 = 10일
-      cycles.push({
-        studyStart: start15,
-        recruitStart: recruit15Start,
-        recruitEnd: recruit15End,
-        earlyBirdEnd: earlyBird15End,
-        studyDateStr: `${monthDisplay}월 15일`,
-        label: `${monthDisplay}월 15일 기수`
-      });
-    }
-
-    return cycles.sort((a, b) => a.studyStart.getTime() - b.studyStart.getTime());
-  };
-
-  const getCurrentCycle = (now: Date): StudyCycle | null => {
-    const cycles = getStudyCycles(now);
-    // 현재 모집 중인 기수 찾기: recruitStart <= now <= recruitEnd
-    const active = cycles.find(c => now >= c.recruitStart && now <= c.recruitEnd);
-    if (active) return active;
-    // 없으면 다음 모집 시작될 기수
-    return cycles.find(c => c.recruitStart > now) || null;
-  };
-
-  const isEarlyBird = (now: Date, cycle: StudyCycle): boolean => {
-    return now <= cycle.earlyBirdEnd;
-  };
-
-  const getCurrentPrice = (now: Date, cycle: StudyCycle): number => {
-    return isEarlyBird(now, cycle) ? 149900 : 179900;
-  };
-
-  const getDiscountPercent = (price: number): number => {
-    return Math.round((1 - price / 259900) * 100);
-  };
-
-  // 남은 인원 자동 계산 (모집 기간 진행률 기반)
-  const getAutoRemainingSlots = (now: Date, cycle: StudyCycle): number => {
-    const totalDuration = cycle.recruitEnd.getTime() - cycle.recruitStart.getTime();
-    const elapsed = now.getTime() - cycle.recruitStart.getTime();
-    const progress = Math.max(0, Math.min(1, elapsed / totalDuration));
-
-    // 시드 기반 일별 변동 (같은 날 같은 값)
-    const dayKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
-    let hash = 0;
-    for (let i = 0; i < dayKey.length; i++) {
-      hash = ((hash << 5) - hash) + dayKey.charCodeAt(i);
-      hash |= 0;
-    }
-    const dailyVariation = (Math.abs(hash) % 3) - 1; // -1, 0, 1
-
-    // 40명에서 시작 → 마감 직전 3~5명
-    const baseRemaining = Math.round(40 - (progress * 36));
-    const remaining = Math.max(3, Math.min(40, baseRemaining + dailyVariation));
-    return remaining;
-  };
 
   // Countdown + cycle state
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0, label: '', nextDate: '' });
@@ -130,7 +130,7 @@ export default function StudyPage() {
       const cycle = getCurrentCycle(now);
       if (!cycle) return;
 
-      const earlyBird = isEarlyBird(now, cycle);
+      const earlyBird = checkIsEarlyBird(now, cycle);
       const price = getCurrentPrice(now, cycle);
       const discount = getDiscountPercent(price);
       const autoSlots = getAutoRemainingSlots(now, cycle);
