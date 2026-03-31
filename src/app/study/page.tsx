@@ -18,44 +18,128 @@ export default function StudyPage() {
   // Toast notifications state
   const [toasts, setToasts] = useState<Array<{ id: number; name: string; action: string; location: string; mins: number }>>([]);
 
-  // Countdown timer state
+  // === 자동 기수 운영 시스템 ===
+  // 스터디: 매월 1일, 15일 시작 (월 2회)
+  // 모집: 이전 기수 시작일 ~ 다음 기수 시작 전날 23:59:59
+  // 얼리버드: 모집 시작 ~ 시작 5일 전 (149,900원, 원가 259,900원)
+  // 정가: 시작 5일 전 ~ 마감 (179,900원, 원가 259,900원)
+
+  interface StudyCycle {
+    studyStart: Date;
+    recruitStart: Date;
+    recruitEnd: Date;
+    earlyBirdEnd: Date;
+    studyDateStr: string;
+    label: string;
+  }
+
+  const getStudyCycles = (now: Date): StudyCycle[] => {
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const cycles: StudyCycle[] = [];
+
+    for (let m = month - 1; m <= month + 2; m++) {
+      const adjYear = m > 11 ? year + 1 : m < 0 ? year - 1 : year;
+      const adjMonth = ((m % 12) + 12) % 12;
+
+      // 1일 기수
+      const start1 = new Date(adjYear, adjMonth, 1, 0, 0, 0);
+      const lastDayPrev = new Date(adjYear, adjMonth, 0).getDate();
+      const recruit1End = new Date(adjYear, adjMonth, 0, 23, 59, 59); // 전월 말일
+      const recruit1Start = new Date(adjYear, adjMonth - 1, 15, 0, 0, 0); // 전월 15일부터
+      const earlyBird1End = new Date(adjYear, adjMonth, -4, 23, 59, 59); // 시작 5일 전
+      const monthDisplay = adjMonth + 1;
+      cycles.push({
+        studyStart: start1,
+        recruitStart: recruit1Start,
+        recruitEnd: recruit1End,
+        earlyBirdEnd: earlyBird1End,
+        studyDateStr: `${monthDisplay}월 1일`,
+        label: `${monthDisplay}월 1일 기수`
+      });
+
+      // 15일 기수
+      const start15 = new Date(adjYear, adjMonth, 15, 0, 0, 0);
+      const recruit15End = new Date(adjYear, adjMonth, 14, 23, 59, 59); // 14일
+      const recruit15Start = new Date(adjYear, adjMonth, 1, 0, 0, 0); // 1일부터
+      const earlyBird15End = new Date(adjYear, adjMonth, 10, 23, 59, 59); // 시작 5일 전 = 10일
+      cycles.push({
+        studyStart: start15,
+        recruitStart: recruit15Start,
+        recruitEnd: recruit15End,
+        earlyBirdEnd: earlyBird15End,
+        studyDateStr: `${monthDisplay}월 15일`,
+        label: `${monthDisplay}월 15일 기수`
+      });
+    }
+
+    return cycles.sort((a, b) => a.studyStart.getTime() - b.studyStart.getTime());
+  };
+
+  const getCurrentCycle = (now: Date): StudyCycle | null => {
+    const cycles = getStudyCycles(now);
+    // 현재 모집 중인 기수 찾기: recruitStart <= now <= recruitEnd
+    const active = cycles.find(c => now >= c.recruitStart && now <= c.recruitEnd);
+    if (active) return active;
+    // 없으면 다음 모집 시작될 기수
+    return cycles.find(c => c.recruitStart > now) || null;
+  };
+
+  const isEarlyBird = (now: Date, cycle: StudyCycle): boolean => {
+    return now <= cycle.earlyBirdEnd;
+  };
+
+  const getCurrentPrice = (now: Date, cycle: StudyCycle): number => {
+    return isEarlyBird(now, cycle) ? 149900 : 179900;
+  };
+
+  const getDiscountPercent = (price: number): number => {
+    return Math.round((1 - price / 259900) * 100);
+  };
+
+  // 남은 인원 자동 계산 (모집 기간 진행률 기반)
+  const getAutoRemainingSlots = (now: Date, cycle: StudyCycle): number => {
+    const totalDuration = cycle.recruitEnd.getTime() - cycle.recruitStart.getTime();
+    const elapsed = now.getTime() - cycle.recruitStart.getTime();
+    const progress = Math.max(0, Math.min(1, elapsed / totalDuration));
+
+    // 시드 기반 일별 변동 (같은 날 같은 값)
+    const dayKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+    let hash = 0;
+    for (let i = 0; i < dayKey.length; i++) {
+      hash = ((hash << 5) - hash) + dayKey.charCodeAt(i);
+      hash |= 0;
+    }
+    const dailyVariation = (Math.abs(hash) % 3) - 1; // -1, 0, 1
+
+    // 40명에서 시작 → 마감 직전 3~5명
+    const baseRemaining = Math.round(40 - (progress * 36));
+    const remaining = Math.max(3, Math.min(40, baseRemaining + dailyVariation));
+    return remaining;
+  };
+
+  // Countdown + cycle state
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0, label: '', nextDate: '' });
+  const [currentCycleState, setCurrentCycleState] = useState<{ isEarlyBird: boolean; price: number; discount: number; autoSlots: number }>({
+    isEarlyBird: true, price: 149900, discount: 42, autoSlots: 40
+  });
 
   useEffect(() => {
     const calcCountdown = () => {
       const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth(); // 0-indexed
+      const cycle = getCurrentCycle(now);
+      if (!cycle) return;
 
-      // 스터디 진행: 매월 1일, 15일
-      // 마감: 진행일 하루 전 (말일 23:59, 14일 23:59)
-      const getDeadlines = (y: number, m: number) => {
-        // 14일 23:59:59 (15일 스터디 마감)
-        const d14 = new Date(y, m, 14, 23, 59, 59);
-        // 말일 23:59:59 (다음달 1일 스터디 마감)
-        const lastDay = new Date(y, m + 1, 0).getDate();
-        const dLast = new Date(y, m, lastDay, 23, 59, 59);
-        return [
-          { deadline: d14, studyDate: `${m + 1}월 15일`, label: `${m + 1}월 15일 기수` },
-          { deadline: dLast, studyDate: `${m + 2 > 12 ? 1 : m + 2}월 1일`, label: `${m + 2 > 12 ? 1 : m + 2}월 1일 기수` }
-        ];
-      };
+      const earlyBird = isEarlyBird(now, cycle);
+      const price = getCurrentPrice(now, cycle);
+      const discount = getDiscountPercent(price);
+      const autoSlots = getAutoRemainingSlots(now, cycle);
 
-      // Check current month and next month deadlines
-      const deadlines = [
-        ...getDeadlines(year, month),
-        ...getDeadlines(year, month + 1)
-      ];
+      setCurrentCycleState({ isEarlyBird: earlyBird, price, discount, autoSlots });
 
-      // Find next upcoming deadline
-      let target = deadlines.find(d => d.deadline > now);
-      if (!target) {
-        target = getDeadlines(year, month + 2)[0];
-      }
-
-      const diff = target!.deadline.getTime() - now.getTime();
+      const diff = cycle.recruitEnd.getTime() - now.getTime();
       if (diff <= 0) {
-        setCountdown({ days: 0, hours: 0, mins: 0, secs: 0, label: '다음 기수 접수 중', nextDate: target!.studyDate });
+        setCountdown({ days: 0, hours: 0, mins: 0, secs: 0, label: '다음 기수 접수 중', nextDate: cycle.studyDateStr });
         return;
       }
 
@@ -64,7 +148,7 @@ export default function StudyPage() {
       const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
-      setCountdown({ days, hours, mins, secs, label: `${target!.label} 마감까지`, nextDate: target!.studyDate });
+      setCountdown({ days, hours, mins, secs, label: `${cycle.label} 마감까지`, nextDate: cycle.studyDateStr });
     };
 
     calcCountdown();
@@ -94,7 +178,6 @@ export default function StudyPage() {
   const [reviewPaused, setReviewPaused] = useState(false);
 
   const totalSlots = 40;
-  const filledSlots = 36;
   const slotsRef = useRef(remainingSlots);
   const toastCounterRef = useRef(0);
 
@@ -154,7 +237,7 @@ export default function StudyPage() {
     }, 30);
   };
 
-  // Remaining slots initialization and updates
+  // 남은 인원을 자동 계산값과 동기화
   useEffect(() => {
     const updateAllSlots = (num: number) => {
       slotsRef.current = num;
@@ -163,22 +246,9 @@ export default function StudyPage() {
       setFloatingRemainingSlots(num);
     };
 
-    setTimeout(() => {
-      updateAllSlots(slotsRef.current);
-    }, 500);
-
-    const slotsInterval = setInterval(() => {
-      const change = Math.random();
-      let newSlots = slotsRef.current;
-      if (change < 0.15) {
-        // Occasionally decrease remaining (showing more slots filling)
-        newSlots = Math.max(2, newSlots - 1);
-      }
-      updateAllSlots(newSlots);
-    }, 35000 + Math.random() * 25000);
-
-    return () => clearInterval(slotsInterval);
-  }, []);
+    // 자동 계산된 인원으로 초기화
+    updateAllSlots(currentCycleState.autoSlots);
+  }, [currentCycleState.autoSlots]);
 
   // Toast notifications
   useEffect(() => {
@@ -1775,7 +1845,7 @@ export default function StudyPage() {
           <div className="hero-top-group">
           <div className="hero-badge">
             <span className="dot"></span>
-            {countdown.nextDate} 시작 · 선착순 40명 한정
+            {countdown.nextDate} 시작 · {currentCycleState.isEarlyBird ? '얼리버드 모집 중' : '선착순 모집 중'}
           </div>
           <div className="countdown-box">
             <div className="countdown-label">{countdown.label}</div>
@@ -1817,7 +1887,7 @@ export default function StudyPage() {
 
           {/* QUEUE COUNTER */}
           <div className="queue-box">
-            <div className="queue-label">🔥 선착순 40명 한정</div>
+            <div className="queue-label">🔥 선착순 40명 한정 {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontWeight:700}}>· 얼리버드 진행 중</span>}</div>
             <div className="queue-progress-bar">
               <div className="queue-progress-fill" style={{ width: `${((totalSlots - remainingSlots) / totalSlots) * 100}%` }}></div>
             </div>
@@ -2133,7 +2203,7 @@ export default function StudyPage() {
                   <td>비용</td>
                   <td>10~30만원</td>
                   <td>40~80만원</td>
-                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'#999',fontSize:'13px'}}>259,900원</span> → <strong>179,900원</strong> (올인원)</td>
+                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'#999',fontSize:'13px'}}>259,900원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontSize:'11px'}}>(얼리버드)</span>}</td>
                 </tr>
                 <tr>
                   <td>평균 소요 기간</td>
@@ -2155,13 +2225,13 @@ export default function StudyPage() {
             <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함</p>
           </div>
           <div className="pricing-section">
-            <div className="pricing-badge">31% 할인 중</div>
+            <div className="pricing-badge">{currentCycleState.isEarlyBird ? '얼리버드 특가' : `${currentCycleState.discount}% 할인 중`}</div>
             <div className="pricing-header">
               <h3>2주 집중 스터디</h3>
               <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
             </div>
             <div className="pricing-original">₩259,900</div>
-            <div className="pricing-price-main" style={{marginTop:'8px'}}>₩179,900</div>
+            <div className="pricing-price-main" style={{marginTop:'8px'}}>₩{currentCycleState.price.toLocaleString()}</div>
             <div className="pricing-desc">
               교재비 포함 · SpeakCoach AI · 1:3 피드백 총 180분 · 매일 녹음과제 피드백 · 비공개 모의고사 영상 포함
             </div>
@@ -2179,8 +2249,17 @@ export default function StudyPage() {
               지금 신청하기 →
             </button>
             <div className="pricing-earlybird">
-              <strong>얼리버드 특가 ₩149,900</strong>은 기간 한정 할인가입니다.<br/>
-              259,900원에서 할인가 ₩179,900으로 제공 중입니다.
+              {currentCycleState.isEarlyBird ? (
+                <>
+                  <strong>지금은 얼리버드 기간!</strong> ₩259,900 → <strong>₩149,900</strong> ({currentCycleState.discount}% 할인)<br/>
+                  얼리버드 종료 후 ₩179,900으로 변경됩니다.
+                </>
+              ) : (
+                <>
+                  <strong>₩259,900</strong>에서 <strong>₩179,900</strong>으로 {currentCycleState.discount}% 할인 중입니다.<br/>
+                  마감 전 서둘러 신청하세요!
+                </>
+              )}
             </div>
             <div className="pricing-addon">
               <h4>Premium 업그레이드</h4>
@@ -2470,7 +2549,8 @@ export default function StudyPage() {
             </div>
             <div className="floating-price">
               <span style={{textDecoration:'line-through',color:'#999',fontSize:'13px',marginRight:'6px'}}>₩259,900</span>
-              <strong>₩179,900</strong>
+              <strong>₩{currentCycleState.price.toLocaleString()}</strong>
+              {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontSize:'11px',fontWeight:700,marginLeft:'4px'}}>얼리버드</span>}
             </div>
           </div>
           <button
@@ -2508,7 +2588,7 @@ export default function StudyPage() {
               <h3>스터디 신청서 작성</h3>
               <p>구글 폼에서 신청서를 작성해주세요.<br/>선착순 마감이니 서둘러주세요!</p>
               <div className="form-modal-info">
-                <div>수강료: <span style={{textDecoration:'line-through',color:'#999',fontSize:'14px',marginRight:'4px'}}>₩259,900</span> → <strong>₩179,900</strong> <span style={{color:'#dc2626',fontSize:'13px',fontWeight:700}}>31% 할인</span></div>
+                <div>수강료: <span style={{textDecoration:'line-through',color:'#999',fontSize:'14px',marginRight:'4px'}}>₩259,900</span> → <strong>₩{currentCycleState.price.toLocaleString()}</strong> <span style={{color:'#dc2626',fontSize:'13px',fontWeight:700}}>{currentCycleState.discount}% 할인{currentCycleState.isEarlyBird ? ' (얼리버드)' : ''}</span></div>
                 <div>남은 자리: <strong style={{color:'#FF3B5C'}}>{floatingRemainingSlots}명</strong></div>
               </div>
               <a href="https://forms.gle/dvCkYs8jSZZVyyFo7" target="_blank" rel="noopener noreferrer" className="form-modal-btn" onClick={() => setShowFormModal(false)}>
