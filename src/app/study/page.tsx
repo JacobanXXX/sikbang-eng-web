@@ -112,8 +112,23 @@ export default function StudyPage() {
   // Floating CTA state
   const [showFloatingCta, setShowFloatingCta] = useState(false);
 
-  // Google Form modal state
+  // Application form modal state
   const [showFormModal, setShowFormModal] = useState(false);
+  const [formStep, setFormStep] = useState(1); // 1: 정보입력, 2: 플랜선택, 3: 입금안내
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    targetClass: '' as '' | 'IH' | 'AL',
+    plan: 'standard' as 'standard' | 'bundle',
+    hasBook: false,
+    premiumUpgrade: false,
+    refundAccount: '',
+    depositConfirm: false,
+  });
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formError, setFormError] = useState('');
 
   // Toast notifications state
   const [toasts, setToasts] = useState<Array<{ id: number; name: string; action: string; location: string; mins: number }>>([]);
@@ -170,7 +185,75 @@ export default function StudyPage() {
     document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light');
     localStorage.setItem('sikbang-theme', next ? 'dark' : 'light');
   };
-  // faqAnswerHeights removed - using CSS max-height instead
+  // === 자체 신청폼 가격 계산 ===
+  const calcFormPrice = () => {
+    const isEarly = currentCycleState.isEarlyBird;
+    const bookFee = formData.hasBook ? 0 : 30000;
+
+    let base: number;
+    if (formData.plan === 'bundle') {
+      // 번들: 스터디 + SpeakCoach AI Premium 3개월
+      base = isEarly ? 199900 : 229900;
+      // 번들은 교재비 포함 가격이므로, 교재 있으면 3만원 차감
+      return base - (formData.hasBook ? 30000 : 0) + (formData.premiumUpgrade ? 15000 : 0);
+    } else {
+      // 일반 스터디
+      base = isEarly ? 119900 : 149900;
+      return base + bookFee + (formData.premiumUpgrade ? 15000 : 0);
+    }
+  };
+
+  const openFormModal = () => {
+    openFormModal();
+    setFormStep(1);
+    setFormSubmitted(false);
+    setFormError('');
+  };
+
+  const handleFormSubmit = async () => {
+    // Validate step 3
+    if (!formData.refundAccount.trim()) {
+      setFormError('환불계좌를 입력해주세요.');
+      return;
+    }
+    if (!formData.depositConfirm) {
+      setFormError('입금 완료 후 체크해주세요.');
+      return;
+    }
+
+    setFormSubmitting(true);
+    setFormError('');
+
+    try {
+      const res = await fetch('/api/study-apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          targetClass: formData.targetClass,
+          plan: formData.plan,
+          hasBook: formData.hasBook,
+          premiumUpgrade: formData.premiumUpgrade,
+          refundAccount: formData.refundAccount,
+          totalPrice: calcFormPrice(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setFormSubmitted(true);
+      } else {
+        setFormError(data.error || '신청 중 오류가 발생했습니다.');
+      }
+    } catch {
+      setFormError('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      setFormSubmitting(false);
+    }
+  };
 
   // Review scroll state
   const reviewScrollRef = useRef<HTMLDivElement>(null);
@@ -1468,13 +1551,10 @@ export default function StudyPage() {
           background: #15753c;
         }
 
-        /* === GOOGLE FORM MODAL === */
+        /* === APPLICATION FORM MODAL === */
         .form-modal-overlay {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          top: 0; left: 0; right: 0; bottom: 0;
           background: rgba(0,0,0,0.6);
           z-index: 10000;
           display: flex;
@@ -1482,6 +1562,7 @@ export default function StudyPage() {
           justify-content: center;
           padding: 20px;
           backdrop-filter: blur(4px);
+          overflow-y: auto;
         }
         .form-modal-content {
           background: #fff;
@@ -1492,72 +1573,501 @@ export default function StudyPage() {
           overflow: hidden;
           animation: modalSlideUp 0.3s ease;
         }
+        .form-modal-wide {
+          max-width: 560px;
+        }
         @keyframes modalSlideUp {
           from { opacity: 0; transform: translateY(30px); }
           to { opacity: 1; transform: translateY(0); }
         }
         .form-modal-close {
           position: absolute;
-          top: 16px;
-          right: 16px;
-          background: none;
-          border: none;
-          font-size: 20px;
-          cursor: pointer;
-          color: #999;
-          z-index: 1;
+          top: 16px; right: 16px;
+          background: none; border: none;
+          font-size: 20px; cursor: pointer;
+          color: #999; z-index: 1;
         }
         .form-modal-body {
-          padding: 40px 32px;
-          text-align: center;
-        }
-        .form-modal-icon {
-          font-size: 48px;
-          margin-bottom: 16px;
+          padding: 32px 28px;
         }
         .form-modal-body h3 {
-          font-size: 22px;
+          font-size: 20px;
           font-weight: 700;
-          margin-bottom: 12px;
+          margin-bottom: 20px;
           color: #191F28;
         }
-        .form-modal-body > p {
-          font-size: 15px;
-          color: #666;
-          line-height: 1.6;
+
+        /* Header badge (cycle + earlybird) */
+        .form-header-badge {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
           margin-bottom: 20px;
+          flex-wrap: wrap;
         }
-        .form-modal-info {
+        .form-cycle-badge {
+          background: #F1F3F5;
+          color: #333;
+          font-size: 13px;
+          font-weight: 600;
+          padding: 5px 12px;
+          border-radius: 20px;
+        }
+        .form-earlybird-badge {
+          background: linear-gradient(135deg, #FF6B35, #FF3B5C);
+          color: #fff;
+          font-size: 12px;
+          font-weight: 700;
+          padding: 5px 12px;
+          border-radius: 20px;
+          animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,53,0.3); }
+          50% { box-shadow: 0 0 0 6px rgba(255,107,53,0); }
+        }
+        .form-regular-badge {
+          background: var(--green);
+          color: #fff;
+          font-size: 12px;
+          font-weight: 700;
+          padding: 5px 12px;
+          border-radius: 20px;
+        }
+
+        /* Steps indicator */
+        .form-steps {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0;
+          margin-bottom: 8px;
+        }
+        .form-step-dot {
+          width: 28px; height: 28px;
+          border-radius: 50%;
+          background: #E5E8EB;
+          color: #999;
+          font-size: 13px; font-weight: 600;
+          display: flex; align-items: center; justify-content: center;
+          transition: all 0.3s;
+        }
+        .form-step-dot.active {
+          background: var(--green);
+          color: #fff;
+        }
+        .form-step-line {
+          width: 48px; height: 2px;
+          background: #E5E8EB;
+          transition: background 0.3s;
+        }
+        .form-step-line.active {
+          background: var(--green);
+        }
+        .form-step-labels {
+          display: flex;
+          justify-content: space-between;
+          font-size: 12px;
+          color: #999;
+          margin-bottom: 24px;
+          padding: 0 20px;
+        }
+        .form-step-labels span.active {
+          color: var(--green);
+          font-weight: 600;
+        }
+        .form-step-content h3 {
+          text-align: center;
+        }
+
+        /* Form fields */
+        .form-field {
+          margin-bottom: 16px;
+          text-align: left;
+        }
+        .form-field label {
+          display: block;
+          font-size: 14px;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 6px;
+        }
+        .form-field label .req {
+          color: #dc2626;
+        }
+        .form-field input[type="text"],
+        .form-field input[type="email"],
+        .form-field input[type="tel"],
+        .form-field textarea {
+          width: 100%;
+          padding: 12px 14px;
+          border: 1.5px solid #E5E8EB;
+          border-radius: 10px;
+          font-size: 15px;
+          transition: border-color 0.2s;
+          outline: none;
+          color: #191F28;
+          background: #FAFBFC;
+          box-sizing: border-box;
+        }
+        .form-field input:focus,
+        .form-field textarea:focus {
+          border-color: var(--green);
+          background: #fff;
+        }
+        .form-field textarea {
+          resize: vertical;
+          font-family: inherit;
+        }
+
+        /* Radio cards */
+        .form-radio-group {
+          display: flex;
+          gap: 10px;
+        }
+        .form-radio-card {
+          flex: 1;
+          border: 1.5px solid #E5E8EB;
+          border-radius: 12px;
+          padding: 14px;
+          cursor: pointer;
+          transition: all 0.2s;
+          position: relative;
+        }
+        .form-radio-card.selected {
+          border-color: var(--green);
+          background: rgba(26,141,72,0.04);
+        }
+        .form-radio-card input { display: none; }
+        .form-radio-inner strong {
+          display: block;
+          font-size: 15px;
+          color: #191F28;
+          margin-bottom: 2px;
+        }
+        .form-radio-inner span {
+          font-size: 12px;
+          color: #888;
+        }
+
+        /* Plan cards */
+        .form-plan-cards {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+        .form-plan-card {
+          border: 2px solid #E5E8EB;
+          border-radius: 14px;
+          padding: 20px;
+          cursor: pointer;
+          transition: all 0.2s;
+          position: relative;
+          overflow: hidden;
+        }
+        .form-plan-card.selected {
+          border-color: var(--green);
+          box-shadow: 0 0 0 1px var(--green);
+        }
+        .form-plan-card.bundle {
+          border-color: #dbeafe;
+          background: linear-gradient(135deg, #f8fbff 0%, #fff 100%);
+        }
+        .form-plan-card.bundle.selected {
+          border-color: var(--green);
+          background: linear-gradient(135deg, #f0fdf4 0%, #fff 100%);
+        }
+        .form-plan-card input { display: none; }
+        .form-plan-badge {
+          position: absolute;
+          top: 0; right: 0;
+          background: var(--green);
+          color: #fff;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 4px 14px;
+          border-radius: 0 12px 0 10px;
+        }
+        .form-plan-name {
+          font-size: 16px;
+          font-weight: 700;
+          color: #191F28;
+          margin-bottom: 4px;
+        }
+        .form-plan-price {
+          font-size: 24px;
+          font-weight: 800;
+          color: var(--green);
+          margin-bottom: 4px;
+        }
+        .form-plan-price-row {
+          display: flex;
+          align-items: baseline;
+          gap: 8px;
+          margin-bottom: 4px;
+        }
+        .form-plan-original {
+          font-size: 14px;
+          color: #999;
+          text-decoration: line-through;
+        }
+        .form-plan-earlybird-tag {
+          display: inline-block;
+          background: linear-gradient(135deg, #FF6B35, #FF3B5C);
+          color: #fff;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 4px;
+          margin-bottom: 6px;
+        }
+        .form-plan-save {
+          font-size: 13px;
+          color: #dc2626;
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+        .form-plan-desc {
+          font-size: 13px;
+          color: #888;
+          margin-bottom: 10px;
+        }
+        .form-plan-features {
+          list-style: none;
+          padding: 0; margin: 0;
+        }
+        .form-plan-features li {
+          font-size: 13px;
+          color: #555;
+          padding: 3px 0 3px 20px;
+          position: relative;
+        }
+        .form-plan-features li::before {
+          content: '✓';
+          position: absolute;
+          left: 0;
+          color: var(--green);
+          font-weight: 700;
+        }
+
+        /* Option boxes */
+        .form-option-box {
+          background: #FAFBFC;
+          border: 1px solid #E5E8EB;
+          border-radius: 12px;
+          padding: 14px 16px;
+          margin-bottom: 12px;
+        }
+        .form-option-box.highlight {
+          background: linear-gradient(135deg, #FFFBF5 0%, #FFF 100%);
+          border-color: #FBBF24;
+        }
+        .form-checkbox-label {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          cursor: pointer;
+          font-size: 14px;
+          color: #333;
+        }
+        .form-checkbox-label input[type="checkbox"] {
+          margin-top: 2px;
+          width: 18px; height: 18px;
+          accent-color: var(--green);
+          flex-shrink: 0;
+        }
+
+        /* Price summary */
+        .form-price-summary {
           background: #F8F9FA;
           border-radius: 12px;
           padding: 16px;
-          margin-bottom: 24px;
-          display: flex;
-          justify-content: space-around;
-          font-size: 14px;
-          color: #333;
-          gap: 16px;
+          margin: 16px 0;
         }
-        .form-modal-btn {
-          display: block;
-          width: 100%;
-          padding: 16px;
-          background: #3366FF;
-          color: #fff;
-          text-align: center;
-          border-radius: 12px;
+        .form-price-row {
+          display: flex;
+          justify-content: space-between;
+          font-size: 14px;
+          color: #555;
+          padding: 6px 0;
+        }
+        .form-price-row.discount {
+          color: #dc2626;
+        }
+        .form-price-total {
+          display: flex;
+          justify-content: space-between;
+          padding-top: 12px;
+          margin-top: 8px;
+          border-top: 1.5px solid #E5E8EB;
           font-size: 16px;
+        }
+        .form-price-total strong {
+          color: var(--green);
+          font-size: 20px;
+        }
+
+        /* Deposit box */
+        .form-deposit-box {
+          background: linear-gradient(135deg, #F0FDF4 0%, #FFF 100%);
+          border: 1.5px solid #BBF7D0;
+          border-radius: 14px;
+          padding: 20px;
+          margin-bottom: 16px;
+          text-align: center;
+        }
+        .form-deposit-amount {
+          margin-bottom: 16px;
+        }
+        .form-deposit-amount span {
+          display: block;
+          font-size: 13px;
+          color: #666;
+          margin-bottom: 4px;
+        }
+        .form-deposit-amount strong {
+          font-size: 28px;
+          font-weight: 800;
+          color: var(--green);
+        }
+        .form-deposit-info {
+          text-align: left;
+          margin-bottom: 12px;
+        }
+        .form-deposit-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 0;
+          border-bottom: 1px solid #E5E8EB;
+          font-size: 14px;
+        }
+        .form-deposit-row span { color: #888; }
+        .form-deposit-row strong { color: #191F28; }
+        .form-copy-btn {
+          width: 100%;
+          padding: 10px;
+          background: var(--green);
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          font-size: 14px;
           font-weight: 600;
-          text-decoration: none;
+          cursor: pointer;
           transition: background 0.2s;
         }
-        .form-modal-btn:hover {
-          background: #2952CC;
+        .form-copy-btn:hover {
+          background: #15753c;
         }
-        .form-modal-note {
+
+        /* Summary box (success) */
+        .form-summary-box {
+          background: #F8F9FA;
+          border-radius: 12px;
+          padding: 16px;
+          margin: 20px 0 0;
+          text-align: left;
+        }
+        .form-summary-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 0;
+          font-size: 14px;
+          border-bottom: 1px solid #eee;
+        }
+        .form-summary-row:last-child { border: none; }
+        .form-summary-row span { color: #888; }
+
+        /* Buttons */
+        .form-btn-primary {
+          width: 100%;
+          padding: 14px;
+          background: var(--green);
+          color: #fff;
+          border: none;
+          border-radius: 12px;
+          font-size: 16px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+        .form-btn-primary:hover {
+          background: #15753c;
+        }
+        .form-btn-primary:disabled {
+          background: #ccc;
+          cursor: not-allowed;
+        }
+        .form-btn-secondary {
+          flex: 1;
+          padding: 14px;
+          background: #F1F3F5;
+          color: #333;
+          border: none;
+          border-radius: 12px;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+        .form-btn-secondary:hover {
+          background: #E5E8EB;
+        }
+        .form-btn-row {
+          display: flex;
+          gap: 10px;
+          margin-top: 16px;
+        }
+        .form-btn-row .form-btn-primary {
+          flex: 2;
+        }
+
+        /* Selected summary (step 3) */
+        .form-selected-summary {
+          background: #F8F9FA;
+          border-radius: 10px;
+          padding: 12px 16px;
+          margin-bottom: 16px;
+        }
+        .form-selected-row {
+          display: flex;
+          justify-content: space-between;
+          font-size: 13px;
+          padding: 4px 0;
+          color: #666;
+        }
+        .form-selected-row strong {
+          color: #191F28;
+        }
+
+        /* Earlybird notice */
+        .form-earlybird-notice {
+          text-align: center;
+          font-size: 12px;
+          color: #FF6B35;
+          font-weight: 500;
+          margin: 8px 0 0;
+          padding: 8px;
+          background: #FFF7F0;
+          border-radius: 8px;
+        }
+
+        /* Error & note */
+        .form-error {
+          background: #FEF2F2;
+          color: #dc2626;
+          padding: 10px 14px;
+          border-radius: 8px;
+          font-size: 13px;
+          margin: 12px 0;
+          text-align: center;
+        }
+        .form-note {
           font-size: 12px;
           color: #999;
-          margin-top: 12px;
+          line-height: 1.5;
+          margin: 12px 0 0;
         }
 
         /* === STATS SECTION === */
@@ -1809,13 +2319,23 @@ export default function StudyPage() {
           .pricing-section {
             padding: 28px 20px !important;
           }
-          .form-modal-info {
-            flex-direction: column;
-            gap: 8px;
-            text-align: left;
+          .form-modal-content.form-modal-wide {
+            margin: 10px;
+            max-width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
           }
-          .form-modal-content {
-            margin: 16px;
+          .form-modal-body {
+            padding: 24px 20px;
+          }
+          .form-radio-group {
+            flex-direction: column;
+          }
+          .form-plan-price {
+            font-size: 20px;
+          }
+          .form-deposit-amount strong {
+            font-size: 24px;
           }
         }
       `}} />
@@ -1836,7 +2356,7 @@ export default function StudyPage() {
           <button className="theme-toggle" onClick={toggleDarkMode} aria-label="다크모드 전환" style={{marginRight:'8px'}}>
             {darkMode ? '☀️' : '🌙'}
           </button>
-          <button onClick={() => setShowFormModal(true)} className="nav-cta">
+          <button onClick={() => openFormModal()} className="nav-cta">
             지금 신청하기
           </button>
         </div>
@@ -1905,7 +2425,7 @@ export default function StudyPage() {
           </div>
 
           <div className="hero-cta-group">
-            <button onClick={() => setShowFormModal(true)} className="btn-primary">
+            <button onClick={() => openFormModal()} className="btn-primary">
               지금 신청하기 →
             </button>
             <Link href="/" className="btn-secondary">
@@ -2250,7 +2770,7 @@ export default function StudyPage() {
               <div className="pricing-feature">스터디 전용 노션 자료 + YouTube 강의</div>
               <div className="pricing-feature">졸업 후 코칭 채팅 3개월 지원</div>
             </div>
-            <button onClick={() => setShowFormModal(true)} className="pricing-btn">
+            <button onClick={() => openFormModal()} className="pricing-btn">
               지금 신청하기 →
             </button>
             <div className="pricing-earlybird">
@@ -2267,7 +2787,7 @@ export default function StudyPage() {
             <div className="pricing-addon">
               <h4>Premium 업그레이드</h4>
               <p>
-                +<span className="addon-price">₩10,000</span>만 추가하면 2주 내내 SpeakCoach AI{' '}
+                +<span className="addon-price">₩15,000</span>만 추가하면 2주 내내 SpeakCoach AI{' '}
                 <strong>Premium</strong>을 이용할 수 있어요.
               </p>
             </div>
@@ -2513,7 +3033,7 @@ export default function StudyPage() {
           <h2>다음 기수 대기 접수 중</h2>
           <p style={{fontSize:'18px',marginBottom:'8px'}}>다음 기수: <strong>4월 15일 ~ 4월 29일</strong></p>
           <p>현재 기수(4/1)가 마감되었습니다. 다음 기수에 참여를 원하시면 대기 접수해주세요.</p>
-          <button onClick={() => setShowFormModal(true)} className="btn-white">
+          <button onClick={() => openFormModal()} className="btn-white">
             대기 접수하기 →
           </button>
         </div>
@@ -2557,7 +3077,7 @@ export default function StudyPage() {
             </div>
           </div>
           <button
-            onClick={() => setShowFormModal(true)}
+            onClick={() => openFormModal()}
             className="floating-btn"
           >
             지금 신청하기 →
@@ -2581,24 +3101,341 @@ export default function StudyPage() {
         ))}
       </div>
 
-      {/* GOOGLE FORM MODAL */}
+      {/* SELF-HOSTED APPLICATION FORM MODAL */}
       {showFormModal && (
         <div className="form-modal-overlay" onClick={() => setShowFormModal(false)}>
-          <div className="form-modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="form-modal-content form-modal-wide" onClick={(e) => e.stopPropagation()}>
             <button className="form-modal-close" onClick={() => setShowFormModal(false)}>✕</button>
-            <div className="form-modal-body">
-              <div className="form-modal-icon"></div>
-              <h3>스터디 신청서 작성</h3>
-              <p>구글 폼에서 신청서를 작성해주세요.<br/>선착순 마감이니 서둘러주세요!</p>
-              <div className="form-modal-info">
-                <div>수강료: <span style={{textDecoration:'line-through',color:'#999',fontSize:'14px',marginRight:'4px'}}>₩259,900</span> → <strong>₩{currentCycleState.price.toLocaleString()}</strong> <span style={{color:'#dc2626',fontSize:'13px',fontWeight:700}}>{currentCycleState.discount}% 할인{currentCycleState.isEarlyBird ? ' (얼리버드)' : ''}</span></div>
-                <div>남은 자리: <strong style={{color:'#FF3B5C'}}>{floatingRemainingSlots}명</strong></div>
+
+            {formSubmitted ? (
+              /* === 신청 완료 화면 === */
+              <div className="form-modal-body" style={{textAlign:'center'}}>
+                <div style={{fontSize:'48px',marginBottom:'16px'}}>🎉</div>
+                <h3 style={{textAlign:'center'}}>신청이 완료되었습니다!</h3>
+                <p style={{color:'#666',lineHeight:1.6,textAlign:'center'}}>
+                  <strong>{formData.name}</strong>님, 스터디 신청 감사합니다.<br/>
+                  입금 확인 후 0~2일 이내 연락드리겠습니다.
+                </p>
+                <div className="form-summary-box">
+                  <div className="form-summary-row"><span>플랜</span><strong>{formData.plan === 'bundle' ? '번들 (스터디 + SpeakCoach 3개월)' : '일반 스터디'}</strong></div>
+                  <div className="form-summary-row"><span>목표반</span><strong>{formData.targetClass}목표반</strong></div>
+                  <div className="form-summary-row"><span>결제 금액</span><strong style={{color:'#1A8D48'}}>₩{calcFormPrice().toLocaleString()}</strong></div>
+                </div>
+                <button className="form-btn-primary" onClick={() => setShowFormModal(false)} style={{marginTop:'20px'}}>
+                  확인
+                </button>
               </div>
-              <a href="https://forms.gle/dvCkYs8jSZZVyyFo7" target="_blank" rel="noopener noreferrer" className="form-modal-btn" onClick={() => setShowFormModal(false)}>
-                신청서 작성하기 →
-              </a>
-              <p className="form-modal-note">* 신청서 작성 후 0~2일 이내 확인 연락드립니다.</p>
-            </div>
+            ) : (
+              /* === 신청 폼 === */
+              <div className="form-modal-body">
+                {/* 상단 모집 기수 + 얼리버드 배지 */}
+                <div className="form-header-badge">
+                  <span className="form-cycle-badge">{countdown.nextDate} 기수 모집 중</span>
+                  {currentCycleState.isEarlyBird ? (
+                    <span className="form-earlybird-badge">얼리버드 {currentCycleState.discount}% 할인</span>
+                  ) : (
+                    <span className="form-regular-badge">{currentCycleState.discount}% 할인 중</span>
+                  )}
+                </div>
+
+                {/* 상단 진행 표시 */}
+                <div className="form-steps">
+                  <div className={`form-step-dot ${formStep >= 1 ? 'active' : ''}`}>1</div>
+                  <div className={`form-step-line ${formStep >= 2 ? 'active' : ''}`}></div>
+                  <div className={`form-step-dot ${formStep >= 2 ? 'active' : ''}`}>2</div>
+                  <div className={`form-step-line ${formStep >= 3 ? 'active' : ''}`}></div>
+                  <div className={`form-step-dot ${formStep >= 3 ? 'active' : ''}`}>3</div>
+                </div>
+                <div className="form-step-labels">
+                  <span className={formStep === 1 ? 'active' : ''}>기본정보</span>
+                  <span className={formStep === 2 ? 'active' : ''}>플랜 선택</span>
+                  <span className={formStep === 3 ? 'active' : ''}>입금 안내</span>
+                </div>
+
+                {/* STEP 1: 기본정보 */}
+                {formStep === 1 && (
+                  <div className="form-step-content">
+                    <h3 style={{textAlign:'center'}}>기본정보 입력</h3>
+                    <div className="form-field">
+                      <label>성함 <span className="req">*</span></label>
+                      <input
+                        type="text"
+                        placeholder="홍길동"
+                        value={formData.name}
+                        onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>이메일 <span className="req">*</span></label>
+                      <input
+                        type="email"
+                        placeholder="example@email.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>전화번호 <span className="req">*</span></label>
+                      <input
+                        type="tel"
+                        placeholder="010-0000-0000"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>목표반 <span className="req">*</span></label>
+                      <div className="form-radio-group">
+                        <label className={`form-radio-card ${formData.targetClass === 'IH' ? 'selected' : ''}`}>
+                          <input type="radio" name="targetClass" value="IH" checked={formData.targetClass === 'IH'} onChange={() => setFormData({...formData, targetClass: 'IH'})} />
+                          <div className="form-radio-inner">
+                            <strong>IH 목표반</strong>
+                            <span>Intermediate High 목표</span>
+                          </div>
+                        </label>
+                        <label className={`form-radio-card ${formData.targetClass === 'AL' ? 'selected' : ''}`}>
+                          <input type="radio" name="targetClass" value="AL" checked={formData.targetClass === 'AL'} onChange={() => setFormData({...formData, targetClass: 'AL'})} />
+                          <div className="form-radio-inner">
+                            <strong>AL 목표반</strong>
+                            <span>Advanced Low 목표</span>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                    {formError && <div className="form-error">{formError}</div>}
+                    <button
+                      className="form-btn-primary"
+                      onClick={() => {
+                        if (!formData.name || !formData.email || !formData.phone || !formData.targetClass) {
+                          setFormError('모든 항목을 입력해주세요.');
+                          return;
+                        }
+                        if (!/^\d{3}-\d{3,4}-\d{4}$/.test(formData.phone)) {
+                          setFormError('전화번호를 000-0000-0000 형식으로 입력해주세요.');
+                          return;
+                        }
+                        setFormError('');
+                        setFormStep(2);
+                      }}
+                    >
+                      다음 →
+                    </button>
+                  </div>
+                )}
+
+                {/* STEP 2: 플랜 선택 */}
+                {formStep === 2 && (
+                  <div className="form-step-content">
+                    <h3 style={{textAlign:'center'}}>플랜 선택</h3>
+
+                    {/* 플랜 카드 */}
+                    <div className="form-plan-cards">
+                      <label className={`form-plan-card ${formData.plan === 'standard' ? 'selected' : ''}`}>
+                        <input type="radio" name="plan" value="standard" checked={formData.plan === 'standard'} onChange={() => setFormData({...formData, plan: 'standard'})} />
+                        <div className="form-plan-inner">
+                          <div className="form-plan-name">일반 스터디</div>
+                          <div className="form-plan-price-row">
+                            <span className="form-plan-original">₩259,900</span>
+                            <span className="form-plan-price">₩{(currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()}</span>
+                          </div>
+                          {currentCycleState.isEarlyBird && (
+                            <div className="form-plan-earlybird-tag">얼리버드 특가</div>
+                          )}
+                          <div className="form-plan-desc">2주 집중 스터디 · 교재 포함</div>
+                          <ul className="form-plan-features">
+                            <li>14일 커리큘럼 + 교재</li>
+                            <li>1:3 소그룹 피드백 총 180분</li>
+                            <li>SpeakCoach AI Pro 11일 + Premium 3일</li>
+                            <li>매일 녹음과제 피드백</li>
+                          </ul>
+                        </div>
+                      </label>
+                      <label className={`form-plan-card bundle ${formData.plan === 'bundle' ? 'selected' : ''}`}>
+                        <input type="radio" name="plan" value="bundle" checked={formData.plan === 'bundle'} onChange={() => setFormData({...formData, plan: 'bundle'})} />
+                        <div className="form-plan-badge">추천</div>
+                        <div className="form-plan-inner">
+                          <div className="form-plan-name">번들 (스터디 + AI 3개월)</div>
+                          <div className="form-plan-price-row">
+                            <span className="form-plan-original">₩{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}</span>
+                            <span className="form-plan-price">₩{(currentCycleState.isEarlyBird ? 199900 : 229900).toLocaleString()}</span>
+                          </div>
+                          <div className="form-plan-save">
+                            개별 구매 대비 ₩39,000 절약
+                          </div>
+                          {currentCycleState.isEarlyBird && (
+                            <div className="form-plan-earlybird-tag">얼리버드 특가</div>
+                          )}
+                          <div className="form-plan-desc">스터디 + SpeakCoach AI Premium 3개월 이용권</div>
+                          <ul className="form-plan-features">
+                            <li>일반 스터디 혜택 전체 포함</li>
+                            <li>스터디 종료 후 SpeakCoach AI Premium 3개월</li>
+                            <li>수료 후에도 지속적인 스피킹 연습</li>
+                          </ul>
+                        </div>
+                      </label>
+                    </div>
+
+                    {/* 교재 보유 여부 */}
+                    <div className="form-option-box">
+                      <label className="form-checkbox-label">
+                        <input
+                          type="checkbox"
+                          checked={formData.hasBook}
+                          onChange={(e) => setFormData({...formData, hasBook: e.target.checked})}
+                        />
+                        <span>이미 교재를 구매했어요 <span style={{color:'#dc2626',fontSize:'13px',fontWeight:600}}>(-₩30,000)</span></span>
+                      </label>
+                    </div>
+
+                    {/* Premium 업그레이드 */}
+                    <div className="form-option-box highlight">
+                      <label className="form-checkbox-label">
+                        <input
+                          type="checkbox"
+                          checked={formData.premiumUpgrade}
+                          onChange={(e) => setFormData({...formData, premiumUpgrade: e.target.checked})}
+                        />
+                        <span>
+                          <strong>Premium 업그레이드</strong> <span style={{color:'var(--green)',fontWeight:600}}>(+₩15,000)</span>
+                          <br/>
+                          <span style={{fontSize:'13px',color:'#666'}}>스터디 2주 내내 SpeakCoach AI Premium 이용</span>
+                        </span>
+                      </label>
+                    </div>
+
+                    {/* 실시간 가격 계산 */}
+                    <div className="form-price-summary">
+                      <div className="form-price-row">
+                        <span>{formData.plan === 'bundle' ? '번들 (스터디 + AI 3개월)' : '스터디 수강료'}{currentCycleState.isEarlyBird ? ' (얼리버드)' : ''}</span>
+                        <span>₩{formData.plan === 'bundle'
+                          ? (currentCycleState.isEarlyBird ? 199900 : 229900).toLocaleString()
+                          : (currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()
+                        }</span>
+                      </div>
+                      {formData.hasBook && (
+                        <div className="form-price-row discount">
+                          <span>교재 보유 할인</span>
+                          <span>-₩30,000</span>
+                        </div>
+                      )}
+                      {formData.premiumUpgrade && (
+                        <div className="form-price-row">
+                          <span>Premium 업그레이드</span>
+                          <span>+₩15,000</span>
+                        </div>
+                      )}
+                      <div className="form-price-total">
+                        <span>총 결제 금액</span>
+                        <strong>₩{calcFormPrice().toLocaleString()}</strong>
+                      </div>
+                    </div>
+
+                    {currentCycleState.isEarlyBird && (
+                      <p className="form-earlybird-notice">
+                        얼리버드 할인이 적용된 가격입니다. 얼리버드 종료 후 정상가로 변경됩니다.
+                      </p>
+                    )}
+
+                    {formError && <div className="form-error">{formError}</div>}
+                    <div className="form-btn-row">
+                      <button className="form-btn-secondary" onClick={() => { setFormError(''); setFormStep(1); }}>← 이전</button>
+                      <button className="form-btn-primary" onClick={() => { setFormError(''); setFormStep(3); }}>다음 →</button>
+                    </div>
+                  </div>
+                )}
+
+                {/* STEP 3: 입금안내 */}
+                {formStep === 3 && (
+                  <div className="form-step-content">
+                    <h3 style={{textAlign:'center'}}>입금 안내</h3>
+
+                    {/* 선택 요약 */}
+                    <div className="form-selected-summary">
+                      <div className="form-selected-row">
+                        <span>선택 플랜</span>
+                        <strong>{formData.plan === 'bundle' ? '번들 (스터디 + AI 3개월)' : '일반 스터디'}</strong>
+                      </div>
+                      <div className="form-selected-row">
+                        <span>목표반</span>
+                        <strong>{formData.targetClass}목표반</strong>
+                      </div>
+                      {formData.premiumUpgrade && (
+                        <div className="form-selected-row">
+                          <span>Premium 업그레이드</span>
+                          <strong>포함</strong>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="form-deposit-box">
+                      <div className="form-deposit-amount">
+                        <span>입금하실 금액</span>
+                        <strong>₩{calcFormPrice().toLocaleString()}</strong>
+                      </div>
+                      <div className="form-deposit-info">
+                        <div className="form-deposit-row">
+                          <span>은행</span><strong>카카오뱅크</strong>
+                        </div>
+                        <div className="form-deposit-row">
+                          <span>계좌번호</span><strong>3333-06-0399628</strong>
+                        </div>
+                        <div className="form-deposit-row">
+                          <span>예금주</span><strong>안*영</strong>
+                        </div>
+                      </div>
+                      <button
+                        className="form-copy-btn"
+                        onClick={() => {
+                          navigator.clipboard.writeText('3333060399628');
+                          const btn = document.querySelector('.form-copy-btn');
+                          if (btn) { btn.textContent = '복사 완료!'; setTimeout(() => { btn.textContent = '계좌번호 복사하기'; }, 2000); }
+                        }}
+                      >
+                        계좌번호 복사하기
+                      </button>
+                    </div>
+
+                    <div className="form-option-box">
+                      <label className="form-checkbox-label">
+                        <input
+                          type="checkbox"
+                          checked={formData.depositConfirm}
+                          onChange={(e) => setFormData({...formData, depositConfirm: e.target.checked})}
+                        />
+                        <strong>입금을 완료했습니다</strong>
+                      </label>
+                      <p style={{fontSize:'12px',color:'#999',marginTop:'4px',marginLeft:'28px'}}>입금 반드시 먼저 하시고 체크해주세요!</p>
+                    </div>
+
+                    <div className="form-field">
+                      <label>환불계좌 <span className="req">*</span></label>
+                      <textarea
+                        placeholder="예금주 성함, 은행명, 계좌번호를&#10;정확하게 작성해주세요."
+                        value={formData.refundAccount}
+                        onChange={(e) => setFormData({...formData, refundAccount: e.target.value})}
+                        rows={3}
+                      />
+                    </div>
+
+                    <p className="form-note">
+                      * 인원이 부족해서 폐강되는 경우는, 스터디 시작전 개인적으로 연락드린 이후 교재비용을 제외한 나머지 금액을 환불 처리해드립니다.
+                    </p>
+
+                    {formError && <div className="form-error">{formError}</div>}
+                    <div className="form-btn-row">
+                      <button className="form-btn-secondary" onClick={() => { setFormError(''); setFormStep(2); }}>← 이전</button>
+                      <button
+                        className="form-btn-primary"
+                        disabled={formSubmitting}
+                        onClick={handleFormSubmit}
+                      >
+                        {formSubmitting ? '신청 중...' : '신청 완료하기'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
