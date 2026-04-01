@@ -1558,11 +1558,12 @@ export default function StudyPage() {
           background: rgba(0,0,0,0.6);
           z-index: 10000;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
-          padding: 20px;
+          padding: 24px 20px;
           backdrop-filter: blur(4px);
           overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
         }
         .form-modal-content {
           background: #fff;
@@ -1570,8 +1571,8 @@ export default function StudyPage() {
           max-width: 420px;
           width: 100%;
           position: relative;
-          overflow: hidden;
           animation: modalSlideUp 0.3s ease;
+          margin: auto 0;
         }
         .form-modal-wide {
           max-width: 560px;
@@ -1850,6 +1851,56 @@ export default function StudyPage() {
           left: 0;
           color: var(--green);
           font-weight: 700;
+        }
+
+        /* Target class guide */
+        .form-target-guide {
+          background: #F8FAFB;
+          border: 1px solid #E5E8EB;
+          border-radius: 10px;
+          padding: 14px 16px;
+          margin-top: 10px;
+          font-size: 13px;
+          line-height: 1.6;
+          color: #555;
+        }
+        .form-target-guide p {
+          margin: 0 0 6px;
+        }
+        .form-target-guide p:last-of-type {
+          margin-bottom: 8px;
+        }
+        .form-target-guide strong {
+          color: #191F28;
+        }
+        .form-target-tip {
+          color: var(--green) !important;
+          font-weight: 600;
+          font-size: 12px !important;
+          margin: 0 !important;
+          padding-top: 8px;
+          border-top: 1px solid #E5E8EB;
+        }
+
+        /* Upgrade detail */
+        .form-upgrade-detail {
+          margin-top: 8px;
+          margin-left: 28px;
+          font-size: 13px;
+          color: #555;
+          line-height: 1.5;
+        }
+        .form-upgrade-detail p {
+          margin: 4px 0 0;
+        }
+        .form-upgrade-value {
+          display: inline-block;
+          background: linear-gradient(135deg, #FF6B35, #FF3B5C);
+          color: #fff;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 4px;
         }
 
         /* Option boxes */
@@ -2319,11 +2370,11 @@ export default function StudyPage() {
           .pricing-section {
             padding: 28px 20px !important;
           }
+          .form-modal-overlay {
+            padding: 12px 10px;
+          }
           .form-modal-content.form-modal-wide {
-            margin: 10px;
             max-width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
           }
           .form-modal-body {
             padding: 24px 20px;
@@ -3190,16 +3241,21 @@ export default function StudyPage() {
                           <input type="radio" name="targetClass" value="IH" checked={formData.targetClass === 'IH'} onChange={() => setFormData({...formData, targetClass: 'IH'})} />
                           <div className="form-radio-inner">
                             <strong>IH 목표반</strong>
-                            <span>Intermediate High 목표</span>
+                            <span>OPIc 첫 도전 · 기초부터 탄탄히</span>
                           </div>
                         </label>
                         <label className={`form-radio-card ${formData.targetClass === 'AL' ? 'selected' : ''}`}>
                           <input type="radio" name="targetClass" value="AL" checked={formData.targetClass === 'AL'} onChange={() => setFormData({...formData, targetClass: 'AL'})} />
                           <div className="form-radio-inner">
                             <strong>AL 목표반</strong>
-                            <span>Advanced Low 목표</span>
+                            <span>현재 IM3 이상 · AL 집중 공략</span>
                           </div>
                         </label>
+                      </div>
+                      <div className="form-target-guide">
+                        <p><strong>IH 목표반</strong> — OPIc이 처음이거나, 영어 스피킹이 아직 어려운 분에게 추천합니다. 기초 템플릿부터 체계적으로 잡아드려요.</p>
+                        <p><strong>AL 목표반</strong> — 현재 IM3 이상이거나, 영어로 어느 정도 말할 수 있는 분에게 추천합니다. AL 전략에 집중해요.</p>
+                        <p className="form-target-tip">IH반을 선택해도 AL 취득이 충분히 가능합니다. 본인 현재 수준에 맞춰 선택해주세요!</p>
                       </div>
                     </div>
                     {formError && <div className="form-error">{formError}</div>}
@@ -3297,10 +3353,12 @@ export default function StudyPage() {
                         />
                         <span>
                           <strong>Premium 업그레이드</strong> <span style={{color:'var(--green)',fontWeight:600}}>(+₩15,000)</span>
-                          <br/>
-                          <span style={{fontSize:'13px',color:'#666'}}>스터디 2주 내내 SpeakCoach AI Premium 이용</span>
                         </span>
                       </label>
+                      <div className="form-upgrade-detail">
+                        <span className="form-upgrade-value">월 ₩41,900 가치 → 단돈 ₩15,000</span>
+                        <p>기본 제공: Pro 11일 + Premium 3일 → 업그레이드 시 <strong>14일 전체 Premium</strong>으로 변경. 발음 분석, AI 모의고사, 무제한 피드백까지 2주 내내 이용하세요.</p>
+                      </div>
                     </div>
 
                     {/* 실시간 가격 계산 */}
