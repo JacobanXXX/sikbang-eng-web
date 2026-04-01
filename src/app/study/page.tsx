@@ -204,7 +204,7 @@ export default function StudyPage() {
   };
 
   const openFormModal = () => {
-    openFormModal();
+    setShowFormModal(true);
     setFormStep(1);
     setFormSubmitted(false);
     setFormError('');
