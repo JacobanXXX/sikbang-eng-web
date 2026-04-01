@@ -129,6 +129,7 @@ export default function StudyPage() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formError, setFormError] = useState('');
+  const [bundleStock, setBundleStock] = useState(5);
 
   // Toast notifications state
   const [toasts, setToasts] = useState<Array<{ id: number; name: string; action: string; location: string; mins: number }>>([]);
@@ -203,11 +204,32 @@ export default function StudyPage() {
     }
   };
 
+  const bundleStockRef = useRef(5);
+  const bundleTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   const openFormModal = () => {
     setShowFormModal(true);
     setFormStep(1);
     setFormSubmitted(false);
     setFormError('');
+    // 번들 수량 초기화 (3~5 사이 랜덤)
+    const initStock = 3 + Math.floor(Math.random() * 3); // 3, 4, or 5
+    setBundleStock(initStock);
+    bundleStockRef.current = initStock;
+    // 기존 타이머 정리
+    if (bundleTimerRef.current) clearTimeout(bundleTimerRef.current);
+    // 랜덤 간격으로 수량 감소 (25~50초 간격)
+    const scheduleDecrease = () => {
+      const delay = 25000 + Math.random() * 25000;
+      bundleTimerRef.current = setTimeout(() => {
+        if (bundleStockRef.current > 1) {
+          bundleStockRef.current -= 1;
+          setBundleStock(bundleStockRef.current);
+          if (bundleStockRef.current > 1) scheduleDecrease();
+        }
+      }, delay);
+    };
+    scheduleDecrease();
   };
 
   const handleFormSubmit = async () => {
@@ -1803,6 +1825,52 @@ export default function StudyPage() {
           color: var(--green);
           margin-bottom: 4px;
         }
+        .form-plan-name-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+        }
+        .form-bundle-stock {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          background: #FEF2F2;
+          color: #dc2626;
+          font-size: 12px;
+          font-weight: 700;
+          padding: 3px 10px;
+          border-radius: 12px;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+        .form-bundle-stock.urgent {
+          background: #dc2626;
+          color: #fff;
+          animation: stockUrgentPulse 1s infinite;
+        }
+        @keyframes stockUrgentPulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+        }
+        .form-stock-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: currentColor;
+          animation: stockDotPulse 1.5s infinite;
+        }
+        @keyframes stockDotPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+        .form-stock-num {
+          animation: stockFadeIn 0.4s ease;
+        }
+        @keyframes stockFadeIn {
+          from { opacity: 0; transform: translateY(-6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
         .form-plan-price-row {
           display: flex;
           align-items: baseline;
@@ -3310,7 +3378,13 @@ export default function StudyPage() {
                         <input type="radio" name="plan" value="bundle" checked={formData.plan === 'bundle'} onChange={() => setFormData({...formData, plan: 'bundle'})} />
                         <div className="form-plan-badge">추천</div>
                         <div className="form-plan-inner">
-                          <div className="form-plan-name">번들 (스터디 + AI 3개월)</div>
+                          <div className="form-plan-name-row">
+                            <div className="form-plan-name">번들 (스터디 + AI 3개월)</div>
+                            <div className={`form-bundle-stock ${bundleStock <= 2 ? 'urgent' : ''}`}>
+                              <span className="form-stock-dot"></span>
+                              <span key={bundleStock} className="form-stock-num">{bundleStock}개 남음</span>
+                            </div>
+                          </div>
                           <div className="form-plan-price-row">
                             <span className="form-plan-original">₩{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}</span>
                             <span className="form-plan-price">₩{(currentCycleState.isEarlyBird ? 199900 : 229900).toLocaleString()}</span>
