@@ -3410,9 +3410,18 @@ export default function StudyPage() {
                       <label>전화번호 <span className="req">*</span></label>
                       <input
                         type="tel"
-                        placeholder="010-0000-0000"
+                        placeholder="01012345678"
                         value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                        onChange={(e) => {
+                          const nums = e.target.value.replace(/[^0-9]/g, '').slice(0, 11);
+                          let formatted = nums;
+                          if (nums.length > 3 && nums.length <= 7) {
+                            formatted = nums.slice(0, 3) + '-' + nums.slice(3);
+                          } else if (nums.length > 7) {
+                            formatted = nums.slice(0, 3) + '-' + nums.slice(3, 7) + '-' + nums.slice(7);
+                          }
+                          setFormData({...formData, phone: formatted});
+                        }}
                       />
                     </div>
                     <div className="form-field">
