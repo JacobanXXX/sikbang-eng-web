@@ -1898,6 +1898,119 @@ export default function StudyPage() {
           font-weight: 600;
           margin-bottom: 4px;
         }
+
+        /* Value Stack (Hormozi) */
+        .form-value-stack {
+          background: #FAFBFC;
+          border: 1px solid #E5E8EB;
+          border-radius: 10px;
+          padding: 14px;
+          margin: 10px 0;
+        }
+        .form-value-stack-title {
+          font-size: 12px;
+          font-weight: 700;
+          color: #888;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 8px;
+        }
+        .form-value-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 13px;
+          color: #333;
+          padding: 5px 0;
+        }
+        .form-value-item.bonus {
+          color: var(--green);
+          font-weight: 600;
+        }
+        .form-value-price {
+          text-decoration: line-through;
+          color: #999;
+          font-size: 12px;
+          white-space: nowrap;
+          margin-left: 8px;
+        }
+        .form-value-item.bonus .form-value-price {
+          text-decoration: none;
+          color: var(--green);
+        }
+        .form-value-total {
+          display: flex;
+          justify-content: space-between;
+          padding-top: 8px;
+          margin-top: 6px;
+          border-top: 1.5px dashed #ccc;
+          font-size: 14px;
+          font-weight: 700;
+          color: #999;
+        }
+        .form-value-total span:last-child {
+          text-decoration: line-through;
+        }
+
+        /* Bundle offer section */
+        .form-bundle-offer {
+          text-align: center;
+          padding: 12px 0 8px;
+        }
+        .form-bundle-offer-label {
+          font-size: 11px;
+          font-weight: 700;
+          color: #888;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          margin-bottom: 4px;
+        }
+        .form-bundle-offer .form-plan-price {
+          font-size: 28px;
+        }
+
+        /* Bundle why */
+        .form-bundle-why {
+          background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%);
+          border-radius: 8px;
+          padding: 10px 12px;
+          margin-top: 8px;
+        }
+        .form-bundle-why p {
+          font-size: 12px;
+          color: #15803d;
+          margin: 0;
+          line-height: 1.5;
+          font-weight: 500;
+        }
+
+        /* Bonus box */
+        .form-bonus-box {
+          background: linear-gradient(135deg, #FFFBEB 0%, #FFF 100%);
+          border: 1.5px solid #FCD34D;
+          border-radius: 12px;
+          padding: 14px 16px;
+          margin-bottom: 12px;
+        }
+        .form-bonus-title {
+          font-size: 13px;
+          font-weight: 700;
+          color: #92400E;
+          margin-bottom: 8px;
+        }
+        .form-bonus-item {
+          font-size: 12px;
+          color: #78350F;
+          padding: 3px 0 3px 18px;
+          position: relative;
+          line-height: 1.5;
+        }
+        .form-bonus-item::before {
+          content: '🎁';
+          position: absolute;
+          left: 0;
+          font-size: 11px;
+        }
         .form-plan-desc {
           font-size: 13px;
           color: #888;
@@ -3347,10 +3460,10 @@ export default function StudyPage() {
                   </div>
                 )}
 
-                {/* STEP 2: 플랜 선택 */}
+                {/* STEP 2: 플랜 선택 (Hormozi-style Value Stack) */}
                 {formStep === 2 && (
                   <div className="form-step-content">
-                    <h3 style={{textAlign:'center'}}>플랜 선택</h3>
+                    <h3 style={{textAlign:'center'}}>어떤 플랜이 맞으실까요?</h3>
 
                     {/* 플랜 카드 */}
                     <div className="form-plan-cards">
@@ -3376,7 +3489,7 @@ export default function StudyPage() {
                       </label>
                       <label className={`form-plan-card bundle ${formData.plan === 'bundle' ? 'selected' : ''}`}>
                         <input type="radio" name="plan" value="bundle" checked={formData.plan === 'bundle'} onChange={() => setFormData({...formData, plan: 'bundle'})} />
-                        <div className="form-plan-badge">추천</div>
+                        <div className="form-plan-badge">가장 많이 선택</div>
                         <div className="form-plan-inner">
                           <div className="form-plan-name-row">
                             <div className="form-plan-name">번들 (스터디 + AI 3개월)</div>
@@ -3385,25 +3498,58 @@ export default function StudyPage() {
                               <span key={bundleStock} className="form-stock-num">{bundleStock}개 남음</span>
                             </div>
                           </div>
-                          <div className="form-plan-price-row">
-                            <span className="form-plan-original">₩{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}</span>
-                            <span className="form-plan-price">₩{(currentCycleState.isEarlyBird ? 199900 : 229900).toLocaleString()}</span>
+
+                          {/* Value Stack */}
+                          <div className="form-value-stack">
+                            <div className="form-value-stack-title">이 번들에 포함된 가치</div>
+                            <div className="form-value-item">
+                              <span>2주 집중 스터디 (교재+피드백+모의고사)</span>
+                              <span className="form-value-price">₩{(currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()}</span>
+                            </div>
+                            <div className="form-value-item">
+                              <span>SpeakCoach AI Premium 3개월</span>
+                              <span className="form-value-price">₩89,000</span>
+                            </div>
+                            <div className="form-value-item bonus">
+                              <span>졸업 후 코칭 채팅 3개월 지원</span>
+                              <span className="form-value-price">무료</span>
+                            </div>
+                            <div className="form-value-total">
+                              <span>개별 구매 시 총합</span>
+                              <span>₩{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}</span>
+                            </div>
                           </div>
-                          <div className="form-plan-save">
-                            개별 구매 대비 ₩39,000 절약
+
+                          <div className="form-bundle-offer">
+                            <div className="form-bundle-offer-label">번들 특별가</div>
+                            <div className="form-plan-price-row" style={{justifyContent:'center'}}>
+                              <span className="form-plan-original">₩{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}</span>
+                              <span className="form-plan-price">₩{(currentCycleState.isEarlyBird ? 199900 : 229900).toLocaleString()}</span>
+                            </div>
+                            <div className="form-plan-save">
+                              ₩39,000 절약 — 하루 커피 한 잔 값으로 3개월 AI 코치
+                            </div>
+                            {currentCycleState.isEarlyBird && (
+                              <div className="form-plan-earlybird-tag">얼리버드 특가</div>
+                            )}
                           </div>
-                          {currentCycleState.isEarlyBird && (
-                            <div className="form-plan-earlybird-tag">얼리버드 특가</div>
-                          )}
-                          <div className="form-plan-desc">스터디 + SpeakCoach AI Premium 3개월 이용권</div>
-                          <ul className="form-plan-features">
-                            <li>일반 스터디 혜택 전체 포함</li>
-                            <li>스터디 종료 후 SpeakCoach AI Premium 3개월</li>
-                            <li>수료 후에도 지속적인 스피킹 연습</li>
-                          </ul>
+
+                          <div className="form-bundle-why">
+                            <p>스터디 2주는 습관을 만들고, AI 3개월이 실력을 완성합니다. 2주만으로 끝내기엔 OPIc은 꾸준한 연습이 필요합니다.</p>
+                          </div>
                         </div>
                       </label>
                     </div>
+
+                    {/* 번들 선택 시 보너스 표시 */}
+                    {formData.plan === 'bundle' && (
+                      <div className="form-bonus-box">
+                        <div className="form-bonus-title">번들 선택 시 추가 혜택</div>
+                        <div className="form-bonus-item">스터디 종료 직후 바로 Premium 연결 — 학습 공백 0일</div>
+                        <div className="form-bonus-item">3개월간 매일 AI 스피킹 연습 — 학원비 월 30만원 이상 절약</div>
+                        <div className="form-bonus-item">스터디에서 배운 템플릿을 AI로 반복 훈련 — 체화 완성</div>
+                      </div>
+                    )}
 
                     {/* 교재 보유 여부 */}
                     <div className="form-option-box">
@@ -3430,8 +3576,8 @@ export default function StudyPage() {
                         </span>
                       </label>
                       <div className="form-upgrade-detail">
-                        <span className="form-upgrade-value">월 ₩41,900 가치 → 단돈 ₩15,000</span>
-                        <p>기본 제공: Pro 11일 + Premium 3일 → 업그레이드 시 <strong>14일 전체 Premium</strong>으로 변경. 발음 분석, AI 모의고사, 무제한 피드백까지 2주 내내 이용하세요.</p>
+                        <span className="form-upgrade-value">64% 할인 — ₩41,900 → ₩15,000</span>
+                        <p>기본: Pro 11일 + Premium 3일 → <strong>14일 전체 Premium</strong>으로 업그레이드. 발음 교정, AI 모의고사, 무제한 피드백을 스터디 내내 쓰면 연습량이 2배로 늘어납니다.</p>
                       </div>
                     </div>
 
