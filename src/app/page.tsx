@@ -931,7 +931,7 @@ export default function Home() {
               fontSize: '13px',
               color: 'rgba(25,25,25,0.5)',
             }}>
-              현재 200+명이 함께하고 있어요
+              현재 770+명이 함께하고 있어요
             </p>
           </div>
           <div style={{ flex: '0 0 auto' }}>
