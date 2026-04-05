@@ -857,6 +857,115 @@ export default function Home() {
         </div>
       </section>
 
+      {/* KAKAO GROUP CHAT BANNER */}
+      <section style={{
+        padding: '56px 0',
+        background: 'linear-gradient(135deg, #FEE500 0%, #FFD43B 100%)',
+        position: 'relative' as const,
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          position: 'absolute' as const,
+          top: '-30px',
+          right: '-30px',
+          width: '200px',
+          height: '200px',
+          background: 'rgba(255,255,255,0.15)',
+          borderRadius: '50%',
+        }}></div>
+        <div style={{
+          position: 'absolute' as const,
+          bottom: '-20px',
+          left: '10%',
+          width: '120px',
+          height: '120px',
+          background: 'rgba(255,255,255,0.1)',
+          borderRadius: '50%',
+        }}></div>
+        <div className="container" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '32px',
+          flexWrap: 'wrap' as const,
+          position: 'relative' as const,
+          zIndex: 1,
+        }}>
+          <div style={{ flex: '1 1 400px' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'rgba(25,25,25,0.1)',
+              borderRadius: '20px',
+              padding: '6px 14px',
+              marginBottom: '14px',
+              fontSize: '13px',
+              fontWeight: 700,
+              color: '#191919',
+            }}>
+              <svg viewBox="0 0 256 256" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+                <path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919"/>
+              </svg>
+              카카오톡 오픈채팅
+            </div>
+            <h2 style={{
+              fontSize: '26px',
+              fontWeight: 800,
+              color: '#191919',
+              lineHeight: 1.4,
+              marginBottom: '10px',
+              letterSpacing: '-0.02em',
+            }}>
+              OPIC 준비생 단톡방에서<br/>함께 준비해요
+            </h2>
+            <p style={{
+              fontSize: '15px',
+              color: 'rgba(25,25,25,0.7)',
+              lineHeight: 1.6,
+              marginBottom: '4px',
+            }}>
+              스터디 정보, 시험 꿀팁, 학습 자료 공유까지 — 혼자 준비하지 마세요.
+            </p>
+            <p style={{
+              fontSize: '13px',
+              color: 'rgba(25,25,25,0.5)',
+            }}>
+              현재 200+명이 함께하고 있어요
+            </p>
+          </div>
+          <div style={{ flex: '0 0 auto' }}>
+            <a
+              href="https://open.kakao.com/o/g0jE5t8f"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '10px',
+                background: '#191919',
+                color: '#FEE500',
+                padding: '16px 32px',
+                borderRadius: '14px',
+                fontSize: '16px',
+                fontWeight: 700,
+                textDecoration: 'none',
+                boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                whiteSpace: 'nowrap' as const,
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(0,0,0,0.2)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)'; }}
+            >
+              <svg viewBox="0 0 256 256" width="22" height="22" xmlns="http://www.w3.org/2000/svg">
+                <path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#FEE500"/>
+              </svg>
+              단톡방 참여하기
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* CTA BOTTOM */}
       <section style={{ background: 'var(--blue-primary)', padding: '80px 0', textAlign: 'center' as const }}>
         <div className="container">
