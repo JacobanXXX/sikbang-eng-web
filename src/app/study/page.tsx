@@ -136,8 +136,8 @@ export default function StudyPage() {
 
   // Countdown + cycle state
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0, label: '', nextDate: '' });
-  const [currentCycleState, setCurrentCycleState] = useState<{ isEarlyBird: boolean; price: number; discount: number; autoSlots: number }>({
-    isEarlyBird: true, price: 149900, discount: 42, autoSlots: 40
+  const [currentCycleState, setCurrentCycleState] = useState<{ isEarlyBird: boolean; price: number; discount: number; autoSlots: number; earlyBirdEndStr: string }>({
+    isEarlyBird: true, price: 149900, discount: 42, autoSlots: 40, earlyBirdEndStr: ''
   });
 
   useEffect(() => {
@@ -151,7 +151,10 @@ export default function StudyPage() {
       const discount = getDiscountPercent(price);
       const autoSlots = getAutoRemainingSlots(now, cycle);
 
-      setCurrentCycleState({ isEarlyBird: earlyBird, price, discount, autoSlots });
+      const ebEnd = cycle.earlyBirdEnd;
+      const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+      const earlyBirdEndStr = `${ebEnd.getMonth() + 1}월 ${ebEnd.getDate()}일(${dayNames[ebEnd.getDay()]})`;
+      setCurrentCycleState({ isEarlyBird: earlyBird, price, discount, autoSlots, earlyBirdEndStr });
 
       const diff = cycle.recruitEnd.getTime() - now.getTime();
       if (diff <= 0) {
@@ -2600,7 +2603,7 @@ export default function StudyPage() {
           <div className="hero-top-group">
           <div className="hero-badge">
             <span className="dot"></span>
-            {countdown.nextDate} 시작 · {currentCycleState.isEarlyBird ? '얼리버드 모집 중' : '선착순 모집 중'}
+            {countdown.nextDate} 시작 · {currentCycleState.isEarlyBird ? `얼리버드 모집 중 (${currentCycleState.earlyBirdEndStr}까지)` : '선착순 모집 중'}
           </div>
           <div className="countdown-box">
             <div className="countdown-label">{countdown.label}</div>
@@ -2642,7 +2645,7 @@ export default function StudyPage() {
 
           {/* QUEUE COUNTER */}
           <div className="queue-box">
-            <div className="queue-label">🔥 선착순 40명 한정 {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontWeight:700}}>· 얼리버드 진행 중</span>}</div>
+            <div className="queue-label">선착순 40명 한정 {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontWeight:700}}>· 얼리버드 {currentCycleState.earlyBirdEndStr}까지</span>}</div>
             <div className="queue-progress-bar">
               <div className="queue-progress-fill" style={{ width: `${((totalSlots - remainingSlots) / totalSlots) * 100}%` }}></div>
             </div>
@@ -2988,7 +2991,7 @@ export default function StudyPage() {
             </div>
             <div className="pricing-original">₩259,900</div>
             <div className="pricing-price-main" style={{marginTop:'8px'}}>₩{currentCycleState.price.toLocaleString()}</div>
-            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'#FF6B35',fontWeight:600,marginTop:'4px'}}>얼리버드 종료 후 ₩179,900</div>}
+            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'#FF6B35',fontWeight:600,marginTop:'4px'}}>{currentCycleState.earlyBirdEndStr} 이후 ₩179,900</div>}
             <div className="pricing-desc">
               교재비 포함 · SpeakCoach AI · 1:3 피드백 총 180분 · 매일 녹음과제 피드백 · 비공개 모의고사 영상 포함
             </div>
@@ -3008,11 +3011,11 @@ export default function StudyPage() {
             <div className="pricing-earlybird">
               {currentCycleState.isEarlyBird ? (
                 <>
-                  ⏰ 얼리버드는 <strong>{countdown.nextDate}</strong> 기수 한정입니다. 종료 후 ₩179,900으로 변경돼요.
+                  얼리버드 마감: <strong>{currentCycleState.earlyBirdEndStr} 23:59</strong>까지 — 이후 ₩179,900으로 변경됩니다.
                 </>
               ) : (
                 <>
-                  🔥 {countdown.nextDate} 기수 마감 임박 — 지금 신청하면 <strong>{currentCycleState.discount}% 할인</strong>이 적용됩니다.
+                  {countdown.nextDate} 기수 마감 임박 — 지금 신청하면 <strong>{currentCycleState.discount}% 할인</strong>이 적용됩니다.
                 </>
               )}
             </div>
@@ -3619,7 +3622,7 @@ export default function StudyPage() {
 
                     {currentCycleState.isEarlyBird && (
                       <p className="form-earlybird-notice">
-                        얼리버드 할인이 적용된 가격입니다. 얼리버드 종료 후 정상가로 변경됩니다.
+                        얼리버드 할인이 적용된 가격입니다. {currentCycleState.earlyBirdEndStr} 23:59 이후 정상가로 변경됩니다.
                       </p>
                     )}
 
