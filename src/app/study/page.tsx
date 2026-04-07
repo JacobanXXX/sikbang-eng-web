@@ -2587,6 +2587,10 @@ export default function StudyPage() {
             <a href="#pricing">가격</a>
             <a href="#reviews">후기</a>
             <a href="#faq">FAQ</a>
+            <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" rel="noopener noreferrer" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'#FEE500',color:'#191919',padding:'6px 12px',borderRadius:'8px',fontWeight:700}}>
+              <svg viewBox="0 0 256 256" width="14" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919"/></svg>
+              단톡방
+            </a>
           </div>
           <button className="theme-toggle" onClick={toggleDarkMode} aria-label="다크모드 전환" style={{marginRight:'8px'}}>
             {darkMode ? '☀️' : '🌙'}
@@ -3288,13 +3292,16 @@ export default function StudyPage() {
           <div className="footer-inner">
             <div className="footer-links">
               <Link href="/">메인 홈</Link>
-              <a href="https://instagram.com/sikbang.eng" target="_blank" rel="noopener noreferrer">
-                인스타그램
-              </a>
-              <a href="https://blog.naver.com/lulu05" target="_blank" rel="noopener noreferrer">
-                블로그
-              </a>
-              <a href="mailto:lulu066666@gmail.com">문의하기</a>
+              <Link href="/free">무료 강의</Link>
+              <a href="https://blog.naver.com/lulu05/223353024018" target="_blank" rel="noopener noreferrer">전자책</a>
+              <a href="https://sikbang-eng.liveklass.com/" target="_blank" rel="noopener noreferrer">인강</a>
+              <a href="https://sikbang-eng.replit.app/" target="_blank" rel="noopener noreferrer">SpeakCoach AI</a>
+              <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" rel="noopener noreferrer">OPIC 단톡방</a>
+              <a href="http://pf.kakao.com/_SJYQn" target="_blank" rel="noopener noreferrer">카카오톡 1:1 문의</a>
+              <a href="https://instagram.com/sikbang.eng" target="_blank" rel="noopener noreferrer">인스타그램</a>
+              <a href="https://blog.naver.com/lulu05" target="_blank" rel="noopener noreferrer">블로그</a>
+              <Link href="/terms">이용약관</Link>
+              <Link href="/privacy">개인정보처리방침</Link>
             </div>
             <div className="business-info" style={{fontSize:'12px',color:'rgba(255,255,255,0.4)',textAlign:'center',lineHeight:'1.8'}}>
               <p style={{margin:0}}>식빵영어 | 대표: 안준영 | 사업자등록번호: 807-29-01639</p>
@@ -3353,18 +3360,53 @@ export default function StudyPage() {
             {formSubmitted ? (
               /* === 신청 완료 화면 === */
               <div className="form-modal-body" style={{textAlign:'center'}}>
-                <div style={{fontSize:'48px',marginBottom:'16px'}}>🎉</div>
-                <h3 style={{textAlign:'center'}}>신청이 완료되었습니다!</h3>
+                <div style={{
+                  width:'72px',
+                  height:'72px',
+                  borderRadius:'50%',
+                  background:'rgba(26,141,72,0.12)',
+                  display:'flex',
+                  alignItems:'center',
+                  justifyContent:'center',
+                  margin:'0 auto 20px',
+                }}>
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1A8D48" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <h3 style={{textAlign:'center'}}>신청이 완료되었습니다</h3>
                 <p style={{color:'#666',lineHeight:1.6,textAlign:'center'}}>
                   <strong>{formData.name}</strong>님, 스터디 신청 감사합니다.<br/>
-                  입금 확인 후 0~2일 이내 연락드리겠습니다.
+                  입금 확인 후 영업일 기준 1~2일 이내에<br/>카카오톡으로 연락드리겠습니다.
                 </p>
                 <div className="form-summary-box">
                   <div className="form-summary-row"><span>플랜</span><strong>{formData.plan === 'bundle' ? '번들 (스터디 + SpeakCoach 3개월)' : '일반 스터디'}</strong></div>
                   <div className="form-summary-row"><span>목표반</span><strong>{formData.targetClass}목표반</strong></div>
                   <div className="form-summary-row"><span>결제 금액</span><strong style={{color:'#1A8D48'}}>₩{calcFormPrice().toLocaleString()}</strong></div>
                 </div>
-                <button className="form-btn-primary" onClick={() => setShowFormModal(false)} style={{marginTop:'20px'}}>
+                <a
+                  href="https://open.kakao.com/o/g0jE5t8f"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display:'flex',
+                    alignItems:'center',
+                    justifyContent:'center',
+                    gap:'8px',
+                    marginTop:'20px',
+                    background:'#FEE500',
+                    color:'#191919',
+                    padding:'14px 20px',
+                    borderRadius:'12px',
+                    fontWeight:700,
+                    fontSize:'15px',
+                    textDecoration:'none',
+                  }}
+                >
+                  <svg viewBox="0 0 256 256" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919"/></svg>
+                  OPIC 준비생 단톡방 참여하기
+                </a>
+                <button className="form-btn-secondary" onClick={() => setShowFormModal(false)} style={{marginTop:'10px',width:'100%'}}>
                   확인
                 </button>
               </div>
@@ -3418,9 +3460,10 @@ export default function StudyPage() {
                       />
                     </div>
                     <div className="form-field">
-                      <label>전화번호 <span className="req">*</span></label>
+                      <label>전화번호 <span className="req">*</span> <span style={{fontSize:'12px',fontWeight:500,color:'#888'}}>(숫자만 입력하면 자동 입력됩니다)</span></label>
                       <input
                         type="tel"
+                        inputMode="numeric"
                         placeholder="01012345678"
                         value={formData.phone}
                         onChange={(e) => {

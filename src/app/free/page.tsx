@@ -946,7 +946,12 @@ export default function FreePage() {
           <div className="nav-links">
             <a href="/free" className="active">무료 강의</a>
             <Link href="/study">스터디</Link>
+            <a href="https://sikbang-eng.replit.app/" target="_blank" rel="noopener noreferrer">SpeakCoach AI</a>
             <Link href="/">메인</Link>
+            <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" rel="noopener noreferrer" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'#FEE500',color:'#191919',padding:'6px 12px',borderRadius:'8px',fontWeight:700}}>
+              <svg viewBox="0 0 256 256" width="14" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919"/></svg>
+              단톡방
+            </a>
           </div>
           <button className="theme-toggle" onClick={toggleDarkMode} aria-label="다크모드 전환">
             {darkMode ? '☀️' : '🌙'}
@@ -960,8 +965,11 @@ export default function FreePage() {
       {/* MOBILE MENU */}
       <div className={`mobile-menu ${isMobileMenuOpen ? 'show' : ''}`}>
         <a href="/free" className="active" onClick={closeMobileMenu}>무료 강의</a>
-        <Link href="/study" onClick={closeMobileMenu}>스터디</Link>
+        <Link href="/study" onClick={closeMobileMenu}>2주 스터디</Link>
+        <a href="https://sikbang-eng.replit.app/" target="_blank" onClick={closeMobileMenu}>SpeakCoach AI</a>
         <Link href="/" onClick={closeMobileMenu}>메인</Link>
+        <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" onClick={closeMobileMenu}>OPIC 단톡방 참여</a>
+        <a href="http://pf.kakao.com/_SJYQn" target="_blank" onClick={closeMobileMenu}>카카오톡 1:1 문의</a>
       </div>
 
       {/* HERO */}
@@ -973,6 +981,12 @@ export default function FreePage() {
           <div style={{marginTop:'24px',display:'flex',gap:'12px',justifyContent:'center',flexWrap:'wrap'}}>
             <a href="#lectures" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'var(--blue-primary)',color:'white',padding:'12px 24px',borderRadius:'12px',fontWeight:700,fontSize:'15px',textDecoration:'none',transition:'all 0.2s'}}>무료 강의 바로 보기 ↓</a>
             <a href="/study" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'white',color:'var(--text-primary)',padding:'12px 24px',borderRadius:'12px',fontWeight:600,fontSize:'15px',textDecoration:'none',border:'1px solid #e5e7eb',transition:'all 0.2s'}}>2주 스터디 알아보기</a>
+          </div>
+          <div style={{marginTop:'18px'}}>
+            <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" rel="noopener noreferrer" style={{display:'inline-flex',alignItems:'center',gap:'8px',background:'#FEE500',color:'#191919',padding:'10px 18px',borderRadius:'999px',fontSize:'14px',fontWeight:700,textDecoration:'none',border:'1px solid rgba(0,0,0,0.05)'}}>
+              <svg viewBox="0 0 256 256" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919"/></svg>
+              OPIC 준비생 단톡방 (770+명) 참여하기
+            </a>
           </div>
         </div>
       </section>
@@ -1216,7 +1230,8 @@ export default function FreePage() {
             </div>
             <div className="footer-col">
               <h4>고객지원</h4>
-              <a href="http://pf.kakao.com/_SJYQn" target="_blank">카카오톡 문의</a>
+              <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank">OPIC 단톡방 참여</a>
+              <a href="http://pf.kakao.com/_SJYQn" target="_blank">카카오톡 1:1 문의</a>
               <a href="mailto:lulu066666@gmail.com">이메일 문의</a>
             </div>
             <div className="footer-col">
