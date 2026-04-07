@@ -401,26 +401,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* SpeakCoach AI */}
-            <div className="product-card">
-              <div className="product-card-image" style={{background:'linear-gradient(135deg, #E8F0FF 0%, #D4E4FF 100%)'}}>
-                <span className="product-badge" style={{background:'#3182F6',color:'white'}}>FREE TRIAL</span>
-                <span style={{ fontSize: '16px', fontWeight: '700', color: '#3182F6', letterSpacing: '-0.02em' }}>AI SPEAKING COACH</span>
-              </div>
-              <div className="product-card-body">
-                <div className="category">AI 스피킹 코치</div>
-                <h3>SpeakCoach AI</h3>
-                <div className="desc">녹음 한 번으로 OPIC 예상 등급 + 7개 카테고리 정밀 분석. 7일 무료 체험 후 월 24,900원부터.</div>
-                <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
-                  <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>
-                    <span className="current">0</span>
-                    <span className="unit">원 · 7일 무료</span>
-                  </div>
-                  <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-buy" style={{width:'100%', textAlign:'center', padding:'12px 20px'}}>무료 체험하기</a>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </section>
