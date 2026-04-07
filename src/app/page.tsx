@@ -183,7 +183,8 @@ export default function Home() {
         <a href="#speakcoach" onClick={closeMobileMenu}>SpeakCoach AI</a>
         <a href="#reviews" onClick={closeMobileMenu}>후기</a>
         <a href="/study" onClick={closeMobileMenu}>2주 스터디</a>
-        <a href="http://pf.kakao.com/_SJYQn" target="_blank" onClick={closeMobileMenu}>카카오톡 문의</a>
+        <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" onClick={closeMobileMenu}>OPIC 단톡방 참여</a>
+        <a href="http://pf.kakao.com/_SJYQn" target="_blank" onClick={closeMobileMenu}>카카오톡 1:1 문의</a>
         <a href="https://sikbang-eng.replit.app/" target="_blank" className="mobile-cta" onClick={closeMobileMenu}>무료 스피킹 테스트 →</a>
       </div>
 
@@ -205,6 +206,31 @@ export default function Home() {
             </a>
             <a href="/free" className="btn-secondary">
               무료 강의 20개 보기
+            </a>
+          </div>
+          <div className="animate delay-3" style={{marginTop:'18px'}}>
+            <a
+              href="https://open.kakao.com/o/g0jE5t8f"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display:'inline-flex',
+                alignItems:'center',
+                gap:'8px',
+                background:'#FEE500',
+                color:'#191919',
+                padding:'10px 18px',
+                borderRadius:'999px',
+                fontSize:'14px',
+                fontWeight:700,
+                textDecoration:'none',
+                border:'1px solid rgba(0,0,0,0.05)',
+              }}
+            >
+              <svg viewBox="0 0 256 256" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                <path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919"/>
+              </svg>
+              OPIC 준비생 단톡방 (770+명) 참여하기
             </a>
           </div>
           <div className="hero-stats animate delay-4">
@@ -375,6 +401,26 @@ export default function Home() {
               </div>
             </div>
 
+            {/* SpeakCoach AI */}
+            <div className="product-card">
+              <div className="product-card-image" style={{background:'linear-gradient(135deg, #E8F0FF 0%, #D4E4FF 100%)'}}>
+                <span className="product-badge" style={{background:'#3182F6',color:'white'}}>FREE TRIAL</span>
+                <span style={{ fontSize: '16px', fontWeight: '700', color: '#3182F6', letterSpacing: '-0.02em' }}>AI SPEAKING COACH</span>
+              </div>
+              <div className="product-card-body">
+                <div className="category">AI 스피킹 코치</div>
+                <h3>SpeakCoach AI</h3>
+                <div className="desc">녹음 한 번으로 OPIC 예상 등급 + 7개 카테고리 정밀 분석. 7일 무료 체험 후 월 24,900원부터.</div>
+                <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
+                  <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>
+                    <span className="current">0</span>
+                    <span className="unit">원 · 7일 무료</span>
+                  </div>
+                  <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-buy" style={{width:'100%', textAlign:'center', padding:'12px 20px'}}>무료 체험하기</a>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -502,7 +548,7 @@ export default function Home() {
               <div className="plan-name">프로 패키지</div>
               <div className="plan-original">31,900원</div>
               <div className="plan-price">24,900<span className="won">원</span></div>
-              <div className="plan-sub">월 단 커피 4~5잔 값 · 3개월 구독 시 63,500원</div>
+              <div className="plan-sub">3개월 구독 시 63,500원 <span style={{color:'#FF6B35',fontWeight:700}}>(₩11,200 절약)</span></div>
               <ul className="plan-features">
                 <li>무제한 연습</li>
                 <li>500개 이상 OPIC 문제</li>
@@ -517,7 +563,7 @@ export default function Home() {
               <div className="plan-name">프리미엄 패키지</div>
               <div className="plan-original">41,900원</div>
               <div className="plan-price">34,900<span className="won">원</span></div>
-              <div className="plan-sub">하루 약 1,163원으로 AL 달성 · 3개월 89,000원</div>
+              <div className="plan-sub">3개월 구독 시 89,000원 <span style={{color:'#FF6B35',fontWeight:700}}>(₩15,700 절약)</span></div>
               <ul className="plan-features">
                 <li>프로 모든 기능 포함</li>
                 <li>실전 모의고사 10세트</li>
@@ -538,6 +584,23 @@ export default function Home() {
             <div className="overline">Reviews</div>
             <h2>4,000명이 먼저 경험했습니다</h2>
             <p>전자책, 인강, 스터디 수강생들의 실제 후기.</p>
+            <div style={{
+              display:'inline-flex',
+              alignItems:'center',
+              gap:'12px',
+              marginTop:'18px',
+              padding:'10px 18px',
+              background:'#FFF8E1',
+              border:'1px solid #FFE082',
+              borderRadius:'999px',
+              fontSize:'14px',
+              fontWeight:700,
+              color:'#5D4037',
+            }}>
+              <span style={{color:'#FFA000',fontSize:'16px',letterSpacing:'2px'}}>★★★★★</span>
+              <span>5.0 / 5.0</span>
+              <span style={{color:'#8B95A1',fontWeight:600}}>· 라이브클래스 인강 수강 후기 250+건</span>
+            </div>
           </div>
           <div className="reviews-wrapper">
             <div className="reviews-scroll">
@@ -739,7 +802,7 @@ export default function Home() {
             </div>
           </div>
           <div className="reviews-count-badge">
-            <span>누적 수강생 4,000+ · 실제 후기 1,000+ (liveclass 인증)</span>
+            <span>누적 수강생 4,000+ · 실제 후기 1,000+ (라이브클래스 인증)</span>
           </div>
         </div>
       </section>
@@ -806,7 +869,7 @@ export default function Home() {
             const info = {
               study: { name: '2주 집중 스터디', desc: '시간이 촉박하고 확실한 성과가 필요하다면, 코치와 팀원이 함께하는 2주 스터디가 가장 효과적이에요.', link: '/study', btn: '스터디 자세히 보기', color: '#1A8D48' },
               course: { name: 'OPIC 완전정복 인강', desc: '체계적인 영상 강의로 내 페이스에 맞게 학습하고 싶다면, 인강 패키지를 추천합니다.', link: 'https://sikbang-eng.liveklass.com/', btn: '인강 자세히 보기', color: '#7C5CFC' },
-              ebook: { name: 'OPIC 전자책 + 기출 번들', desc: '기초부터 독학으로 차근차근 준비하고 싶다면, 전자책으로 시작해보세요.', link: 'https://blog.naver.com/sikbang_eng', btn: '전자책 보러가기', color: '#3182F6' }
+              ebook: { name: 'OPIC 전자책 + 기출 번들', desc: '기초부터 독학으로 차근차근 준비하고 싶다면, 전자책으로 시작해보세요.', link: 'https://blog.naver.com/lulu05/223353024018', btn: '전자책 보러가기', color: '#3182F6' }
             }[rec];
             return (
               <div style={{background:'white',borderRadius:'16px',padding:'32px 24px',border:'1px solid #e5e7eb'}}>
@@ -931,7 +994,7 @@ export default function Home() {
               fontSize: '13px',
               color: 'rgba(25,25,25,0.5)',
             }}>
-              현재 770+명이 함께하고 있어요
+              누적 수강생 4,000+명 중 770+명이 활동 중
             </p>
           </div>
           <div style={{ flex: '0 0 auto' }}>
@@ -994,7 +1057,8 @@ export default function Home() {
             <div className="footer-col">
               <h4>고객지원</h4>
               <a href="#faq">자주 묻는 질문</a>
-              <a href="http://pf.kakao.com/_SJYQn" target="_blank">카카오톡 문의</a>
+              <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank">OPIC 단톡방 참여</a>
+              <a href="http://pf.kakao.com/_SJYQn" target="_blank">카카오톡 1:1 문의</a>
               <a href="mailto:lulu066666@gmail.com">이메일 문의</a>
             </div>
             <div className="footer-col">
