@@ -30,13 +30,19 @@ export default function AdminPage() {
   const [message, setMessage] = useState('');
 
   const login = async () => {
+    if (!password) { setMessage('비밀번호를 입력해주세요.'); return; }
+    setMessage('로그인 중...');
     try {
       const res = await fetch('/api/admin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password, action: 'read', type: 'lectures' }),
       });
-      if (!res.ok) { setMessage('비밀번호가 틀렸습니다.'); return; }
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: '로그인 실패' }));
+        setMessage(err.error || '비밀번호가 틀렸습니다.');
+        return;
+      }
       const lectureData = await res.json();
       setLectures(lectureData);
 
@@ -45,13 +51,18 @@ export default function AdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password, action: 'read', type: 'resources' }),
       });
+      if (!res2.ok) {
+        const err = await res2.json().catch(() => ({ error: '자료 불러오기 실패' }));
+        setMessage(err.error || '자료 불러오기 실패');
+        return;
+      }
       const resourceData = await res2.json();
       setResources(resourceData);
 
       setIsLoggedIn(true);
       setMessage('');
-    } catch {
-      setMessage('로그인 실패');
+    } catch (e) {
+      setMessage(e instanceof Error ? `로그인 실패: ${e.message}` : '로그인 실패');
     }
   };
 
@@ -65,11 +76,14 @@ export default function AdminPage() {
         body: JSON.stringify({ password, action: 'write', type, data }),
       });
       if (res.ok) {
-        setMessage(`${type === 'lectures' ? '강의' : '자료'} 저장 완료!`);
-        setTimeout(() => setMessage(''), 3000);
+        setMessage(`${type === 'lectures' ? '강의' : '자료'} 저장 완료! (1~2분 후 사이트 반영)`);
+        setTimeout(() => setMessage(''), 5000);
+      } else {
+        const err = await res.json().catch(() => ({ error: '저장 실패' }));
+        setMessage(err.error || '저장 실패');
       }
-    } catch {
-      setMessage('저장 실패');
+    } catch (e) {
+      setMessage(e instanceof Error ? `저장 실패: ${e.message}` : '저장 실패');
     }
     setSaving(false);
   };
