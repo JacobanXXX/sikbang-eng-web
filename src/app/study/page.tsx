@@ -82,7 +82,9 @@ function getDiscountPercent(price: number): number {
   return Math.round((1 - price / 259900) * 100);
 }
 
-// 남은 인원 자동 계산 (모집 기간 진행률 기반, 시드 기반 일별 변동)
+// 남은 인원 자동 계산 (파워 커브 - 초반 급감, 후반 완만)
+// 공식: remaining = 2 + 38 * (1 - progress)^2.5
+// 오픈 직후 40명 → 마감 시 2명 (최소 2명 보장)
 function getAutoRemainingSlots(now: Date, cycle: StudyCycle): number {
   const totalDuration = cycle.recruitEnd.getTime() - cycle.recruitStart.getTime();
   if (totalDuration <= 0) return 40;
@@ -98,9 +100,12 @@ function getAutoRemainingSlots(now: Date, cycle: StudyCycle): number {
   }
   const dailyVariation = (Math.abs(hash) % 3) - 1; // -1, 0, 1
 
-  // 40명에서 시작 → 마감 직전 3~5명
-  const baseRemaining = Math.round(40 - (progress * 36));
-  return Math.max(3, Math.min(40, baseRemaining + dailyVariation));
+  // 파워 커브: 초반 빠르게, 후반 완만하게 감소
+  const curveFactor = Math.pow(1 - progress, 2.5);
+  const baseRemaining = Math.round(2 + 38 * curveFactor);
+
+  // 최소 2명 보장
+  return Math.max(2, Math.min(40, baseRemaining + dailyVariation));
 }
 
 export default function StudyPage() {
