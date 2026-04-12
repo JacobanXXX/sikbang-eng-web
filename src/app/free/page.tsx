@@ -25,6 +25,7 @@ const TAG_COLORS: Record<string, string> = {
   '중급': '#6B4EFF',
   '실전': '#FF6B35',
   '표현': '#E5533D',
+  '인사이트': '#1A8D48',
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -1015,7 +1016,8 @@ export default function FreePage() {
           )}
           <div className="lecture-grid">
             {lectures.slice(0, lecturePage * lecturesPerPage).map((lecture) => {
-              const hasVideo = lecture.youtubeId || lecture.youtubeUrl;
+              const isArticle = !lecture.youtubeId && lecture.youtubeUrl && !lecture.youtubeUrl.includes('youtube') && !lecture.youtubeUrl.includes('youtu.be');
+              const hasLink = lecture.youtubeId || lecture.youtubeUrl;
               const thumbnailUrl = lecture.youtubeId
                 ? `https://img.youtube.com/vi/${lecture.youtubeId}/mqdefault.jpg`
                 : '';
@@ -1026,10 +1028,15 @@ export default function FreePage() {
                   <div className="lecture-thumbnail">
                     {thumbnailUrl ? (
                       <img src={thumbnailUrl} alt={lecture.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : isArticle ? (
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, #E8F3FF 0%, #F0F7FF 100%)' }}>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3182F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                        <span style={{ fontSize: '12px', color: '#3182F6', fontWeight: 600, marginTop: '6px' }}>글 읽기</span>
+                      </div>
                     ) : (
                       <span>COMING SOON</span>
                     )}
-                    {hasVideo && (
+                    {hasLink && !isArticle && (
                       <div className="play-btn">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21" /></svg>
                       </div>
@@ -1045,9 +1052,9 @@ export default function FreePage() {
                 </>
               );
 
-              return hasVideo ? (
+              return hasLink ? (
                 <a key={lecture.id} href={videoLink} target="_blank" rel="noopener noreferrer" className="lecture-card" style={{ textDecoration: 'none', color: 'inherit', position:'relative' }} onClick={() => markWatched(lecture.id)}>
-                  {watchedLectures.has(lecture.id) && <div style={{position:'absolute',top:'8px',right:'8px',background:'#1A8D48',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 8px',borderRadius:'10px',zIndex:2}}>✓ 시청 완료</div>}
+                  {watchedLectures.has(lecture.id) && <div style={{position:'absolute',top:'8px',right:'8px',background:'#1A8D48',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 8px',borderRadius:'10px',zIndex:2}}>{isArticle ? '✓ 읽기 완료' : '✓ 시청 완료'}</div>}
                   {cardContent}
                 </a>
               ) : (
