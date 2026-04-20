@@ -165,6 +165,7 @@ export default function Home() {
             <a href="#speakcoach">SpeakCoach AI</a>
             <a href="#reviews">후기</a>
             <a href="/study">스터디</a>
+            <a href="/conversation">영어 회화</a>
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="nav-cta">무료 체험하기</a>
           </div>
           <button className="theme-toggle" onClick={toggleDarkMode} aria-label="다크모드 전환">
@@ -183,6 +184,7 @@ export default function Home() {
         <a href="#speakcoach" onClick={closeMobileMenu}>SpeakCoach AI</a>
         <a href="#reviews" onClick={closeMobileMenu}>후기</a>
         <a href="/study" onClick={closeMobileMenu}>2주 스터디</a>
+        <a href="/conversation" onClick={closeMobileMenu}>1:1 영어 회화</a>
         <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" onClick={closeMobileMenu}>OPIC 단톡방 참여</a>
         <a href="http://pf.kakao.com/_SJYQn" target="_blank" onClick={closeMobileMenu}>카카오톡 1:1 문의</a>
         <a href="https://sikbang-eng.replit.app/" target="_blank" className="mobile-cta" onClick={closeMobileMenu}>무료 스피킹 테스트 →</a>
