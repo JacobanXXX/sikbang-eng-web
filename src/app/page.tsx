@@ -390,7 +390,7 @@ export default function Home() {
               <div className="product-card-body">
                 <div className="category">2주 스터디</div>
                 <h3>2주 집중 OPIC 스터디</h3>
-                <div className="desc">매일 녹음 → 코치 직접 교정 → AI 분석. 수료생 94%가 목표 등급 달성. 2주 올인원.</div>
+                <div className="desc">매일 녹음 → 코치 직접 교정 → AI 분석. 수료생 94% 목표 달성. 학원 1달 과정을 2주에 끝내세요.</div>
                 <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
                   <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>
                     <span className="original">259,900원</span>

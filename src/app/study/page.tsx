@@ -2689,8 +2689,8 @@ export default function StudyPage() {
           <div className="why-grid">
             <div className="why-card">
               <div className="why-icon green">2W</div>
-              <h3>14일, 딱 필요한 것만</h3>
-              <p>출제되지 않는 건 다루지 않습니다. 최근 3년간 OPIC 기출 패턴만 역설계한 14일 집중 커리큘럼으로, 최단 기간에 목표 등급을 달성합니다.</p>
+              <h3>학원 4주 → 우리는 2주</h3>
+              <p>학원에서 1달 걸리는 과정을 구조화된 시스템으로 2주에 끝냅니다. 출제되지 않는 건 다루지 않고, 기출 패턴만 역설계한 커리큘럼이니까요. 시간을 절반으로 아껴드립니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon blue">AI</div>
@@ -2874,8 +2874,8 @@ export default function StudyPage() {
       <section className="section" id="daily">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">하루 흐름</div>
-            <p className="section-desc">매일 반복되는 루틴으로 OPIC 성적을 빠르게 올립니다.</p>
+            <div className="section-title">하루 딱 이것만 하세요</div>
+            <p className="section-desc">매일 1개 미션. 뭘 해야 하는지 고민할 필요 없어요. 코치와 AI가 나머지를 해줍니다.</p>
           </div>
           <div className="why-grid" style={{ marginTop: '56px' }}>
             <div className="why-card">
