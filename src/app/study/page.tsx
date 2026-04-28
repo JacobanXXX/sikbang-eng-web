@@ -541,7 +541,7 @@ export default function StudyPage() {
           --bg-white: #FFFFFF;
           --bg-gray: #F2F4F6;
           --border: #E5E8EB;
-          --card-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06);
+          --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.06);
           --green: #1A8D48;
           --green-light: #E8FFF0;
           --red: #E74C3C;
@@ -617,7 +617,7 @@ export default function StudyPage() {
           box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
         .countdown-unit-label {
-          font-size: 11px;
+          font-size: 12px;
           color: var(--text-tertiary);
           font-weight: 600;
         }
@@ -798,7 +798,7 @@ export default function StudyPage() {
         }
         .queue-progress-fill {
           height: 100%;
-          background: linear-gradient(90deg, #3366FF, #FF3B5C);
+          background: var(--green);
           border-radius: 4px;
           transition: width 1s ease;
         }
@@ -903,11 +903,11 @@ export default function StudyPage() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          box-shadow: 0 4px 16px rgba(26, 141, 72, 0.3);
+          box-shadow: 0 2px 8px rgba(26, 141, 72, 0.15);
         }
         .btn-primary:hover {
           background: #1A8D48;
-          box-shadow: 0 8px 24px rgba(26, 141, 72, 0.4);
+          box-shadow: 0 4px 12px rgba(26, 141, 72, 0.2);
           transform: translateY(-2px);
         }
         .btn-secondary {
@@ -964,7 +964,7 @@ export default function StudyPage() {
         }
         .why-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
         .why-icon {
           font-size: 48px;
@@ -1083,7 +1083,7 @@ export default function StudyPage() {
           margin-bottom: 16px;
         }
         .pricing-original {
-          font-size: 22px;
+          font-size: 24px;
           color: #999;
           text-decoration: line-through;
           font-weight: 500;
@@ -1164,18 +1164,18 @@ export default function StudyPage() {
         }
         .pricing-btn:hover {
           background: #1A8D48;
-          box-shadow: 0 8px 24px rgba(26, 141, 72, 0.3);
+          box-shadow: 0 4px 12px rgba(26, 141, 72, 0.2);
         }
         .pricing-addon {
           width: 100%;
-          background: #f8faf9;
+          background: var(--bg-gray);
           border: 1.5px solid #e2e8f0;
           padding: 20px;
           border-radius: 12px;
           margin-top: 16px;
         }
         .pricing-addon.green {
-          background: #f8faf9;
+          background: var(--bg-gray);
           border-color: #e2e8f0;
         }
         .pricing-addon h4 {
@@ -1211,7 +1211,7 @@ export default function StudyPage() {
         }
         .rule-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
         .rule-num {
           font-size: 32px;
@@ -1253,7 +1253,7 @@ export default function StudyPage() {
         }
         .review-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
         .review-stars {
           font-size: 14px;
@@ -1354,7 +1354,7 @@ export default function StudyPage() {
         }
         .photo-review-item:hover {
           transform: scale(1.03);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+          box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
         .photo-review-item img {
           width: 100%;
@@ -1367,7 +1367,7 @@ export default function StudyPage() {
           color: white;
           padding: 2px 8px;
           border-radius: 4px;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
         }
         .review-info {
@@ -1444,30 +1444,30 @@ export default function StudyPage() {
 
         /* FAQ important */
         .faq-important {
-          border: 2px solid #dc2626;
-          background: #FFF5F5;
+          border: 1px solid var(--border);
+          background: white;
         }
         .faq-important .faq-question {
-          background: #FFF5F5;
+          background: white;
         }
         .faq-important .faq-question:hover {
-          background: #FEE2E2;
+          background: var(--bg-gray);
         }
         .faq-important.open {
-          border-color: #dc2626;
-          box-shadow: 0 4px 16px rgba(220, 38, 38, 0.12);
+          border-color: var(--border);
+          box-shadow: var(--card-shadow);
         }
         .faq-important .faq-icon {
-          color: #dc2626;
+          color: var(--text-tertiary);
         }
         .faq-important .faq-answer {
-          background: #FFF5F5;
+          background: white;
         }
         .faq-badge {
           display: inline-block;
           background: #dc2626;
           color: white;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
           padding: 2px 8px;
           border-radius: 4px;
@@ -1477,7 +1477,7 @@ export default function StudyPage() {
 
         /* === CTA BANNER === */
         .cta-banner {
-          background: linear-gradient(135deg, var(--green) 0%, #0e6a38 100%);
+          background: var(--green);
           color: white;
           padding: 60px 0;
           text-align: center;
@@ -1672,17 +1672,12 @@ export default function StudyPage() {
           border-radius: 20px;
         }
         .form-earlybird-badge {
-          background: linear-gradient(135deg, #FF6B35, #FF3B5C);
+          background: var(--green);
           color: #fff;
           font-size: 12px;
           font-weight: 700;
           padding: 5px 12px;
           border-radius: 20px;
-          animation: pulseGlow 2s infinite;
-        }
-        @keyframes pulseGlow {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,53,0.3); }
-          50% { box-shadow: 0 0 0 6px rgba(255,107,53,0); }
         }
         .form-regular-badge {
           background: var(--green);
@@ -1766,7 +1761,7 @@ export default function StudyPage() {
           transition: border-color 0.2s;
           outline: none;
           color: #191F28;
-          background: #FAFBFC;
+          background: var(--bg-gray);
           box-sizing: border-box;
           font-family: inherit;
         }
@@ -1840,11 +1835,11 @@ export default function StudyPage() {
         }
         .form-plan-card.bundle {
           border-color: #dbeafe;
-          background: linear-gradient(135deg, #f8fbff 0%, #fff 100%);
+          background: var(--bg-gray);
         }
         .form-plan-card.bundle.selected {
           border-color: var(--green);
-          background: linear-gradient(135deg, #f0fdf4 0%, #fff 100%);
+          background: rgba(26,141,72,0.04);
         }
         .form-plan-card input { display: none; }
         .form-plan-badge {
@@ -1852,7 +1847,7 @@ export default function StudyPage() {
           top: 0; right: 0;
           background: var(--green);
           color: #fff;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
           padding: 4px 14px;
           border-radius: 0 12px 0 10px;
@@ -1891,29 +1886,12 @@ export default function StudyPage() {
         .form-bundle-stock.urgent {
           background: #dc2626;
           color: #fff;
-          animation: stockUrgentPulse 1s infinite;
-        }
-        @keyframes stockUrgentPulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
         }
         .form-stock-dot {
           width: 6px;
           height: 6px;
           border-radius: 50%;
           background: currentColor;
-          animation: stockDotPulse 1.5s infinite;
-        }
-        @keyframes stockDotPulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-        .form-stock-num {
-          animation: stockFadeIn 0.4s ease;
-        }
-        @keyframes stockFadeIn {
-          from { opacity: 0; transform: translateY(-6px); }
-          to { opacity: 1; transform: translateY(0); }
         }
         .form-plan-price-row {
           display: flex;
@@ -1928,9 +1906,9 @@ export default function StudyPage() {
         }
         .form-plan-earlybird-tag {
           display: inline-block;
-          background: linear-gradient(135deg, #FF6B35, #FF3B5C);
+          background: var(--green);
           color: #fff;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
           padding: 2px 8px;
           border-radius: 4px;
@@ -1945,7 +1923,7 @@ export default function StudyPage() {
 
         /* Value Stack (Hormozi) */
         .form-value-stack {
-          background: #FAFBFC;
+          background: var(--bg-gray);
           border: 1px solid #E5E8EB;
           border-radius: 10px;
           padding: 14px;
@@ -2002,7 +1980,7 @@ export default function StudyPage() {
           padding: 12px 0 8px;
         }
         .form-bundle-offer-label {
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
           color: #888;
           text-transform: uppercase;
@@ -2015,7 +1993,7 @@ export default function StudyPage() {
 
         /* Bundle why */
         .form-bundle-why {
-          background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%);
+          background: var(--bg-gray);
           border-radius: 8px;
           padding: 10px 12px;
           margin-top: 8px;
@@ -2030,7 +2008,7 @@ export default function StudyPage() {
 
         /* Bonus box */
         .form-bonus-box {
-          background: linear-gradient(135deg, #FFFBEB 0%, #FFF 100%);
+          background: var(--bg-gray);
           border: 1.5px solid #FCD34D;
           border-radius: 12px;
           padding: 14px 16px;
@@ -2053,7 +2031,7 @@ export default function StudyPage() {
           content: '🎁';
           position: absolute;
           left: 0;
-          font-size: 11px;
+          font-size: 12px;
         }
         .form-plan-desc {
           font-size: 13px;
@@ -2080,7 +2058,7 @@ export default function StudyPage() {
 
         /* Target class guide */
         .form-target-guide {
-          background: #F8FAFB;
+          background: var(--bg-gray);
           border: 1px solid #E5E8EB;
           border-radius: 10px;
           padding: 14px 16px;
@@ -2120,9 +2098,9 @@ export default function StudyPage() {
         }
         .form-upgrade-value {
           display: inline-block;
-          background: linear-gradient(135deg, #FF6B35, #FF3B5C);
+          background: var(--green);
           color: #fff;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
           padding: 2px 8px;
           border-radius: 4px;
@@ -2130,14 +2108,14 @@ export default function StudyPage() {
 
         /* Option boxes */
         .form-option-box {
-          background: #FAFBFC;
+          background: var(--bg-gray);
           border: 1px solid #E5E8EB;
           border-radius: 12px;
           padding: 14px 16px;
           margin-bottom: 12px;
         }
         .form-option-box.highlight {
-          background: linear-gradient(135deg, #FFFBF5 0%, #FFF 100%);
+          background: var(--bg-gray);
           border-color: #FBBF24;
         }
         .form-checkbox-label {
@@ -2157,7 +2135,7 @@ export default function StudyPage() {
 
         /* Price summary */
         .form-price-summary {
-          background: #F8F9FA;
+          background: var(--bg-gray);
           border-radius: 12px;
           padding: 16px;
           margin: 16px 0;
@@ -2187,7 +2165,7 @@ export default function StudyPage() {
 
         /* Deposit box */
         .form-deposit-box {
-          background: linear-gradient(135deg, #F0FDF4 0%, #FFF 100%);
+          background: var(--bg-gray);
           border: 1.5px solid #BBF7D0;
           border-radius: 14px;
           padding: 20px;
@@ -2239,7 +2217,7 @@ export default function StudyPage() {
 
         /* Summary box (success) */
         .form-summary-box {
-          background: #F8F9FA;
+          background: var(--bg-gray);
           border-radius: 12px;
           padding: 16px;
           margin: 20px 0 0;
@@ -2301,7 +2279,7 @@ export default function StudyPage() {
 
         /* Selected summary (step 3) */
         .form-selected-summary {
-          background: #F8F9FA;
+          background: var(--bg-gray);
           border-radius: 10px;
           padding: 12px 16px;
           margin-bottom: 16px;
@@ -2349,21 +2327,8 @@ export default function StudyPage() {
         /* === STATS SECTION === */
         .stats-section {
           padding: 80px 0;
-          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+          background: #191F28;
           color: white;
-          position: relative;
-          overflow: hidden;
-        }
-        .stats-section::before {
-          content: '';
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          background: radial-gradient(circle at 30% 50%, rgba(34,197,94,0.08) 0%, transparent 50%),
-                      radial-gradient(circle at 70% 50%, rgba(59,130,246,0.06) 0%, transparent 50%);
-          pointer-events: none;
         }
         .stats-grid {
           display: grid;
@@ -2997,7 +2962,7 @@ export default function StudyPage() {
                   <td>비용</td>
                   <td>10~30만원</td>
                   <td>40~80만원</td>
-                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'#999',fontSize:'13px'}}>259,900원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontSize:'11px'}}>(얼리버드)</span>}</td>
+                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'#999',fontSize:'13px'}}>259,900원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontSize:'12px'}}>(얼리버드)</span>}</td>
                 </tr>
                 <tr>
                   <td>평균 소요 기간</td>
@@ -3347,7 +3312,7 @@ export default function StudyPage() {
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
                   <span><strong>폐강 시</strong> — 최소 인원 미달로 스터디가 개설되지 않는 경우, 개별 안내 후 교재비를 제외한 전액을 환불 처리합니다.</span>
                 </div>
-                <div style={{ marginTop: '4px', padding: '12px 16px', background: '#f8f9fa', borderRadius: '8px', fontSize: '13px', color: '#666' }}>
+                <div style={{ marginTop: '4px', padding: '12px 16px', background: 'var(--bg-gray)', borderRadius: '8px', fontSize: '13px', color: '#666' }}>
                   결제 시 본 환불 정책 및 면책 조항에 동의한 것으로 간주됩니다. 환불 관련 문의는 카카오톡 채널로 연락주세요.
                 </div>
               </div>
@@ -3578,7 +3543,7 @@ export default function StudyPage() {
             <div className="floating-price">
               <span style={{textDecoration:'line-through',color:'#999',fontSize:'13px',marginRight:'6px'}}>₩259,900</span>
               <strong>₩{currentCycleState.price.toLocaleString()}</strong>
-              {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontSize:'11px',fontWeight:700,marginLeft:'4px'}}>얼리버드</span>}
+              {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontSize:'12px',fontWeight:700,marginLeft:'4px'}}>얼리버드</span>}
             </div>
           </div>
           <button
@@ -3829,20 +3794,20 @@ export default function StudyPage() {
 
                     {/* 사전 OPIc 성적 (성적 보증용) */}
                     <div className="form-field" style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #E5E8EB' }}>
-                      <label>사전 OPIc 성적 <span style={{fontSize:'11px',fontWeight:500,color:'#888'}}>(성적 보증 적용 시 필요)</span></label>
+                      <label>사전 OPIc 성적 <span style={{fontSize:'12px',fontWeight:500,color:'#888'}}>(성적 보증 적용 시 필요)</span></label>
                       <div className="form-radio-group" style={{ marginBottom: '12px' }}>
                         <label className={`form-radio-card ${formData.hasScore ? 'selected' : ''}`} style={{ padding: '12px' }}>
                           <input type="radio" name="hasScore" checked={formData.hasScore} onChange={() => setFormData({...formData, hasScore: true})} />
                           <div className="form-radio-inner">
                             <strong style={{fontSize:'14px'}}>성적표 있음</strong>
-                            <span style={{fontSize:'11px'}}>6개월 이내 응시</span>
+                            <span style={{fontSize:'12px'}}>6개월 이내 응시</span>
                           </div>
                         </label>
                         <label className={`form-radio-card ${!formData.hasScore ? 'selected' : ''}`} style={{ padding: '12px' }}>
                           <input type="radio" name="hasScore" checked={!formData.hasScore} onChange={() => setFormData({...formData, hasScore: false, scoreGrade: ''})} />
                           <div className="form-radio-inner">
                             <strong style={{fontSize:'14px'}}>성적표 없음</strong>
-                            <span style={{fontSize:'11px'}}>첫 응시 / 6개월 초과</span>
+                            <span style={{fontSize:'12px'}}>첫 응시 / 6개월 초과</span>
                           </div>
                         </label>
                       </div>
@@ -3885,14 +3850,14 @@ export default function StudyPage() {
                           </div>
                           <div style={{marginTop:'12px',padding:'12px',background:'white',borderRadius:'8px',border:'1px solid #E5E8EB'}}>
                             <p style={{fontSize:'12px',fontWeight:600,color:'var(--text-primary, #191F28)',marginBottom:'6px'}}>성적표 제출 시 유의사항</p>
-                            <p style={{fontSize:'11px',color:'var(--text-secondary, #4E5968)',lineHeight:1.6,margin:0}}>
+                            <p style={{fontSize:'12px',color:'var(--text-secondary, #4E5968)',lineHeight:1.6,margin:0}}>
                               성적표에 수험번호, 등급, 응시일이 모두 보이도록 촬영 또는 캡처해 주세요. OPIc 공식 사이트(opic.or.kr) 성적 조회 화면을 캡처하는 것이 가장 정확합니다. 진위 확인을 위해 ACTFL 공식 채널을 통한 검증이 진행될 수 있으며, 위·변조된 성적표 제출 시 보증이 영구 박탈됩니다.
                             </p>
                           </div>
                         </div>
                       )}
 
-                      <p style={{fontSize:'11px',color:'#999',marginTop:'8px',lineHeight:1.5}}>
+                      <p style={{fontSize:'12px',color:'#999',marginTop:'8px',lineHeight:1.5}}>
                         성적표가 없어도 스터디 참여는 가능합니다. 성적 보증 제도 적용 대상에서만 제외됩니다.
                       </p>
                     </div>
