@@ -125,12 +125,16 @@ export default function StudyPage() {
     email: '',
     phone: '',
     targetClass: '' as '' | 'IH' | 'AL',
+    currentLevel: '' as '' | 'beginner' | 'NH' | 'IL' | 'IM1' | 'IM2' | 'IM3_above',
     plan: 'standard' as 'standard' | 'bundle',
     hasBook: false,
     premiumUpgrade: false,
     refundAccount: '',
     depositConfirm: false,
+    hasScore: false,
+    scoreGrade: '',
   });
+  const [scoreFile, setScoreFile] = useState<File | null>(null);
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formError, setFormError] = useState('');
@@ -182,6 +186,7 @@ export default function StudyPage() {
 
   // FAQ state
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [openGuaranteeFaq, setOpenGuaranteeFaq] = useState<number | null>(null);
   // Dark mode state
   const [darkMode, setDarkMode] = useState(false);
   useEffect(() => {
@@ -255,20 +260,26 @@ export default function StudyPage() {
     setFormError('');
 
     try {
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('email', formData.email);
+      submitData.append('phone', formData.phone);
+      submitData.append('targetClass', formData.targetClass);
+      submitData.append('currentLevel', formData.currentLevel);
+      submitData.append('plan', formData.plan);
+      submitData.append('hasBook', String(formData.hasBook));
+      submitData.append('premiumUpgrade', String(formData.premiumUpgrade));
+      submitData.append('refundAccount', formData.refundAccount);
+      submitData.append('totalPrice', String(calcFormPrice()));
+      submitData.append('hasScore', String(formData.hasScore));
+      submitData.append('scoreGrade', formData.scoreGrade);
+      if (scoreFile) {
+        submitData.append('scoreFile', scoreFile);
+      }
+
       const res = await fetch('/api/study-apply', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          targetClass: formData.targetClass,
-          plan: formData.plan,
-          hasBook: formData.hasBook,
-          premiumUpgrade: formData.premiumUpgrade,
-          refundAccount: formData.refundAccount,
-          totalPrice: calcFormPrice(),
-        }),
+        body: submitData,
       });
 
       const data = await res.json();
@@ -311,7 +322,11 @@ export default function StudyPage() {
   const faqItems = [
     {
       question: '영어를 진짜 못하는데 따라갈 수 있을까요?',
-      answer: '네, 가능합니다. 스터디는 프레임워크 기반으로 진행되기 때문에 영어를 잘 못하더라도 구조를 따라가며 답변을 만들 수 있어요. 실제로 IL 수준에서 시작해서 IM2, IH를 달성한 사례가 많습니다.'
+      answer: 'IL 이상이라면 충분히 따라갈 수 있습니다. 스터디는 프레임워크 기반으로 진행되기 때문에 구조를 따라가며 답변을 만들 수 있어요. 다만, OPIc 경험이 전혀 없거나 NH 이하 수준이라면 1:1 영어 회화 클래스에서 1~2개월 기초를 먼저 다지신 뒤 스터디에 합류하시는 걸 추천드립니다. 기초 없이 바로 스터디에 참여하면 진도를 따라가기 어렵고, 팀원들에게도 영향이 갈 수 있습니다. 회화 클래스에서 기본 스피킹 감각을 잡고 오시면 스터디 효과가 2배 이상 올라갑니다.'
+    },
+    {
+      question: '왕초보인데 어떤 과정부터 시작해야 하나요?',
+      answer: '영어 왕초보(NH 이하 또는 시험 경험 없음)라면 식빵영어 1:1 영어 회화 클래스부터 시작하시는 걸 권장합니다. 주 1회 90분씩, 1:1 맞춤 수업으로 문법·어휘·스피킹 기초를 잡을 수 있어요. 보통 1~2개월 수강 후 IL 이상 수준이 되면 OPIc 스터디에 합류하시는 게 가장 효과적인 루트입니다. 신청 시 현재 수준을 선택하면 자동으로 안내해드려요.'
     },
     {
       question: 'SpeakCoach AI는 어떻게 사용하나요?',
@@ -327,11 +342,11 @@ export default function StudyPage() {
     },
     {
       question: '환불은 어떻게 되나요?',
-      answer: '인원 편성 이후(단톡방 초대 이후)에는 어떠한 사유로도 환불이 불가합니다. 본 스터디는 소규모 정원 기반으로 운영되며, 그룹 확정과 동시에 맞춤 커리큘럼과 운영 리소스가 즉시 배정되기 때문입니다. 단톡방 초대 전에는 전액 환불 가능합니다. 또한, 스터디 진행 중 같은 팀원의 중도 포기·불참·연락 두절 등은 식빵영어의 귀책사유에 해당하지 않으며, 이를 사유로 한 환불 요청이나 서비스 하자 주장은 인정되지 않습니다. 결제 시 본 환불 정책 및 면책 조항에 동의한 것으로 간주됩니다.'
+      answer: '인원 편성 이후에는 스터디 시작 여부와 관계없이 어떠한 사유로도 환불이 불가합니다. 본 스터디는 소규모 정원 기반으로 운영되며, 팀 편성과 동시에 맞춤 커리큘럼과 운영 리소스가 즉시 배정되기 때문입니다. 인원 편성 전에는 전액 환불 가능합니다. 또한, 스터디 진행 중 같은 팀원의 중도 포기·불참·연락 두절 등은 식빵영어의 귀책사유에 해당하지 않으며, 이를 사유로 한 환불 요청이나 서비스 하자 주장은 인정되지 않습니다. 결제 시 본 환불 정책 및 면책 조항에 동의한 것으로 간주됩니다.'
     },
     {
       question: '[필독] 참여 규정 및 환불 제한 안내',
-      answer: '본 스터디는 소규모 그룹(3인 1팀)으로 운영되며, 한 명의 불참이나 비협조가 팀 전체에 직접적인 피해를 줍니다. 아래 사항에 해당할 경우 환불이 불가하며, 스터디 참여가 제한될 수 있습니다.\n\n• 스터디 초대(단톡방) 후 지속적인 미응답 또는 무시\n• 스터디 시간 조율 시 연락 두절 또는 비협조\n• 사전 고지 없는 무단 불참 (2회 이상)\n• 과제 미제출이 3일 이상 연속될 경우\n• 다른 팀원의 학습을 방해하는 행위\n• 운영진의 안내 및 공지에 대한 지속적 무응답\n\n위 규정은 함께 참여하는 다른 수강생의 학습권을 보호하기 위한 것입니다.\n\n[팀원 이탈에 대한 면책]\n스터디 진행 중 같은 팀의 다른 수강생이 중도 포기·불참·연락 두절 등으로 이탈하는 경우, 이는 해당 수강생 개인의 사유이며 식빵영어의 귀책사유에 해당하지 않습니다. 팀원 이탈을 사유로 한 환불 요청, 수강료 감액, 서비스 불이행 주장은 인정되지 않으며, 잔여 인원으로 스터디가 정상 진행됩니다.\n\n신청 및 결제 시 본 참여 규정과 면책 조항에 동의한 것으로 간주되며, 위 사유로 인한 환불 요청은 불가합니다.',
+      answer: '본 스터디는 소규모 그룹(3인 1팀)으로 운영되며, 인원 편성 이후에는 스터디 시작 여부와 관계없이 환불이 불가합니다. 한 명의 불참이나 비협조가 팀 전체에 직접적인 피해를 줍니다. 아래 사항에 해당할 경우 스터디 참여가 제한될 수 있습니다.\n\n• 인원 편성 후 지속적인 미응답 또는 무시\n• 스터디 시간 조율 시 연락 두절 또는 비협조\n• 사전 고지 없는 무단 불참 (2회 이상)\n• 과제 미제출이 3일 이상 연속될 경우\n• 다른 팀원의 학습을 방해하는 행위\n• 운영진의 안내 및 공지에 대한 지속적 무응답\n\n위 규정은 함께 참여하는 다른 수강생의 학습권을 보호하기 위한 것입니다.\n\n[팀원 이탈에 대한 면책]\n스터디 진행 중 같은 팀의 다른 수강생이 중도 포기·불참·연락 두절 등으로 이탈하는 경우, 이는 해당 수강생 개인의 사유이며 식빵영어의 귀책사유에 해당하지 않습니다. 팀원 이탈을 사유로 한 환불 요청, 수강료 감액, 서비스 불이행 주장은 인정되지 않으며, 잔여 인원으로 스터디가 정상 진행됩니다.\n\n신청 및 결제 시 본 참여 규정과 면책 조항에 동의한 것으로 간주되며, 인원 편성 이후 환불 요청은 불가합니다.',
       important: true
     },
     {
@@ -955,6 +970,8 @@ export default function StudyPage() {
           font-size: 48px;
           margin-bottom: 16px;
           display: inline-block;
+          font-weight: 800;
+          color: var(--green);
         }
         .why-card h3 {
           font-size: 20px;
@@ -1073,14 +1090,13 @@ export default function StudyPage() {
           margin-top: 8px;
         }
         .pricing-earlybird {
-          margin-top: 12px;
+          margin-top: 16px;
           padding: 12px 20px;
-          background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-          border: 1.5px solid #22c55e;
-          border-radius: 10px;
+          background: var(--bg-gray);
+          border-radius: 8px;
           text-align: center;
-          font-size: 14px;
-          color: #15803d;
+          font-size: 13px;
+          color: var(--text-secondary);
           line-height: 1.6;
         }
         .pricing-header h3 {
@@ -1240,10 +1256,11 @@ export default function StudyPage() {
           box-shadow: 0 8px 40px rgba(0,0,0,0.1);
         }
         .review-stars {
-          font-size: 16px;
+          font-size: 14px;
           color: #FFC107;
           margin-bottom: 16px;
-          letter-spacing: 2px;
+          font-weight: 600;
+          letter-spacing: 0;
         }
         .review-text {
           font-size: 15px;
@@ -1257,7 +1274,16 @@ export default function StudyPage() {
           gap: 12px;
         }
         .review-avatar {
-          font-size: 32px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: var(--bg-gray);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          font-weight: 700;
+          color: var(--text-secondary);
           flex-shrink: 0;
         }
         .review-name {
@@ -1730,6 +1756,7 @@ export default function StudyPage() {
         .form-field input[type="text"],
         .form-field input[type="email"],
         .form-field input[type="tel"],
+        .form-field select,
         .form-field textarea {
           width: 100%;
           padding: 12px 14px;
@@ -1741,8 +1768,17 @@ export default function StudyPage() {
           color: #191F28;
           background: #FAFBFC;
           box-sizing: border-box;
+          font-family: inherit;
+        }
+        .form-field select {
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23222' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 14px center;
+          padding-right: 40px;
         }
         .form-field input:focus,
+        .form-field select:focus,
         .form-field textarea:focus {
           border-color: var(--green);
           background: #fff;
@@ -2590,6 +2626,7 @@ export default function StudyPage() {
             <a href="/free">무료 강의</a>
             <a href="#curriculum">커리큘럼</a>
             <a href="#pricing">가격</a>
+            <a href="#guarantee">성적 보증</a>
             <a href="#reviews">후기</a>
             <a href="#faq">FAQ</a>
             <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" rel="noopener noreferrer" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'#FEE500',color:'#191919',padding:'6px 12px',borderRadius:'8px',fontWeight:700}}>
@@ -2692,32 +2729,32 @@ export default function StudyPage() {
           </div>
           <div className="why-grid">
             <div className="why-card">
-              <div className="why-icon green">2W</div>
+              <div className="why-icon">2주</div>
               <h3>학원 4주 → 우리는 2주</h3>
               <p>학원에서 1달 걸리는 과정을 구조화된 시스템으로 2주에 끝냅니다. 출제되지 않는 건 다루지 않고, 기출 패턴만 역설계한 커리큘럼이니까요. 시간을 절반으로 아껴드립니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon blue">AI</div>
+              <div className="why-icon">코칭</div>
               <h3>전문 코치 + AI 이중 분석</h3>
               <p>삼성·LG 초청 OPIC 전문 강사가 매일 1:1 음성 피드백을 제공하고, AI가 발음·유창성·문법 등 7개 영역을 수치로 분석해 약점을 정확히 짚어줍니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon orange">FW</div>
+              <div className="why-icon">공식</div>
               <h3>즉답 프레임워크</h3>
               <p>어떤 돌발 질문이 나와도 바로 답변을 시작하는 구조화된 스피킹 공식. 암기가 아닌 반복 체화 훈련으로, 시험장에서 머릿속이 백지가 되는 일을 없앱니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon green">3P</div>
+              <div className="why-icon">3인</div>
               <h3>3인 1팀, 수료율 94%</h3>
               <p>일반 인강 완강률 12%. 식빵영어는 매일 팀원과 실전 롤플레이를 하기 때문에 중도 포기가 구조적으로 불가능합니다. 결과는 수료율 94%로 증명됩니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon blue">↑2</div>
+              <div className="why-icon">성과</div>
               <h3>평균 2등급 상승</h3>
               <p>누적 수강생 4,000명, 실제 후기 1,000건 이상. 매 기수 평균 2등급 상승이라는 결과가 반복되고 있습니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon orange">SC</div>
+              <div className="why-icon">무료</div>
               <h3>41,900원 AI 도구 무료</h3>
               <p>월 41,900원 상당의 SpeakCoach AI Pro를 스터디 기간 내 무제한 제공. 녹음 즉시 발음·억양·문법 교정 리포트를 받아 매일 실력이 올라갑니다.</p>
             </div>
@@ -2875,53 +2912,38 @@ export default function StudyPage() {
       </section>
 
       {/* DAILY FLOW */}
-      <section className="section" id="daily">
+      <section className="section" id="daily" style={{ padding: '64px 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">하루 딱 이것만 하세요</div>
-            <p className="section-desc">매일 1개 미션. 뭘 해야 하는지 고민할 필요 없어요. 코치와 AI가 나머지를 해줍니다.</p>
+            <div className="section-title" style={{ fontSize: '32px' }}>하루 딱 이것만 하세요</div>
+            <p className="section-desc">매일 1개 미션. 코치와 AI가 나머지를 해줍니다.</p>
           </div>
           <div className="why-grid" style={{ marginTop: '56px' }}>
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>1</div>
-              <h3>학습 자료 공개</h3>
-              <p>오전 8시에 그날의 토픽과 질문, 답변 프레임을 공개합니다. 구조를 파악하고 준비를 시작하세요.</p>
+              <h3>학습 + 녹음</h3>
+              <p>오전 8시에 그날의 토픽이 공개됩니다. 프레임에 맞춰 답변을 구성하고 SpeakCoach AI에서 녹음 제출.</p>
             </div>
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>2</div>
-              <h3>답변 녹음 및 제출</h3>
-              <p>당일 자정까지 SpeakCoach AI에서 답변을 녹음하고 제출합니다. 1~2분 길이의 자연스러운 답변을 목표로 합니다.</p>
+              <h3>AI 분석 + 코치 교정</h3>
+              <p>AI가 발음·문법·유창성을 수치로 분석하고, 담당 코치가 직접 들으며 개선점을 카톡방에 공유합니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>3</div>
-              <h3>AI 분석 리포트</h3>
-              <p>SpeakCoach AI가 자동으로 발음, 문법, 유창성, 어휘를 분석해서 피드백을 제공합니다. 약점을 한눈에 파악하세요.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>4</div>
-              <h3>코치 피드백</h3>
-              <p>담당 코치가 팀별로 모여 각자의 답변을 청취하고, 개선점과 칭찬을 카톡방에 공유합니다.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>5</div>
-              <h3>재교정 연습</h3>
-              <p>AI 분석과 코치 피드백을 바탕으로 즉시 재교정 연습을 합니다. 같은 질문을 2~3회 다시 녹음해보세요.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>6</div>
-              <h3>팀 공유 및 자극</h3>
-              <p>팀원들의 답변과 피드백도 공유되니, 서로의 성장을 보며 자극받고 내일의 준비로 이어집니다.</p>
+              <h3>재연습 + 팀 자극</h3>
+              <p>피드백을 바탕으로 같은 질문을 2~3회 재녹음. 팀원들의 답변도 공유되어 서로 자극받습니다.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* COMPARE */}
-      <section className="compare-section">
+      <section className="compare-section" style={{ padding: '64px 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">왜 스터디가 가장 빠를까?</div>
-            <p className="section-desc">같은 2주, 어떤 방법을 선택하느냐에 따라 결과가 달라집니다.</p>
+            <div className="section-title" style={{ fontSize: '32px' }}>왜 스터디가 가장 빠를까?</div>
+            <p className="section-desc">같은 2주, 결과는 방법에 따라 달라집니다.</p>
           </div>
           <div className="compare-scroll-hint" style={{display:'none',textAlign:'center',fontSize:'13px',color:'var(--text-tertiary)',marginBottom:'8px'}}>👆 좌우로 스크롤해서 비교하세요</div>
           <div className="compare-table-wrap">
@@ -2993,7 +3015,7 @@ export default function StudyPage() {
       <section className="section section-gray" id="pricing">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">💰 가격</div>
+            <div className="section-title">가격</div>
             <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함</p>
           </div>
           <div className="pricing-section">
@@ -3051,10 +3073,10 @@ export default function StudyPage() {
       </section>
 
       {/* RULES */}
-      <section className="section" id="rules">
+      <section className="section" id="rules" style={{ padding: '64px 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">스터디 운영 방식</div>
+            <div className="section-title" style={{ fontSize: '32px' }}>스터디 운영 방식</div>
             <p className="section-desc">모두의 결과를 위한 약속입니다.</p>
           </div>
           <div className="rules-grid">
@@ -3087,11 +3109,11 @@ export default function StudyPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '15px', lineHeight: '1.7', color: '#444' }}>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#22c55e', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                  <span><strong>스터디 시작 전 (단톡방 초대 전)</strong> — 전액 환불 가능. 별도 수수료 없이 100% 환불됩니다.</span>
+                  <span><strong>인원 편성 전</strong> — 전액 환불 가능. 별도 수수료 없이 100% 환불됩니다.</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#ef4444', fontWeight: 700, flexShrink: 0 }}>✕</span>
-                  <span><strong>스터디 시작 후 (단톡방 초대 후)</strong> — 환불 불가. 소규모 정원제로 운영되며, 팀 편성과 동시에 맞춤 커리큘럼 및 운영 리소스가 배정되기 때문입니다.</span>
+                  <span><strong>인원 편성 후</strong> — 환불 불가. 팀 편성과 동시에 맞춤 커리큘럼 및 운영 리소스가 배정되므로, 스터디 시작 여부와 관계없이 환불이 불가합니다.</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
@@ -3110,6 +3132,216 @@ export default function StudyPage() {
         </div>
       </section>
 
+      {/* GUARANTEE */}
+      <section className="section" id="guarantee">
+        <div className="container">
+          <div style={{ textAlign: 'center' }}>
+            <div className="section-title">성적 보증</div>
+            <p className="section-desc">조건을 100% 이행했는데도 등급이 오르지 않았다면, 다음 기수를 무료로 다시 수강하세요.</p>
+          </div>
+
+          {/* 보증 내용 카드 2개 - why-card 재사용 */}
+          <div className="why-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: '48px' }}>
+            <div className="why-card">
+              <div className="why-icon">무료</div>
+              <h3>다음 기수 무료 재수강</h3>
+              <p>교재비 면제, AI 이용비만 별도 결제. 승인 후 직후 기수에 사용해야 합니다.</p>
+            </div>
+            <div className="why-card">
+              <div className="why-icon">분석</div>
+              <h3>1:1 약점 분석 리포트</h3>
+              <p>1차 수강 데이터 기반으로 코치가 작성. 재수강 시 약점만 집중 공략합니다.</p>
+            </div>
+          </div>
+
+          {/* 보증 조건 - rules-grid 재사용 */}
+          <div style={{ marginTop: '64px' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div className="section-title" style={{ fontSize: '24px' }}>보증 조건</div>
+              <p className="section-desc">아래 5가지를 전부 충족해야 합니다.</p>
+            </div>
+            <div className="rules-grid" style={{ gridTemplateColumns: '1fr' }}>
+              <div className="rule-card">
+                <div className="rule-num">01</div>
+                <div>
+                  <h4>과제 100% 제출 + 암기 확인 통과</h4>
+                  <p>매 피드백 시 랜덤 3문장 구술 테스트. 1회라도 미통과 시 보증 미적용.</p>
+                </div>
+              </div>
+              <div className="rule-card">
+                <div className="rule-num">02</div>
+                <div>
+                  <h4>스터디 100% 참석</h4>
+                  <p>10분 초과 지각, 조기 퇴장, 무단 불참은 미참석 처리.</p>
+                </div>
+              </div>
+              <div className="rule-card">
+                <div className="rule-num">03</div>
+                <div>
+                  <h4>1:1 코치 피드백 100% 참석</h4>
+                  <p>사전 통보 없는 불참은 미참석 처리.</p>
+                </div>
+              </div>
+              <div className="rule-card">
+                <div className="rule-num">04</div>
+                <div>
+                  <h4>종료 후 2주 내 OPIc 응시</h4>
+                  <p>미응시 시 보증 자격 자동 소멸.</p>
+                </div>
+              </div>
+              <div className="rule-card">
+                <div className="rule-num">05</div>
+                <div>
+                  <h4>공식 성적표 + 수험번호 제출</h4>
+                  <p>응시일로부터 30일 이내. 진위 확인 검증이 진행될 수 있습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 적용 기준 테이블 - compare-table 재사용 */}
+          <div style={{ marginTop: '64px' }}>
+            <table className="compare-table">
+              <thead>
+                <tr>
+                  <th>항목</th>
+                  <th className="highlight-col">기준</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>적용 대상</td>
+                  <td className="highlight-col">6개월 내 OPIc 성적표 보유자 (수강 전 제출 필수)</td>
+                </tr>
+                <tr>
+                  <td>시행 시기</td>
+                  <td className="highlight-col"><strong>2025년 5월 15일 기수</strong>부터 (소급 불가)</td>
+                </tr>
+                <tr>
+                  <td>향상 기준</td>
+                  <td className="highlight-col">ACTFL 1단계 이상 상승 (NH→IL→IM1→IM2→IM3→IH→AL→AH)</td>
+                </tr>
+                <tr>
+                  <td>시험 유형</td>
+                  <td className="highlight-col">사전·사후 동일 유형(일반/Business) 필수</td>
+                </tr>
+                <tr>
+                  <td>보증 횟수</td>
+                  <td className="highlight-col">1인 1회, 직후 기수 필수 사용, 양도 불가</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* 청구 절차 - why-card 재사용 */}
+          <div style={{ marginTop: '64px' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div className="section-title" style={{ fontSize: '24px' }}>청구 절차</div>
+              <p className="section-desc">심사는 접수일로부터 14영업일 이내에 완료됩니다.</p>
+            </div>
+            <div className="why-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginTop: '0' }}>
+              <div className="why-card">
+                <div className="why-icon" style={{ fontSize: '28px' }}>1</div>
+                <h3>청구 신청</h3>
+                <p>카카오톡 채널로 접수</p>
+              </div>
+              <div className="why-card">
+                <div className="why-icon" style={{ fontSize: '28px' }}>2</div>
+                <h3>서류 제출</h3>
+                <p>사전·사후 성적표, 수험번호, 신분증</p>
+              </div>
+              <div className="why-card">
+                <div className="why-icon" style={{ fontSize: '28px' }}>3</div>
+                <h3>심사</h3>
+                <p>성적표 진위 및 조건 충족 검토</p>
+              </div>
+              <div className="why-card">
+                <div className="why-icon" style={{ fontSize: '28px' }}>4</div>
+                <h3>재수강 배정</h3>
+                <p>직후 기수 자동 배정</p>
+              </div>
+            </div>
+          </div>
+
+          {/* 부정행위 경고 + 전문 - faq-item 재사용 */}
+          <div className="faq-list" style={{ marginTop: '64px' }}>
+            <div className={`faq-item faq-important ${openGuaranteeFaq === 0 ? 'open' : ''}`}>
+              <button className="faq-question" onClick={() => setOpenGuaranteeFaq(openGuaranteeFaq === 0 ? null : 0)}>
+                <span><span className="faq-badge">필독</span>부정행위 및 허위 서류 제출 경고</span>
+                <span className="faq-icon">+</span>
+              </button>
+              <div className="faq-answer" style={{ maxHeight: openGuaranteeFaq === 0 ? '800px' : '0' }}>
+                <div className="faq-answer-content" style={{ whiteSpace: 'pre-line' }}>
+                  성적표 위조·변조, 타인 성적표 제출, 허위 기재, 대리 응시 등은 부정행위로 간주됩니다.{'\n\n'}
+                  <strong>적발 시:</strong> 보증 영구 박탈, 전 프로그램 이용 제한, 민사 손해배상, 형법 제231조(사문서위조)·제234조(위조사문서행사)에 따른 형사 고발.{'\n\n'}
+                  부정행위 의심 시 추가 증빙(성적 조회 사이트 화면 녹화 등)을 요청할 수 있으며, 정당한 사유 없이 거부 시 부정행위로 간주합니다.
+                </div>
+              </div>
+            </div>
+
+            <div className={`faq-item ${openGuaranteeFaq === 1 ? 'open' : ''}`}>
+              <button className="faq-question" onClick={() => setOpenGuaranteeFaq(openGuaranteeFaq === 1 ? null : 1)}>
+                <span>보증 정책 전문 보기</span>
+                <span className="faq-icon">+</span>
+              </button>
+              <div className="faq-answer" style={{ maxHeight: openGuaranteeFaq === 1 ? '3000px' : '0' }}>
+                <div className="faq-answer-content" style={{ whiteSpace: 'pre-line' }}>
+                  <strong>제1조 (목적)</strong>{'\n'}
+                  본 정책은 식빵영어(이하 &quot;회사&quot;)가 운영하는 &quot;2주 OPIc 스터디&quot; 수강생에게 제공하는 성적 보증 제도의 적용 조건, 보증 내용, 청구 절차 및 제한 사항을 규정합니다.{'\n\n'}
+                  <strong>제2조 (적용 대상)</strong>{'\n'}
+                  1. 최근 6개월 이내 OPIc 공식 성적표 보유 및 스터디 시작 전 제출자{'\n'}
+                  2. 2025년 5월 15일 기수 이후 등록자{'\n'}
+                  3. 수강 등록 시 본 정책 동의자{'\n\n'}
+                  <strong>제3조 (보증 조건)</strong>{'\n'}
+                  1. 14일간 과제 100% 제출 및 매 피드백 시 암기 확인 통과{'\n'}
+                  2. 정규 스터디 세션 100% 참석 (10분 초과 지각·조기 퇴장·무단 불참 = 미참석){'\n'}
+                  3. 1:1 코치 피드백 세션 100% 참석{'\n'}
+                  4. 종료 후 2주 이내 OPIc 응시{'\n'}
+                  5. 시험 응시일로부터 30일 이내 공식 성적표 및 수험번호 제출{'\n\n'}
+                  <strong>제4조 (성적 향상 판단 기준)</strong>{'\n'}
+                  1. 수강 전 대비 1단계 이상 등급 상승 = &quot;성적 향상&quot;{'\n'}
+                  2. ACTFL 공식 기준 (NH → IL → IM1 → IM2 → IM3 → IH → AL → AH){'\n'}
+                  3. 동일 등급 유지 또는 하락 = &quot;미향상&quot;{'\n'}
+                  4. 사전·사후 시험 유형 동일 필수{'\n\n'}
+                  <strong>제5조 (보증 내용)</strong>{'\n'}
+                  1. 승인일 기준 모집 중이거나 모집 예정인 직후 기수에서 1회 무료 재수강{'\n'}
+                  2. 해당 기수에 재수강하지 않을 경우 보증 자격 자동 소멸{'\n'}
+                  3. 교재비 면제, AI 이용비(SpeakCoach Pro) 별도 결제{'\n'}
+                  4. 1:1 약점 분석 리포트 재수강 시작 전 제공{'\n'}
+                  5. 1인 1회 한정, 재수강 후 추가 보증 불가{'\n'}
+                  6. 양도 불가{'\n\n'}
+                  <strong>제6조 (보증 청구 절차)</strong>{'\n'}
+                  1. 카카오톡 채널 또는 지정 이메일로 청구{'\n'}
+                  2. 제출: 사전·사후 성적표(PDF), 수험번호, 본인 확인 서류{'\n'}
+                  3. 심사: 접수일로부터 14영업일 이내{'\n'}
+                  4. ACTFL 공식 채널 통한 검증 가능{'\n'}
+                  5. 승인 시 직후 기수 재수강 배정 안내 (배정 기수 미참여 시 보증 소멸){'\n\n'}
+                  <strong>제7조 (보증 적용 제외 사유)</strong>{'\n'}
+                  1. 사전 성적표 응시일이 6개월 초과{'\n'}
+                  2. 2주 이내 미응시 또는 30일 이내 미제출{'\n'}
+                  3. 사전·사후 시험 유형 상이{'\n'}
+                  4. 보증 조건(제3조) 미충족{'\n'}
+                  5. 승인 후 배정된 직후 기수에 재수강하지 않은 경우{'\n'}
+                  6. 대리 참석·제출 확인{'\n'}
+                  7. 부정행위 해당{'\n\n'}
+                  <strong>제8조 (부정행위)</strong>{'\n'}
+                  허위·변조 서류 제출 시 형법 제231조(사문서위조), 제234조(위조사문서행사) 해당. 적발 시 보증 영구 박탈, 전 프로그램 이용 제한, 민·형사 조치.{'\n\n'}
+                  <strong>제9조 (정책 변경)</strong>{'\n'}
+                  변경 시 7일 전 공지. 신규 등록자부터 적용, 기존 수강생은 등록 시점 정책 적용.{'\n\n'}
+                  <strong>제10조 (분쟁 해결)</strong>{'\n'}
+                  대한민국 법률 준거, 회사 소재지 관할 법원 전속 관할.{'\n\n'}
+                  <strong>부칙</strong>{'\n'}
+                  1. 2025년 5월 15일 기수부터 시행{'\n'}
+                  2. 시행 이전 등록자 소급 적용 불가{'\n'}
+                  3. 미규정 사항은 관련 법령 및 상관례에 따름
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* REVIEWS */}
       <section className="section section-gray" id="reviews">
         <div className="container">
@@ -3120,7 +3352,7 @@ export default function StudyPage() {
           <div className="review-scroll-wrap">
             <div className="review-scroll" ref={reviewScrollRef}>
               <div className="review-card">
-                <div className="review-stars">★★★★★</div>
+                <div className="review-stars">★ 5.0</div>
                 <div className="review-text">
                   2주 만에 IM3에서 IH로 올랐어요. 프레임워크가 진짜 효과 있었습니다. 답변할 때 구조가
                   잡히니까 자신감이 다릅니다.
@@ -3136,7 +3368,7 @@ export default function StudyPage() {
                 </div>
               </div>
               <div className="review-card">
-                <div className="review-stars">★★★★★</div>
+                <div className="review-stars">★ 5.0</div>
                 <div className="review-text">
                   SpeakCoach AI로 매일 연습하고, 스터디에서 피드백 받으니까 내 약점이 정확히 보였어요.
                   결국 AL 받았습니다!
@@ -3152,7 +3384,7 @@ export default function StudyPage() {
                 </div>
               </div>
               <div className="review-card">
-                <div className="review-stars">★★★★★</div>
+                <div className="review-stars">★ 5.0</div>
                 <div className="review-text">
                   직장 다니면서 준비하기 힘들었는데 2주라서 집중할 수 있었어요. 매일 과제 내는 게 핵심인
                   것 같아요.
@@ -3168,7 +3400,7 @@ export default function StudyPage() {
                 </div>
               </div>
               <div className="review-card">
-                <div className="review-stars">★★★★★</div>
+                <div className="review-stars">★ 5.0</div>
                 <div className="review-text">
                   혼자 했으면 절대 못 했을 거예요. 3명이니까 서로 자극도 되고 포기할 수가 없었어요. IL에서
                   IM2 찍었습니다.
@@ -3184,7 +3416,7 @@ export default function StudyPage() {
                 </div>
               </div>
               <div className="review-card">
-                <div className="review-stars">★★★★★</div>
+                <div className="review-stars">★ 5.0</div>
                 <div className="review-text">
                   인강으로 기본기 잡고 스터디에서 실전 연습하니까 시너지가 대단했어요. IH 목표였는데 AL이
                   나왔습니다.
@@ -3200,7 +3432,7 @@ export default function StudyPage() {
                 </div>
               </div>
               <div className="review-card">
-                <div className="review-stars">★★★★★</div>
+                <div className="review-stars">★ 5.0</div>
                 <div className="review-text">
                   AI 피드백이 이렇게 정확할 줄 몰랐어요. 매일 내 발음과 문법 실수를 바로 지적해주니까
                   빠르게 개선됐습니다.
@@ -3216,7 +3448,7 @@ export default function StudyPage() {
                 </div>
               </div>
               <div className="review-card">
-                <div className="review-stars">★★★★★</div>
+                <div className="review-stars">★ 5.0</div>
                 <div className="review-text">
                   온라인이라고 걱정했는데 카톡 채팅과 공유로 충분했어요. 팀원들이 열심히 하니까 저도
                   자연스럽게 열심히 하게 됐습니다.
@@ -3259,10 +3491,10 @@ export default function StudyPage() {
       </section>
 
       {/* FAQ */}
-      <section className="section" id="faq">
+      <section className="section" id="faq" style={{ padding: '64px 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">자주 묻는 질문</div>
+            <div className="section-title" style={{ fontSize: '32px' }}>자주 묻는 질문</div>
             <p className="section-desc">더 궁금한 점은 문의하기를 통해 연락주세요.</p>
           </div>
           <div className="faq-list">
@@ -3511,16 +3743,154 @@ export default function StudyPage() {
                         <p className="form-target-tip">IH반을 선택해도 AL 취득이 충분히 가능합니다. 본인 현재 수준에 맞춰 선택해주세요!</p>
                       </div>
                     </div>
+
+                    {/* 현재 영어 수준 */}
+                    <div className="form-field">
+                      <label>현재 영어 수준 <span className="req">*</span></label>
+                      <select
+                        value={formData.currentLevel}
+                        onChange={(e) => setFormData({...formData, currentLevel: e.target.value as typeof formData.currentLevel})}
+                      >
+                        <option value="">선택해주세요</option>
+                        <option value="beginner">시험 경험 없음 / 영어 왕초보</option>
+                        <option value="NH">NH (Novice High)</option>
+                        <option value="IL">IL (Intermediate Low)</option>
+                        <option value="IM1">IM1 (Intermediate Mid 1)</option>
+                        <option value="IM2">IM2 (Intermediate Mid 2)</option>
+                        <option value="IM3_above">IM3 이상</option>
+                      </select>
+                    </div>
+
+                    {/* 왕초보 → 1:1 회화 클래스 유도 */}
+                    {(formData.currentLevel === 'beginner' || formData.currentLevel === 'NH') && (
+                      <div style={{
+                        marginTop: '16px',
+                        padding: '24px',
+                        background: 'rgba(26,141,72,0.04)',
+                        border: '1px solid rgba(26,141,72,0.15)',
+                        borderRadius: '12px',
+                      }}>
+                        <div style={{ fontSize: '15px', fontWeight: 700, marginBottom: '8px' }}>
+                          1:1 영어 회화 클래스를 먼저 추천드려요
+                        </div>
+                        <p style={{ fontSize: '13px', color: 'var(--text-secondary, #666)', lineHeight: 1.7, margin: '0 0 16px 0' }}>
+                          현재 수준에서 바로 스터디에 참여하면 진도를 따라가기 어려울 수 있어요.
+                          1:1 영어 회화 클래스에서 1~2개월 기초를 다진 뒤 스터디에 합류하시면 훨씬 효과적입니다.
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          <a
+                            href="/conversation"
+                            style={{
+                              display: 'block',
+                              padding: '14px',
+                              background: 'var(--green)',
+                              color: '#fff',
+                              borderRadius: '8px',
+                              textAlign: 'center',
+                              fontWeight: 600,
+                              fontSize: '14px',
+                              textDecoration: 'none',
+                            }}
+                          >
+                            1:1 영어 회화 클래스 알아보기
+                          </a>
+                          <button
+                            type="button"
+                            onClick={() => setFormData({...formData, currentLevel: formData.currentLevel === 'beginner' ? 'beginner' : 'NH'})}
+                            style={{
+                              padding: '10px',
+                              background: 'transparent',
+                              border: 'none',
+                              color: '#999',
+                              fontSize: '12px',
+                              cursor: 'pointer',
+                              textDecoration: 'underline',
+                            }}
+                          >
+                            그래도 스터디 신청하기
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 사전 OPIc 성적 (성적 보증용) */}
+                    <div className="form-field" style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #E5E8EB' }}>
+                      <label>사전 OPIc 성적 <span style={{fontSize:'11px',fontWeight:500,color:'#888'}}>(성적 보증 적용 시 필요)</span></label>
+                      <div className="form-radio-group" style={{ marginBottom: '12px' }}>
+                        <label className={`form-radio-card ${formData.hasScore ? 'selected' : ''}`} style={{ padding: '12px' }}>
+                          <input type="radio" name="hasScore" checked={formData.hasScore} onChange={() => setFormData({...formData, hasScore: true})} />
+                          <div className="form-radio-inner">
+                            <strong style={{fontSize:'14px'}}>성적표 있음</strong>
+                            <span style={{fontSize:'11px'}}>6개월 이내 응시</span>
+                          </div>
+                        </label>
+                        <label className={`form-radio-card ${!formData.hasScore ? 'selected' : ''}`} style={{ padding: '12px' }}>
+                          <input type="radio" name="hasScore" checked={!formData.hasScore} onChange={() => setFormData({...formData, hasScore: false, scoreGrade: ''})} />
+                          <div className="form-radio-inner">
+                            <strong style={{fontSize:'14px'}}>성적표 없음</strong>
+                            <span style={{fontSize:'11px'}}>첫 응시 / 6개월 초과</span>
+                          </div>
+                        </label>
+                      </div>
+
+                      {formData.hasScore && (
+                        <div style={{ background: 'var(--bg-gray, #F2F4F6)', borderRadius: '12px', padding: '16px' }}>
+                          <div className="form-field" style={{ marginBottom: '12px' }}>
+                            <label style={{fontSize:'13px'}}>현재 OPIc 등급</label>
+                            <select
+                              value={formData.scoreGrade}
+                              onChange={(e) => setFormData({...formData, scoreGrade: e.target.value})}
+                            >
+                              <option value="">선택해주세요</option>
+                              <option value="NH">NH</option>
+                              <option value="IL">IL</option>
+                              <option value="IM1">IM1</option>
+                              <option value="IM2">IM2</option>
+                              <option value="IM3">IM3</option>
+                              <option value="IH">IH</option>
+                              <option value="AL">AL</option>
+                            </select>
+                          </div>
+                          <div className="form-field" style={{ marginBottom: '0' }}>
+                            <label style={{fontSize:'13px'}}>성적표 첨부 (PDF)</label>
+                            <input
+                              type="file"
+                              accept=".pdf,.jpg,.jpeg,.png"
+                              onChange={(e) => setScoreFile(e.target.files?.[0] || null)}
+                              style={{
+                                width: '100%', padding: '10px', fontSize: '13px',
+                                border: '1.5px dashed #E5E8EB', borderRadius: '8px', background: 'white',
+                                cursor: 'pointer',
+                              }}
+                            />
+                            {scoreFile && (
+                              <p style={{fontSize:'12px',color:'var(--green)',marginTop:'4px',fontWeight:500}}>
+                                {scoreFile.name} ({(scoreFile.size / 1024).toFixed(0)}KB)
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      <p style={{fontSize:'11px',color:'#999',marginTop:'8px',lineHeight:1.5}}>
+                        성적표가 없어도 스터디 참여는 가능합니다. 성적 보증 제도 적용 대상에서만 제외됩니다.
+                      </p>
+                    </div>
+
                     {formError && <div className="form-error">{formError}</div>}
                     <button
                       className="form-btn-primary"
                       onClick={() => {
-                        if (!formData.name || !formData.email || !formData.phone || !formData.targetClass) {
+                        if (!formData.name || !formData.email || !formData.phone || !formData.targetClass || !formData.currentLevel) {
                           setFormError('모든 항목을 입력해주세요.');
                           return;
                         }
                         if (!/^\d{3}-\d{3,4}-\d{4}$/.test(formData.phone)) {
                           setFormError('전화번호를 000-0000-0000 형식으로 입력해주세요.');
+                          return;
+                        }
+                        if (formData.hasScore && !formData.scoreGrade) {
+                          setFormError('사전 OPIc 등급을 선택해주세요.');
                           return;
                         }
                         setFormError('');
@@ -3768,6 +4138,7 @@ export default function StudyPage() {
                     </div>
 
                     <div className="form-note" style={{display:'flex',flexDirection:'column',gap:'6px'}}>
+                      <p style={{margin:0}}>* 인원 편성 이후에는 스터디 시작 여부와 관계없이 환불이 불가합니다.</p>
                       <p style={{margin:0}}>* 폐강 시: 최소 인원 미달로 스터디가 개설되지 않는 경우, 개별 안내 후 교재비를 제외한 전액을 환불 처리합니다.</p>
                       <p style={{margin:0}}>* 팀원 이탈: 스터디 진행 중 같은 팀원의 중도 포기·불참·연락 두절 등은 식빵영어의 귀책사유에 해당하지 않으며, 이를 사유로 한 환불 요청은 인정되지 않습니다.</p>
                       <p style={{margin:0}}>* 신청 및 결제 시 환불 정책과 면책 조항에 동의한 것으로 간주됩니다.</p>
