@@ -10,10 +10,22 @@ export default function GuaranteeClaimPage() {
     cohort: '',
     preGrade: '',
     postGrade: '',
-    testType: '',
     testNumber: '',
     testDate: '',
   });
+
+  // 수강 기수 동적 생성: 최근 3개월 + 현재/다음 달
+  const getCohortOptions = () => {
+    const now = new Date();
+    const options: string[] = [];
+    for (let i = -3; i <= 1; i++) {
+      const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+      const y = d.getFullYear();
+      const m = d.getMonth() + 1;
+      options.push(`${y}년 ${m}월 기수`);
+    }
+    return options;
+  };
   const [preScoreFile, setPreScoreFile] = useState<File | null>(null);
   const [postScoreFile, setPostScoreFile] = useState<File | null>(null);
   const [idFile, setIdFile] = useState<File | null>(null);
@@ -23,7 +35,6 @@ export default function GuaranteeClaimPage() {
     coaching: false,
     examTiming: false,
     submitTiming: false,
-    sameType: false,
     truthful: false,
   });
   const [submitting, setSubmitting] = useState(false);
@@ -34,8 +45,8 @@ export default function GuaranteeClaimPage() {
 
   const handleSubmit = async () => {
     // Validation
-    const { name, email, phone, cohort, preGrade, postGrade, testType, testNumber, testDate } = formData;
-    if (!name || !email || !phone || !cohort || !preGrade || !postGrade || !testType || !testNumber || !testDate) {
+    const { name, email, phone, cohort, preGrade, postGrade, testNumber, testDate } = formData;
+    if (!name || !email || !phone || !cohort || !preGrade || !postGrade || !testNumber || !testDate) {
       setError('모든 필수 항목을 입력해주세요.');
       return;
     }
@@ -63,7 +74,6 @@ export default function GuaranteeClaimPage() {
       submitData.append('cohort', cohort);
       submitData.append('preGrade', preGrade);
       submitData.append('postGrade', postGrade);
-      submitData.append('testType', testType);
       submitData.append('testNumber', testNumber);
       submitData.append('testDate', testDate);
       submitData.append('preScoreFile', preScoreFile);
@@ -76,7 +86,6 @@ export default function GuaranteeClaimPage() {
       if (checks.coaching) checkedLabels.push('코칭 100%');
       if (checks.examTiming) checkedLabels.push('2주 내 응시');
       if (checks.submitTiming) checkedLabels.push('30일 내 제출');
-      if (checks.sameType) checkedLabels.push('동일 유형');
       if (checks.truthful) checkedLabels.push('사실 확인');
       submitData.append('checkedConditions', checkedLabels.join(', '));
 
@@ -314,10 +323,9 @@ export default function GuaranteeClaimPage() {
                   <label><span className="req">*</span> 수강 기수</label>
                   <select value={formData.cohort} onChange={(e) => setFormData({...formData, cohort: e.target.value})}>
                     <option value="">기수를 선택해주세요</option>
-                    <option value="2025년 5월 15일 기수">2025년 5월 15일 기수</option>
-                    <option value="2025년 6월 기수">2025년 6월 기수</option>
-                    <option value="2025년 7월 기수">2025년 7월 기수</option>
-                    <option value="2025년 8월 기수">2025년 8월 기수</option>
+                    {getCohortOptions().map((opt) => (
+                      <option key={opt} value={opt}>{opt}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -357,29 +365,29 @@ export default function GuaranteeClaimPage() {
                 </div>
               </div>
 
-              {/* 시험 유형 */}
-              <div className="gc-section">
-                <div className="gc-section-title">시험 유형</div>
-                <div className="gc-field">
-                  <label><span className="req">*</span> OPIc 시험 유형 (사전·사후 동일해야 합니다)</label>
-                  <select value={formData.testType} onChange={(e) => setFormData({...formData, testType: e.target.value})}>
-                    <option value="">유형 선택</option>
-                    <option value="general">일반 (OPIc)</option>
-                    <option value="business">Business (OPIc B)</option>
-                  </select>
-                </div>
-              </div>
-
               {/* 성적표 첨부 */}
               <div className="gc-section">
                 <div className="gc-section-title">성적표</div>
+                <div style={{
+                  background: 'var(--bg-gray)', borderRadius: '8px', padding: '14px',
+                  marginBottom: '16px', fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.7,
+                }}>
+                  <p style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px', fontSize: '13px' }}>성적표 제출 가이드</p>
+                  <p style={{ margin: 0 }}>
+                    OPIc 공식 사이트(opic.or.kr) &gt; 성적 조회 화면을 캡처해 주세요.<br/>
+                    <strong>성명, 수험번호, 등급, 응시일</strong>이 한 화면에 모두 보여야 합니다.<br/>
+                    화면 캡처 또는 해당 화면이 보이는 상태에서 휴대폰으로 촬영한 사진도 가능합니다.<br/>
+                    AI로 생성·편집하거나 이미지 편집 프로그램으로 수정한 성적표는 제출 불가하며,<br/>
+                    ACTFL 공식 채널을 통해 진위 확인이 진행됩니다.
+                  </p>
+                </div>
                 <div className="gc-field">
-                  <label><span className="req">*</span> 사전 성적표 PDF</label>
+                  <label><span className="req">*</span> 사전 성적표 (스터디 수강 전)</label>
                   <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="gc-file-input" onChange={(e) => setPreScoreFile(e.target.files?.[0] || null)} />
                   {preScoreFile && <div className="gc-file-name">{preScoreFile.name} ({(preScoreFile.size / 1024).toFixed(0)}KB)</div>}
                 </div>
                 <div className="gc-field">
-                  <label><span className="req">*</span> 사후 성적표 PDF</label>
+                  <label><span className="req">*</span> 사후 성적표 (스터디 수료 후 응시)</label>
                   <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="gc-file-input" onChange={(e) => setPostScoreFile(e.target.files?.[0] || null)} />
                   {postScoreFile && <div className="gc-file-name">{postScoreFile.name} ({(postScoreFile.size / 1024).toFixed(0)}KB)</div>}
                 </div>
@@ -411,11 +419,10 @@ export default function GuaranteeClaimPage() {
                 {([
                   { key: 'homework' as const, label: '14일간 과제 100% 제출 및 암기 확인을 모두 통과했습니다' },
                   { key: 'attendance' as const, label: '정규 스터디 세션에 100% 참석했습니다' },
-                  { key: 'coaching' as const, label: '1:1 코치 피드백 세션에 100% 참석했습니다' },
+                  { key: 'coaching' as const, label: '1:3 코치 피드백 세션에 100% 참석했습니다' },
                   { key: 'examTiming' as const, label: '스터디 종료 후 2주 이내에 OPIc에 응시했습니다' },
                   { key: 'submitTiming' as const, label: '응시일로부터 30일 이내에 공식 성적표 및 수험번호를 제출합니다' },
-                  { key: 'sameType' as const, label: '사전·사후 시험 유형이 동일합니다 (일반/Business)' },
-                  { key: 'truthful' as const, label: '제출하는 성적표와 정보가 사실과 다름없음을 확인합니다' },
+                  { key: 'truthful' as const, label: '제출하는 성적표와 정보가 사실과 다름없으며, 위·변조 시 보증이 영구 박탈됨을 이해합니다' },
                 ]).map(({ key, label }) => (
                   <div key={key} className={`gc-check-item ${checks[key] ? 'checked' : ''}`} onClick={() => setChecks({...checks, [key]: !checks[key]})}>
                     <input type="checkbox" checked={checks[key]} onChange={() => setChecks({...checks, [key]: !checks[key]})} />
@@ -435,9 +442,9 @@ export default function GuaranteeClaimPage() {
                 <button
                   className="gc-btn gc-btn-secondary"
                   onClick={() => {
-                    setFormData({ name: '', email: '', phone: '', cohort: '', preGrade: '', postGrade: '', testType: '', testNumber: '', testDate: '' });
+                    setFormData({ name: '', email: '', phone: '', cohort: '', preGrade: '', postGrade: '', testNumber: '', testDate: '' });
                     setPreScoreFile(null); setPostScoreFile(null); setIdFile(null);
-                    setChecks({ homework: false, attendance: false, coaching: false, examTiming: false, submitTiming: false, sameType: false, truthful: false });
+                    setChecks({ homework: false, attendance: false, coaching: false, examTiming: false, submitTiming: false, truthful: false });
                     setError('');
                   }}
                 >

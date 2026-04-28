@@ -3057,7 +3057,7 @@ export default function StudyPage() {
               <div className="rule-card">
                 <div className="rule-num">03</div>
                 <div>
-                  <h4>1:1 코치 피드백 100% 참석</h4>
+                  <h4>1:3 코치 피드백 100% 참석</h4>
                   <p>사전 통보 없는 불참은 미참석 처리.</p>
                 </div>
               </div>
@@ -3188,7 +3188,7 @@ export default function StudyPage() {
                   <strong>제3조 (보증 조건)</strong>{'\n'}
                   1. 14일간 과제 100% 제출 및 매 피드백 시 암기 확인 통과{'\n'}
                   2. 정규 스터디 세션 100% 참석 (10분 초과 지각·조기 퇴장·무단 불참 = 미참석){'\n'}
-                  3. 1:1 코치 피드백 세션 100% 참석{'\n'}
+                  3. 1:3 코치 피드백 세션 100% 참석{'\n'}
                   4. 종료 후 2주 이내 OPIc 응시{'\n'}
                   5. 시험 응시일로부터 30일 이내 공식 성적표 및 수험번호 제출{'\n\n'}
                   <strong>제4조 (성적 향상 판단 기준)</strong>{'\n'}

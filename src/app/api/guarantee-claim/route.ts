@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
     const cohort = formData.get('cohort') as string;
     const preGrade = formData.get('preGrade') as string;
     const postGrade = formData.get('postGrade') as string;
-    const testType = formData.get('testType') as string;
     const testNumber = formData.get('testNumber') as string;
     const testDate = formData.get('testDate') as string;
 
@@ -24,7 +23,7 @@ export async function POST(request: NextRequest) {
     const checkedConditions = formData.get('checkedConditions') as string;
 
     // Validation
-    if (!name || !email || !phone || !cohort || !preGrade || !postGrade || !testType || !testNumber || !testDate) {
+    if (!name || !email || !phone || !cohort || !preGrade || !postGrade || !testNumber || !testDate) {
       return NextResponse.json({ error: '필수 항목을 모두 입력해주세요.' }, { status: 400 });
     }
 
@@ -52,14 +51,14 @@ export async function POST(request: NextRequest) {
     }
 
     // All conditions must be checked
-    const requiredConditions = ['과제 100%', '스터디 100%', '코칭 100%', '2주 내 응시', '30일 내 제출', '동일 유형', '사실 확인'];
+    const requiredConditions = ['과제 100%', '스터디 100%', '코칭 100%', '2주 내 응시', '30일 내 제출', '사실 확인'];
     if (!checkedConditions || requiredConditions.some(c => !checkedConditions.includes(c))) {
       return NextResponse.json({ error: '모든 보증 조건을 확인해주세요.' }, { status: 400 });
     }
 
     console.log('[보증 청구]', JSON.stringify({
       timestamp: new Date().toISOString(),
-      name, email, phone, cohort, preGrade, postGrade, testType, testNumber, testDate,
+      name, email, phone, cohort, preGrade, postGrade, testNumber, testDate,
       checkedConditions,
       files: {
         preScore: preScoreFile?.name,
@@ -81,7 +80,6 @@ export async function POST(request: NextRequest) {
               { name: '이메일', value: email, inline: true },
               { name: '전화', value: phone, inline: true },
               { name: '수강 기수', value: cohort, inline: true },
-              { name: '시험 유형', value: testType === 'general' ? '일반 (OPIc)' : 'Business (OPIc B)', inline: true },
               { name: '수험번호', value: testNumber, inline: true },
               { name: '사전 등급', value: preGrade, inline: true },
               { name: '사후 등급', value: postGrade, inline: true },
