@@ -2754,9 +2754,9 @@ export default function StudyPage() {
               <p>누적 수강생 4,000명, 실제 후기 1,000건 이상. 매 기수 평균 2등급 상승이라는 결과가 반복되고 있습니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon">무료</div>
-              <h3>41,900원 AI 도구 무료</h3>
-              <p>월 41,900원 상당의 SpeakCoach AI Pro를 스터디 기간 내 무제한 제공. 녹음 즉시 발음·억양·문법 교정 리포트를 받아 매일 실력이 올라갑니다.</p>
+              <div className="why-icon">보증</div>
+              <h3>성적 보증제</h3>
+              <p>조건을 100% 이행했는데 등급이 안 올랐다면 다음 기수를 무료로 다시 수강할 수 있습니다. 그만큼 결과에 자신 있습니다. <a href="#guarantee" style={{color:'var(--green)',fontWeight:600,textDecoration:'underline',textUnderlineOffset:'3px'}}>자세히 보기</a></p>
             </div>
           </div>
         </div>
