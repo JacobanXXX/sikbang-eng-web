@@ -3011,6 +3011,230 @@ export default function StudyPage() {
         </div>
       </section>
 
+      {/* GUARANTEE */}
+      <section className="section" id="guarantee">
+        <div className="container">
+          <div style={{ textAlign: 'center' }}>
+            <div className="section-title">성적 보증</div>
+            <p className="section-desc">조건을 100% 이행했는데도 등급이 오르지 않았다면, 다음 기수를 무료로 다시 수강하세요.</p>
+          </div>
+
+          {/* 보증 내용 카드 2개 - why-card 재사용 */}
+          <div className="why-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: '48px' }}>
+            <div className="why-card">
+              <div className="why-icon">무료</div>
+              <h3>다음 기수 무료 재수강</h3>
+              <p>교재비 면제, AI 이용비만 별도 결제. 승인 후 직후 기수에 사용해야 합니다.</p>
+            </div>
+            <div className="why-card">
+              <div className="why-icon">분석</div>
+              <h3>1:1 약점 분석 리포트</h3>
+              <p>1차 수강 데이터 기반으로 코치가 작성. 재수강 시 약점만 집중 공략합니다.</p>
+            </div>
+          </div>
+
+          {/* 보증 조건 - rules-grid 재사용 */}
+          <div style={{ marginTop: '64px' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div className="section-title" style={{ fontSize: '24px' }}>보증 조건</div>
+              <p className="section-desc">아래 5가지를 전부 충족해야 합니다.</p>
+            </div>
+            <div className="rules-grid" style={{ gridTemplateColumns: '1fr' }}>
+              <div className="rule-card">
+                <div className="rule-num">01</div>
+                <div>
+                  <h4>과제 100% 제출 + 암기 확인 통과</h4>
+                  <p>매 피드백 시 랜덤 3문장 구술 테스트. 1회라도 미통과 시 보증 미적용.</p>
+                </div>
+              </div>
+              <div className="rule-card">
+                <div className="rule-num">02</div>
+                <div>
+                  <h4>스터디 100% 참석</h4>
+                  <p>10분 초과 지각, 조기 퇴장, 무단 불참은 미참석 처리.</p>
+                </div>
+              </div>
+              <div className="rule-card">
+                <div className="rule-num">03</div>
+                <div>
+                  <h4>1:1 코치 피드백 100% 참석</h4>
+                  <p>사전 통보 없는 불참은 미참석 처리.</p>
+                </div>
+              </div>
+              <div className="rule-card">
+                <div className="rule-num">04</div>
+                <div>
+                  <h4>종료 후 2주 내 OPIc 응시</h4>
+                  <p>미응시 시 보증 자격 자동 소멸.</p>
+                </div>
+              </div>
+              <div className="rule-card">
+                <div className="rule-num">05</div>
+                <div>
+                  <h4>공식 성적표 + 수험번호 제출</h4>
+                  <p>응시일로부터 30일 이내. 진위 확인 검증이 진행될 수 있습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 적용 기준 테이블 - compare-table 재사용 */}
+          <div style={{ marginTop: '64px' }}>
+            <table className="compare-table">
+              <thead>
+                <tr>
+                  <th>항목</th>
+                  <th className="highlight-col">기준</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>적용 대상</td>
+                  <td className="highlight-col">6개월 내 OPIc 성적표 보유자 (수강 전 제출 필수)</td>
+                </tr>
+                <tr>
+                  <td>시행 시기</td>
+                  <td className="highlight-col"><strong>2025년 5월 15일 기수</strong>부터 (소급 불가)</td>
+                </tr>
+                <tr>
+                  <td>향상 기준</td>
+                  <td className="highlight-col">ACTFL 1단계 이상 상승 (NH→IL→IM1→IM2→IM3→IH→AL→AH)</td>
+                </tr>
+                <tr>
+                  <td>시험 유형</td>
+                  <td className="highlight-col">사전·사후 동일 유형(일반/Business) 필수</td>
+                </tr>
+                <tr>
+                  <td>보증 횟수</td>
+                  <td className="highlight-col">1인 1회, 직후 기수 필수 사용, 양도 불가</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* 청구 절차 - why-card 재사용 */}
+          <div style={{ marginTop: '64px' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div className="section-title" style={{ fontSize: '24px' }}>청구 절차</div>
+              <p className="section-desc">심사는 접수일로부터 14영업일 이내에 완료됩니다.</p>
+            </div>
+            <div className="why-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginTop: '0' }}>
+              <div className="why-card">
+                <div className="why-icon" style={{ fontSize: '28px' }}>1</div>
+                <h3>청구 신청</h3>
+                <p>온라인 청구 폼 작성</p>
+              </div>
+              <div className="why-card">
+                <div className="why-icon" style={{ fontSize: '28px' }}>2</div>
+                <h3>서류 제출</h3>
+                <p>사전·사후 성적표, 수험번호, 신분증</p>
+              </div>
+              <div className="why-card">
+                <div className="why-icon" style={{ fontSize: '28px' }}>3</div>
+                <h3>심사</h3>
+                <p>성적표 진위 및 조건 충족 검토</p>
+              </div>
+              <div className="why-card">
+                <div className="why-icon" style={{ fontSize: '28px' }}>4</div>
+                <h3>재수강 배정</h3>
+                <p>직후 기수 자동 배정</p>
+              </div>
+            </div>
+            <div style={{ textAlign: 'center', marginTop: '32px' }}>
+              <a href="/guarantee-claim" style={{
+                display: 'inline-block',
+                padding: '14px 32px',
+                background: 'var(--green, #1A8D48)',
+                color: 'white',
+                borderRadius: '12px',
+                fontSize: '15px',
+                fontWeight: 700,
+                textDecoration: 'none',
+              }}>
+                보증 청구하기 →
+              </a>
+            </div>
+          </div>
+
+          {/* 부정행위 경고 + 전문 - faq-item 재사용 */}
+          <div className="faq-list" style={{ marginTop: '64px' }}>
+            <div className={`faq-item faq-important ${openGuaranteeFaq === 0 ? 'open' : ''}`}>
+              <button className="faq-question" onClick={() => setOpenGuaranteeFaq(openGuaranteeFaq === 0 ? null : 0)}>
+                <span><span className="faq-badge">필독</span>부정행위 및 허위 서류 제출 경고</span>
+                <span className="faq-icon">+</span>
+              </button>
+              <div className="faq-answer" style={{ maxHeight: openGuaranteeFaq === 0 ? '800px' : '0' }}>
+                <div className="faq-answer-content" style={{ whiteSpace: 'pre-line' }}>
+                  성적표 위조·변조, 타인 성적표 제출, 허위 기재, 대리 응시 등은 부정행위로 간주됩니다.{'\n\n'}
+                  <strong>적발 시:</strong> 보증 영구 박탈, 전 프로그램 이용 제한, 민사 손해배상, 형법 제231조(사문서위조)·제234조(위조사문서행사)에 따른 형사 고발.{'\n\n'}
+                  부정행위 의심 시 추가 증빙(성적 조회 사이트 화면 녹화 등)을 요청할 수 있으며, 정당한 사유 없이 거부 시 부정행위로 간주합니다.
+                </div>
+              </div>
+            </div>
+
+            <div className={`faq-item ${openGuaranteeFaq === 1 ? 'open' : ''}`}>
+              <button className="faq-question" onClick={() => setOpenGuaranteeFaq(openGuaranteeFaq === 1 ? null : 1)}>
+                <span>보증 정책 전문 보기</span>
+                <span className="faq-icon">+</span>
+              </button>
+              <div className="faq-answer" style={{ maxHeight: openGuaranteeFaq === 1 ? '3000px' : '0' }}>
+                <div className="faq-answer-content" style={{ whiteSpace: 'pre-line' }}>
+                  <strong>제1조 (목적)</strong>{'\n'}
+                  본 정책은 식빵영어(이하 &quot;회사&quot;)가 운영하는 &quot;2주 OPIc 스터디&quot; 수강생에게 제공하는 성적 보증 제도의 적용 조건, 보증 내용, 청구 절차 및 제한 사항을 규정합니다.{'\n\n'}
+                  <strong>제2조 (적용 대상)</strong>{'\n'}
+                  1. 최근 6개월 이내 OPIc 공식 성적표 보유 및 스터디 시작 전 제출자{'\n'}
+                  2. 2025년 5월 15일 기수 이후 등록자{'\n'}
+                  3. 수강 등록 시 본 정책 동의자{'\n\n'}
+                  <strong>제3조 (보증 조건)</strong>{'\n'}
+                  1. 14일간 과제 100% 제출 및 매 피드백 시 암기 확인 통과{'\n'}
+                  2. 정규 스터디 세션 100% 참석 (10분 초과 지각·조기 퇴장·무단 불참 = 미참석){'\n'}
+                  3. 1:1 코치 피드백 세션 100% 참석{'\n'}
+                  4. 종료 후 2주 이내 OPIc 응시{'\n'}
+                  5. 시험 응시일로부터 30일 이내 공식 성적표 및 수험번호 제출{'\n\n'}
+                  <strong>제4조 (성적 향상 판단 기준)</strong>{'\n'}
+                  1. 수강 전 대비 1단계 이상 등급 상승 = &quot;성적 향상&quot;{'\n'}
+                  2. ACTFL 공식 기준 (NH → IL → IM1 → IM2 → IM3 → IH → AL → AH){'\n'}
+                  3. 동일 등급 유지 또는 하락 = &quot;미향상&quot;{'\n'}
+                  4. 사전·사후 시험 유형 동일 필수{'\n\n'}
+                  <strong>제5조 (보증 내용)</strong>{'\n'}
+                  1. 승인일 기준 모집 중이거나 모집 예정인 직후 기수에서 1회 무료 재수강{'\n'}
+                  2. 해당 기수에 재수강하지 않을 경우 보증 자격 자동 소멸{'\n'}
+                  3. 교재비 면제, AI 이용비(SpeakCoach Pro) 별도 결제{'\n'}
+                  4. 1:1 약점 분석 리포트 재수강 시작 전 제공{'\n'}
+                  5. 1인 1회 한정, 재수강 후 추가 보증 불가{'\n'}
+                  6. 양도 불가{'\n\n'}
+                  <strong>제6조 (보증 청구 절차)</strong>{'\n'}
+                  1. 카카오톡 채널 또는 지정 이메일로 청구{'\n'}
+                  2. 제출: 사전·사후 성적표(PDF), 수험번호, 본인 확인 서류{'\n'}
+                  3. 심사: 접수일로부터 14영업일 이내{'\n'}
+                  4. ACTFL 공식 채널 통한 검증 가능{'\n'}
+                  5. 승인 시 직후 기수 재수강 배정 안내 (배정 기수 미참여 시 보증 소멸){'\n\n'}
+                  <strong>제7조 (보증 적용 제외 사유)</strong>{'\n'}
+                  1. 사전 성적표 응시일이 6개월 초과{'\n'}
+                  2. 2주 이내 미응시 또는 30일 이내 미제출{'\n'}
+                  3. 사전·사후 시험 유형 상이{'\n'}
+                  4. 보증 조건(제3조) 미충족{'\n'}
+                  5. 승인 후 배정된 직후 기수에 재수강하지 않은 경우{'\n'}
+                  6. 대리 참석·제출 확인{'\n'}
+                  7. 부정행위 해당{'\n\n'}
+                  <strong>제8조 (부정행위)</strong>{'\n'}
+                  허위·변조 서류 제출 시 형법 제231조(사문서위조), 제234조(위조사문서행사) 해당. 적발 시 보증 영구 박탈, 전 프로그램 이용 제한, 민·형사 조치.{'\n\n'}
+                  <strong>제9조 (정책 변경)</strong>{'\n'}
+                  변경 시 7일 전 공지. 신규 등록자부터 적용, 기존 수강생은 등록 시점 정책 적용.{'\n\n'}
+                  <strong>제10조 (분쟁 해결)</strong>{'\n'}
+                  대한민국 법률 준거, 회사 소재지 관할 법원 전속 관할.{'\n\n'}
+                  <strong>부칙</strong>{'\n'}
+                  1. 2025년 5월 15일 기수부터 시행{'\n'}
+                  2. 시행 이전 등록자 소급 적용 불가{'\n'}
+                  3. 미규정 사항은 관련 법령 및 상관례에 따름
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* PRICING */}
       <section className="section section-gray" id="pricing">
         <div className="container">
@@ -3129,216 +3353,6 @@ export default function StudyPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* GUARANTEE */}
-      <section className="section" id="guarantee">
-        <div className="container">
-          <div style={{ textAlign: 'center' }}>
-            <div className="section-title">성적 보증</div>
-            <p className="section-desc">조건을 100% 이행했는데도 등급이 오르지 않았다면, 다음 기수를 무료로 다시 수강하세요.</p>
-          </div>
-
-          {/* 보증 내용 카드 2개 - why-card 재사용 */}
-          <div className="why-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)', marginTop: '48px' }}>
-            <div className="why-card">
-              <div className="why-icon">무료</div>
-              <h3>다음 기수 무료 재수강</h3>
-              <p>교재비 면제, AI 이용비만 별도 결제. 승인 후 직후 기수에 사용해야 합니다.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-icon">분석</div>
-              <h3>1:1 약점 분석 리포트</h3>
-              <p>1차 수강 데이터 기반으로 코치가 작성. 재수강 시 약점만 집중 공략합니다.</p>
-            </div>
-          </div>
-
-          {/* 보증 조건 - rules-grid 재사용 */}
-          <div style={{ marginTop: '64px' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div className="section-title" style={{ fontSize: '24px' }}>보증 조건</div>
-              <p className="section-desc">아래 5가지를 전부 충족해야 합니다.</p>
-            </div>
-            <div className="rules-grid" style={{ gridTemplateColumns: '1fr' }}>
-              <div className="rule-card">
-                <div className="rule-num">01</div>
-                <div>
-                  <h4>과제 100% 제출 + 암기 확인 통과</h4>
-                  <p>매 피드백 시 랜덤 3문장 구술 테스트. 1회라도 미통과 시 보증 미적용.</p>
-                </div>
-              </div>
-              <div className="rule-card">
-                <div className="rule-num">02</div>
-                <div>
-                  <h4>스터디 100% 참석</h4>
-                  <p>10분 초과 지각, 조기 퇴장, 무단 불참은 미참석 처리.</p>
-                </div>
-              </div>
-              <div className="rule-card">
-                <div className="rule-num">03</div>
-                <div>
-                  <h4>1:1 코치 피드백 100% 참석</h4>
-                  <p>사전 통보 없는 불참은 미참석 처리.</p>
-                </div>
-              </div>
-              <div className="rule-card">
-                <div className="rule-num">04</div>
-                <div>
-                  <h4>종료 후 2주 내 OPIc 응시</h4>
-                  <p>미응시 시 보증 자격 자동 소멸.</p>
-                </div>
-              </div>
-              <div className="rule-card">
-                <div className="rule-num">05</div>
-                <div>
-                  <h4>공식 성적표 + 수험번호 제출</h4>
-                  <p>응시일로부터 30일 이내. 진위 확인 검증이 진행될 수 있습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 적용 기준 테이블 - compare-table 재사용 */}
-          <div style={{ marginTop: '64px' }}>
-            <table className="compare-table">
-              <thead>
-                <tr>
-                  <th>항목</th>
-                  <th className="highlight-col">기준</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>적용 대상</td>
-                  <td className="highlight-col">6개월 내 OPIc 성적표 보유자 (수강 전 제출 필수)</td>
-                </tr>
-                <tr>
-                  <td>시행 시기</td>
-                  <td className="highlight-col"><strong>2025년 5월 15일 기수</strong>부터 (소급 불가)</td>
-                </tr>
-                <tr>
-                  <td>향상 기준</td>
-                  <td className="highlight-col">ACTFL 1단계 이상 상승 (NH→IL→IM1→IM2→IM3→IH→AL→AH)</td>
-                </tr>
-                <tr>
-                  <td>시험 유형</td>
-                  <td className="highlight-col">사전·사후 동일 유형(일반/Business) 필수</td>
-                </tr>
-                <tr>
-                  <td>보증 횟수</td>
-                  <td className="highlight-col">1인 1회, 직후 기수 필수 사용, 양도 불가</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          {/* 청구 절차 - why-card 재사용 */}
-          <div style={{ marginTop: '64px' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div className="section-title" style={{ fontSize: '24px' }}>청구 절차</div>
-              <p className="section-desc">심사는 접수일로부터 14영업일 이내에 완료됩니다.</p>
-            </div>
-            <div className="why-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginTop: '0' }}>
-              <div className="why-card">
-                <div className="why-icon" style={{ fontSize: '28px' }}>1</div>
-                <h3>청구 신청</h3>
-                <p>카카오톡 채널로 접수</p>
-              </div>
-              <div className="why-card">
-                <div className="why-icon" style={{ fontSize: '28px' }}>2</div>
-                <h3>서류 제출</h3>
-                <p>사전·사후 성적표, 수험번호, 신분증</p>
-              </div>
-              <div className="why-card">
-                <div className="why-icon" style={{ fontSize: '28px' }}>3</div>
-                <h3>심사</h3>
-                <p>성적표 진위 및 조건 충족 검토</p>
-              </div>
-              <div className="why-card">
-                <div className="why-icon" style={{ fontSize: '28px' }}>4</div>
-                <h3>재수강 배정</h3>
-                <p>직후 기수 자동 배정</p>
-              </div>
-            </div>
-          </div>
-
-          {/* 부정행위 경고 + 전문 - faq-item 재사용 */}
-          <div className="faq-list" style={{ marginTop: '64px' }}>
-            <div className={`faq-item faq-important ${openGuaranteeFaq === 0 ? 'open' : ''}`}>
-              <button className="faq-question" onClick={() => setOpenGuaranteeFaq(openGuaranteeFaq === 0 ? null : 0)}>
-                <span><span className="faq-badge">필독</span>부정행위 및 허위 서류 제출 경고</span>
-                <span className="faq-icon">+</span>
-              </button>
-              <div className="faq-answer" style={{ maxHeight: openGuaranteeFaq === 0 ? '800px' : '0' }}>
-                <div className="faq-answer-content" style={{ whiteSpace: 'pre-line' }}>
-                  성적표 위조·변조, 타인 성적표 제출, 허위 기재, 대리 응시 등은 부정행위로 간주됩니다.{'\n\n'}
-                  <strong>적발 시:</strong> 보증 영구 박탈, 전 프로그램 이용 제한, 민사 손해배상, 형법 제231조(사문서위조)·제234조(위조사문서행사)에 따른 형사 고발.{'\n\n'}
-                  부정행위 의심 시 추가 증빙(성적 조회 사이트 화면 녹화 등)을 요청할 수 있으며, 정당한 사유 없이 거부 시 부정행위로 간주합니다.
-                </div>
-              </div>
-            </div>
-
-            <div className={`faq-item ${openGuaranteeFaq === 1 ? 'open' : ''}`}>
-              <button className="faq-question" onClick={() => setOpenGuaranteeFaq(openGuaranteeFaq === 1 ? null : 1)}>
-                <span>보증 정책 전문 보기</span>
-                <span className="faq-icon">+</span>
-              </button>
-              <div className="faq-answer" style={{ maxHeight: openGuaranteeFaq === 1 ? '3000px' : '0' }}>
-                <div className="faq-answer-content" style={{ whiteSpace: 'pre-line' }}>
-                  <strong>제1조 (목적)</strong>{'\n'}
-                  본 정책은 식빵영어(이하 &quot;회사&quot;)가 운영하는 &quot;2주 OPIc 스터디&quot; 수강생에게 제공하는 성적 보증 제도의 적용 조건, 보증 내용, 청구 절차 및 제한 사항을 규정합니다.{'\n\n'}
-                  <strong>제2조 (적용 대상)</strong>{'\n'}
-                  1. 최근 6개월 이내 OPIc 공식 성적표 보유 및 스터디 시작 전 제출자{'\n'}
-                  2. 2025년 5월 15일 기수 이후 등록자{'\n'}
-                  3. 수강 등록 시 본 정책 동의자{'\n\n'}
-                  <strong>제3조 (보증 조건)</strong>{'\n'}
-                  1. 14일간 과제 100% 제출 및 매 피드백 시 암기 확인 통과{'\n'}
-                  2. 정규 스터디 세션 100% 참석 (10분 초과 지각·조기 퇴장·무단 불참 = 미참석){'\n'}
-                  3. 1:1 코치 피드백 세션 100% 참석{'\n'}
-                  4. 종료 후 2주 이내 OPIc 응시{'\n'}
-                  5. 시험 응시일로부터 30일 이내 공식 성적표 및 수험번호 제출{'\n\n'}
-                  <strong>제4조 (성적 향상 판단 기준)</strong>{'\n'}
-                  1. 수강 전 대비 1단계 이상 등급 상승 = &quot;성적 향상&quot;{'\n'}
-                  2. ACTFL 공식 기준 (NH → IL → IM1 → IM2 → IM3 → IH → AL → AH){'\n'}
-                  3. 동일 등급 유지 또는 하락 = &quot;미향상&quot;{'\n'}
-                  4. 사전·사후 시험 유형 동일 필수{'\n\n'}
-                  <strong>제5조 (보증 내용)</strong>{'\n'}
-                  1. 승인일 기준 모집 중이거나 모집 예정인 직후 기수에서 1회 무료 재수강{'\n'}
-                  2. 해당 기수에 재수강하지 않을 경우 보증 자격 자동 소멸{'\n'}
-                  3. 교재비 면제, AI 이용비(SpeakCoach Pro) 별도 결제{'\n'}
-                  4. 1:1 약점 분석 리포트 재수강 시작 전 제공{'\n'}
-                  5. 1인 1회 한정, 재수강 후 추가 보증 불가{'\n'}
-                  6. 양도 불가{'\n\n'}
-                  <strong>제6조 (보증 청구 절차)</strong>{'\n'}
-                  1. 카카오톡 채널 또는 지정 이메일로 청구{'\n'}
-                  2. 제출: 사전·사후 성적표(PDF), 수험번호, 본인 확인 서류{'\n'}
-                  3. 심사: 접수일로부터 14영업일 이내{'\n'}
-                  4. ACTFL 공식 채널 통한 검증 가능{'\n'}
-                  5. 승인 시 직후 기수 재수강 배정 안내 (배정 기수 미참여 시 보증 소멸){'\n\n'}
-                  <strong>제7조 (보증 적용 제외 사유)</strong>{'\n'}
-                  1. 사전 성적표 응시일이 6개월 초과{'\n'}
-                  2. 2주 이내 미응시 또는 30일 이내 미제출{'\n'}
-                  3. 사전·사후 시험 유형 상이{'\n'}
-                  4. 보증 조건(제3조) 미충족{'\n'}
-                  5. 승인 후 배정된 직후 기수에 재수강하지 않은 경우{'\n'}
-                  6. 대리 참석·제출 확인{'\n'}
-                  7. 부정행위 해당{'\n\n'}
-                  <strong>제8조 (부정행위)</strong>{'\n'}
-                  허위·변조 서류 제출 시 형법 제231조(사문서위조), 제234조(위조사문서행사) 해당. 적발 시 보증 영구 박탈, 전 프로그램 이용 제한, 민·형사 조치.{'\n\n'}
-                  <strong>제9조 (정책 변경)</strong>{'\n'}
-                  변경 시 7일 전 공지. 신규 등록자부터 적용, 기존 수강생은 등록 시점 정책 적용.{'\n\n'}
-                  <strong>제10조 (분쟁 해결)</strong>{'\n'}
-                  대한민국 법률 준거, 회사 소재지 관할 법원 전속 관할.{'\n\n'}
-                  <strong>부칙</strong>{'\n'}
-                  1. 2025년 5월 15일 기수부터 시행{'\n'}
-                  2. 시행 이전 등록자 소급 적용 불가{'\n'}
-                  3. 미규정 사항은 관련 법령 및 상관례에 따름
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </section>
 
@@ -3852,7 +3866,7 @@ export default function StudyPage() {
                             </select>
                           </div>
                           <div className="form-field" style={{ marginBottom: '0' }}>
-                            <label style={{fontSize:'13px'}}>성적표 첨부 (PDF)</label>
+                            <label style={{fontSize:'13px'}}>성적표 첨부</label>
                             <input
                               type="file"
                               accept=".pdf,.jpg,.jpeg,.png"
@@ -3868,6 +3882,12 @@ export default function StudyPage() {
                                 {scoreFile.name} ({(scoreFile.size / 1024).toFixed(0)}KB)
                               </p>
                             )}
+                          </div>
+                          <div style={{marginTop:'12px',padding:'12px',background:'white',borderRadius:'8px',border:'1px solid #E5E8EB'}}>
+                            <p style={{fontSize:'12px',fontWeight:600,color:'var(--text-primary, #191F28)',marginBottom:'6px'}}>성적표 제출 시 유의사항</p>
+                            <p style={{fontSize:'11px',color:'var(--text-secondary, #4E5968)',lineHeight:1.6,margin:0}}>
+                              성적표에 수험번호, 등급, 응시일이 모두 보이도록 촬영 또는 캡처해 주세요. OPIc 공식 사이트(opic.or.kr) 성적 조회 화면을 캡처하는 것이 가장 정확합니다. 진위 확인을 위해 ACTFL 공식 채널을 통한 검증이 진행될 수 있으며, 위·변조된 성적표 제출 시 보증이 영구 박탈됩니다.
+                            </p>
                           </div>
                         </div>
                       )}
