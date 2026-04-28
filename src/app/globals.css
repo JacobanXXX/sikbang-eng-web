@@ -209,23 +209,23 @@ img { max-width: 100%; display: block; }
 }
 .product-card-image {
   height: 200px;
-  background: linear-gradient(135deg, #E8F3FF 0%, #D0E8FF 100%);
+  background: #F8F9FA;
   display: flex; align-items: center; justify-content: center;
   font-size: 64px;
   position: relative;
   overflow: hidden;
 }
-.product-card-image.ebook-bg { background: linear-gradient(135deg, #E8F3FF 0%, #C7DEFF 100%); }
-.product-card-image.course-bg { background: linear-gradient(135deg, #F0E8FF 0%, #DDD0FF 100%); }
-.product-card-image.study-bg { background: linear-gradient(135deg, #E8FFF0 0%, #C7FFD8 100%); }
+.product-card-image.ebook-bg { background: #F8F9FA; }
+.product-card-image.course-bg { background: #F8F9FA; }
+.product-card-image.study-bg { background: #F8F9FA; }
 .product-badge {
   position: absolute; top: 16px; left: 16px;
   background: var(--blue-primary); color: white;
   padding: 4px 12px; border-radius: 8px;
   font-size: 12px; font-weight: 700;
 }
-.product-badge.hot { background: #F04452; }
-.product-badge.new { background: #3CB371; }
+.product-badge.hot { background: var(--blue-primary); }
+.product-badge.new { background: #191F28; }
 .product-card-body { padding: 24px; }
 .product-card-body .category {
   font-size: 13px; font-weight: 600; color: var(--blue-primary);
@@ -771,10 +771,10 @@ img { max-width: 100%; display: block; }
 }
 [data-theme="dark"] .newsletter-form input::placeholder { color: #6B7684; }
 [data-theme="dark"] .newsletter-success { background: #1A3A2A; color: #4ADE80; }
-[data-theme="dark"] .product-card-image { background: linear-gradient(135deg, #1A2A40 0%, #22334D 100%); }
-[data-theme="dark"] .product-card-image.ebook-bg { background: linear-gradient(135deg, #1A2A40 0%, #1E3355 100%); }
-[data-theme="dark"] .product-card-image.course-bg { background: linear-gradient(135deg, #2A1A40 0%, #332255 100%); }
-[data-theme="dark"] .product-card-image.study-bg { background: linear-gradient(135deg, #1A3A2A 0%, #224433 100%); }
+[data-theme="dark"] .product-card-image { background: #22262E; }
+[data-theme="dark"] .product-card-image.ebook-bg { background: #22262E; }
+[data-theme="dark"] .product-card-image.course-bg { background: #22262E; }
+[data-theme="dark"] .product-card-image.study-bg { background: #22262E; }
 [data-theme="dark"] .btn-secondary { background: #2A2E36; color: #EAEDF0; }
 [data-theme="dark"] .btn-secondary:hover { background: #333840; }
 [data-theme="dark"] .mockup-screen { background: #2A2E36; }

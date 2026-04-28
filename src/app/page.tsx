@@ -367,7 +367,7 @@ export default function Home() {
             <div className="product-card">
               <div className="product-card-image course-bg">
                 <span className="product-badge new">NEW</span>
-                <span style={{ fontSize: '16px', fontWeight: '700', color: '#7C5CFC', letterSpacing: '-0.02em' }}>VIDEO COURSE</span>
+                <span style={{ fontSize: '16px', fontWeight: '700', color: 'var(--blue-primary)', letterSpacing: '-0.02em' }}>VIDEO COURSE</span>
               </div>
               <div className="product-card-body">
                 <div className="category">인강</div>
