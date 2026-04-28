@@ -386,7 +386,7 @@ export default function Home() {
             </div>
 
             {/* 스터디 */}
-            <div className="product-card">
+            <div className="product-card" style={{border:'2px solid #1A8D48', position:'relative'}}>
               <div className="product-card-image study-bg">
                 <span className="product-badge">BEST</span>
                 <span style={{ fontSize: '16px', fontWeight: '700', color: '#1A8D48', letterSpacing: '-0.02em' }}>2-WEEK STUDY</span>
@@ -395,6 +395,20 @@ export default function Home() {
                 <div className="category">2주 스터디</div>
                 <h3>2주 집중 OPIC 스터디</h3>
                 <div className="desc">매일 녹음 → 코치 직접 교정 → AI 분석. 수료생 94% 목표 달성. 학원 1달 과정을 2주에 끝내세요.</div>
+                <div style={{
+                  margin:'12px 0',
+                  padding:'12px 16px',
+                  background:'linear-gradient(135deg, rgba(26,141,72,0.08) 0%, rgba(26,141,72,0.03) 100%)',
+                  borderRadius:'10px',
+                  border:'1px solid rgba(26,141,72,0.2)',
+                }}>
+                  <div style={{fontSize:'13px',fontWeight:800,color:'#1A8D48',marginBottom:'4px',display:'flex',alignItems:'center',gap:'6px'}}>
+                    <span style={{fontSize:'15px'}}>🛡️</span> 성적 보증제 도입
+                  </div>
+                  <div style={{fontSize:'12px',color:'#4E5968',lineHeight:1.5}}>
+                    점수가 안 오르면, <strong style={{color:'#1A8D48'}}>오를 때까지 무료 재수강</strong>. 조건 충족 시 100% 적용.
+                  </div>
+                </div>
                 <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
                   <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>
                     <span className="original">259,900원</span>
@@ -407,6 +421,112 @@ export default function Home() {
               </div>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* GUARANTEE HOOK BANNER */}
+      <section style={{
+        padding:'56px 0',
+        background:'linear-gradient(135deg, #0D6B30 0%, #1A8D48 50%, #22A856 100%)',
+        position:'relative' as const,
+        overflow:'hidden',
+      }}>
+        <div style={{
+          position:'absolute' as const,
+          top:'-60px',
+          right:'-40px',
+          width:'240px',
+          height:'240px',
+          background:'rgba(255,255,255,0.06)',
+          borderRadius:'50%',
+        }}></div>
+        <div style={{
+          position:'absolute' as const,
+          bottom:'-40px',
+          left:'5%',
+          width:'160px',
+          height:'160px',
+          background:'rgba(255,255,255,0.04)',
+          borderRadius:'50%',
+        }}></div>
+        <div className="container" style={{
+          textAlign:'center' as const,
+          position:'relative' as const,
+          zIndex:1,
+        }}>
+          <div style={{
+            display:'inline-flex',
+            alignItems:'center',
+            gap:'8px',
+            background:'rgba(255,255,255,0.15)',
+            borderRadius:'20px',
+            padding:'6px 16px',
+            marginBottom:'16px',
+            fontSize:'13px',
+            fontWeight:700,
+            color:'white',
+          }}>
+            🛡️ 성적 보증제
+          </div>
+          <h2 style={{
+            fontSize:'30px',
+            fontWeight:900,
+            color:'white',
+            lineHeight:1.35,
+            marginBottom:'12px',
+            letterSpacing:'-0.03em',
+          }}>
+            점수가 안 오르면,<br/>저희가 책임집니다.
+          </h2>
+          <p style={{
+            fontSize:'17px',
+            color:'rgba(255,255,255,0.9)',
+            lineHeight:1.6,
+            marginBottom:'6px',
+            fontWeight:600,
+          }}>
+            2주 스터디 수료 후 성적이 오르지 않으면 — <span style={{textDecoration:'underline',textUnderlineOffset:'4px'}}>오를 때까지 무료 재수강</span>.
+          </p>
+          <p style={{
+            fontSize:'14px',
+            color:'rgba(255,255,255,0.6)',
+            marginBottom:'28px',
+          }}>
+            과제·출석·코칭 100% 이수 + 2주 내 응시 조건 충족 시 적용
+          </p>
+          <div style={{
+            display:'flex',
+            justifyContent:'center',
+            gap:'12px',
+            flexWrap:'wrap' as const,
+          }}>
+            <a href="/study#guarantee" style={{
+              display:'inline-block',
+              padding:'14px 28px',
+              background:'white',
+              color:'#1A8D48',
+              borderRadius:'12px',
+              fontSize:'15px',
+              fontWeight:700,
+              textDecoration:'none',
+              boxShadow:'0 4px 16px rgba(0,0,0,0.15)',
+            }}>
+              보증 조건 자세히 보기 →
+            </a>
+            <a href="/study" style={{
+              display:'inline-block',
+              padding:'14px 28px',
+              background:'rgba(255,255,255,0.15)',
+              color:'white',
+              borderRadius:'12px',
+              fontSize:'15px',
+              fontWeight:700,
+              textDecoration:'none',
+              border:'1px solid rgba(255,255,255,0.3)',
+            }}>
+              스터디 신청하기
+            </a>
           </div>
         </div>
       </section>
