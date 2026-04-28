@@ -557,8 +557,8 @@ export default function StudyPage() {
         [data-theme="dark"] .review-card { background: #22262E; border-color: #333840; }
         [data-theme="dark"] .faq-item { border-color: #333840; }
         [data-theme="dark"] .toast { background: rgba(26,29,35,0.95); }
-        [data-theme="dark"] .theme-toggle { background: #22262E; border-color: #333840; }
-        [data-theme="dark"] .theme-toggle:hover { background: #333840; }
+        [data-theme="dark"] .theme-toggle { color: #8B95A1; }
+        [data-theme="dark"] .theme-toggle:hover { color: #EAEDF0; }
         [data-theme="dark"] .countdown-box { background: rgba(26,29,35,0.8); border-color: #333840; }
         [data-theme="dark"] .countdown-num { background: #22262E; color: #EAEDF0; }
 
@@ -2598,7 +2598,11 @@ export default function StudyPage() {
             </a>
           </div>
           <button className="theme-toggle" onClick={toggleDarkMode} aria-label="다크모드 전환" style={{marginRight:'8px'}}>
-            {darkMode ? '☀️' : '🌙'}
+            {darkMode ? (
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            )}
           </button>
           <button onClick={() => openFormModal()} className="nav-cta">
             지금 신청하기
