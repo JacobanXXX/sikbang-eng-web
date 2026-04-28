@@ -550,7 +550,7 @@ export default function StudyPage() {
         }
         [data-theme="dark"] body { background: #1A1D23; color: #EAEDF0; }
         [data-theme="dark"] .nav { background: rgba(26,29,35,0.95); border-bottom-color: #333840; }
-        [data-theme="dark"] .hero { background: linear-gradient(180deg, #1A2A1E 0%, #1A1D23 100%); }
+        [data-theme="dark"] .hero { background: linear-gradient(180deg, #1E2E22 0%, #1A1D23 100%); }
         [data-theme="dark"] .section-gray { background: #22262E; }
         [data-theme="dark"] .curriculum-card { background: #22262E; border-color: #333840; }
         [data-theme="dark"] .pricing-card { background: #22262E; border-color: #333840; }
@@ -681,14 +681,14 @@ export default function StudyPage() {
           transition: background 0.2s;
         }
         .nav-cta:hover {
-          background: #15753c;
+          background: #1A8D48;
         }
 
         /* === HERO === */
         .hero {
           padding: 120px 0 80px;
           margin-top: 64px;
-          background: linear-gradient(135deg, rgba(26,141,72,0.03) 0%, rgba(51,102,255,0.03) 100%);
+          background: linear-gradient(180deg, rgba(26,141,72,0.04) 0%, rgba(26,141,72,0) 100%);
           position: relative;
           overflow: hidden;
         }
@@ -891,7 +891,7 @@ export default function StudyPage() {
           box-shadow: 0 4px 16px rgba(26, 141, 72, 0.3);
         }
         .btn-primary:hover {
-          background: #15753c;
+          background: #1A8D48;
           box-shadow: 0 8px 24px rgba(26, 141, 72, 0.4);
           transform: translateY(-2px);
         }
@@ -1147,7 +1147,7 @@ export default function StudyPage() {
           margin-bottom: 12px;
         }
         .pricing-btn:hover {
-          background: #15753c;
+          background: #1A8D48;
           box-shadow: 0 8px 24px rgba(26, 141, 72, 0.3);
         }
         .pricing-addon {
@@ -1578,7 +1578,7 @@ export default function StudyPage() {
           transition: all 0.2s;
         }
         .floating-btn:hover {
-          background: #15753c;
+          background: #1A8D48;
         }
 
         /* === APPLICATION FORM MODAL === */
@@ -2198,7 +2198,7 @@ export default function StudyPage() {
           transition: background 0.2s;
         }
         .form-copy-btn:hover {
-          background: #15753c;
+          background: #1A8D48;
         }
 
         /* Summary box (success) */
@@ -2233,7 +2233,7 @@ export default function StudyPage() {
           transition: background 0.2s;
         }
         .form-btn-primary:hover {
-          background: #15753c;
+          background: #1A8D48;
         }
         .form-btn-primary:disabled {
           background: #ccc;
@@ -2663,8 +2663,8 @@ export default function StudyPage() {
               <div className="queue-progress-fill" style={{ width: `${((totalSlots - remainingSlots) / totalSlots) * 100}%` }}></div>
             </div>
             <div className="queue-stats">
-              <span>✅ 현재 신청: {totalSlots - remainingSlots}명</span>
-              <span>⏰ 남은 자리: <strong>{remainingSlots}명</strong></span>
+              <span>현재 신청: {totalSlots - remainingSlots}명</span>
+              <span>남은 자리: <strong>{remainingSlots}명</strong></span>
             </div>
             <div className="queue-sub">
               <span className="live-dot"></span>
@@ -3126,7 +3126,7 @@ export default function StudyPage() {
                   잡히니까 자신감이 다릅니다.
                 </div>
                 <div className="review-author">
-                  <div className="review-avatar">👋</div>
+                  <div className="review-avatar">K</div>
                   <div>
                     <div className="review-name">
                       김*현 <span className="review-grade">IH</span>
@@ -3142,7 +3142,7 @@ export default function StudyPage() {
                   결국 AL 받았습니다!
                 </div>
                 <div className="review-author">
-                  <div className="review-avatar">💪</div>
+                  <div className="review-avatar">L</div>
                   <div>
                     <div className="review-name">
                       이*준 <span className="review-grade">AL</span>
@@ -3158,7 +3158,7 @@ export default function StudyPage() {
                   것 같아요.
                 </div>
                 <div className="review-author">
-                  <div className="review-avatar">💻</div>
+                  <div className="review-avatar">P</div>
                   <div>
                     <div className="review-name">
                       박*영 <span className="review-grade">IH</span>
@@ -3174,7 +3174,7 @@ export default function StudyPage() {
                   IM2 찍었습니다.
                 </div>
                 <div className="review-author">
-                  <div className="review-avatar">☀️</div>
+                  <div className="review-avatar">J</div>
                   <div>
                     <div className="review-name">
                       정*아 <span className="review-grade">IM2</span>
@@ -3190,7 +3190,7 @@ export default function StudyPage() {
                   나왔습니다.
                 </div>
                 <div className="review-author">
-                  <div className="review-avatar">🚀</div>
+                  <div className="review-avatar">L</div>
                   <div>
                     <div className="review-name">
                       이*민 <span className="review-grade">AL</span>
@@ -3206,7 +3206,7 @@ export default function StudyPage() {
                   빠르게 개선됐습니다.
                 </div>
                 <div className="review-author">
-                  <div className="review-avatar">✨</div>
+                  <div className="review-avatar">C</div>
                   <div>
                     <div className="review-name">
                       최*리 <span className="review-grade">IM2</span>
@@ -3222,7 +3222,7 @@ export default function StudyPage() {
                   자연스럽게 열심히 하게 됐습니다.
                 </div>
                 <div className="review-author">
-                  <div className="review-avatar">📱</div>
+                  <div className="review-avatar">H</div>
                   <div>
                     <div className="review-name">
                       한*수 <span className="review-grade">IH</span>
@@ -3348,7 +3348,7 @@ export default function StudyPage() {
       <div className="toast-area">
         {toasts.map((toast) => (
           <div key={toast.id} className="toast">
-            <div className="toast-icon" style={{background:'rgba(255,255,255,0.15)',fontSize:'16px'}}>👋</div>
+            <div className="toast-icon" style={{background:'rgba(255,255,255,0.15)',fontSize:'14px',fontWeight:700}}>NEW</div>
             <div>
               <strong>{toast.name}</strong>
               {toast.action}

@@ -211,6 +211,8 @@ export default function FreePage() {
         [data-theme="dark"] .mobile-menu { background: rgba(26,29,35,0.98); }
         [data-theme="dark"] .hero { background: #1A1D23; }
         [data-theme="dark"] .lecture-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .lecture-thumbnail { background: #2A2E36; }
+        [data-theme="dark"] .article-thumb { background: linear-gradient(135deg, #1A2A40 0%, #222E3D 100%) !important; }
         [data-theme="dark"] .resource-card { background: #22262E; border-color: #333840; }
         [data-theme="dark"] .product-card { background: #22262E; border-color: #333840; }
         [data-theme="dark"] .newsletter-section { background: #22262E; border-color: #333840; }
@@ -1014,7 +1016,7 @@ export default function FreePage() {
                 <div style={{height:'100%',borderRadius:'4px',background:'linear-gradient(90deg, #3182F6, #6B4EFF)',width:`${(watchedLectures.size / lectures.length) * 100}%`,transition:'width 0.5s ease'}}></div>
               </div>
               {watchedLectures.size === lectures.length && lectures.length > 0 && (
-                <p style={{fontSize:'13px',color:'#1A8D48',fontWeight:600,marginTop:'8px'}}>🎉 모든 강의를 시청했어요! 이제 2주 스터디로 실전 훈련을 시작해보세요.</p>
+                <p style={{fontSize:'13px',color:'#1A8D48',fontWeight:600,marginTop:'8px'}}>모든 강의를 시청했어요! 이제 2주 스터디로 실전 훈련을 시작해보세요.</p>
               )}
             </div>
           )}
@@ -1033,7 +1035,7 @@ export default function FreePage() {
                     {thumbnailUrl ? (
                       <img src={thumbnailUrl} alt={lecture.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : isArticle ? (
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, #E8F3FF 0%, #F0F7FF 100%)' }}>
+                      <div className="article-thumb" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, #E8F3FF 0%, #F0F7FF 100%)' }}>
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3182F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                         <span style={{ fontSize: '12px', color: '#3182F6', fontWeight: 600, marginTop: '6px' }}>글 읽기</span>
                       </div>

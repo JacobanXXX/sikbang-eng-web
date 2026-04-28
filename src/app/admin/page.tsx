@@ -212,7 +212,7 @@ export default function AdminPage() {
                     </select>
                   </div>
                   {lecture.youtubeId && (
-                    <div style={{ fontSize: '12px', color: '#8B95A1' }}>YouTube ID: {lecture.youtubeId} ✅</div>
+                    <div style={{ fontSize: '12px', color: '#8B95A1' }}>YouTube ID: {lecture.youtubeId}</div>
                   )}
                 </div>
               </div>
