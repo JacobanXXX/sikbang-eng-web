@@ -3931,12 +3931,12 @@ export default function StudyPage() {
             <p className="section-desc">손해는 식빵영어가 집니다. 여러분은 결과만 가져가세요.</p>
           </div>
 
-          {/* 무조건 보증 — 1차 피드백 환불 (NEW) */}
+          {/* 빠른 환불 보증 — 1차 피드백 환불 */}
           <div className="guarantee-headline-card">
-            <div className="guarantee-tag">무조건 보증</div>
+            <div className="guarantee-tag">빠른 환불 보증</div>
             <h3 className="guarantee-headline">1차 피드백 듣고 환불 가능</h3>
             <p className="guarantee-body">
-              개강 후 첫 1대1 피드백 (보통 Day 1부터 Day 3 안에 진행)을 받으신 뒤, 만족스럽지 않으면 환불해드립니다. <b>이유는 묻지 않습니다.</b>
+              개강 후 첫 1대1 피드백(보통 Day 1부터 Day 3 안에 진행)을 받으신 뒤 만족스럽지 않으면 코칭 비용을 환불해드립니다. <b>사유는 따로 묻지 않습니다.</b> 단, 이미 제공된 교재 및 SpeakCoach AI 이용료는 환불 대상에서 제외됩니다.
             </p>
             <div className="guarantee-refund-row">
               <div className="guarantee-refund-cell">

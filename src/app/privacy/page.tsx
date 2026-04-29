@@ -189,7 +189,50 @@ export default function PrivacyPage() {
         </div>
 
         <div className="legal-section">
-          <h2>제5조 (개인정보의 파기)</h2>
+          <h2>제5조 (개인정보 처리의 위탁)</h2>
+          <p>회사는 원활한 서비스 제공을 위하여 다음과 같이 개인정보 처리 업무를 외부 전문업체에 위탁하고 있으며, 「개인정보 보호법」 제26조에 따라 위탁계약을 통해 개인정보가 안전하게 관리되도록 필요한 사항을 규정하고 있습니다.</p>
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '12px', fontSize: '14px' }}>
+            <thead>
+              <tr style={{ background: 'var(--bg-gray)' }}>
+                <th style={{ padding: '10px', border: '1px solid var(--border)', textAlign: 'left' }}>수탁업체</th>
+                <th style={{ padding: '10px', border: '1px solid var(--border)', textAlign: 'left' }}>위탁 업무 내용</th>
+                <th style={{ padding: '10px', border: '1px solid var(--border)', textAlign: 'left' }}>위탁 항목</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>Stibee (스티비)</td>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>뉴스레터 발송</td>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>이메일</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>Discord, Inc.</td>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>신청 알림 메시지 전송 (운영팀 내부 확인용)</td>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>이름, 이메일, 연락처, 신청 정보</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>Vercel Inc.</td>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>웹사이트 호스팅 및 서버 운영</td>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>접속 로그, 서비스 이용 정보</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>Google LLC</td>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>신청 정보 기록 보관 (Google Sheets)</td>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>이름, 이메일, 연락처, 신청 정보</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>Replit, Inc.</td>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>SpeakCoach AI 서비스 호스팅</td>
+                <td style={{ padding: '10px', border: '1px solid var(--border)' }}>이메일, 음성 녹음 데이터, 학습 기록</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style={{ marginTop: '12px' }}>회사는 위탁계약 체결 시 「개인정보 보호법」에 따라 위탁업무 수행 목적 외 개인정보 처리 금지, 기술적·관리적 보호조치, 재위탁 제한, 수탁자에 대한 관리·감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고, 수탁자가 개인정보를 안전하게 처리하는지를 감독합니다.</p>
+          <p style={{ marginTop: '8px' }}>위탁 업무의 내용이나 수탁자가 변경될 경우에는 지체 없이 본 개인정보처리방침을 통하여 공개하도록 하겠습니다.</p>
+        </div>
+
+        <div className="legal-section">
+          <h2>제6조 (개인정보의 파기)</h2>
           <ol>
             <li>회사는 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.</li>
             <li>전자적 파일 형태의 정보는 복구 및 재생이 되지 않도록 안전하게 삭제하며, 그 밖의 기록물 등은 파쇄하거나 소각합니다.</li>
@@ -197,7 +240,7 @@ export default function PrivacyPage() {
         </div>
 
         <div className="legal-section">
-          <h2>제6조 (이용자의 권리·의무 및 행사 방법)</h2>
+          <h2>제7조 (이용자의 권리·의무 및 행사 방법)</h2>
           <ol>
             <li>이용자는 회사에 대해 언제든지 다음의 개인정보 보호 관련 권리를 행사할 수 있습니다:
               <ul>
@@ -212,7 +255,7 @@ export default function PrivacyPage() {
         </div>
 
         <div className="legal-section">
-          <h2>제7조 (개인정보의 안전성 확보 조치)</h2>
+          <h2>제8조 (개인정보의 안전성 확보 조치)</h2>
           <p>회사는 개인정보의 안전성 확보를 위해 다음과 같은 조치를 취하고 있습니다:</p>
           <ol>
             <li><strong>관리적 조치:</strong> 개인정보 취급자 최소화, 개인정보 보호 교육 실시</li>
@@ -222,12 +265,12 @@ export default function PrivacyPage() {
         </div>
 
         <div className="legal-section">
-          <h2>제8조 (쿠키의 사용)</h2>
+          <h2>제9조 (쿠키의 사용)</h2>
           <p>회사는 웹사이트 이용 과정에서 쿠키를 사용할 수 있습니다. 쿠키는 웹사이트 이용 편의를 위해 사용되며, 이용자는 브라우저 설정을 통해 쿠키의 저장을 거부할 수 있습니다. 다만, 쿠키 저장을 거부할 경우 일부 서비스 이용에 어려움이 발생할 수 있습니다.</p>
         </div>
 
         <div className="legal-section">
-          <h2>제9조 (개인정보 보호책임자)</h2>
+          <h2>제10조 (개인정보 보호책임자)</h2>
           <p>회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 이용자의 불만처리 및 피해구제를 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.</p>
           <ul>
             <li><strong>개인정보 보호책임자:</strong> 안준영 (대표)</li>
@@ -236,7 +279,7 @@ export default function PrivacyPage() {
         </div>
 
         <div className="legal-section">
-          <h2>제10조 (권익침해 구제방법)</h2>
+          <h2>제11조 (권익침해 구제방법)</h2>
           <p>이용자는 개인정보침해로 인한 구제를 받기 위하여 다음의 기관에 분쟁해결이나 상담 등을 신청할 수 있습니다:</p>
           <ul>
             <li>개인정보분쟁조정위원회: (국번없이) 1833-6972 (www.kopico.go.kr)</li>
@@ -247,7 +290,7 @@ export default function PrivacyPage() {
         </div>
 
         <div className="legal-section">
-          <h2>제11조 (개인정보처리방침의 변경)</h2>
+          <h2>제12조 (개인정보처리방침의 변경)</h2>
           <p>본 개인정보처리방침은 법령, 정책 또는 보안기술의 변경에 따라 내용의 추가, 삭제 및 수정이 있을 시에는 변경사항의 시행 7일 전부터 웹사이트를 통해 공지하겠습니다.</p>
         </div>
 
