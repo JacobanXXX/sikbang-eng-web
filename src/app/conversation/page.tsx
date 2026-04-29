@@ -250,7 +250,7 @@ export default function ConversationPage() {
         .conv-level-option h3 { font-size: 16px; font-weight: 600; color: var(--black); letter-spacing: -0.3px; margin-bottom: 4px; }
         .conv-level-option p { font-size: 13px; font-weight: 400; color: var(--gray2); line-height: 1.45; }
         .conv-level-tag { display: inline-block; font-size: 11px; font-weight: 600; color: var(--blue); background: var(--blue-light); padding: 3px 8px; border-radius: 6px; margin-bottom: 8px; }
-        .conv-level-option.selected .conv-level-tag { background: white; }
+        .conv-level-option.selected .conv-level-tag { background: var(--bg-white); }
 
         /* Form */
         .conv-form-group { margin-bottom: 20px; }

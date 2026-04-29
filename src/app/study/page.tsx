@@ -513,7 +513,7 @@ export default function StudyPage() {
         body {
           font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
           background: #FFFFFF;
-          color: #191F28;
+          color: var(--text-primary);
           line-height: 1.6;
           -webkit-font-smoothing: antialiased;
           overflow-x: hidden;
@@ -772,7 +772,7 @@ export default function StudyPage() {
           display: inline-flex;
           flex-direction: column;
           align-items: center;
-          background: white;
+          background: var(--bg-white);
           border: 2px solid var(--green);
           border-radius: 24px;
           padding: 32px 48px;
@@ -806,7 +806,7 @@ export default function StudyPage() {
           display: flex;
           justify-content: space-between;
           font-size: 14px;
-          color: #666;
+          color: var(--text-tertiary);
           margin-bottom: 8px;
           gap: 24px;
         }
@@ -911,7 +911,7 @@ export default function StudyPage() {
           transform: translateY(-2px);
         }
         .btn-secondary {
-          background: white;
+          background: var(--bg-white);
           color: var(--text-primary);
           padding: 18px 40px;
           border: 2px solid var(--border);
@@ -955,7 +955,7 @@ export default function StudyPage() {
           margin-top: 56px;
         }
         .why-card {
-          background: white;
+          background: var(--bg-white);
           padding: 40px 32px;
           border-radius: 16px;
           box-shadow: var(--card-shadow);
@@ -1005,7 +1005,7 @@ export default function StudyPage() {
           top: 2px;
           width: 24px;
           height: 24px;
-          background: white;
+          background: var(--bg-white);
           border: 3px solid var(--border);
           border-radius: 50%;
           z-index: 1;
@@ -1067,7 +1067,7 @@ export default function StudyPage() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          background: white;
+          background: var(--bg-white);
           padding: 40px;
           border-radius: 20px;
           box-shadow: var(--card-shadow);
@@ -1084,7 +1084,7 @@ export default function StudyPage() {
         }
         .pricing-original {
           font-size: 24px;
-          color: #999;
+          color: var(--text-tertiary);
           text-decoration: line-through;
           font-weight: 500;
           margin-top: 8px;
@@ -1203,7 +1203,7 @@ export default function StudyPage() {
         .rule-card {
           display: flex;
           gap: 20px;
-          background: white;
+          background: var(--bg-white);
           padding: 32px;
           border-radius: 16px;
           box-shadow: var(--card-shadow);
@@ -1245,7 +1245,7 @@ export default function StudyPage() {
         }
         .review-card {
           flex: 0 0 380px;
-          background: white;
+          background: var(--bg-white);
           padding: 32px;
           border-radius: 16px;
           box-shadow: var(--card-shadow);
@@ -1349,7 +1349,7 @@ export default function StudyPage() {
           border-radius: 12px;
           overflow: hidden;
           box-shadow: var(--card-shadow);
-          background: white;
+          background: var(--bg-white);
           transition: transform 0.3s, box-shadow 0.3s;
         }
         .photo-review-item:hover {
@@ -1383,7 +1383,7 @@ export default function StudyPage() {
           gap: 12px;
         }
         .faq-item {
-          background: white;
+          background: var(--bg-white);
           border: 1px solid var(--border);
           border-radius: 12px;
           overflow: hidden;
@@ -1395,7 +1395,7 @@ export default function StudyPage() {
         }
         .faq-question {
           padding: 20px 24px;
-          background: white;
+          background: var(--bg-white);
           border: none;
           width: 100%;
           text-align: left;
@@ -1445,10 +1445,10 @@ export default function StudyPage() {
         /* FAQ important */
         .faq-important {
           border: 1px solid var(--border);
-          background: white;
+          background: var(--bg-white);
         }
         .faq-important .faq-question {
-          background: white;
+          background: var(--bg-white);
         }
         .faq-important .faq-question:hover {
           background: var(--bg-gray);
@@ -1461,7 +1461,7 @@ export default function StudyPage() {
           color: var(--text-tertiary);
         }
         .faq-important .faq-answer {
-          background: white;
+          background: var(--bg-white);
         }
         .faq-badge {
           display: inline-block;
@@ -1494,7 +1494,7 @@ export default function StudyPage() {
           font-weight: 500;
         }
         .btn-white {
-          background: white;
+          background: var(--bg-white);
           color: var(--green);
           padding: 18px 40px;
           border-radius: 12px;
@@ -1547,7 +1547,7 @@ export default function StudyPage() {
           bottom: 0;
           left: 0;
           right: 0;
-          background: white;
+          background: var(--bg-white);
           border-top: 1px solid var(--border);
           padding: 16px 24px;
           z-index: 99;
@@ -1622,7 +1622,7 @@ export default function StudyPage() {
           -webkit-overflow-scrolling: touch;
         }
         .form-modal-content {
-          background: #fff;
+          background: var(--bg-white);
           border-radius: 20px;
           max-width: 420px;
           width: 100%;
@@ -1642,7 +1642,7 @@ export default function StudyPage() {
           top: 16px; right: 16px;
           background: none; border: none;
           font-size: 20px; cursor: pointer;
-          color: #999; z-index: 1;
+          color: var(--text-tertiary); z-index: 1;
         }
         .form-modal-body {
           padding: 32px 28px;
@@ -1651,7 +1651,7 @@ export default function StudyPage() {
           font-size: 20px;
           font-weight: 700;
           margin-bottom: 20px;
-          color: #191F28;
+          color: var(--text-primary);
         }
 
         /* Header badge (cycle + earlybird) */
@@ -1665,7 +1665,7 @@ export default function StudyPage() {
         }
         .form-cycle-badge {
           background: #F1F3F5;
-          color: #333;
+          color: var(--text-primary);
           font-size: 13px;
           font-weight: 600;
           padding: 5px 12px;
@@ -1700,7 +1700,7 @@ export default function StudyPage() {
           width: 28px; height: 28px;
           border-radius: 50%;
           background: #E5E8EB;
-          color: #999;
+          color: var(--text-tertiary);
           font-size: 13px; font-weight: 600;
           display: flex; align-items: center; justify-content: center;
           transition: all 0.3s;
@@ -1721,7 +1721,7 @@ export default function StudyPage() {
           display: flex;
           justify-content: space-between;
           font-size: 12px;
-          color: #999;
+          color: var(--text-tertiary);
           margin-bottom: 24px;
           padding: 0 20px;
         }
@@ -1742,7 +1742,7 @@ export default function StudyPage() {
           display: block;
           font-size: 14px;
           font-weight: 600;
-          color: #333;
+          color: var(--text-primary);
           margin-bottom: 6px;
         }
         .form-field label .req {
@@ -1760,7 +1760,7 @@ export default function StudyPage() {
           font-size: 15px;
           transition: border-color 0.2s;
           outline: none;
-          color: #191F28;
+          color: var(--text-primary);
           background: var(--bg-gray);
           box-sizing: border-box;
           font-family: inherit;
@@ -1776,7 +1776,7 @@ export default function StudyPage() {
         .form-field select:focus,
         .form-field textarea:focus {
           border-color: var(--green);
-          background: #fff;
+          background: var(--bg-white);
         }
         .form-field textarea {
           resize: vertical;
@@ -1805,12 +1805,12 @@ export default function StudyPage() {
         .form-radio-inner strong {
           display: block;
           font-size: 15px;
-          color: #191F28;
+          color: var(--text-primary);
           margin-bottom: 2px;
         }
         .form-radio-inner span {
           font-size: 12px;
-          color: #888;
+          color: var(--text-tertiary);
         }
 
         /* Plan cards */
@@ -1855,7 +1855,7 @@ export default function StudyPage() {
         .form-plan-name {
           font-size: 16px;
           font-weight: 700;
-          color: #191F28;
+          color: var(--text-primary);
           margin-bottom: 4px;
         }
         .form-plan-price {
@@ -1901,7 +1901,7 @@ export default function StudyPage() {
         }
         .form-plan-original {
           font-size: 14px;
-          color: #999;
+          color: var(--text-tertiary);
           text-decoration: line-through;
         }
         .form-plan-earlybird-tag {
@@ -1932,7 +1932,7 @@ export default function StudyPage() {
         .form-value-stack-title {
           font-size: 12px;
           font-weight: 700;
-          color: #888;
+          color: var(--text-tertiary);
           text-transform: uppercase;
           letter-spacing: 0.5px;
           margin-bottom: 8px;
@@ -1942,7 +1942,7 @@ export default function StudyPage() {
           justify-content: space-between;
           align-items: center;
           font-size: 13px;
-          color: #333;
+          color: var(--text-primary);
           padding: 5px 0;
         }
         .form-value-item.bonus {
@@ -1951,7 +1951,7 @@ export default function StudyPage() {
         }
         .form-value-price {
           text-decoration: line-through;
-          color: #999;
+          color: var(--text-tertiary);
           font-size: 12px;
           white-space: nowrap;
           margin-left: 8px;
@@ -1968,7 +1968,7 @@ export default function StudyPage() {
           border-top: 1.5px dashed #ccc;
           font-size: 14px;
           font-weight: 700;
-          color: #999;
+          color: var(--text-tertiary);
         }
         .form-value-total span:last-child {
           text-decoration: line-through;
@@ -1982,7 +1982,7 @@ export default function StudyPage() {
         .form-bundle-offer-label {
           font-size: 12px;
           font-weight: 700;
-          color: #888;
+          color: var(--text-tertiary);
           text-transform: uppercase;
           letter-spacing: 1px;
           margin-bottom: 4px;
@@ -2035,7 +2035,7 @@ export default function StudyPage() {
         }
         .form-plan-desc {
           font-size: 13px;
-          color: #888;
+          color: var(--text-tertiary);
           margin-bottom: 10px;
         }
         .form-plan-features {
@@ -2044,7 +2044,7 @@ export default function StudyPage() {
         }
         .form-plan-features li {
           font-size: 13px;
-          color: #555;
+          color: var(--text-secondary);
           padding: 3px 0 3px 20px;
           position: relative;
         }
@@ -2065,7 +2065,7 @@ export default function StudyPage() {
           margin-top: 10px;
           font-size: 13px;
           line-height: 1.6;
-          color: #555;
+          color: var(--text-secondary);
         }
         .form-target-guide p {
           margin: 0 0 6px;
@@ -2074,7 +2074,7 @@ export default function StudyPage() {
           margin-bottom: 8px;
         }
         .form-target-guide strong {
-          color: #191F28;
+          color: var(--text-primary);
         }
         .form-target-tip {
           color: var(--green) !important;
@@ -2090,7 +2090,7 @@ export default function StudyPage() {
           margin-top: 8px;
           margin-left: 28px;
           font-size: 13px;
-          color: #555;
+          color: var(--text-secondary);
           line-height: 1.5;
         }
         .form-upgrade-detail p {
@@ -2124,7 +2124,7 @@ export default function StudyPage() {
           gap: 10px;
           cursor: pointer;
           font-size: 14px;
-          color: #333;
+          color: var(--text-primary);
         }
         .form-checkbox-label input[type="checkbox"] {
           margin-top: 2px;
@@ -2144,7 +2144,7 @@ export default function StudyPage() {
           display: flex;
           justify-content: space-between;
           font-size: 14px;
-          color: #555;
+          color: var(--text-secondary);
           padding: 6px 0;
         }
         .form-price-row.discount {
@@ -2178,7 +2178,7 @@ export default function StudyPage() {
         .form-deposit-amount span {
           display: block;
           font-size: 13px;
-          color: #666;
+          color: var(--text-tertiary);
           margin-bottom: 4px;
         }
         .form-deposit-amount strong {
@@ -2197,8 +2197,8 @@ export default function StudyPage() {
           border-bottom: 1px solid #E5E8EB;
           font-size: 14px;
         }
-        .form-deposit-row span { color: #888; }
-        .form-deposit-row strong { color: #191F28; }
+        .form-deposit-row span { color: var(--text-tertiary); }
+        .form-deposit-row strong { color: var(--text-primary); }
         .form-copy-btn {
           width: 100%;
           padding: 10px;
@@ -2231,7 +2231,7 @@ export default function StudyPage() {
           border-bottom: 1px solid #eee;
         }
         .form-summary-row:last-child { border: none; }
-        .form-summary-row span { color: #888; }
+        .form-summary-row span { color: var(--text-tertiary); }
 
         /* Buttons */
         .form-btn-primary {
@@ -2257,7 +2257,7 @@ export default function StudyPage() {
           flex: 1;
           padding: 14px;
           background: #F1F3F5;
-          color: #333;
+          color: var(--text-primary);
           border: none;
           border-radius: 12px;
           font-size: 15px;
@@ -2289,10 +2289,10 @@ export default function StudyPage() {
           justify-content: space-between;
           font-size: 13px;
           padding: 4px 0;
-          color: #666;
+          color: var(--text-tertiary);
         }
         .form-selected-row strong {
-          color: #191F28;
+          color: var(--text-primary);
         }
 
         /* Earlybird notice */
@@ -2319,7 +2319,7 @@ export default function StudyPage() {
         }
         .form-note {
           font-size: 12px;
-          color: #999;
+          color: var(--text-tertiary);
           line-height: 1.5;
           margin: 12px 0 0;
         }
@@ -2392,7 +2392,7 @@ export default function StudyPage() {
           margin-top: 48px;
           border-radius: 16px;
           border: 1px solid #e5e7eb;
-          background: white;
+          background: var(--bg-white);
         }
         .compare-table {
           width: 100%;
@@ -2885,17 +2885,17 @@ export default function StudyPage() {
           </div>
           <div className="why-grid" style={{ marginTop: '56px' }}>
             <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>1</div>
+              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: 'var(--border)' }}>1</div>
               <h3>학습 + 녹음</h3>
               <p>오전 8시에 그날의 토픽이 공개됩니다. 프레임에 맞춰 답변을 구성하고 SpeakCoach AI에서 녹음 제출.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>2</div>
+              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: 'var(--border)' }}>2</div>
               <h3>AI 분석 + 코치 교정</h3>
               <p>AI가 발음·문법·유창성을 수치로 분석하고, 담당 코치가 직접 들으며 개선점을 카톡방에 공유합니다.</p>
             </div>
             <div className="why-card">
-              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: '#E5E8EB' }}>3</div>
+              <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: 'var(--border)' }}>3</div>
               <h3>재연습 + 팀 자극</h3>
               <p>피드백을 바탕으로 같은 질문을 2~3회 재녹음. 팀원들의 답변도 공유되어 서로 자극받습니다.</p>
             </div>
@@ -2962,7 +2962,7 @@ export default function StudyPage() {
                   <td>비용</td>
                   <td>10~30만원</td>
                   <td>40~80만원</td>
-                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'#999',fontSize:'13px'}}>259,900원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px'}}>(얼리버드)</span>}</td>
+                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px'}}>259,900원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px'}}>(얼리버드)</span>}</td>
                 </tr>
                 <tr>
                   <td>평균 소요 기간</td>
@@ -3295,7 +3295,7 @@ export default function StudyPage() {
                 <div className="rule-num">04</div>
                 <h4 style={{ margin: 0 }}>환불 규정</h4>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '15px', lineHeight: '1.7', color: '#444' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '15px', lineHeight: '1.7', color: 'var(--text-secondary)' }}>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: 'var(--green)', fontWeight: 700, flexShrink: 0 }}>✓</span>
                   <span><strong>인원 편성 전 (카톡 초대 전)</strong> — 전자책(교재)을 제외한 나머지 금액 환불 가능. 별도 수수료 없이 환불됩니다.</span>
@@ -3312,7 +3312,7 @@ export default function StudyPage() {
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
                   <span><strong>폐강 시</strong> — 최소 인원 미달로 스터디가 개설되지 않는 경우, 개별 안내 후 교재비를 제외한 전액을 환불 처리합니다.</span>
                 </div>
-                <div style={{ marginTop: '4px', padding: '12px 16px', background: 'var(--bg-gray)', borderRadius: '8px', fontSize: '13px', color: '#666' }}>
+                <div style={{ marginTop: '4px', padding: '12px 16px', background: 'var(--bg-gray)', borderRadius: '8px', fontSize: '13px', color: 'var(--text-tertiary)' }}>
                   결제 시 본 환불 정책 및 면책 조항에 동의한 것으로 간주됩니다. 환불 관련 문의는 카카오톡 채널로 연락주세요.
                 </div>
               </div>
@@ -3541,7 +3541,7 @@ export default function StudyPage() {
               {floatingRemainingSlots}자리 남음
             </div>
             <div className="floating-price">
-              <span style={{textDecoration:'line-through',color:'#999',fontSize:'13px',marginRight:'6px'}}>₩259,900</span>
+              <span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px',marginRight:'6px'}}>₩259,900</span>
               <strong>₩{currentCycleState.price.toLocaleString()}</strong>
               {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px',fontWeight:700,marginLeft:'4px'}}>얼리버드</span>}
             </div>
@@ -3595,7 +3595,7 @@ export default function StudyPage() {
                   </svg>
                 </div>
                 <h3 style={{textAlign:'center'}}>신청이 완료되었습니다</h3>
-                <p style={{color:'#666',lineHeight:1.6,textAlign:'center'}}>
+                <p style={{color:'var(--text-tertiary)',lineHeight:1.6,textAlign:'center'}}>
                   <strong>{formData.name}</strong>님, 스터디 신청 감사합니다.<br/>
                   입금 확인 후 영업일 기준 1~2일 이내에<br/>카카오톡으로 연락드리겠습니다.
                 </p>
@@ -3680,7 +3680,7 @@ export default function StudyPage() {
                       />
                     </div>
                     <div className="form-field">
-                      <label>전화번호 <span className="req">*</span> <span style={{fontSize:'12px',fontWeight:500,color:'#888'}}>(숫자만 입력하면 자동 입력됩니다)</span></label>
+                      <label>전화번호 <span className="req">*</span> <span style={{fontSize:'12px',fontWeight:500,color:'var(--text-tertiary)'}}>(숫자만 입력하면 자동 입력됩니다)</span></label>
                       <input
                         type="tel"
                         inputMode="numeric"
@@ -3780,7 +3780,7 @@ export default function StudyPage() {
                               padding: '10px',
                               background: 'transparent',
                               border: 'none',
-                              color: '#999',
+                              color: 'var(--text-tertiary)',
                               fontSize: '12px',
                               cursor: 'pointer',
                               textDecoration: 'underline',
@@ -3794,7 +3794,7 @@ export default function StudyPage() {
 
                     {/* 사전 OPIc 성적 (성적 보증용) */}
                     <div className="form-field" style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #E5E8EB' }}>
-                      <label>사전 OPIc 성적 <span style={{fontSize:'12px',fontWeight:500,color:'#888'}}>(성적 보증 적용 시 필요)</span></label>
+                      <label>사전 OPIc 성적 <span style={{fontSize:'12px',fontWeight:500,color:'var(--text-tertiary)'}}>(성적 보증 적용 시 필요)</span></label>
                       <div className="form-radio-group" style={{ marginBottom: '12px' }}>
                         <label className={`form-radio-card ${formData.hasScore ? 'selected' : ''}`} style={{ padding: '12px' }}>
                           <input type="radio" name="hasScore" checked={formData.hasScore} onChange={() => setFormData({...formData, hasScore: true})} />
@@ -3857,7 +3857,7 @@ export default function StudyPage() {
                         </div>
                       )}
 
-                      <p style={{fontSize:'12px',color:'#999',marginTop:'8px',lineHeight:1.5}}>
+                      <p style={{fontSize:'12px',color:'var(--text-tertiary)',marginTop:'8px',lineHeight:1.5}}>
                         성적표가 없어도 스터디 참여는 가능합니다. 성적 보증 제도 적용 대상에서만 제외됩니다.
                       </p>
                     </div>
@@ -4109,7 +4109,7 @@ export default function StudyPage() {
                         />
                         <strong>입금을 완료했습니다</strong>
                       </label>
-                      <p style={{fontSize:'12px',color:'#999',marginTop:'4px',marginLeft:'28px'}}>입금 반드시 먼저 하시고 체크해주세요!</p>
+                      <p style={{fontSize:'12px',color:'var(--text-tertiary)',marginTop:'4px',marginLeft:'28px'}}>입금 반드시 먼저 하시고 체크해주세요!</p>
                     </div>
 
                     <div className="form-field">

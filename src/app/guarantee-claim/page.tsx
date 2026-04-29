@@ -159,7 +159,7 @@ export default function GuaranteeClaimPage() {
         .gc-field select {
           width: 100%; padding: 12px 14px; font-size: 14px;
           border: 1px solid var(--border); border-radius: 8px;
-          font-family: inherit; color: var(--text-primary); background: #fff;
+          font-family: inherit; color: var(--text-primary); background: var(--bg-white);
           transition: border-color 0.2s;
         }
         .gc-field input:focus, .gc-field select:focus {

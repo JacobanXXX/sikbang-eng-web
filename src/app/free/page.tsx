@@ -165,7 +165,7 @@ export default function FreePage() {
         body {
           font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
           background: #FFFFFF;
-          color: #191F28;
+          color: var(--text-primary);
           line-height: 1.6;
           -webkit-font-smoothing: antialiased;
           overflow-x: hidden;
@@ -371,7 +371,7 @@ export default function FreePage() {
         .hero {
           padding: 80px 24px 60px;
           margin-top: 64px;
-          background: white;
+          background: var(--bg-white);
           text-align: center;
         }
         .hero-badge {
@@ -405,7 +405,7 @@ export default function FreePage() {
         /* SECTION */
         .section {
           padding: 80px 24px;
-          background: white;
+          background: var(--bg-white);
         }
         .section-gray {
           background: var(--bg-gray);
@@ -443,7 +443,7 @@ export default function FreePage() {
           gap: 32px;
         }
         .lecture-card {
-          background: white;
+          background: var(--bg-white);
           border-radius: 16px;
           overflow: hidden;
           box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -515,7 +515,7 @@ export default function FreePage() {
           gap: 24px;
         }
         .resource-card {
-          background: white;
+          background: var(--bg-white);
           padding: 24px;
           border-radius: 16px;
           box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -613,7 +613,7 @@ export default function FreePage() {
           margin-top: 48px;
         }
         .product-mini {
-          background: white;
+          background: var(--bg-white);
           padding: 28px 24px;
           border-radius: 16px;
           box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -654,7 +654,7 @@ export default function FreePage() {
           margin-bottom: 16px;
         }
         .btn-secondary {
-          background: white;
+          background: var(--bg-white);
           color: var(--text-primary);
           padding: 12px 24px;
           border: 2px solid var(--border);
@@ -792,7 +792,7 @@ export default function FreePage() {
         .mid-cta-text {
           font-size: 18px;
           font-weight: 600;
-          color: #191F28;
+          color: var(--text-primary);
           margin-bottom: 16px;
         }
         .mid-cta-btn {
