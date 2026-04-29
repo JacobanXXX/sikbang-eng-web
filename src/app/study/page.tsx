@@ -3388,7 +3388,7 @@ export default function StudyPage() {
             2주가 당신의 연봉을 바꿀 수도 있습니다.
           </p>
           <p className="subtitle">
-            OPIc AL은 4대 공기업 합격선, 대기업 영어 가산점, 외국계 첫 면접 통과. 누구에게나 같은 한 줄짜리 자격증입니다.<br />
+            공기업도, 대기업도, 외국계도. OPIc AL 하나면 다 뚫립니다.<br />
             <strong>14일 동안 코치와 AI가 매일 당신의 답변을 직접 분석합니다.</strong>
           </p>
 
