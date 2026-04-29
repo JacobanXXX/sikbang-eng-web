@@ -324,15 +324,15 @@ export default function StudyPage() {
   const faqItems = [
     {
       question: '영어를 진짜 못하는데 따라갈 수 있을까요?',
-      answer: 'IL 이상이라면 충분히 따라갈 수 있습니다. 부트캠프는 프레임워크 기반으로 진행되기 때문에 구조를 따라가며 답변을 만들 수 있어요. 다만, OPIc 경험이 전혀 없거나 NH 이하 수준이라면 1:1 영어 회화 클래스에서 1~2개월 기초를 먼저 다지신 뒤 부트캠프에 합류하시는 걸 추천드립니다. 기초 없이 바로 부트캠프에 참여하면 진도를 따라가기 어렵고, 팀원들에게도 영향이 갈 수 있습니다. 회화 클래스에서 기본 스피킹 감각을 잡고 오시면 부트캠프 효과가 2배 이상 올라갑니다.'
+      answer: 'IL 이상이라면 충분히 따라갈 수 있습니다. 부트캠프는 프레임워크 기반으로 진행되기 때문에 구조를 따라가며 답변을 만들 수 있어요. 다만, OPIc 경험이 전혀 없거나 NH 이하 수준이라면 1:1 영어 회화 클래스에서 1~2개월 기초를 먼저 다진 뒤 부트캠프에 합류하시는 걸 추천드립니다. 기초 없이 바로 참여하시면 따라가기 어렵고, 팀원들에게도 영향이 갈 수 있습니다. 회화 클래스에서 기본 감각을 잡고 오시면 부트캠프 효과가 2배 이상 올라갑니다.'
     },
     {
       question: '왕초보인데 어떤 과정부터 시작해야 하나요?',
-      answer: '영어 왕초보(NH 이하 또는 시험 경험 없음)라면 식빵영어 1:1 영어 회화 클래스부터 시작하시는 걸 권장합니다. 주 1회 90분씩, 1:1 맞춤 수업으로 문법·어휘·스피킹 기초를 잡을 수 있어요. 보통 1~2개월 수강 후 IL 이상 수준이 되면 OPIc 부트캠프에 합류하시는 게 가장 효과적인 루트입니다. 신청 시 현재 수준을 선택하면 자동으로 안내해드려요.'
+      answer: '영어 왕초보(NH 이하 또는 시험 경험 없음)라면 1:1 영어 회화 클래스부터 시작하시는 걸 권장합니다. 주 1회 90분씩 맞춤 수업으로 문법·어휘·스피킹 기초를 잡을 수 있어요. 보통 1~2개월 후 IL 이상 수준이 되면 OPIc 부트캠프에 참여하시는 게 가장 효과적입니다. 신청 시 수준을 선택하면 자동으로 안내해드려요.'
     },
     {
       question: 'SpeakCoach AI는 어떻게 사용하나요?',
-      answer: '부트캠프 시작 시 SpeakCoach AI Pro 계정이 자동으로 활성화됩니다. 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 사용 가능합니다. 답변을 녹음하면 AI가 발음, 문법, 유창성, 어휘를 분석해서 피드백을 줍니다.'
+      answer: '부트캠프 시작 시 SpeakCoach AI Pro 계정이 자동으로 활성화됩니다. 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 사용 가능합니다. 답변을 녹음하면 AI가 발음·문법·유창성·어휘 등 7개 영역을 분석해서 피드백을 줍니다.'
     },
     {
       question: '부트캠프는 언제 시작하나요?',
@@ -344,7 +344,7 @@ export default function StudyPage() {
     },
     {
       question: '환불은 어떻게 되나요?',
-      answer: '카톡방 입장 전까지 전자책을 제외한 금액 환불 가능합니다. 입장 후엔 환불 불가. 자세한 규정은 아래 [필독] 항목을 확인해주세요.'
+      answer: '카톡방 입장 전까지 교재비를 뺀 금액 환불 가능합니다. 입장 후엔 환불 불가. 자세한 규정은 아래 [필독] 항목을 확인해주세요.'
     },
     {
       question: '[필독] 참여 규정 및 환불 제한 안내',
@@ -353,7 +353,7 @@ export default function StudyPage() {
     },
     {
       question: 'Premium 업그레이드는 꼭 해야 하나요?',
-      answer: '필수는 아닙니다. 기본 부트캠프에 Pro 플랜이 포함되어 있어서 충분히 학습 가능합니다. Premium은 고급 분석 기능이 추가되므로, AL을 목표로 하시는 분께 추천드립니다.'
+      answer: '필수는 아닙니다. 기본 부트캠프에 Pro 플랜이 포함되어 충분히 학습 가능합니다. Premium은 고급 분석 기능이 추가되므로, AL을 목표로 하시는 분께 추천드립니다.'
     }
   ];
 
@@ -3282,7 +3282,7 @@ export default function StudyPage() {
           </p>
           <p className="subtitle">
             OPIc AL은 4대 공기업 합격선, 대기업 영어 가산점, 외국계 첫 면접 통과 — 누구에게나 같은 한 줄짜리 자격증입니다.<br />
-            <strong>14일 동안 사람과 AI가 매일 당신의 음성을 직접 분석합니다.</strong>
+            <strong>14일 동안 코치와 AI가 매일 당신의 답변을 직접 분석합니다.</strong>
           </p>
 
           {/* QUEUE COUNTER */}
@@ -3328,7 +3328,7 @@ export default function StudyPage() {
             <div className="why-card">
               <div className="why-icon">코칭</div>
               <h3>전문 코치 + AI 이중 분석</h3>
-              <p>삼성·LG 초청 OPIc 전문 강사가 매일 1:1 음성 피드백을 제공하고, AI가 발음·유창성·문법 등 7개 영역을 수치로 분석해 약점을 정확히 짚어줍니다.</p>
+              <p>삼성·LG 초청 OPIc 전문 강사가 매일 1:1 음성 피드백을 주고, AI가 발음·유창성·문법 등 7개 영역을 수치로 분석해 약점을 정확히 짚어줍니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon">공식</div>
@@ -3348,7 +3348,7 @@ export default function StudyPage() {
             <div className="why-card">
               <div className="why-icon">보증</div>
               <h3>성적 보증제</h3>
-              <p>조건을 100% 이행했는데 등급이 안 올랐다면 다음 기수를 무료로 다시 수강할 수 있습니다. 그만큼 결과에 자신 있습니다. <a href="#guarantee" style={{color:'var(--green)',fontWeight:600,textDecoration:'underline',textUnderlineOffset:'3px'}}>자세히 보기</a></p>
+              <p>조건을 100% 이행했는데 등급이 안 올랐다면 다음 기수를 무료로 재수강할 수 있습니다. 그만큼 결과에 자신 있습니다. <a href="#guarantee" style={{color:'var(--green)',fontWeight:600,textDecoration:'underline',textUnderlineOffset:'3px'}}>자세히 보기</a></p>
             </div>
           </div>
         </div>
@@ -3508,23 +3508,23 @@ export default function StudyPage() {
         <div className="container">
           <div style={{ textAlign: 'center' }}>
             <div className="section-title" style={{ fontSize: '32px' }}>하루 한 개, 이것만 하면 됩니다</div>
-            <p className="section-desc">매일 1개 미션을 수행하면, 분석과 피드백은 코치와 AI가 해줍니다.</p>
+            <p className="section-desc">매일 1개 미션을 수행하면, 분석과 피드백은 코치와 AI가 담당합니다.</p>
           </div>
           <div className="why-grid" style={{ marginTop: '56px' }}>
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: 'var(--border)' }}>1</div>
               <h3>학습 + 녹음</h3>
-              <p>오전 8시에 그날의 토픽이 공개됩니다. 프레임에 맞춰 답변을 구성하고 SpeakCoach AI에서 녹음 제출.</p>
+              <p>오전 8시에 그날의 토픽이 공개됩니다. 프레임에 맞춰 답변을 구성해서 SpeakCoach AI에 녹음 제출.</p>
             </div>
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: 'var(--border)' }}>2</div>
               <h3>AI 분석 + 코치 교정</h3>
-              <p>AI가 발음·문법·유창성을 수치로 분석하고, 담당 코치가 직접 들으며 개선점을 카톡방에 공유합니다.</p>
+              <p>AI가 발음·문법·유창성을 수치로 분석하고, 담당 코치가 직접 들으며 개선점을 카톡에 공유합니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon" style={{ fontSize: '32px', marginBottom: '20px', fontWeight: 800, color: 'var(--border)' }}>3</div>
               <h3>재연습 + 팀 자극</h3>
-              <p>피드백을 바탕으로 같은 질문을 2~3회 재녹음. 팀원들의 답변도 공유되어 서로 자극받습니다.</p>
+              <p>피드백을 바탕으로 같은 질문을 2~3회 재녹음. 팀원들의 답변도 공유되어 자연스럽게 자극받게 됩니다.</p>
             </div>
           </div>
         </div>
@@ -3558,7 +3558,7 @@ export default function StudyPage() {
               <div className="vs-tag vs-tag-highlight">14일 AL 완성 부트캠프</div>
               <div className="vs-fact vs-fact-highlight">대표가 매일 당신의 답변을 직접 듣고 분석합니다</div>
               <p className="vs-issue vs-issue-strong">
-                그래서 <b>4,000명을 AL로 만든 안준영 대표</b>가 매일 당신의 녹음을 듣고, 그가 OPIc 채점 기준으로 만든 <b>SpeakCoach AI</b>가 동시에 분석합니다.
+                그래서 <b>4,000명을 AL로 만든 안준영 대표</b>가 매일 당신의 녹음을 직접 듣고, 그가 OPIc 채점 기준으로 만든 <b>SpeakCoach AI</b>가 동시에 분석합니다.
               </p>
             </div>
           </div>
@@ -3583,7 +3583,7 @@ export default function StudyPage() {
           </div>
 
           <div className="vs-conclusion">
-            한국 어디에도 없는 조합. 식빵영어가 만들었습니다.
+            한국에 없는 조합. 식빵영어가 만들었습니다.
           </div>
         </div>
       </section>
@@ -4183,7 +4183,7 @@ export default function StudyPage() {
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--green)', letterSpacing: '0.06em', marginBottom: '8px' }}>BONUS</div>
             <div className="section-title">신청자에게만 드리는 4종 보너스</div>
-            <p className="section-desc">부트캠프에 함께 포함된 단독 학습 자료 4개. 별도 구매가 227,000원 가치입니다.</p>
+            <p className="section-desc">부트캠프에 함께 포함된 4가지 학습 자료. 따로 사면 227,000원어치입니다.</p>
           </div>
 
           <div className="bonus-grid">
@@ -4194,8 +4194,8 @@ export default function StudyPage() {
               </div>
               <h3 className="bonus-title">OPIc AL 즉답 프레임워크 9선</h3>
               <p className="bonus-problem">시험장에서 머리가 하얘지는 그 7초.</p>
-              <p className="bonus-solution">어떤 질문이 와도 첫 문장이 입에서 자동으로 나오는 9가지 시그니처 패턴.</p>
-              <p className="bonus-proof">4,000명을 가르치며 발견한, AL 등급자가 가장 많이 쓴 표현 9개.</p>
+              <p className="bonus-solution">어떤 질문이 와도 첫 문장이 자동으로 튀어나오는 9가지 패턴.</p>
+              <p className="bonus-proof">4,000명을 가르치며 발견한, AL 등급자들의 공통 표현 9개.</p>
               <div className="bonus-meta">
                 <span className="bonus-pages">PDF · 15p</span>
                 <span className="bonus-value">29,000원</span>
@@ -4208,9 +4208,9 @@ export default function StudyPage() {
                 <span className="bonus-tag">ANSWER BANK</span>
               </div>
               <h3 className="bonus-title">AL 답변 50선 모범 답안집</h3>
-              <p className="bonus-problem">내 답변이 AL인지 IH인지 본인이 판단 못 함.</p>
-              <p className="bonus-solution">50개 실제 시험 문제에 대한 AL 등급 모범 답안집.</p>
-              <p className="bonus-proof">매일 1개씩 따라 말하면 50일 안에 AL 톤이 입에 붙습니다.</p>
+              <p className="bonus-problem">내 답변이 AL인지 IH인지 본인이 판단하기 어려움.</p>
+              <p className="bonus-solution">50개 실제 OPIc 문제의 AL 모범 답안집.</p>
+              <p className="bonus-proof">매일 1개씩 따라 말하면 50일 안에 AL 톤과 구조가 몸에 배입니다.</p>
               <div className="bonus-meta">
                 <span className="bonus-pages">PDF · 54p</span>
                 <span className="bonus-value">79,000원</span>
@@ -4224,8 +4224,8 @@ export default function StudyPage() {
               </div>
               <h3 className="bonus-title">30일 표현 암기 루틴</h3>
               <p className="bonus-problem">답변마다 같은 단어 반복. 채점관에게 들킴.</p>
-              <p className="bonus-solution">매일 5개씩 30일, 출퇴근 10분으로 입에 붙이는 AL 표현 150개.</p>
-              <p className="bonus-proof">지하철에서 5분, 그게 14일 후 답변 톤을 바꿉니다.</p>
+              <p className="bonus-solution">매일 5개씩 30일, 출퇴근 10분으로 자연스럽게 익히는 AL 표현 150개.</p>
+              <p className="bonus-proof">지하철에서 5분 반복하면 14일 후 답변 톤이 달라집니다.</p>
               <div className="bonus-meta">
                 <span className="bonus-pages">PDF · 33p</span>
                 <span className="bonus-value">39,000원</span>
@@ -4238,8 +4238,8 @@ export default function StudyPage() {
                 <span className="bonus-tag">1:1 COACHING</span>
               </div>
               <h3 className="bonus-title">재시험 1:1 코칭 30분</h3>
-              <p className="bonus-problem">첫 시험 떨어진 후 어디부터 다시 시작할지 막막함.</p>
-              <p className="bonus-solution">대표 코치가 직접 30분간 약점 진단 후 다음 14일 액션 플랜.</p>
+              <p className="bonus-problem">첫 시험에서 떨어진 후 어디부터 시작해야 할지 막막함.</p>
+              <p className="bonus-solution">대표 코치가 직접 30분 상담으로 약점 진단 후 액션 플랜 제시.</p>
               <p className="bonus-proof">통화 후 24시간 안에 PDF 처방전이 카톡으로 도착합니다.</p>
               <div className="bonus-meta">
                 <span className="bonus-pages">화상 · 30분</span>
@@ -4264,7 +4264,7 @@ export default function StudyPage() {
         <div className="container">
           <div style={{ textAlign: 'center' }}>
             <div className="section-title">가격</div>
-            <p className="section-desc">보너스 4종 포함 · SpeakCoach AI Pro 2주 무료 포함</p>
+            <p className="section-desc">보너스 4종 + SpeakCoach AI Pro 2주 무료 포함</p>
           </div>
           <div className="pricing-section">
             <div className="pricing-badge">{currentCycleState.isEarlyBird ? `얼리버드 ${currentCycleState.discount}% 할인` : `${currentCycleState.discount}% 할인 중`}</div>
@@ -4276,17 +4276,17 @@ export default function StudyPage() {
             <div className="pricing-price-main" style={{marginTop:'8px'}}>{currentCycleState.price.toLocaleString()}원</div>
             {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'var(--green)',fontWeight:600,marginTop:'4px'}}>{currentCycleState.earlyBirdEndStr} 이후 229,000원</div>}
             <div className="pricing-desc">
-              교재비 포함 · SpeakCoach AI · 1:3 피드백 총 180분 · 매일 녹음과제 피드백 · 비공개 모의고사 영상 포함
+              교재 포함 · SpeakCoach AI Pro · 1:3 피드백 180분 · 매일 녹음과제 피드백 · 모의고사 영상 포함
             </div>
             <div className="pricing-features">
-              <div className="pricing-feature">14일 체계적 커리큘럼 (교재 포함)</div>
-              <div className="pricing-feature">1:3 소그룹 피드백 2주간 총 180분 진행</div>
-              <div className="pricing-feature">매일(월-금) 녹음과제 → 코치가 AL 스크립트·문법·발음 직접 교정</div>
-              <div className="pricing-feature">SpeakCoach AI Pro 2주 무료 제공</div>
-              <div className="pricing-feature">7개 핵심 템플릿 + 즉답 루틴 훈련</div>
-              <div className="pricing-feature">비공개 모의고사 영상 7개 제공 (2주차 실전 대비)</div>
-              <div className="pricing-feature">부트캠프 전용 노션 자료 + YouTube 강의</div>
-              <div className="pricing-feature">졸업 후 코칭 채팅 3개월 지원</div>
+              <div className="pricing-feature">14일 체계적 커리큘럼 + 교재</div>
+              <div className="pricing-feature">1:3 소그룹 피드백 총 180분</div>
+              <div className="pricing-feature">매일(월-금) 녹음 → 코치가 직접 음성 피드백</div>
+              <div className="pricing-feature">SpeakCoach AI Pro 2주 무료</div>
+              <div className="pricing-feature">7개 핵심 템플릿 체화 훈련</div>
+              <div className="pricing-feature">모의고사 영상 7개 (2주차 실전 대비)</div>
+              <div className="pricing-feature">노션 자료 + YouTube 강의</div>
+              <div className="pricing-feature">졸업 후 3개월 코칭 채팅</div>
             </div>
             <button onClick={() => openFormModal()} className="pricing-btn">
               지금 신청하기 →
@@ -4325,7 +4325,7 @@ export default function StudyPage() {
         <div className="container">
           <div style={{ textAlign: 'center' }}>
             <div className="section-title" style={{ fontSize: '32px' }}>부트캠프 운영 방식</div>
-            <p className="section-desc">모두의 결과를 위한 약속입니다.</p>
+            <p className="section-desc">함께 성장하기 위한 약속입니다.</p>
           </div>
           <div className="rules-grid">
             <div className="rule-card">
@@ -4357,7 +4357,7 @@ export default function StudyPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '15px', lineHeight: '1.7', color: 'var(--text-secondary)' }}>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: 'var(--green)', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                  <span><strong>카톡방 입장 전</strong>까지는 교재비를 뺀 금액을 그대로 돌려드립니다. 수수료는 없습니다.</span>
+                  <span><strong>카톡방 입장 전</strong>까지 교재비를 뺀 금액을 돌려드립니다. 수수료 없습니다.</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#ef4444', fontWeight: 700, flexShrink: 0 }}>✕</span>
@@ -4365,7 +4365,7 @@ export default function StudyPage() {
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
-                  <span>팀원이 중도에 이탈해도 남은 인원으로 진행됩니다. 이 사유로는 환불되지 않습니다.</span>
+                  <span>팀원 이탈 — 남은 인원으로 정상 진행됩니다. 이 사유로는 환불되지 않습니다.</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
@@ -4385,7 +4385,7 @@ export default function StudyPage() {
         <div className="container">
           <div style={{ textAlign: 'center' }}>
             <div className="section-title" style={{ fontSize: '32px' }}>자주 묻는 질문</div>
-            <p className="section-desc">더 궁금한 점은 문의하기를 통해 연락주세요.</p>
+            <p className="section-desc">더 궁금한 점은 카톡으로 문의해주세요.</p>
           </div>
           <div className="faq-list">
             {faqItems.map((item: { question: string; answer: string; important?: boolean }, index: number) => (
@@ -4408,11 +4408,11 @@ export default function StudyPage() {
       {/* CTA BANNER */}
       <section className="cta-banner">
         <div className="container">
-          <h2>다음 기수 대기 접수 중</h2>
-          <p style={{fontSize:'18px',marginBottom:'8px'}}>다음 기수: <strong>4월 15일 ~ 4월 29일</strong></p>
-          <p>현재 기수(4/1)가 마감되었습니다. 다음 기수에 참여를 원하시면 대기 접수해주세요.</p>
+          <h2>지금 신청하고 시작하세요</h2>
+          <p style={{fontSize:'18px',marginBottom:'8px'}}>다음 기수: <strong>4월 15일 시작</strong></p>
+          <p>14일 동안 당신의 영어는 달라집니다.</p>
           <button onClick={() => openFormModal()} className="btn-white">
-            대기 접수하기 →
+            지금 신청하기 →
           </button>
         </div>
       </section>
