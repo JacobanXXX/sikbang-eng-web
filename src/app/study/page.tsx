@@ -4044,10 +4044,6 @@ export default function StudyPage() {
                   <td className="highlight-col">ACTFL 1단계 이상 상승 (NH→IL→IM1→IM2→IM3→IH→AL→AH)</td>
                 </tr>
                 <tr>
-                  <td>시험 유형</td>
-                  <td className="highlight-col">사전·사후 동일 유형(일반/Business) 필수</td>
-                </tr>
-                <tr>
                   <td>보증 횟수</td>
                   <td className="highlight-col">1인 1회, 직후 기수 필수 사용, 양도 불가</td>
                 </tr>
