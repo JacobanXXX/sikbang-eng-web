@@ -3558,7 +3558,7 @@ export default function StudyPage() {
               <div className="vs-tag vs-tag-highlight">14일 AL 완성 부트캠프</div>
               <div className="vs-fact vs-fact-highlight">대표가 매일 당신의 답변을 직접 듣고 분석합니다</div>
               <p className="vs-issue vs-issue-strong">
-                그래서 <b>수강생 94퍼센트를 목표 성적에 도달시킨 안준영 대표</b>가 매일 당신의 녹음을 직접 듣고, OPIc 채점 기준 그대로 만든 <b>SpeakCoach AI</b>가 동시에 분석합니다.
+                <b>안준영 대표</b>가 매일 직접 듣고, OPIc 채점 기준 그대로 만든 <b>SpeakCoach AI</b>가 함께 분석합니다. 그래서 <b>수강생 94퍼센트가 목표 성적에 도달했습니다</b>.
               </p>
             </div>
           </div>
