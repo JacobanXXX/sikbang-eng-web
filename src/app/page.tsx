@@ -127,15 +127,15 @@ export default function Home() {
   const faqItems = [
     {
       question: "OPIC을 처음 준비하는데 어디서부터 시작해야 하나요?",
-      answer: "현재 레벨에 따라 추천 경로가 달라요. 영어 기초가 부족하다면 전자책으로 프레임워크를 먼저 익히고, 단기간에 결과를 내고 싶다면 2주 스터디를 추천합니다. 잘 모르겠다면 SpeakCoach AI에서 무료 테스트를 먼저 해보세요. 현재 예상 등급을 바로 확인할 수 있습니다."
+      answer: "현재 레벨에 따라 추천 경로가 달라요. 영어 기초가 부족하다면 전자책으로 프레임워크를 먼저 익히고, 단기간에 결과를 내고 싶다면 14일 부트캠프를 추천합니다. 잘 모르겠다면 SpeakCoach AI에서 무료 테스트를 먼저 해보세요. 현재 예상 등급을 바로 확인할 수 있습니다."
     },
     {
       question: "SpeakCoach AI는 어떻게 사용하나요?",
       answer: "SpeakCoach AI는 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 접속할 수 있어요. 가입 후 답변을 녹음하면 AI가 발음, 문법, 유창성, 어휘 등 7개 카테고리로 분석해서 예상 등급과 구체적인 피드백을 제공합니다. 무료 체험도 가능합니다."
     },
     {
-      question: "2주 스터디는 어떤 식으로 진행되나요?",
-      answer: "3인 1팀으로 구성되며, 14일 동안 매일 스피킹 과제를 제출합니다. 코치의 실시간 피드백 + SpeakCoach AI의 정밀 분석을 함께 받습니다. 카카오톡 그룹에서 소통하며, 1주차는 기본 프레임워크, 2주차는 실전 모의고사에 집중합니다. 자세한 내용은 스터디 상세 페이지에서 확인하세요."
+      question: "14일 부트캠프는 어떤 식으로 진행되나요?",
+      answer: "3인 1팀으로 구성되며, 14일 동안 매일 스피킹 과제를 제출합니다. 코치의 실시간 피드백 + SpeakCoach AI의 정밀 분석을 함께 받습니다. 카카오톡 그룹에서 소통하며, 1주차는 기본 프레임워크, 2주차는 실전 모의고사에 집중합니다. 자세한 내용은 부트캠프 상세 페이지에서 확인하세요."
     },
     {
       question: "영어를 진짜 못하는데 따라갈 수 있을까요?",
@@ -146,8 +146,8 @@ export default function Home() {
       answer: "하루 1~2시간이면 충분합니다. 출퇴근 시간에 자료를 보고, 퇴근 후 녹음 과제를 제출하는 패턴으로 진행하시는 직장인분들이 많아요."
     },
     {
-      question: "전자책, 인강, 스터디 중 무엇을 선택해야 하나요?",
-      answer: "단기간 확실한 성과를 원하면 2주 스터디, 영상으로 체계적으로 배우고 싶으면 인강, 독학 + 기초 학습이면 전자책을 추천합니다. 가장 효과적인 조합은 인강 + 스터디예요."
+      question: "전자책, 인강, 부트캠프 중 무엇을 선택해야 하나요?",
+      answer: "단기간 확실한 성과를 원하면 14일 부트캠프, 영상으로 체계적으로 배우고 싶으면 인강, 독학 + 기초 학습이면 전자책을 추천합니다. 가장 효과적인 조합은 인강 + 부트캠프예요."
     }
   ];
 
@@ -164,7 +164,7 @@ export default function Home() {
             <a href="#store">스토어</a>
             <a href="#speakcoach">SpeakCoach AI</a>
             <a href="#reviews">후기</a>
-            <a href="/study">스터디</a>
+            <a href="/study">14일 부트캠프</a>
             <a href="/conversation">영어 회화</a>
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="nav-cta">무료 체험하기</a>
           </div>
@@ -187,7 +187,7 @@ export default function Home() {
         <a href="#store" onClick={closeMobileMenu}>스토어</a>
         <a href="#speakcoach" onClick={closeMobileMenu}>SpeakCoach AI</a>
         <a href="#reviews" onClick={closeMobileMenu}>후기</a>
-        <a href="/study" onClick={closeMobileMenu}>2주 스터디</a>
+        <a href="/study" onClick={closeMobileMenu}>14일 부트캠프</a>
         <a href="/conversation" onClick={closeMobileMenu}>1:1 영어 회화</a>
         <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" onClick={closeMobileMenu}>OPIC 단톡방 참여</a>
         <a href="http://pf.kakao.com/_SJYQn" target="_blank" onClick={closeMobileMenu}>카카오톡 1:1 문의</a>
@@ -204,7 +204,7 @@ export default function Home() {
           </h1>
           <p className="animate delay-2">
             사람의 코칭과 AI 피드백의 결합.<br />
-            식빵영어의 2주 스터디로 목표 점수에 도달하세요.
+            식빵영어의 14일 부트캠프로 목표 점수에 도달하세요.
           </p>
           <div className="hero-buttons animate delay-3">
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="btn-primary">
@@ -339,7 +339,7 @@ export default function Home() {
           <div className="section-header">
             <div className="overline">Store</div>
             <h2>OPIC 준비의 모든 것,<br />여기서 시작하세요</h2>
-            <p>전자책부터 인강, 2주 스터디까지. 나에게 맞는 학습 방법을 선택하세요.</p>
+            <p>전자책부터 인강, 14일 부트캠프까지. 나에게 맞는 학습 방법을 선택하세요.</p>
           </div>
           <div className="products-grid">
 
@@ -347,7 +347,32 @@ export default function Home() {
             <div className="product-card">
               <div className="product-card-image ebook-bg">
                 <span className="product-badge hot">BEST</span>
-                <span style={{ fontSize: '16px', fontWeight: '700', color: 'var(--blue-primary)', letterSpacing: '-0.02em' }}>E-BOOK + 기출</span>
+                <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" style={{ width: 'min(220px, 78%)', height: 'auto', display: 'block' }}>
+                  <defs>
+                    <filter id="ebookSh" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="6" stdDeviation="10" floodColor="#3182F6" floodOpacity="0.14"/>
+                    </filter>
+                  </defs>
+                  {/* 뒤쪽 책 */}
+                  <g transform="translate(60 30) rotate(-7 50 60)">
+                    <rect width="100" height="120" rx="8" fill="#D6E4FF"/>
+                    <rect x="0" y="0" width="14" height="120" fill="#A8C4FF"/>
+                    <rect x="30" y="28" width="56" height="6" rx="3" fill="#A8C4FF"/>
+                    <rect x="30" y="46" width="44" height="6" rx="3" fill="#A8C4FF"/>
+                    <rect x="30" y="64" width="52" height="6" rx="3" fill="#A8C4FF"/>
+                  </g>
+                  {/* 앞쪽 책 */}
+                  <g transform="translate(80 30) rotate(7 50 60)" filter="url(#ebookSh)">
+                    <rect width="100" height="120" rx="10" fill="#FFFFFF"/>
+                    <rect x="0" y="0" width="14" height="120" fill="#3182F6"/>
+                    <rect x="30" y="22" width="50" height="6" rx="3" fill="#3182F6"/>
+                    <rect x="30" y="34" width="36" height="6" rx="3" fill="#3182F6"/>
+                    <rect x="30" y="58" width="58" height="4" rx="2" fill="#E8EEF5"/>
+                    <rect x="30" y="70" width="48" height="4" rx="2" fill="#E8EEF5"/>
+                    <rect x="30" y="82" width="56" height="4" rx="2" fill="#E8EEF5"/>
+                    <rect x="30" y="94" width="36" height="4" rx="2" fill="#E8EEF5"/>
+                  </g>
+                </svg>
               </div>
               <div className="product-card-body">
                 <div className="category">전자책</div>
@@ -367,7 +392,31 @@ export default function Home() {
             <div className="product-card">
               <div className="product-card-image course-bg">
                 <span className="product-badge new">NEW</span>
-                <span style={{ fontSize: '16px', fontWeight: '700', color: 'var(--blue-primary)', letterSpacing: '-0.02em' }}>VIDEO COURSE</span>
+                <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" style={{ width: 'min(230px, 82%)', height: 'auto', display: 'block' }}>
+                  <defs>
+                    <filter id="screenSh" x="-10%" y="-10%" width="120%" height="130%">
+                      <feDropShadow dx="0" dy="6" stdDeviation="10" floodColor="#3182F6" floodOpacity="0.14"/>
+                    </filter>
+                  </defs>
+                  {/* 뒤쪽 살짝 보이는 카드 */}
+                  <rect x="32" y="40" width="176" height="14" rx="6" fill="#DCE8FF"/>
+                  <rect x="44" y="56" width="152" height="12" rx="6" fill="#EEF3FB"/>
+                  {/* 메인 비디오 프레임 */}
+                  <g filter="url(#screenSh)">
+                    <rect x="44" y="42" width="152" height="106" rx="14" fill="#FFFFFF"/>
+                    {/* 상단 바 */}
+                    <path d="M44 56 a14 14 0 0 1 14 -14 h124 a14 14 0 0 1 14 14 v6 h-152 z" fill="#191F28"/>
+                    <circle cx="56" cy="52" r="3" fill="#FF5C5C"/>
+                    <circle cx="66" cy="52" r="3" fill="#FFC542"/>
+                    <circle cx="76" cy="52" r="3" fill="#3DD68C"/>
+                    {/* 플레이 버튼 */}
+                    <circle cx="120" cy="98" r="22" fill="#3182F6"/>
+                    <path d="M114 88 L114 108 L130 98 Z" fill="white"/>
+                    {/* 진행바 */}
+                    <rect x="60" y="130" width="120" height="4" rx="2" fill="#E5EBF1"/>
+                    <rect x="60" y="130" width="48" height="4" rx="2" fill="#3182F6"/>
+                  </g>
+                </svg>
               </div>
               <div className="product-card-body">
                 <div className="category">인강</div>
@@ -385,17 +434,52 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 스터디 */}
+            {/* 14일 부트캠프 */}
             <div className="product-card">
               <div className="product-card-image study-bg">
-                <span className="product-badge">BEST</span>
-                <span style={{ fontSize: '16px', fontWeight: '700', color: '#1A8D48', letterSpacing: '-0.02em' }}>2-WEEK STUDY</span>
+                <span className="product-badge" style={{background:'#1A8D48'}}>BEST</span>
+                <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" style={{ width: 'min(220px, 80%)', height: 'auto', display: 'block' }}>
+                  <defs>
+                    <filter id="calSh" x="-10%" y="-10%" width="120%" height="130%">
+                      <feDropShadow dx="0" dy="6" stdDeviation="12" floodColor="#1A8D48" floodOpacity="0.14"/>
+                    </filter>
+                  </defs>
+                  <g filter="url(#calSh)">
+                    {/* 캘린더 본체 */}
+                    <rect x="36" y="26" width="168" height="128" rx="14" fill="#FFFFFF"/>
+                    {/* 헤더 */}
+                    <path d="M36 40 a14 14 0 0 1 14 -14 h140 a14 14 0 0 1 14 14 v14 h-168 z" fill="#1A8D48"/>
+                    {/* 헤더 도트 */}
+                    <circle cx="58" cy="22" r="2.5" fill="#1A8D48"/>
+                    <circle cx="182" cy="22" r="2.5" fill="#1A8D48"/>
+                    <rect x="54" y="14" width="8" height="14" rx="2" fill="#1A8D48"/>
+                    <rect x="178" y="14" width="8" height="14" rx="2" fill="#1A8D48"/>
+                    {/* 14 라벨 */}
+                    <text x="120" y="48" fontFamily="Pretendard, -apple-system, sans-serif" fontSize="14" fontWeight="700" fill="#FFFFFF" textAnchor="middle" letterSpacing="-0.02em">14 DAYS</text>
+                  </g>
+                  {/* 7×2 그리드 - 14일 */}
+                  {Array.from({length: 14}).map((_, i) => {
+                    const col = i % 7;
+                    const row = Math.floor(i / 7);
+                    const x = 50 + col * 20;
+                    const y = 76 + row * 32;
+                    const completed = i < 9;
+                    return (
+                      <g key={i}>
+                        <rect x={x} y={y} width="14" height="14" rx="4" fill={completed ? '#1A8D48' : '#E5EBE7'}/>
+                        {completed && (
+                          <path d={`M ${x+3.5} ${y+7.5} L ${x+6} ${y+10} L ${x+10.5} ${y+5}`} stroke="white" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                        )}
+                      </g>
+                    );
+                  })}
+                </svg>
               </div>
               <div className="product-card-body">
-                <div className="category">2주 스터디</div>
-                <h3>2주 집중 OPIC 스터디</h3>
-                <div className="desc">매일 녹음 → 코치 직접 교정 → AI 분석. 수료생 94% 목표 달성. 학원 1달 과정을 2주에 끝내세요.</div>
-                <div style={{fontSize:'13px',color:'#1A8D48',fontWeight:600,marginTop:'8px'}}>성적 미향상 시 무료 재수강 보증</div>
+                <div className="category" style={{color:'#1A8D48'}}>14일 부트캠프</div>
+                <h3>14일 AL 완성 부트캠프</h3>
+                <div className="desc">매일 녹음 → 대표 직접 교정 → AI 분석. 수료생 94퍼센트 목표 달성. 학원 한 달 과정을 2주에 끝내세요.</div>
+                <div style={{fontSize:'13px',color:'#1A8D48',fontWeight:600,marginTop:'8px'}}>1차 피드백 후 환불 가능</div>
                 <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
                   <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>
                     <span className="original">259,900원</span>
@@ -570,7 +654,7 @@ export default function Home() {
           <div className="section-header">
             <div className="overline">Reviews</div>
             <h2>4,000명이 먼저 경험했습니다</h2>
-            <p>전자책, 인강, 스터디 수강생들의 실제 후기.</p>
+            <p>전자책, 인강, 부트캠프 수강생들의 실제 후기.</p>
             <div style={{
               display:'inline-flex',
               alignItems:'center',
@@ -598,7 +682,7 @@ export default function Home() {
                   <div className="review-avatar">J</div>
                   <div className="review-meta">
                     <div className="name">정*현</div>
-                    <div className="info">건국대 경영 4학년 · 2주 스터디</div>
+                    <div className="info">건국대 경영 4학년 · 14일 부트캠프</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
@@ -614,7 +698,7 @@ export default function Home() {
                   <div className="review-avatar">S</div>
                   <div className="review-meta">
                     <div className="name">서*영</div>
-                    <div className="info">취준생 (졸업유예) · 스터디 + AI</div>
+                    <div className="info">취준생 (졸업유예) · 부트캠프 + AI</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
@@ -646,7 +730,7 @@ export default function Home() {
                   <div className="review-avatar">L</div>
                   <div className="review-meta">
                     <div className="name">이*진</div>
-                    <div className="info">이화여대 영문 3학년 · 2주 스터디</div>
+                    <div className="info">이화여대 영문 3학년 · 14일 부트캠프</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
@@ -662,11 +746,11 @@ export default function Home() {
                   <div className="review-avatar">P</div>
                   <div className="review-meta">
                     <div className="name">박*희</div>
-                    <div className="info">외국계 이직 준비 · 인강 + 스터디</div>
+                    <div className="info">외국계 이직 준비 · 인강 + 부트캠프</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">인강으로 롤플레이 패턴 먼저 잡고 스터디 들어갔더니 시너지가 대단했어요. 코치가 AL 노려보세요 라고 해서 목표를 올렸는데, 진짜 AL 나왔습니다. 이직 면접에서 오픽 점수 보여주니까 면접관 반응이 달라지더라고요.</div>
+                <div className="review-text">인강으로 롤플레이 패턴 먼저 잡고 부트캠프 들어갔더니 시너지가 대단했어요. 코치가 AL 노려보세요 라고 해서 목표를 올렸는데, 진짜 AL 나왔습니다. 이직 면접에서 오픽 점수 보여주니까 면접관 반응이 달라지더라고요.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM3 → AL</span>
                   <span className="grade-text">외국계 이직 성공</span>
@@ -694,11 +778,11 @@ export default function Home() {
                   <div className="review-avatar">H</div>
                   <div className="review-meta">
                     <div className="name">한*우</div>
-                    <div className="info">대기업 과장 5년차 · 2주 스터디</div>
+                    <div className="info">대기업 과장 5년차 · 14일 부트캠프</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">승진 요건에 OPIc IH가 있는데 3번 시험 봤는데 계속 IM2였어요. 혼자 해봤자 뭐가 틀린지 모르겠더라고요. 스터디에서 코치가 시제 전환할 때 끊기는 게 IM 원인이라고 딱 짚어줘서, 그거 하나 고쳤더니 바로 IH 나왔습니다.</div>
+                <div className="review-text">승진 요건에 OPIc IH가 있는데 3번 시험 봤는데 계속 IM2였어요. 혼자 해봤자 뭐가 틀린지 모르겠더라고요. 부트캠프에서 코치가 시제 전환할 때 끊기는 게 IM 원인이라고 딱 짚어줘서, 그거 하나 고쳤더니 바로 IH 나왔습니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM2 → IH</span>
                   <span className="grade-text">3번 실패 후 성공</span>
@@ -710,11 +794,11 @@ export default function Home() {
                   <div className="review-avatar">Y</div>
                   <div className="review-meta">
                     <div className="name">윤*서</div>
-                    <div className="info">취준생 · 전자책 + 스터디</div>
+                    <div className="info">취준생 · 전자책 + 부트캠프</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★<span className="empty">★</span></div>
-                <div className="review-text">전자책으로 답변 틀 만들고 스터디에서 실전 연습했어요. 첫 3일은 녹음 과제 적응 안 돼서 좀 힘들었는데, 4일째부터 루틴이 잡히니까 편해졌어요. 첫 시험인데 IH 받아서 취준 일정이 한 달은 앞당겨졌습니다.</div>
+                <div className="review-text">전자책으로 답변 틀 만들고 부트캠프에서 실전 연습했어요. 첫 3일은 녹음 과제 적응 안 돼서 좀 힘들었는데, 4일째부터 루틴이 잡히니까 편해졌어요. 첫 시험인데 IH 받아서 취준 일정이 한 달은 앞당겨졌습니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">첫 시험 IH</span>
                   <span className="grade-text">첫 응시 목표 달성</span>
@@ -726,7 +810,7 @@ export default function Home() {
                   <div className="review-avatar">M</div>
                   <div className="review-meta">
                     <div className="name">문*경</div>
-                    <div className="info">고려대 대학원 · 스터디 + AI</div>
+                    <div className="info">고려대 대학원 · 부트캠프 + AI</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
@@ -746,7 +830,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="review-stars">★★★★<span className="empty">★</span></div>
-                <div className="review-text">출퇴근 왕복 2시간을 전자책 읽는 시간으로 활용했어요. 솔직히 전자책만으로는 한계가 있어요. 근데 기초 프레임워크 잡는 데는 가성비 최고입니다. 나중에 시간 되면 스터디도 해보고 싶어요. 3주 만에 IL에서 IM3 나왔으니 만족합니다.</div>
+                <div className="review-text">출퇴근 왕복 2시간을 전자책 읽는 시간으로 활용했어요. 솔직히 전자책만으로는 한계가 있어요. 근데 기초 프레임워크 잡는 데는 가성비 최고입니다. 나중에 시간 되면 부트캠프도 해보고 싶어요. 3주 만에 IL에서 IM3 나왔으니 만족합니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IL → IM3</span>
                   <span className="grade-text">출퇴근 독학 후기</span>
@@ -774,11 +858,11 @@ export default function Home() {
                   <div className="review-avatar">W</div>
                   <div className="review-meta">
                     <div className="name">우*민</div>
-                    <div className="info">스타트업 이직 준비 · 2주 스터디</div>
+                    <div className="info">스타트업 이직 준비 · 14일 부트캠프</div>
                   </div>
                 </div>
                 <div className="review-stars">★★★★★</div>
-                <div className="review-text">이전 회사에서 영어 쓸 일이 없어서 입이 안 떨어졌어요. 근데 스터디 팀원들이 매일 녹음 올리니까 나도 안 할 수가 없더라고요. 과제량은 솔직히 좀 빡세요. 근데 그게 효과가 있었어요. 2주 만에 IM2에서 IH, 외국계 면접에서 자신감도 생겼습니다.</div>
+                <div className="review-text">이전 회사에서 영어 쓸 일이 없어서 입이 안 떨어졌어요. 근데 부트캠프 팀원들이 매일 녹음 올리니까 나도 안 할 수가 없더라고요. 과제량은 솔직히 좀 빡세요. 근데 그게 효과가 있었어요. 2주 만에 IM2에서 IH, 외국계 면접에서 자신감도 생겼습니다.</div>
                 <div className="review-result">
                   <span className="grade-badge">IM2 → IH</span>
                   <span className="grade-text">외국계 면접 자신감</span>
@@ -854,7 +938,7 @@ export default function Home() {
               + (quizAnswers[2] === 2 ? 3 : quizAnswers[2] === 1 ? 2 : 1);
             const rec = score >= 5 ? 'study' : score >= 3 ? 'course' : 'ebook';
             const info = {
-              study: { name: '2주 집중 스터디', desc: '시간이 촉박하고 확실한 성과가 필요하다면, 코치와 팀원이 함께하는 2주 스터디가 가장 효과적이에요.', link: '/study', btn: '스터디 자세히 보기', color: '#1A8D48' },
+              study: { name: '14일 AL 완성 부트캠프', desc: '시간이 촉박하고 확실한 성과가 필요하다면, 대표가 매일 직접 듣는 14일 부트캠프가 가장 효과적이에요.', link: '/study', btn: '부트캠프 자세히 보기', color: '#1A8D48' },
               course: { name: 'OPIC 완전정복 인강', desc: '체계적인 영상 강의로 내 페이스에 맞게 학습하고 싶다면, 인강 패키지를 추천합니다.', link: 'https://sikbang-eng.liveklass.com/', btn: '인강 자세히 보기', color: '#7C5CFC' },
               ebook: { name: 'OPIC 전자책 + 기출 번들', desc: '기초부터 독학으로 차근차근 준비하고 싶다면, 전자책으로 시작해보세요.', link: 'https://blog.naver.com/lulu05/223353024018', btn: '전자책 보러가기', color: '#3182F6' }
             }[rec];
@@ -975,7 +1059,7 @@ export default function Home() {
               lineHeight: 1.6,
               marginBottom: '4px',
             }}>
-              스터디 정보, 시험 꿀팁, 학습 자료 공유까지 — 혼자 준비하지 마세요.
+              부트캠프 정보, 시험 꿀팁, 학습 자료 공유까지 — 혼자 준비하지 마세요.
             </p>
             <p style={{
               fontSize: '13px',
@@ -1038,7 +1122,7 @@ export default function Home() {
               <h4>제품</h4>
               <a href="https://blog.naver.com/lulu05/223353024018" target="_blank">전자책</a>
               <a href="https://sikbang-eng.liveklass.com/" target="_blank">인강</a>
-              <a href="/study">2주 스터디</a>
+              <a href="/study">14일 부트캠프</a>
               <a href="https://sikbang-eng.replit.app/" target="_blank">SpeakCoach AI</a>
             </div>
             <div className="footer-col">
@@ -1093,7 +1177,7 @@ export default function Home() {
             <div style={{fontSize:'40px',marginBottom:'12px'}}>💬</div>
             <h3 style={{fontSize:'20px',fontWeight:800,marginBottom:'8px',color:'var(--text-primary)'}}>카카오톡 채널 추가하기</h3>
             <p style={{fontSize:'14px',color:'var(--text-secondary)',lineHeight:1.7,marginBottom:'20px'}}>
-              채널 추가하시면 스터디 모집 알림,<br/>할인 쿠폰, OPIC 꿀팁을 받으실 수 있어요!
+              채널 추가하시면 부트캠프 모집 알림,<br/>할인 쿠폰, OPIC 꿀팁을 받으실 수 있어요!
             </p>
             <a href="http://pf.kakao.com/_SJYQn" target="_blank" rel="noopener noreferrer" className="kakao-popup-btn" onClick={closeKakaoPopup}>
               채널 추가하고 혜택 받기
