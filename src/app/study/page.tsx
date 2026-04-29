@@ -3354,7 +3354,7 @@ export default function StudyPage() {
           <div className="countdown-box">
             <div className="countdown-label">{countdown.label}</div>
             {countdown.days === 0 && countdown.hours === 0 && countdown.mins === 0 && countdown.secs === 0 ? (
-              <div className="countdown-closed">모집 마감 — 다음 기수를 기다려주세요!</div>
+              <div className="countdown-closed">모집 마감. 다음 기수를 기다려주세요!</div>
             ) : (
               <div className="countdown-timer">
                 <div className="countdown-unit">
@@ -3388,7 +3388,7 @@ export default function StudyPage() {
             2주가 당신의 연봉을 바꿀 수도 있습니다.
           </p>
           <p className="subtitle">
-            OPIc AL은 4대 공기업 합격선, 대기업 영어 가산점, 외국계 첫 면접 통과 — 누구에게나 같은 한 줄짜리 자격증입니다.<br />
+            OPIc AL은 4대 공기업 합격선, 대기업 영어 가산점, 외국계 첫 면접 통과. 누구에게나 같은 한 줄짜리 자격증입니다.<br />
             <strong>14일 동안 코치와 AI가 매일 당신의 답변을 직접 분석합니다.</strong>
           </p>
 
@@ -4518,11 +4518,11 @@ export default function StudyPage() {
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
-                  <span>팀원 이탈 — 남은 인원으로 정상 진행됩니다. 이 사유로는 환불되지 않습니다.</span>
+                  <span>팀원이 이탈하더라도 남은 인원으로 정상 진행됩니다. 이 사유로는 환불되지 않습니다.</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
-                  <span><strong>폐강 시</strong> — 최소 인원 미달로 부트캠프가 개설되지 않는 경우, 개별 안내 후 교재비를 제외한 전액을 환불 처리합니다.</span>
+                  <span><strong>폐강 시</strong>에는 최소 인원 미달로 부트캠프가 개설되지 않은 경우, 개별 안내 후 교재비를 제외한 전액을 환불해드립니다.</span>
                 </div>
                 <div style={{ marginTop: '4px', padding: '12px 16px', background: 'var(--bg-gray)', borderRadius: '8px', fontSize: '13px', color: 'var(--text-tertiary)' }}>
                   결제 시 본 환불 정책 및 면책 조항에 동의한 것으로 간주됩니다. 환불 관련 문의는 카카오톡 채널로 연락주세요.
@@ -4799,8 +4799,8 @@ export default function StudyPage() {
                         </label>
                       </div>
                       <div className="form-target-guide">
-                        <p><strong>IH 목표반</strong> — OPIc이 처음이거나, 영어 스피킹이 아직 어려운 분에게 추천합니다. 기초 템플릿부터 체계적으로 잡아드려요.</p>
-                        <p><strong>AL 목표반</strong> — 현재 IM3 이상이거나, 영어로 어느 정도 말할 수 있는 분에게 추천합니다. AL 전략에 집중해요.</p>
+                        <p><strong>IH 목표반</strong>은 OPIc이 처음이거나 영어 스피킹이 아직 어려운 분에게 추천합니다. 기초 템플릿부터 체계적으로 잡아드려요.</p>
+                        <p><strong>AL 목표반</strong>은 현재 IM3 이상이거나 영어로 어느 정도 말할 수 있는 분에게 추천합니다. AL 전략에 집중합니다.</p>
                         <p className="form-target-tip">IH반을 선택해도 AL 취득이 충분히 가능합니다. 본인 현재 수준에 맞춰 선택해주세요!</p>
                       </div>
                     </div>
@@ -5036,7 +5036,7 @@ export default function StudyPage() {
                               <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()}원</span>
                             </div>
                             <div className="form-plan-save">
-                              39,000원 절약 — 하루 커피 한 잔 값으로 3개월 AI 코치
+                              39,000원 절약. 하루 커피 한 잔 값으로 3개월 AI 코치
                             </div>
                             {currentCycleState.isEarlyBird && (
                               <div className="form-plan-earlybird-tag">얼리버드 특가</div>
@@ -5054,9 +5054,9 @@ export default function StudyPage() {
                     {formData.plan === 'bundle' && (
                       <div className="form-bonus-box">
                         <div className="form-bonus-title">번들 선택 시 추가 혜택</div>
-                        <div className="form-bonus-item">부트캠프 종료 직후 바로 Premium 연결 — 학습 공백 0일</div>
-                        <div className="form-bonus-item">3개월간 매일 AI 스피킹 연습 — 학원비 월 30만원 이상 절약</div>
-                        <div className="form-bonus-item">부트캠프에서 배운 템플릿을 AI로 반복 훈련 — 체화 완성</div>
+                        <div className="form-bonus-item">부트캠프 종료 직후 바로 Premium 연결 · 학습 공백 0일</div>
+                        <div className="form-bonus-item">3개월간 매일 AI 스피킹 연습 · 학원비 월 30만원 이상 절약</div>
+                        <div className="form-bonus-item">부트캠프에서 배운 템플릿을 AI로 반복 훈련 · 체화 완성</div>
                       </div>
                     )}
 
@@ -5085,7 +5085,7 @@ export default function StudyPage() {
                         </span>
                       </label>
                       <div className="form-upgrade-detail">
-                        <span className="form-upgrade-value">64% 할인 — 41,900원 → 15,000원</span>
+                        <span className="form-upgrade-value">64% 할인 · 41,900원 → 15,000원</span>
                         <p>기본: Pro 11일 + Premium 3일 → <strong>14일 전체 Premium</strong>으로 업그레이드. 발음 교정, AI 모의고사, 무제한 피드백을 부트캠프 내내 쓰면 연습량이 2배로 늘어납니다.</p>
                       </div>
                     </div>
