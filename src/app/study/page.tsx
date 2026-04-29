@@ -3542,23 +3542,23 @@ export default function StudyPage() {
             <div className="vs-col">
               <div className="vs-tag">학원</div>
               <div className="vs-fact">강사 한 명이 100명을 가르칩니다</div>
-              <p className="vs-issue">내가 어떻게 답했는지 강사는 듣지 못합니다.</p>
+              <p className="vs-issue">그래서 내 약점이 무엇인지 강사는 알 수 없습니다.</p>
             </div>
             <div className="vs-col">
               <div className="vs-tag">인강</div>
               <div className="vs-fact">녹화된 영상을 혼자 봅니다</div>
-              <p className="vs-issue">막혀도 영상은 그대로, 멈춰주지 않습니다.</p>
+              <p className="vs-issue">그래서 내가 어디서 막혔는지 영상은 알려주지 않습니다.</p>
             </div>
             <div className="vs-col">
               <div className="vs-tag">그룹 스터디</div>
               <div className="vs-fact">함께 모여 응원을 나눕니다</div>
-              <p className="vs-issue">정작 AL이 무엇인지 정확히 아는 사람이 없습니다.</p>
+              <p className="vs-issue">그런데 정작 어떻게 해야 AL이 나오는지는 아무도 모릅니다.</p>
             </div>
             <div className="vs-col vs-col-highlight">
               <div className="vs-tag vs-tag-highlight">14일 AL 완성 부트캠프</div>
-              <div className="vs-fact vs-fact-highlight">대표가 직접 매일 답변을 듣고 분석합니다</div>
+              <div className="vs-fact vs-fact-highlight">대표가 매일 당신의 답변을 직접 듣고 분석합니다</div>
               <p className="vs-issue vs-issue-strong">
-                <b>4,000명을 AL에 도달시킨 안준영 대표</b>가 매일 당신의 녹음을 직접 듣습니다. 그가 OPIc 실제 채점 기준 그대로 만든 <b>SpeakCoach AI</b>가 동시에 분석합니다.
+                그래서 <b>4,000명을 AL로 만든 안준영 대표</b>가 매일 당신의 녹음을 듣고, 그가 OPIc 채점 기준으로 만든 <b>SpeakCoach AI</b>가 동시에 분석합니다.
               </p>
             </div>
           </div>
