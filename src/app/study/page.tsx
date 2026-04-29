@@ -139,6 +139,9 @@ export default function StudyPage() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formError, setFormError] = useState('');
+
+  // Curriculum accordion state
+  const [expandedPhase, setExpandedPhase] = useState<number | null>(null);
   const [bundleStock, setBundleStock] = useState(5);
 
   // Toast notifications state
@@ -1177,6 +1180,68 @@ export default function StudyPage() {
         .cur-day strong {
           font-weight: 600;
           color: var(--green);
+        }
+
+        /* === CURRICULUM ACCORDION === */
+        .cur-week-header {
+          width: 100%;
+          background: var(--bg-white);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          padding: 24px 28px;
+          cursor: pointer;
+          text-align: left;
+          display: block;
+          transition: all 0.2s;
+          position: relative;
+          font-family: inherit;
+          font-size: inherit;
+        }
+        .cur-week-header:hover {
+          border-color: var(--green);
+          background: rgba(26, 141, 72, 0.02);
+        }
+        .cur-week.expanded .cur-week-header {
+          border-color: var(--green);
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+        .cur-week-toggle {
+          position: absolute;
+          top: 24px;
+          right: 28px;
+          color: var(--text-tertiary);
+          transition: transform 0.2s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .cur-week.expanded .cur-week-toggle {
+          transform: rotate(180deg);
+          color: var(--green);
+        }
+        .cur-week.expanded .cur-day-grid {
+          border: 1px solid var(--green);
+          border-top: none;
+          border-bottom-left-radius: 16px;
+          border-bottom-right-radius: 16px;
+          background: var(--bg-white);
+          padding: 20px 28px 24px;
+        }
+
+        [data-theme="dark"] .cur-week-header {
+          background: #22262E;
+          border-color: #333840;
+        }
+        [data-theme="dark"] .cur-week-header:hover {
+          background: rgba(34, 197, 94, 0.05);
+        }
+        [data-theme="dark"] .cur-week.expanded .cur-day-grid {
+          background: #22262E;
+          border-color: #22C55E;
+        }
+        [data-theme="dark"] .cur-week.expanded .cur-week-header {
+          border-color: #22C55E;
         }
 
         /* === VS-GRID (비교 불가능한 오퍼) === */
@@ -3447,11 +3512,23 @@ export default function StudyPage() {
           </div>
           <div className="curriculum-timeline">
             {/* Phase 1 */}
-            <div className="cur-week active">
-              <div className="cur-week-dot"></div>
-              <div className="cur-week-label">PHASE 1 - Survey Master</div>
-              <h3>Day 1-7 : 7개 핵심 템플릿 체화 + Survey 즉답 루틴 완성</h3>
-              <p>템플릿을 외우는 것이 아니라 자동으로 튀어나오게 만드는 구간입니다. Survey 문제에서 첫 문장이 3초 안에 나오는 상태를 목표로 합니다.</p>
+            <div className={`cur-week ${expandedPhase === 1 ? 'expanded' : ''}`}>
+              <button
+                type="button"
+                className="cur-week-header"
+                onClick={() => setExpandedPhase(expandedPhase === 1 ? null : 1)}
+              >
+                <div className="cur-week-dot"></div>
+                <div className="cur-week-label">PHASE 1 - Survey Master</div>
+                <h3>Day 1-7 : 7개 핵심 템플릿 체화 + Survey 즉답 루틴 완성</h3>
+                <p>템플릿을 외우는 것이 아니라 자동으로 튀어나오게 만드는 구간입니다. Survey 문제에서 첫 문장이 3초 안에 나오는 상태를 목표로 합니다.</p>
+                <span className="cur-week-toggle">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9 L12 15 L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              {expandedPhase === 1 && (
               <div className="cur-day-grid">
                 <div className="cur-day">
                   <strong>Day 1</strong> OPIc 채점 기준(Fluency/Structure/Coherence) 분석 + Template #1~3 구조 입력. SpeakCoach AI 주거 카테고리 학습 + 묘사 표현 암기 시작.
@@ -3475,13 +3552,26 @@ export default function StudyPage() {
                   <strong>Day 7</strong> 비공개 모의고사 영상 1차 풀이(녹음) + SpeakCoach AI 전체 분석. 구조/속도/발음 교정 시작. 유형별 표현 완벽 암기(2차 피드백 세션 테스트 대비).
                 </div>
               </div>
+              )}
             </div>
             {/* Phase 2 */}
-            <div className="cur-week active">
-              <div className="cur-week-dot"></div>
-              <div className="cur-week-label">PHASE 2 - 롤플레이와 돌발</div>
-              <h3>Day 8-10 : RP 상황 처리 공식 + 돌발 질문 대응력 완성</h3>
-              <p>롤플레이와 돌발 질문을 무서운 파트에서 공식으로 해결하는 파트로 바꿉니다. 롤플레이가 나오면 이건 이 공식이구나 하고 자동 반응하는 상태를 목표로 합니다.</p>
+            <div className={`cur-week ${expandedPhase === 2 ? 'expanded' : ''}`}>
+              <button
+                type="button"
+                className="cur-week-header"
+                onClick={() => setExpandedPhase(expandedPhase === 2 ? null : 2)}
+              >
+                <div className="cur-week-dot"></div>
+                <div className="cur-week-label">PHASE 2 - 롤플레이와 돌발</div>
+                <h3>Day 8-10 : RP 상황 처리 공식 + 돌발 질문 대응력 완성</h3>
+                <p>롤플레이와 돌발 질문을 무서운 파트에서 공식으로 해결하는 파트로 바꿉니다. 롤플레이가 나오면 이건 이 공식이구나 하고 자동 반응하는 상태를 목표로 합니다.</p>
+                <span className="cur-week-toggle">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9 L12 15 L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              {expandedPhase === 2 && (
               <div className="cur-day-grid">
                 <div className="cur-day">
                   <strong>Day 8</strong> RP 핵심 13개 시나리오 완전 분석(전화 문의/예약 변경/불만 제기). Q11 질문 능력 + Q12 대안 제시 구조 파악. Reusable Sentences 암기 + 타이머 즉답 훈련.
@@ -3493,13 +3583,26 @@ export default function StudyPage() {
                   <strong>Day 10</strong> RP 추가 시나리오 3종(길 안내/문제 설명/문제 보고). RP Part 1+2 전체 복습. Fluency Challenge: 모든 RP 질문을 끊김 없이 + 자연스러운 감정 표현으로 답변.
                 </div>
               </div>
+              )}
             </div>
             {/* Phase 3 */}
-            <div className="cur-week active">
-              <div className="cur-week-dot"></div>
-              <div className="cur-week-label">PHASE 3 - 실전 몰입</div>
-              <h3>Day 11-14 : 비공개 모의고사 영상 풀이 + 시험 당일 컨디션 세팅</h3>
-              <p>말을 더 잘하게 만드는 구간이 아닙니다. 시험장에서 흔들리지 않게 만드는 구간입니다. 퍼징 없는 말하기 유지력과 당황하지 않는 센스를 키웁니다.</p>
+            <div className={`cur-week ${expandedPhase === 3 ? 'expanded' : ''}`}>
+              <button
+                type="button"
+                className="cur-week-header"
+                onClick={() => setExpandedPhase(expandedPhase === 3 ? null : 3)}
+              >
+                <div className="cur-week-dot"></div>
+                <div className="cur-week-label">PHASE 3 - 실전 몰입</div>
+                <h3>Day 11-14 : 비공개 모의고사 영상 풀이 + 시험 당일 컨디션 세팅</h3>
+                <p>말을 더 잘하게 만드는 구간이 아닙니다. 시험장에서 흔들리지 않게 만드는 구간입니다. 퍼징 없는 말하기 유지력과 당황하지 않는 센스를 키웁니다.</p>
+                <span className="cur-week-toggle">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9 L12 15 L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+              {expandedPhase === 3 && (
               <div className="cur-day-grid">
                 <div className="cur-day">
                   <strong>Day 11</strong> 최종 템플릿 전체 복습 + 문단(Paragraph) 형태 답변 연습. Speaking Marathon: Survey + RP 랜덤 혼합, 20문제 이상 연속 답변으로 유지력 훈련.
@@ -3514,6 +3617,7 @@ export default function StudyPage() {
                   <strong>Day 14</strong> 오전: 비공개 모의고사 영상 최종 풀이(실전 환경 시뮬레이션). 오후: 어려웠던 질문/표현 최종 복습 + 자신감 향상. 저녁: 가볍게 복습 후 충분한 수면과 휴식. 막판 무리한 암기 금지.
                 </div>
               </div>
+              )}
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: '48px' }}>
