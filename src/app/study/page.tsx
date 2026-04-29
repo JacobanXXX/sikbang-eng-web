@@ -83,11 +83,11 @@ function getDiscountPercent(price: number): number {
 }
 
 // 남은 인원 자동 계산 (파워 커브 - 초반 급감, 후반 완만)
-// 공식: remaining = 2 + 38 * (1 - progress)^2.5
-// 오픈 직후 40명 → 마감 시 2명 (최소 2명 보장)
+// 공식: remaining = 1 + 19 * (1 - progress)^2.5
+// 오픈 직후 20명 → 마감 시 1명 (최소 1명 보장)
 function getAutoRemainingSlots(now: Date, cycle: StudyCycle): number {
   const totalDuration = cycle.recruitEnd.getTime() - cycle.recruitStart.getTime();
-  if (totalDuration <= 0) return 40;
+  if (totalDuration <= 0) return 20;
   const elapsed = now.getTime() - cycle.recruitStart.getTime();
   const progress = Math.max(0, Math.min(1, elapsed / totalDuration));
 
@@ -98,21 +98,21 @@ function getAutoRemainingSlots(now: Date, cycle: StudyCycle): number {
     hash = ((hash << 5) - hash) + dayKey.charCodeAt(i);
     hash |= 0;
   }
-  const dailyVariation = (Math.abs(hash) % 3) - 1; // -1, 0, 1
+  const dailyVariation = (Math.abs(hash) % 2); // 0, 1
 
   // 파워 커브: 초반 빠르게, 후반 완만하게 감소
   const curveFactor = Math.pow(1 - progress, 2.5);
-  const baseRemaining = Math.round(2 + 38 * curveFactor);
+  const baseRemaining = Math.round(1 + 19 * curveFactor);
 
-  // 최소 2명 보장
-  return Math.max(2, Math.min(40, baseRemaining + dailyVariation));
+  // 최소 1명 보장
+  return Math.max(1, Math.min(20, baseRemaining + dailyVariation));
 }
 
 export default function StudyPage() {
-  // Slots and remaining state
-  const [remainingSlots, setRemainingSlots] = useState(40);
-  const [ctaRemainingSlots, setCtaRemainingSlots] = useState(40);
-  const [floatingRemainingSlots, setFloatingRemainingSlots] = useState(40);
+  // Slots and remaining state (정원 20명 — 코치 1대1 음성 분석을 위한 의도된 소수)
+  const [remainingSlots, setRemainingSlots] = useState(20);
+  const [ctaRemainingSlots, setCtaRemainingSlots] = useState(20);
+  const [floatingRemainingSlots, setFloatingRemainingSlots] = useState(20);
 
   // Floating CTA state
   const [showFloatingCta, setShowFloatingCta] = useState(false);
@@ -146,7 +146,7 @@ export default function StudyPage() {
   // Countdown + cycle state
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0, label: '', nextDate: '' });
   const [currentCycleState, setCurrentCycleState] = useState<{ isEarlyBird: boolean; price: number; discount: number; autoSlots: number; earlyBirdEndStr: string }>({
-    isEarlyBird: true, price: 149900, discount: 42, autoSlots: 40, earlyBirdEndStr: ''
+    isEarlyBird: true, price: 149900, discount: 42, autoSlots: 20, earlyBirdEndStr: ''
   });
 
   useEffect(() => {
@@ -301,7 +301,7 @@ export default function StudyPage() {
   const [reviewDirection, setReviewDirection] = useState(1);
   const [reviewPaused, setReviewPaused] = useState(false);
 
-  const totalSlots = 40;
+  const totalSlots = 20;
   const slotsRef = useRef(remainingSlots);
   const toastCounterRef = useRef(0);
 
@@ -569,6 +569,33 @@ export default function StudyPage() {
         [data-theme="dark"] .section-gray { background: #22262E; }
         [data-theme="dark"] .curriculum-card { background: #22262E; border-color: #333840; }
         [data-theme="dark"] .pricing-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .vs-col { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .vs-col-highlight { background: #22262E; border-color: #22C55E; }
+        [data-theme="dark"] .vs-tag { color: #6B7684; }
+        [data-theme="dark"] .vs-tag-highlight { color: #22C55E; }
+        [data-theme="dark"] .vs-fact { color: #EAEDF0; }
+        [data-theme="dark"] .vs-fact-highlight { color: #22C55E; }
+        [data-theme="dark"] .vs-issue { color: #B0B8C1; }
+        [data-theme="dark"] .vs-issue-strong { color: #EAEDF0; }
+        [data-theme="dark"] .vs-issue-strong b { color: #22C55E; }
+        [data-theme="dark"] .vs-stat { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .vs-stat-num,
+        [data-theme="dark"] .vs-stat-plus,
+        [data-theme="dark"] .vs-stat-unit { color: #22C55E; }
+        [data-theme="dark"] .vs-stat-label { color: #B0B8C1; }
+        [data-theme="dark"] .vs-conclusion { color: #22C55E; }
+        [data-theme="dark"] .guarantee-headline-card { background: #22262E; border-color: #22C55E; }
+        [data-theme="dark"] .guarantee-tag { background: #1A3A2A; color: #22C55E; }
+        [data-theme="dark"] .guarantee-headline { color: #EAEDF0; }
+        [data-theme="dark"] .guarantee-body { color: #B0B8C1; }
+        [data-theme="dark"] .guarantee-body b { color: #EAEDF0; }
+        [data-theme="dark"] .guarantee-refund-row { background: #1A1D23; }
+        [data-theme="dark"] .guarantee-refund-label { color: #6B7684; }
+        [data-theme="dark"] .guarantee-refund-value { color: #EAEDF0; }
+        [data-theme="dark"] .guarantee-note { background: #22262E; color: #B0B8C1; }
+        [data-theme="dark"] .bonus-problem { color: #F87171; }
+        [data-theme="dark"] .bonus-solution { color: #EAEDF0; }
+        [data-theme="dark"] .bonus-proof { color: #B0B8C1; }
         [data-theme="dark"] .bonus-card { background: #22262E; border-color: #333840; }
         [data-theme="dark"] .bonus-card:hover { border-color: #22C55E; }
         [data-theme="dark"] .bonus-no { color: #22C55E; }
@@ -829,10 +856,19 @@ export default function StudyPage() {
         .hero h1 .accent {
           color: var(--green);
         }
+        .hero .hero-tagline-strong {
+          font-size: 24px;
+          font-weight: 700;
+          color: var(--green);
+          letter-spacing: -0.025em;
+          line-height: 1.4;
+          margin-top: 12px;
+          margin-bottom: 20px;
+        }
         .hero .subtitle {
-          font-size: 20px;
+          font-size: 17px;
           color: var(--text-secondary);
-          line-height: 1.6;
+          line-height: 1.65;
           margin-bottom: 40px;
           font-weight: 400;
         }
@@ -1136,6 +1172,193 @@ export default function StudyPage() {
           color: var(--green);
         }
 
+        /* === VS-GRID (비교 불가능한 오퍼) === */
+        .vs-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+          max-width: 1080px;
+          margin: 48px auto 0 auto;
+        }
+        .vs-col {
+          background: var(--bg-white);
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          padding: 24px 20px;
+          display: flex;
+          flex-direction: column;
+        }
+        .vs-col-highlight {
+          background: var(--bg-white);
+          border: 2px solid var(--green);
+          position: relative;
+        }
+        .vs-tag {
+          font-size: 11px;
+          font-weight: 700;
+          color: var(--text-tertiary);
+          letter-spacing: 0.06em;
+          margin-bottom: 12px;
+        }
+        .vs-tag-highlight {
+          color: var(--green);
+        }
+        .vs-fact {
+          font-size: 16px;
+          font-weight: 700;
+          color: var(--text-primary);
+          letter-spacing: -0.015em;
+          line-height: 1.4;
+          margin-bottom: 14px;
+        }
+        .vs-fact-highlight {
+          color: var(--green);
+          font-size: 17px;
+        }
+        .vs-issue {
+          font-size: 13.5px;
+          color: var(--text-secondary);
+          line-height: 1.6;
+          margin: 0;
+          flex: 1;
+        }
+        .vs-issue-strong {
+          color: var(--text-primary);
+          font-size: 13.5px;
+          font-weight: 500;
+        }
+        .vs-issue-strong b {
+          font-weight: 700;
+          color: var(--green);
+        }
+        .vs-stats {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+          max-width: 1080px;
+          margin: 32px auto 0 auto;
+        }
+        .vs-stat {
+          background: var(--bg-white);
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          padding: 22px 18px;
+          text-align: center;
+        }
+        .vs-stat-num {
+          font-size: 30px;
+          font-weight: 700;
+          color: var(--green);
+          letter-spacing: -0.025em;
+          line-height: 1;
+        }
+        .vs-stat-plus, .vs-stat-unit {
+          font-size: 17px;
+          font-weight: 700;
+          color: var(--green);
+          margin-left: 2px;
+        }
+        .vs-stat-label {
+          font-size: 12.5px;
+          color: var(--text-secondary);
+          font-weight: 500;
+          margin-top: 9px;
+          letter-spacing: -0.005em;
+        }
+        .vs-conclusion {
+          max-width: 1080px;
+          margin: 36px auto 0 auto;
+          text-align: center;
+          font-size: 18px;
+          font-weight: 700;
+          color: var(--green);
+          letter-spacing: -0.02em;
+        }
+        @media (max-width: 720px) {
+          .vs-grid { grid-template-columns: 1fr 1fr; }
+          .vs-stats { grid-template-columns: 1fr 1fr; }
+          .vs-fact { font-size: 15px; }
+          .vs-stat-num { font-size: 24px; }
+        }
+
+        /* === GUARANTEE HEADLINE === */
+        .guarantee-headline-card {
+          max-width: 880px;
+          margin: 56px auto 0 auto;
+          background: var(--bg-white);
+          border: 2px solid var(--green);
+          border-radius: 20px;
+          padding: 40px;
+          position: relative;
+        }
+        .guarantee-tag {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          color: var(--green);
+          background: #E8FFF0;
+          padding: 6px 14px;
+          border-radius: 999px;
+          width: fit-content;
+        }
+        .guarantee-headline {
+          font-size: 26px;
+          font-weight: 700;
+          color: var(--text-primary);
+          letter-spacing: -0.02em;
+          line-height: 1.3;
+          margin: 16px 0 12px 0;
+        }
+        .guarantee-body {
+          font-size: 15.5px;
+          color: var(--text-secondary);
+          line-height: 1.65;
+          margin: 0 0 28px 0;
+        }
+        .guarantee-body b {
+          color: var(--text-primary);
+          font-weight: 700;
+        }
+        .guarantee-refund-row {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          padding: 20px;
+          background: #F9FBFD;
+          border-radius: 14px;
+          margin-bottom: 16px;
+        }
+        .guarantee-refund-cell {
+          text-align: center;
+        }
+        .guarantee-refund-label {
+          font-size: 12px;
+          font-weight: 600;
+          color: var(--text-tertiary);
+          letter-spacing: 0.04em;
+          margin-bottom: 6px;
+        }
+        .guarantee-refund-value {
+          font-size: 14.5px;
+          font-weight: 700;
+          color: var(--text-primary);
+          letter-spacing: -0.005em;
+          line-height: 1.4;
+        }
+        .guarantee-note {
+          font-size: 12.5px;
+          color: var(--text-tertiary);
+          line-height: 1.5;
+          padding: 10px 14px;
+          background: var(--bg-gray);
+          border-radius: 8px;
+        }
+        @media (max-width: 720px) {
+          .guarantee-headline-card { padding: 28px 22px; }
+          .guarantee-headline { font-size: 22px; }
+          .guarantee-refund-row { grid-template-columns: 1fr; gap: 16px; padding: 18px; }
+        }
+
         /* === BONUSES === */
         .bonus-grid {
           display: grid;
@@ -1193,6 +1416,50 @@ export default function StudyPage() {
           line-height: 1.55;
           margin: 0 0 18px 0;
           flex: 1;
+        }
+        .bonus-problem {
+          font-size: 12.5px;
+          font-weight: 700;
+          color: #E74C3C;
+          line-height: 1.5;
+          margin: 0 0 6px 0;
+          letter-spacing: -0.01em;
+        }
+        .bonus-problem::before {
+          content: '문제 · ';
+          color: #8B95A1;
+          font-weight: 600;
+          font-size: 11px;
+          letter-spacing: 0.04em;
+        }
+        .bonus-solution {
+          font-size: 13.5px;
+          font-weight: 600;
+          color: #191F28;
+          line-height: 1.55;
+          margin: 0 0 8px 0;
+          letter-spacing: -0.01em;
+        }
+        .bonus-solution::before {
+          content: '해결 · ';
+          color: #1A8D48;
+          font-weight: 700;
+          font-size: 11px;
+          letter-spacing: 0.04em;
+        }
+        .bonus-proof {
+          font-size: 12.5px;
+          color: #4E5968;
+          line-height: 1.55;
+          margin: 0 0 16px 0;
+          flex: 1;
+        }
+        .bonus-proof::before {
+          content: '활용 · ';
+          color: #8B95A1;
+          font-weight: 600;
+          font-size: 11px;
+          letter-spacing: 0.04em;
         }
         .bonus-meta {
           display: flex;
@@ -2944,17 +3211,20 @@ export default function StudyPage() {
           </div>
           </div>
           <h1>
-            2주 만에<br />
-            <span className="accent">OPIc 목표 등급</span> 달성
+            <span className="accent">14일 AL 완성</span><br />
+            부트캠프
           </h1>
+          <p className="hero-tagline-strong">
+            2주가 당신의 연봉을 바꿀 수도 있습니다.
+          </p>
           <p className="subtitle">
-            소그룹 3인 1팀. 매일 스피킹 과제 + AI 피드백 + 코칭.<br />
-            <strong>프레임워크 기반 답변 훈련</strong>으로 가장 구조적으로 준비하세요.
+            OPIc AL은 4대 공기업 합격선, 대기업 영어 가산점, 외국계 첫 면접 통과 — 누구에게나 같은 한 줄짜리 자격증입니다.<br />
+            <strong>14일 동안 사람과 AI가 매일 당신의 음성을 직접 분석합니다.</strong>
           </p>
 
           {/* QUEUE COUNTER */}
           <div className="queue-box">
-            <div className="queue-label">선착순 40명 한정 {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontWeight:700}}>· 얼리버드 {currentCycleState.earlyBirdEndStr}까지</span>}</div>
+            <div className="queue-label">한 기수 단 20명 {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontWeight:700}}>· 얼리버드 {currentCycleState.earlyBirdEndStr}까지</span>}</div>
             <div className="queue-progress-bar">
               <div className="queue-progress-fill" style={{ width: `${((totalSlots - remainingSlots) / totalSlots) * 100}%` }}></div>
             </div>
@@ -2983,7 +3253,7 @@ export default function StudyPage() {
       <section className="section" id="why">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">왜 4,000명이 이 스터디를 선택했을까요?</div>
+            <div className="section-title">왜 4,000명이 식빵영어를 선택했을까요?</div>
             <p className="section-desc">2주 만에 등급이 바뀌는 데는 이유가 있습니다.</p>
           </div>
           <div className="why-grid">
@@ -3197,12 +3467,70 @@ export default function StudyPage() {
         </div>
       </section>
 
-      {/* COMPARE */}
+      {/* WHY-SIKBANG — 비교 불가능한 오퍼 */}
+      <section className="section section-gray" id="why-sikbang" style={{ padding: '80px 0' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center' }}>
+            <div className="section-title" style={{ fontSize: '32px' }}>학원도 인강도 그룹 스터디도 아닙니다.</div>
+            <p className="section-desc">14일 AL 완성 부트캠프, 한국에서 식빵영어 한 곳뿐입니다.</p>
+          </div>
+
+          <div className="vs-grid">
+            <div className="vs-col">
+              <div className="vs-tag">학원</div>
+              <div className="vs-fact">강사 1명 : 학생 100명</div>
+              <p className="vs-issue">당신이 어떻게 답하는지 강사는 듣지 못합니다.</p>
+            </div>
+            <div className="vs-col">
+              <div className="vs-tag">인강</div>
+              <div className="vs-fact">영상을 틀어드립니다</div>
+              <p className="vs-issue">당신이 멈춰도 영상은 멈추지 않습니다.</p>
+            </div>
+            <div className="vs-col">
+              <div className="vs-tag">그룹 스터디</div>
+              <div className="vs-fact">서로 격려해줍니다</div>
+              <p className="vs-issue">누구도 AL이 정확히 무엇인지 모릅니다.</p>
+            </div>
+            <div className="vs-col vs-col-highlight">
+              <div className="vs-tag vs-tag-highlight">14일 AL 완성 부트캠프</div>
+              <div className="vs-fact vs-fact-highlight">대표가 직접 매일 음성을 듣습니다</div>
+              <p className="vs-issue vs-issue-strong">
+                <b>4,000명을 AL로 만든 대표 코치</b>가 매일 당신의 녹음을 직접 듣고, 같은 대표가 OPIc 실제 채점 기준 그대로 만든 <b>SpeakCoach AI</b>가 동시에 분석합니다.
+              </p>
+            </div>
+          </div>
+
+          <div className="vs-stats">
+            <div className="vs-stat">
+              <div className="vs-stat-num">4,000<span className="vs-stat-plus">명</span></div>
+              <div className="vs-stat-label">단기간 누적 수강생 1위</div>
+            </div>
+            <div className="vs-stat">
+              <div className="vs-stat-num">2<span className="vs-stat-unit">등급</span></div>
+              <div className="vs-stat-label">2주 후 평균 등급 상승</div>
+            </div>
+            <div className="vs-stat">
+              <div className="vs-stat-num">94<span className="vs-stat-unit">퍼센트</span></div>
+              <div className="vs-stat-label">수료율</div>
+            </div>
+            <div className="vs-stat">
+              <div className="vs-stat-num">20<span className="vs-stat-unit">명</span></div>
+              <div className="vs-stat-label">한 기수 정원</div>
+            </div>
+          </div>
+
+          <div className="vs-conclusion">
+            이 조합은 한국에서 식빵영어 한 곳뿐입니다.
+          </div>
+        </div>
+      </section>
+
+      {/* COMPARE — 기존 비교 테이블 */}
       <section className="compare-section" style={{ padding: '64px 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title" style={{ fontSize: '32px' }}>왜 스터디가 가장 빠를까?</div>
-            <p className="section-desc">같은 2주, 결과는 방법에 따라 달라집니다.</p>
+            <div className="section-title" style={{ fontSize: '32px' }}>같은 2주, 다른 결과</div>
+            <p className="section-desc">한 줄씩 비교해보세요.</p>
           </div>
           <div className="compare-scroll-hint" style={{display:'none',textAlign:'center',fontSize:'13px',color:'var(--text-tertiary)',marginBottom:'8px'}}>👆 좌우로 스크롤해서 비교하세요</div>
           <div className="compare-table-wrap">
@@ -3286,7 +3614,7 @@ export default function StudyPage() {
               <div className="review-stat-label">누적 수강생</div>
             </div>
             <div className="review-stat-card">
-              <div className="review-stat-num">1.8<span className="review-stat-unit">등급</span></div>
+              <div className="review-stat-num">2<span className="review-stat-unit">등급</span></div>
               <div className="review-stat-label">평균 등급 상승</div>
             </div>
             <div className="review-stat-card">
@@ -3314,7 +3642,7 @@ export default function StudyPage() {
                   <div className="review-avatar">K</div>
                   <div>
                     <div className="review-name">김*현</div>
-                    <div className="review-info">대학생 · 2주 스터디</div>
+                    <div className="review-info">대학생 · 14일 부트캠프</div>
                   </div>
                 </div>
               </div>
@@ -3365,7 +3693,7 @@ export default function StudyPage() {
                   <div className="review-avatar">J</div>
                   <div>
                     <div className="review-name">정*아</div>
-                    <div className="review-info">대학생 · 2주 스터디</div>
+                    <div className="review-info">대학생 · 14일 부트캠프</div>
                   </div>
                 </div>
               </div>
@@ -3535,8 +3863,39 @@ export default function StudyPage() {
       <section className="section" id="guarantee">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title">성적 보증</div>
-            <p className="section-desc">조건을 100% 이행했는데도 등급이 오르지 않았다면, 다음 기수를 무료로 다시 수강하세요.</p>
+            <div className="section-title">두 가지 보증, 한 가지 약속</div>
+            <p className="section-desc">대표님이 손해 볼 구조가 아닙니다. 손해는 식빵영어가 부담합니다.</p>
+          </div>
+
+          {/* 무조건 보증 — 1차 피드백 환불 (NEW) */}
+          <div className="guarantee-headline-card">
+            <div className="guarantee-tag">무조건 보증</div>
+            <h3 className="guarantee-headline">1차 피드백 듣고 환불 가능</h3>
+            <p className="guarantee-body">
+              개강 후 첫 1대1 피드백 (보통 Day 1부터 Day 3 안에 진행)을 받으신 뒤, 만족스럽지 않으면 환불해드립니다. <b>이유는 묻지 않습니다.</b>
+            </p>
+            <div className="guarantee-refund-row">
+              <div className="guarantee-refund-cell">
+                <div className="guarantee-refund-label">환불 가능 금액</div>
+                <div className="guarantee-refund-value">코칭 비용 전액</div>
+              </div>
+              <div className="guarantee-refund-cell">
+                <div className="guarantee-refund-label">차감 항목</div>
+                <div className="guarantee-refund-value">교재비 30,000원 + AI 41,900원</div>
+              </div>
+              <div className="guarantee-refund-cell">
+                <div className="guarantee-refund-label">신청 기간</div>
+                <div className="guarantee-refund-value">1차 피드백 일정 이전까지</div>
+              </div>
+            </div>
+            <div className="guarantee-note">1차 피드백 일정은 카톡방 입장 시 안내됩니다. 일정 이후에는 환불이 불가합니다.</div>
+          </div>
+
+          {/* 조건부 보증 — 등급 미향상 시 무료 재수강 */}
+          <div style={{ textAlign: 'center', marginTop: '56px' }}>
+            <div className="guarantee-tag" style={{ display: 'inline-block', marginBottom: '12px' }}>조건부 보증</div>
+            <div className="section-title" style={{ fontSize: '28px' }}>14일 미션 100퍼센트 후 등급 미향상 시</div>
+            <p className="section-desc">다음 기수를 무료로 다시 수강하세요.</p>
           </div>
 
           {/* 보증 내용 카드 2개 - why-card 재사용 */}
@@ -3761,7 +4120,7 @@ export default function StudyPage() {
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--green)', letterSpacing: '0.06em', marginBottom: '8px' }}>BONUS</div>
             <div className="section-title">신청자에게만 드리는 4종 보너스</div>
-            <p className="section-desc">스터디에 함께 포함된 단독 학습 자료 4개. 별도 구매가 227,000원 가치입니다.</p>
+            <p className="section-desc">부트캠프에 함께 포함된 단독 학습 자료 4개. 별도 구매가 227,000원 가치입니다.</p>
           </div>
 
           <div className="bonus-grid">
@@ -3771,7 +4130,9 @@ export default function StudyPage() {
                 <span className="bonus-tag">FRAMEWORK</span>
               </div>
               <h3 className="bonus-title">OPIc AL 즉답 프레임워크 9선</h3>
-              <p className="bonus-desc">머리가 하얘지는 7초 안에 입을 떼는 9가지 시그니처 패턴 카드.</p>
+              <p className="bonus-problem">시험장에서 머리가 하얘지는 그 7초.</p>
+              <p className="bonus-solution">어떤 질문이 와도 첫 문장이 입에서 자동으로 나오는 9가지 시그니처 패턴.</p>
+              <p className="bonus-proof">4,000명을 가르치며 발견한, AL 등급자가 가장 많이 쓴 표현 9개.</p>
               <div className="bonus-meta">
                 <span className="bonus-pages">PDF · 15p</span>
                 <span className="bonus-value">29,000원</span>
@@ -3784,7 +4145,9 @@ export default function StudyPage() {
                 <span className="bonus-tag">ANSWER BANK</span>
               </div>
               <h3 className="bonus-title">AL 답변 50선 모범 답안집</h3>
-              <p className="bonus-desc">실제 시험에 그대로 나오는 50개 질문에 대한 AL 모범 답안.</p>
+              <p className="bonus-problem">내 답변이 AL인지 IH인지 본인이 판단 못 함.</p>
+              <p className="bonus-solution">50개 실제 시험 문제에 대한 AL 등급 모범 답안집.</p>
+              <p className="bonus-proof">매일 1개씩 따라 말하면 50일 안에 AL 톤이 입에 붙습니다.</p>
               <div className="bonus-meta">
                 <span className="bonus-pages">PDF · 54p</span>
                 <span className="bonus-value">79,000원</span>
@@ -3797,7 +4160,9 @@ export default function StudyPage() {
                 <span className="bonus-tag">DAILY DRILL</span>
               </div>
               <h3 className="bonus-title">30일 표현 암기 루틴</h3>
-              <p className="bonus-desc">출퇴근 10분, 30일이면 AL 표현 150개가 입에 붙습니다.</p>
+              <p className="bonus-problem">답변마다 같은 단어 반복. 채점관에게 들킴.</p>
+              <p className="bonus-solution">매일 5개씩 30일, 출퇴근 10분으로 입에 붙이는 AL 표현 150개.</p>
+              <p className="bonus-proof">지하철에서 5분, 그게 14일 후 답변 톤을 바꿉니다.</p>
               <div className="bonus-meta">
                 <span className="bonus-pages">PDF · 33p</span>
                 <span className="bonus-value">39,000원</span>
@@ -3810,7 +4175,9 @@ export default function StudyPage() {
                 <span className="bonus-tag">1:1 COACHING</span>
               </div>
               <h3 className="bonus-title">재시험 1:1 코칭 30분</h3>
-              <p className="bonus-desc">첫 시험에서 막힌 지점을 코치와 함께 점검하는 화상 컨설팅.</p>
+              <p className="bonus-problem">첫 시험 떨어진 후 어디부터 다시 시작할지 막막함.</p>
+              <p className="bonus-solution">대표 코치가 직접 30분간 약점 진단 후 다음 14일 액션 플랜.</p>
+              <p className="bonus-proof">통화 후 24시간 안에 PDF 처방전이 카톡으로 도착합니다.</p>
               <div className="bonus-meta">
                 <span className="bonus-pages">화상 · 30분</span>
                 <span className="bonus-value">80,000원</span>
@@ -3824,7 +4191,7 @@ export default function StudyPage() {
               <span className="bonus-total-strike">227,000원</span>
               <span className="bonus-total-final">0원</span>
             </div>
-            <div className="bonus-total-sub">스터디 신청자에게 무료로 함께 제공됩니다.</div>
+            <div className="bonus-total-sub">부트캠프 신청자에게 무료로 함께 제공됩니다.</div>
           </div>
         </div>
       </section>
@@ -3839,7 +4206,7 @@ export default function StudyPage() {
           <div className="pricing-section">
             <div className="pricing-badge">{currentCycleState.isEarlyBird ? `얼리버드 ${currentCycleState.discount}% 할인` : `${currentCycleState.discount}% 할인 중`}</div>
             <div className="pricing-header">
-              <h3>2주 집중 스터디</h3>
+              <h3>14일 AL 완성 부트캠프</h3>
               <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
             </div>
             <div className="pricing-original">259,900원</div>
@@ -4386,7 +4753,7 @@ export default function StudyPage() {
                           {currentCycleState.isEarlyBird && (
                             <div className="form-plan-earlybird-tag">얼리버드 특가</div>
                           )}
-                          <div className="form-plan-desc">2주 집중 스터디 · 교재 포함</div>
+                          <div className="form-plan-desc">14일 AL 완성 부트캠프 · 교재 포함</div>
                           <ul className="form-plan-features">
                             <li>14일 커리큘럼 + 교재</li>
                             <li>1:3 소그룹 피드백 총 180분</li>
@@ -4411,7 +4778,7 @@ export default function StudyPage() {
                           <div className="form-value-stack">
                             <div className="form-value-stack-title">이 번들에 포함된 가치</div>
                             <div className="form-value-item">
-                              <span>2주 집중 스터디 (교재+피드백+모의고사)</span>
+                              <span>14일 AL 완성 부트캠프 (교재와 피드백, 모의고사 포함)</span>
                               <span className="form-value-price">{(currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()}원</span>
                             </div>
                             <div className="form-value-item">
