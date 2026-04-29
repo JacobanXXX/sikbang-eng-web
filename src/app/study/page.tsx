@@ -3471,31 +3471,31 @@ export default function StudyPage() {
       <section className="section section-gray" id="why-sikbang" style={{ padding: '80px 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title" style={{ fontSize: '32px' }}>학원도 인강도 그룹 스터디도 아닙니다.</div>
-            <p className="section-desc">14일 AL 완성 부트캠프, 한국에서 식빵영어 한 곳뿐입니다.</p>
+            <div className="section-title" style={{ fontSize: '32px' }}>학원도, 인강도, 그룹 스터디도 아닙니다.</div>
+            <p className="section-desc">한국에서 단 하나뿐인 14일 AL 완성 부트캠프.</p>
           </div>
 
           <div className="vs-grid">
             <div className="vs-col">
               <div className="vs-tag">학원</div>
-              <div className="vs-fact">강사 1명 : 학생 100명</div>
-              <p className="vs-issue">당신이 어떻게 답하는지 강사는 듣지 못합니다.</p>
+              <div className="vs-fact">강사 한 명이 100명을 가르칩니다</div>
+              <p className="vs-issue">내가 어떻게 답했는지 강사는 듣지 못합니다.</p>
             </div>
             <div className="vs-col">
               <div className="vs-tag">인강</div>
-              <div className="vs-fact">영상을 틀어드립니다</div>
-              <p className="vs-issue">당신이 멈춰도 영상은 멈추지 않습니다.</p>
+              <div className="vs-fact">녹화된 영상을 혼자 봅니다</div>
+              <p className="vs-issue">막혀도 영상은 그대로, 멈춰주지 않습니다.</p>
             </div>
             <div className="vs-col">
               <div className="vs-tag">그룹 스터디</div>
-              <div className="vs-fact">서로 격려해줍니다</div>
-              <p className="vs-issue">누구도 AL이 정확히 무엇인지 모릅니다.</p>
+              <div className="vs-fact">함께 모여 응원을 나눕니다</div>
+              <p className="vs-issue">정작 AL이 무엇인지 정확히 아는 사람이 없습니다.</p>
             </div>
             <div className="vs-col vs-col-highlight">
               <div className="vs-tag vs-tag-highlight">14일 AL 완성 부트캠프</div>
-              <div className="vs-fact vs-fact-highlight">대표가 직접 매일 음성을 듣습니다</div>
+              <div className="vs-fact vs-fact-highlight">대표가 직접 매일 답변을 듣고 분석합니다</div>
               <p className="vs-issue vs-issue-strong">
-                <b>4,000명을 AL로 만든 대표 코치</b>가 매일 당신의 녹음을 직접 듣고, 같은 대표가 OPIc 실제 채점 기준 그대로 만든 <b>SpeakCoach AI</b>가 동시에 분석합니다.
+                <b>4,000명을 AL에 도달시킨 안준영 대표</b>가 매일 당신의 녹음을 직접 듣습니다. 그가 OPIc 실제 채점 기준 그대로 만든 <b>SpeakCoach AI</b>가 동시에 분석합니다.
               </p>
             </div>
           </div>
@@ -3503,7 +3503,7 @@ export default function StudyPage() {
           <div className="vs-stats">
             <div className="vs-stat">
               <div className="vs-stat-num">4,000<span className="vs-stat-plus">명</span></div>
-              <div className="vs-stat-label">단기간 누적 수강생 1위</div>
+              <div className="vs-stat-label">OPIc 부트캠프 누적 수강생</div>
             </div>
             <div className="vs-stat">
               <div className="vs-stat-num">2<span className="vs-stat-unit">등급</span></div>
@@ -3520,7 +3520,7 @@ export default function StudyPage() {
           </div>
 
           <div className="vs-conclusion">
-            이 조합은 한국에서 식빵영어 한 곳뿐입니다.
+            한국 어디에도 없는 조합. 식빵영어가 만들었습니다.
           </div>
         </div>
       </section>
