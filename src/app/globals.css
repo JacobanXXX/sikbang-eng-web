@@ -201,6 +201,8 @@ img { max-width: 100%; display: block; }
   border: 1px solid var(--border);
   overflow: hidden;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 .product-card:hover {
   border-color: var(--blue-primary);
@@ -225,7 +227,15 @@ img { max-width: 100%; display: block; }
 }
 .product-badge.hot { background: var(--blue-primary); }
 .product-badge.new { background: #191F28; }
-.product-card-body { padding: 24px; }
+.product-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.product-card-body .product-price-row {
+  margin-top: auto;
+}
 .product-card-body .category {
   font-size: 13px; font-weight: 600; color: var(--blue-primary);
   margin-bottom: 8px;

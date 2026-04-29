@@ -479,8 +479,8 @@ export default function Home() {
                 <div className="category" style={{color:'#1A8D48'}}>14일 부트캠프</div>
                 <h3>14일 AL 완성 부트캠프</h3>
                 <div className="desc">매일 녹음 → 대표 직접 교정 → AI 분석. 수료생 94퍼센트 목표 달성. 학원 한 달 과정을 2주에 끝내세요.</div>
-                <div style={{fontSize:'13px',color:'#1A8D48',fontWeight:600,marginTop:'8px'}}>1차 피드백 후 환불 가능</div>
-                <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
+                <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'10px'}}>
+                  <div style={{fontSize:'13px',color:'#1A8D48',fontWeight:600}}>1차 피드백 후 환불 가능</div>
                   <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>
                     <span className="original">359,000원</span>
                     <span className="current">249,000</span>
