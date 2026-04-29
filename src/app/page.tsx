@@ -661,16 +661,16 @@ export default function Home() {
               gap:'12px',
               marginTop:'18px',
               padding:'10px 18px',
-              background:'#FFF8E1',
-              border:'1px solid #FFE082',
+              background:'var(--bg-gray)',
+              border:'1px solid var(--border)',
               borderRadius:'999px',
               fontSize:'14px',
               fontWeight:700,
-              color:'#5D4037',
+              color:'var(--text-primary)',
             }}>
               <span style={{color:'#FFA000',fontSize:'16px',letterSpacing:'2px'}}>★★★★★</span>
               <span>5.0 / 5.0</span>
-              <span style={{color:'#8B95A1',fontWeight:600}}>· 라이브클래스 인강 수강 후기 250+건</span>
+              <span style={{color:'var(--text-tertiary)',fontWeight:600}}>· 라이브클래스 인강 수강 후기 250+건</span>
             </div>
           </div>
           <div className="reviews-wrapper">
