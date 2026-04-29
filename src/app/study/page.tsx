@@ -648,7 +648,7 @@ export default function StudyPage() {
         [data-theme="dark"] .form-radio-card { border-color: #333840; }
         [data-theme="dark"] .form-plan-card { border-color: #333840; }
         [data-theme="dark"] .form-plan-card.bundle { border-color: #333840; }
-        [data-theme="dark"] .form-bundle-stock { background: #3A1A1A; color: #F87171; }
+        [data-theme="dark"] .form-bundle-stock { background: #4A2222; color: #F87171; }
         [data-theme="dark"] .form-bundle-stock.urgent { background: #F87171; }
         [data-theme="dark"] .form-plan-save { color: #22C55E; }
         [data-theme="dark"] .form-value-stack { border-color: #333840; }
@@ -669,7 +669,7 @@ export default function StudyPage() {
         [data-theme="dark"] .form-btn-primary:disabled { background: #333840; }
         [data-theme="dark"] .form-btn-secondary { background: #22262E; }
         [data-theme="dark"] .form-btn-secondary:hover { background: #333840; }
-        [data-theme="dark"] .form-error { background: #3A1A1A; color: #F87171; }
+        [data-theme="dark"] .form-error { background: #4A2222; color: #F87171; }
         [data-theme="dark"] .stats-section { background: #22262E; color: #EAEDF0; }
 
         /* Dark mode: compare table */
@@ -679,6 +679,7 @@ export default function StudyPage() {
         [data-theme="dark"] .compare-table tbody td:first-child { color: #EAEDF0; }
         [data-theme="dark"] .compare-table tbody td.highlight-col { background: #1A3A2A; color: #22C55E; }
         [data-theme="dark"] .compare-x { color: #6B7684; }
+        [data-theme="dark"] .review-stars { color: #FFD54F; }
 
         /* === COUNTDOWN === */
         .countdown-box {

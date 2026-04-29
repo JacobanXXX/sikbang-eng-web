@@ -23,6 +23,8 @@ img { max-width: 100%; display: block; }
   --blue-dark: #1B64DA;
   --blue-light: #E8F3FF;
   --blue-bg: #F2F4F6;
+  --green: #1A8D48;
+  --red: #dc2626;
   --text-primary: #191F28;
   --text-secondary: #4E5968;
   --text-tertiary: #8B95A1;

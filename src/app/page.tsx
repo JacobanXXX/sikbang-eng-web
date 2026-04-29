@@ -262,7 +262,7 @@ export default function Home() {
           <div className="newsletter-inner">
             <div className="newsletter-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
             <h2>OPIC 무료 자료<br /><span className="highlight">지금 바로 받아보세요</span></h2>
-            <p style={{fontSize:'13px',color:'#3182F6',fontWeight:600,marginBottom:'4px'}}>5,200명이 구독 중</p>
+            <p style={{fontSize:'13px',color:'var(--blue-primary)',fontWeight:600,marginBottom:'4px'}}>5,200명이 구독 중</p>
             <p>이메일을 구독하면 OPIC 준비에 꼭 필요한 무료 학습 자료를 보내드립니다.<br />매주 OPIC 꿀팁과 표현 정리도 함께 받아보세요.</p>
 
             {!newsletterSuccess ? (
@@ -427,7 +427,7 @@ export default function Home() {
                     <span className="original">269,000원</span>
                     <span className="current">169,000</span>
                     <span className="unit">원</span>
-                    <span style={{background:'#dc2626',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px'}}>-37%</span>
+                    <span style={{background:'var(--green)',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px'}}>-37%</span>
                   </div>
                   <a href="https://sikbang-eng.liveklass.com/" target="_blank" className="btn-buy" style={{width:'100%', textAlign:'center', padding:'12px 20px'}}>수강하기</a>
                 </div>
@@ -943,7 +943,7 @@ export default function Home() {
               ebook: { name: 'OPIC 전자책 + 기출 번들', desc: '기초부터 독학으로 차근차근 준비하고 싶다면, 전자책으로 시작해보세요.', link: 'https://blog.naver.com/lulu05/223353024018', btn: '전자책 보러가기', color: '#3182F6' }
             }[rec];
             return (
-              <div style={{background:'white',borderRadius:'16px',padding:'32px 24px',border:'1px solid #e5e7eb'}}>
+              <div style={{background:'var(--bg-white)',borderRadius:'16px',padding:'32px 24px',border:'1px solid var(--border)'}}>
                 <div style={{fontSize:'13px',fontWeight:700,color:info.color,marginBottom:'8px'}}>추천 결과</div>
                 <h3 style={{fontSize:'22px',fontWeight:800,color:'var(--text-primary)',marginBottom:'12px'}}>{info.name}</h3>
                 <p style={{fontSize:'15px',color:'var(--text-secondary)',lineHeight:1.6,marginBottom:'20px'}}>{info.desc}</p>
