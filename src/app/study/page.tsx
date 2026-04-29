@@ -569,7 +569,31 @@ export default function StudyPage() {
         [data-theme="dark"] .section-gray { background: #22262E; }
         [data-theme="dark"] .curriculum-card { background: #22262E; border-color: #333840; }
         [data-theme="dark"] .pricing-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .bonus-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .bonus-card:hover { border-color: #22C55E; }
+        [data-theme="dark"] .bonus-no { color: #22C55E; }
+        [data-theme="dark"] .bonus-tag { background: #1A3A2A; color: #22C55E; }
+        [data-theme="dark"] .bonus-title { color: #EAEDF0; }
+        [data-theme="dark"] .bonus-desc { color: #B0B8C1; }
+        [data-theme="dark"] .bonus-meta { border-top-color: #333840; }
+        [data-theme="dark"] .bonus-pages { color: #6B7684; }
+        [data-theme="dark"] .bonus-value { color: #EAEDF0; }
+        [data-theme="dark"] .bonus-total { background: #1A1D23; border-color: #333840; }
+        [data-theme="dark"] .bonus-total-label { color: #6B7684; }
+        [data-theme="dark"] .bonus-total-strike { color: #6B7684; }
+        [data-theme="dark"] .bonus-total-final { color: #22C55E; }
+        [data-theme="dark"] .bonus-total-sub { color: #B0B8C1; }
         [data-theme="dark"] .review-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .review-stat-card { background: #22262E; border-color: #333840; }
+        [data-theme="dark"] .review-stat-num,
+        [data-theme="dark"] .review-stat-plus,
+        [data-theme="dark"] .review-stat-unit { color: #22C55E; }
+        [data-theme="dark"] .review-stat-label { color: #B0B8C1; }
+        [data-theme="dark"] .review-grade-shift { background: #22262E; }
+        [data-theme="dark"] .grade-before { color: #6B7684; }
+        [data-theme="dark"] .grade-arrow,
+        [data-theme="dark"] .grade-after { color: #22C55E; }
+        [data-theme="dark"] .review-text b { color: #EAEDF0; }
         [data-theme="dark"] .faq-item { border-color: #333840; }
         [data-theme="dark"] .toast { background: rgba(26,29,35,0.95); }
         [data-theme="dark"] .theme-toggle { color: #8B95A1; }
@@ -1112,6 +1136,145 @@ export default function StudyPage() {
           color: var(--green);
         }
 
+        /* === BONUSES === */
+        .bonus-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+          max-width: 880px;
+          margin: 0 auto;
+        }
+        .bonus-card {
+          background: #FFFFFF;
+          border: 1px solid #E5E8EB;
+          border-radius: 16px;
+          padding: 24px 24px 20px 24px;
+          display: flex;
+          flex-direction: column;
+          transition: all 0.15s ease;
+        }
+        .bonus-card:hover {
+          border-color: #1A8D48;
+          transform: translateY(-2px);
+        }
+        .bonus-card-head {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 14px;
+        }
+        .bonus-no {
+          font-size: 28px;
+          font-weight: 700;
+          color: #1A8D48;
+          letter-spacing: -0.02em;
+          line-height: 1;
+        }
+        .bonus-tag {
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          color: #1A8D48;
+          background: #E8FFF0;
+          padding: 4px 10px;
+          border-radius: 999px;
+        }
+        .bonus-title {
+          font-size: 17px;
+          font-weight: 700;
+          color: #191F28;
+          letter-spacing: -0.015em;
+          line-height: 1.35;
+          margin: 0 0 8px 0;
+        }
+        .bonus-desc {
+          font-size: 13.5px;
+          color: #4E5968;
+          line-height: 1.55;
+          margin: 0 0 18px 0;
+          flex: 1;
+        }
+        .bonus-meta {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-top: 14px;
+          border-top: 1px solid #F2F4F6;
+        }
+        .bonus-pages {
+          font-size: 12px;
+          font-weight: 600;
+          color: #8B95A1;
+          letter-spacing: 0.02em;
+        }
+        .bonus-value {
+          font-size: 15px;
+          font-weight: 700;
+          color: #191F28;
+        }
+        .bonus-total {
+          margin: 32px auto 0 auto;
+          max-width: 880px;
+          background: #F9FBFD;
+          border: 1px solid #E5E8EB;
+          border-radius: 16px;
+          padding: 28px 32px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          text-align: center;
+        }
+        .bonus-total-label {
+          font-size: 12px;
+          font-weight: 700;
+          color: #8B95A1;
+          letter-spacing: 0.06em;
+        }
+        .bonus-total-price {
+          display: flex;
+          align-items: baseline;
+          gap: 14px;
+        }
+        .bonus-total-strike {
+          font-size: 17px;
+          color: #8B95A1;
+          text-decoration: line-through;
+          font-weight: 500;
+        }
+        .bonus-total-final {
+          font-size: 32px;
+          font-weight: 700;
+          color: #1A8D48;
+          letter-spacing: -0.025em;
+          line-height: 1;
+        }
+        .bonus-total-sub {
+          font-size: 13px;
+          color: #4E5968;
+          font-weight: 500;
+        }
+
+        @media (max-width: 720px) {
+          .bonus-grid {
+            grid-template-columns: 1fr;
+          }
+          .bonus-card {
+            padding: 20px;
+          }
+          .bonus-title {
+            font-size: 16px;
+          }
+          .bonus-total {
+            padding: 22px 20px;
+          }
+          .bonus-total-final {
+            font-size: 26px;
+          }
+        }
+
+        /* 다크모드는 별도 [data-theme="dark"] 오버라이드에서 처리 */
+
         /* === PRICING === */
         .pricing-section {
           display: flex;
@@ -1296,10 +1459,12 @@ export default function StudyPage() {
         .review-card {
           flex: 0 0 380px;
           background: var(--bg-white);
-          padding: 32px;
+          padding: 28px;
           border-radius: 16px;
           box-shadow: var(--card-shadow);
           transition: all 0.3s;
+          display: flex;
+          flex-direction: column;
         }
         .review-card:hover {
           transform: translateY(-4px);
@@ -1312,11 +1477,89 @@ export default function StudyPage() {
           font-weight: 600;
           letter-spacing: 0;
         }
+
+        /* === REVIEW STATS === */
+        .review-stats-row {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+          max-width: 880px;
+          margin: 32px auto 48px auto;
+        }
+        .review-stat-card {
+          background: var(--bg-white);
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          padding: 24px 20px;
+          text-align: center;
+        }
+        .review-stat-num {
+          font-size: 30px;
+          font-weight: 700;
+          color: var(--green);
+          letter-spacing: -0.025em;
+          line-height: 1;
+        }
+        .review-stat-plus, .review-stat-unit {
+          font-size: 18px;
+          font-weight: 700;
+          color: var(--green);
+          margin-left: 2px;
+        }
+        .review-stat-label {
+          font-size: 13px;
+          color: var(--text-secondary);
+          font-weight: 500;
+          margin-top: 10px;
+          letter-spacing: -0.005em;
+        }
+        @media (max-width: 720px) {
+          .review-stats-row {
+            grid-template-columns: 1fr 1fr;
+          }
+          .review-stat-card { padding: 18px 14px; }
+          .review-stat-num { font-size: 24px; }
+        }
+
+        /* === REVIEW GRADE SHIFT === */
+        .review-grade-shift {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 18px;
+          padding: 8px 14px;
+          background: #F2F4F6;
+          border-radius: 999px;
+          width: fit-content;
+        }
+        .grade-before {
+          font-size: 13px;
+          font-weight: 700;
+          color: var(--text-tertiary);
+          letter-spacing: 0.02em;
+        }
+        .grade-arrow {
+          font-size: 11px;
+          color: var(--green);
+          font-weight: 700;
+          line-height: 1;
+        }
+        .grade-after {
+          font-size: 14px;
+          font-weight: 800;
+          color: var(--green);
+          letter-spacing: 0.02em;
+        }
         .review-text {
           font-size: 15px;
           color: var(--text-secondary);
-          line-height: 1.6;
-          margin-bottom: 24px;
+          line-height: 1.65;
+          margin-bottom: 22px;
+          flex: 1;
+        }
+        .review-text b {
+          color: var(--text-primary);
+          font-weight: 700;
         }
         .review-author {
           display: flex;
@@ -2640,6 +2883,7 @@ export default function StudyPage() {
           <div className="nav-links">
             <a href="/free">무료 강의</a>
             <a href="#curriculum">커리큘럼</a>
+            <a href="#bonuses">보너스</a>
             <a href="#pricing">가격</a>
             <a href="#guarantee">성적 보증</a>
             <a href="#reviews">후기</a>
@@ -3026,6 +3270,267 @@ export default function StudyPage() {
         </div>
       </section>
 
+
+      {/* REVIEWS */}
+      <section className="section section-gray" id="reviews">
+        <div className="container">
+          <div style={{ textAlign: 'center' }}>
+            <div className="section-title">2주 후, 이런 결과가 나왔습니다</div>
+            <p className="section-desc">실제 수료생 등급 변화 데이터입니다.</p>
+          </div>
+
+          {/* Review Stats */}
+          <div className="review-stats-row">
+            <div className="review-stat-card">
+              <div className="review-stat-num">4,000<span className="review-stat-plus">+</span></div>
+              <div className="review-stat-label">누적 수강생</div>
+            </div>
+            <div className="review-stat-card">
+              <div className="review-stat-num">1.8<span className="review-stat-unit">등급</span></div>
+              <div className="review-stat-label">평균 등급 상승</div>
+            </div>
+            <div className="review-stat-card">
+              <div className="review-stat-num">94<span className="review-stat-unit">%</span></div>
+              <div className="review-stat-label">목표 등급 달성률</div>
+            </div>
+            <div className="review-stat-card">
+              <div className="review-stat-num">5.0<span className="review-stat-unit">/5</span></div>
+              <div className="review-stat-label">수료생 만족도</div>
+            </div>
+          </div>
+
+          <div className="review-scroll-wrap">
+            <div className="review-scroll" ref={reviewScrollRef}>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IM3</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">IH</span>
+                </div>
+                <div className="review-text">
+                  2주 만에 IM3에서 IH로 올랐어요. <b>프레임워크가 진짜 효과 있었습니다.</b> 답변할 때 구조가 잡히니까 자신감이 다릅니다.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">K</div>
+                  <div>
+                    <div className="review-name">김*현</div>
+                    <div className="review-info">대학생 · 2주 스터디</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IM3</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">AL</span>
+                </div>
+                <div className="review-text">
+                  AI로 매일 연습하고, 스터디에서 피드백 받으니까 <b>내 약점이 정확히 보였어요.</b> 결국 AL 받았습니다.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">L</div>
+                  <div>
+                    <div className="review-name">이*준</div>
+                    <div className="review-info">취준생 · 스터디와 AI</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IM2</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">IH</span>
+                </div>
+                <div className="review-text">
+                  직장 다니면서 준비하기 힘들었는데 <b>2주라서 집중할 수 있었어요.</b> 매일 과제 내는 게 핵심인 것 같아요.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">P</div>
+                  <div>
+                    <div className="review-name">박*영</div>
+                    <div className="review-info">직장인 · 승진 준비</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IL</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">IM2</span>
+                </div>
+                <div className="review-text">
+                  혼자 했으면 절대 못 했을 거예요. <b>3명이니까 서로 자극도 되고 포기할 수가 없었어요.</b> IL에서 IM2 찍었습니다.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">J</div>
+                  <div>
+                    <div className="review-name">정*아</div>
+                    <div className="review-info">대학생 · 2주 스터디</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IH</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">AL</span>
+                </div>
+                <div className="review-text">
+                  인강으로 기본기 잡고 스터디에서 실전 연습하니까 <b>시너지가 대단했어요.</b> IH 목표였는데 AL이 나왔습니다.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">L</div>
+                  <div>
+                    <div className="review-name">이*민</div>
+                    <div className="review-info">직장인 · 실전 준비</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IM1</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">IM2</span>
+                </div>
+                <div className="review-text">
+                  AI 피드백이 이렇게 정확할 줄 몰랐어요. <b>매일 내 발음과 문법 실수를 바로 지적</b>해주니까 빠르게 개선됐습니다.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">C</div>
+                  <div>
+                    <div className="review-name">최*리</div>
+                    <div className="review-info">대학원생 · 유학 준비</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IM2</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">IH</span>
+                </div>
+                <div className="review-text">
+                  온라인이라고 걱정했는데 <b>카톡 채팅과 공유로 충분</b>했어요. 팀원들이 열심히 하니까 저도 자연스럽게 따라갔습니다.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">H</div>
+                  <div>
+                    <div className="review-name">한*수</div>
+                    <div className="review-info">직장인 · 온라인 진행</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IH</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">AL</span>
+                </div>
+                <div className="review-text">
+                  3년째 IH에 막혀 있었는데 <b>2주 만에 AL을 받았습니다.</b> 코치가 제 답변의 문제점을 정확히 짚어줘서 충격이었어요.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">S</div>
+                  <div>
+                    <div className="review-name">송*환</div>
+                    <div className="review-info">직장인 · 재시험</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">NL</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">IM1</span>
+                </div>
+                <div className="review-text">
+                  영어 왕초보였는데 <b>한 줄도 못 하던 제가 1분을 채울 수 있게 됐어요.</b> 1대1 회화 클래스도 같이 들었더니 효과가 컸습니다.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">Y</div>
+                  <div>
+                    <div className="review-name">윤*지</div>
+                    <div className="review-info">취준생 · 왕초보 출발</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IM2</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">AL</span>
+                </div>
+                <div className="review-text">
+                  공기업 합격 마지노선이 IH였는데 <b>AL을 받았어요.</b> 즉답 프레임워크 9선이 시험장에서 진짜 큰 도움이 됐습니다.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">N</div>
+                  <div>
+                    <div className="review-name">남*우</div>
+                    <div className="review-info">취준생 · 공기업 준비</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IH</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">AL</span>
+                </div>
+                <div className="review-text">
+                  롤플 3콤보가 항상 약점이었는데 <b>Plan A·B·C 구조로 풀이</b>하니까 답변이 자연스러워졌어요. 처음 받은 AL입니다.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">B</div>
+                  <div>
+                    <div className="review-name">백*경</div>
+                    <div className="review-info">대학생 · 롤플 약점</div>
+                  </div>
+                </div>
+              </div>
+              <div className="review-card">
+                <div className="review-grade-shift">
+                  <span className="grade-before">IM2</span>
+                  <span className="grade-arrow">▶</span>
+                  <span className="grade-after">IH</span>
+                </div>
+                <div className="review-text">
+                  매일 미션 100% 채우면서 <b>제가 영어를 좋아한다는 걸 다시 깨달았어요.</b> 점수보다 그게 더 큰 수확이었습니다.
+                </div>
+                <div className="review-author">
+                  <div className="review-avatar">G</div>
+                  <div>
+                    <div className="review-name">고*은</div>
+                    <div className="review-info">직장인 · 자기계발</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Photo Reviews Carousel */}
+          <div className="photo-review-section">
+            <div className="photo-review-label">실제 수강생 인증 후기</div>
+            <div className="photo-carousel-wrap">
+              <div className="photo-carousel-track">
+                {[...Array(2)].map((_, setIndex) =>
+                  [1,2,3,4,5,6,7,8,9,10,11,12,13].map((n) => (
+                    <div className="photo-review-item" key={`png-${setIndex}-${n}`}>
+                      <img src={`/reviews/review-${n}.png`} alt={`수강생 후기 ${n}`} loading="lazy" />
+                    </div>
+                  )).concat(
+                    [14,15,16,17,18,19,20,21,22,23,24,25,26].map((n) => (
+                      <div className="photo-review-item" key={`jpg-${setIndex}-${n}`}>
+                        <img src={`/reviews/review-${n}.jpeg`} alt={`수강생 후기 ${n}`} loading="lazy" />
+                      </div>
+                    ))
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* GUARANTEE */}
       <section className="section" id="guarantee">
         <div className="container">
@@ -3250,12 +3755,86 @@ export default function StudyPage() {
         </div>
       </section>
 
+      {/* BONUSES */}
+      <section className="section" id="bonuses" style={{ padding: '80px 0' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--green)', letterSpacing: '0.06em', marginBottom: '8px' }}>BONUS</div>
+            <div className="section-title">신청자에게만 드리는 4종 보너스</div>
+            <p className="section-desc">스터디에 함께 포함된 단독 학습 자료 4개. 별도 구매가 227,000원 가치입니다.</p>
+          </div>
+
+          <div className="bonus-grid">
+            <div className="bonus-card">
+              <div className="bonus-card-head">
+                <span className="bonus-no">01</span>
+                <span className="bonus-tag">FRAMEWORK</span>
+              </div>
+              <h3 className="bonus-title">OPIc AL 즉답 프레임워크 9선</h3>
+              <p className="bonus-desc">머리가 하얘지는 7초 안에 입을 떼는 9가지 시그니처 패턴 카드.</p>
+              <div className="bonus-meta">
+                <span className="bonus-pages">PDF · 15p</span>
+                <span className="bonus-value">29,000원</span>
+              </div>
+            </div>
+
+            <div className="bonus-card">
+              <div className="bonus-card-head">
+                <span className="bonus-no">02</span>
+                <span className="bonus-tag">ANSWER BANK</span>
+              </div>
+              <h3 className="bonus-title">AL 답변 50선 모범 답안집</h3>
+              <p className="bonus-desc">실제 시험에 그대로 나오는 50개 질문에 대한 AL 모범 답안.</p>
+              <div className="bonus-meta">
+                <span className="bonus-pages">PDF · 54p</span>
+                <span className="bonus-value">79,000원</span>
+              </div>
+            </div>
+
+            <div className="bonus-card">
+              <div className="bonus-card-head">
+                <span className="bonus-no">03</span>
+                <span className="bonus-tag">DAILY DRILL</span>
+              </div>
+              <h3 className="bonus-title">30일 표현 암기 루틴</h3>
+              <p className="bonus-desc">출퇴근 10분, 30일이면 AL 표현 150개가 입에 붙습니다.</p>
+              <div className="bonus-meta">
+                <span className="bonus-pages">PDF · 33p</span>
+                <span className="bonus-value">39,000원</span>
+              </div>
+            </div>
+
+            <div className="bonus-card">
+              <div className="bonus-card-head">
+                <span className="bonus-no">04</span>
+                <span className="bonus-tag">1:1 COACHING</span>
+              </div>
+              <h3 className="bonus-title">재시험 1:1 코칭 30분</h3>
+              <p className="bonus-desc">첫 시험에서 막힌 지점을 코치와 함께 점검하는 화상 컨설팅.</p>
+              <div className="bonus-meta">
+                <span className="bonus-pages">화상 · 30분</span>
+                <span className="bonus-value">80,000원</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bonus-total">
+            <div className="bonus-total-label">보너스 총 가치</div>
+            <div className="bonus-total-price">
+              <span className="bonus-total-strike">227,000원</span>
+              <span className="bonus-total-final">0원</span>
+            </div>
+            <div className="bonus-total-sub">스터디 신청자에게 무료로 함께 제공됩니다.</div>
+          </div>
+        </div>
+      </section>
+
       {/* PRICING */}
       <section className="section section-gray" id="pricing">
         <div className="container">
           <div style={{ textAlign: 'center' }}>
             <div className="section-title">가격</div>
-            <p className="section-desc">SpeakCoach AI Pro 2주 무료 포함</p>
+            <p className="section-desc">보너스 4종 포함 · SpeakCoach AI Pro 2주 무료 포함</p>
           </div>
           <div className="pricing-section">
             <div className="pricing-badge">{currentCycleState.isEarlyBird ? `얼리버드 ${currentCycleState.discount}% 할인` : `${currentCycleState.discount}% 할인 중`}</div>
@@ -3365,154 +3944,6 @@ export default function StudyPage() {
                 <div style={{ marginTop: '4px', padding: '12px 16px', background: 'var(--bg-gray)', borderRadius: '8px', fontSize: '13px', color: 'var(--text-tertiary)' }}>
                   결제 시 본 환불 정책 및 면책 조항에 동의한 것으로 간주됩니다. 환불 관련 문의는 카카오톡 채널로 연락주세요.
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* REVIEWS */}
-      <section className="section section-gray" id="reviews">
-        <div className="container">
-          <div style={{ textAlign: 'center' }}>
-            <div className="section-title">2주 후, 이런 결과가 나왔습니다</div>
-            <p className="section-desc">IM2→IH, IM3→AL. 실제 수료생들의 등급 변화.</p>
-          </div>
-          <div className="review-scroll-wrap">
-            <div className="review-scroll" ref={reviewScrollRef}>
-              <div className="review-card">
-                <div className="review-stars">★ 5.0</div>
-                <div className="review-text">
-                  2주 만에 IM3에서 IH로 올랐어요. 프레임워크가 진짜 효과 있었습니다. 답변할 때 구조가
-                  잡히니까 자신감이 다릅니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">K</div>
-                  <div>
-                    <div className="review-name">
-                      김*현 <span className="review-grade">IH</span>
-                    </div>
-                    <div className="review-info">대학생 · 2주 스터디</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★ 5.0</div>
-                <div className="review-text">
-                  SpeakCoach AI로 매일 연습하고, 스터디에서 피드백 받으니까 내 약점이 정확히 보였어요.
-                  결국 AL 받았습니다!
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">L</div>
-                  <div>
-                    <div className="review-name">
-                      이*준 <span className="review-grade">AL</span>
-                    </div>
-                    <div className="review-info">취준생 · 스터디 + AI</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★ 5.0</div>
-                <div className="review-text">
-                  직장 다니면서 준비하기 힘들었는데 2주라서 집중할 수 있었어요. 매일 과제 내는 게 핵심인
-                  것 같아요.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">P</div>
-                  <div>
-                    <div className="review-name">
-                      박*영 <span className="review-grade">IH</span>
-                    </div>
-                    <div className="review-info">직장인 · 승진 준비</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★ 5.0</div>
-                <div className="review-text">
-                  혼자 했으면 절대 못 했을 거예요. 3명이니까 서로 자극도 되고 포기할 수가 없었어요. IL에서
-                  IM2 찍었습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">J</div>
-                  <div>
-                    <div className="review-name">
-                      정*아 <span className="review-grade">IM2</span>
-                    </div>
-                    <div className="review-info">대학생 · 2주 스터디</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★ 5.0</div>
-                <div className="review-text">
-                  인강으로 기본기 잡고 스터디에서 실전 연습하니까 시너지가 대단했어요. IH 목표였는데 AL이
-                  나왔습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">L</div>
-                  <div>
-                    <div className="review-name">
-                      이*민 <span className="review-grade">AL</span>
-                    </div>
-                    <div className="review-info">직장인 · 실전 준비</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★ 5.0</div>
-                <div className="review-text">
-                  AI 피드백이 이렇게 정확할 줄 몰랐어요. 매일 내 발음과 문법 실수를 바로 지적해주니까
-                  빠르게 개선됐습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">C</div>
-                  <div>
-                    <div className="review-name">
-                      최*리 <span className="review-grade">IM2</span>
-                    </div>
-                    <div className="review-info">대학원생 · 유학 준비</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-stars">★ 5.0</div>
-                <div className="review-text">
-                  온라인이라고 걱정했는데 카톡 채팅과 공유로 충분했어요. 팀원들이 열심히 하니까 저도
-                  자연스럽게 열심히 하게 됐습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">H</div>
-                  <div>
-                    <div className="review-name">
-                      한*수 <span className="review-grade">IH</span>
-                    </div>
-                    <div className="review-info">직장인 · 온라인 진행</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Photo Reviews Carousel */}
-          <div className="photo-review-section">
-            <div className="photo-review-label">실제 수강생 인증 후기</div>
-            <div className="photo-carousel-wrap">
-              <div className="photo-carousel-track">
-                {[...Array(2)].map((_, setIndex) =>
-                  [1,2,3,4,5,6,7,8,9,10,11,12,13].map((n) => (
-                    <div className="photo-review-item" key={`png-${setIndex}-${n}`}>
-                      <img src={`/reviews/review-${n}.png`} alt={`수강생 후기 ${n}`} loading="lazy" />
-                    </div>
-                  )).concat(
-                    [14,15,16,17,18,19,20,21,22,23,24,25,26].map((n) => (
-                      <div className="photo-review-item" key={`jpg-${setIndex}-${n}`}>
-                        <img src={`/reviews/review-${n}.jpeg`} alt={`수강생 후기 ${n}`} loading="lazy" />
-                      </div>
-                    ))
-                  )
-                )}
               </div>
             </div>
           </div>
