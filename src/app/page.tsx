@@ -197,7 +197,7 @@ export default function Home() {
       {/* HERO */}
       <section className="hero">
         <div className="container">
-          <div className="hero-badge animate">2주 완성 OPIC 프로그램</div>
+          <div className="hero-badge animate">14일 AL 완성 프로그램</div>
           <h1 className="animate delay-1">
             OPIC 점수를 올리는<br />
             <span className="highlight">가장 구조적인 방법</span>
@@ -249,8 +249,8 @@ export default function Home() {
               <div className="label">수강생 후기</div>
             </div>
             <div className="hero-stat">
-              <div className="number">2주</div>
-              <div className="label">집중 완성 프로그램</div>
+              <div className="number">14일</div>
+              <div className="label">집중 완성 부트캠프</div>
             </div>
           </div>
         </div>
@@ -326,7 +326,7 @@ export default function Home() {
             <div style={{ padding: '32px', background: 'white', borderRadius: '16px', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}>
               <div style={{ fontSize: '48px', fontWeight: 800, color: '#E5E8EB', marginBottom: '20px' }}>03</div>
               <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#191F28', marginBottom: '12px' }}>학원은 비싸고, 시간도 안 맞는다</h3>
-              <p style={{ fontSize: '15px', color: '#4E5968', lineHeight: 1.7 }}>평균 40~80만원. 퇴근 후 이동할 체력도, 주말에 몰아서 할 효과도 없습니다.</p>
+              <p style={{ fontSize: '15px', color: '#4E5968', lineHeight: 1.7 }}>평균 40~80만원. 퇴근 후 이동할 체력도 없고, 주말 몰아하기도 효과가 떨어집니다.</p>
             </div>
           </div>
           <p style={{ textAlign: 'center', marginTop: '48px', fontSize: '16px', color: '#8B95A1' }}>그래서 식빵영어는 3가지 방법을 준비했습니다.</p>
@@ -1116,7 +1116,7 @@ export default function Home() {
           <div className="footer-grid">
             <div className="footer-brand">
               <div className="logo">SB 식빵영어</div>
-              <p>2주 안에 OPIC 점수를 올리는<br />가장 구조적인 방법.</p>
+              <p>14일 안에 OPIC 점수를 올리는<br />가장 구조적인 방법.</p>
             </div>
             <div className="footer-col">
               <h4>제품</h4>

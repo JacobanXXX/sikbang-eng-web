@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 // === 자동 기수 운영 시스템 (컴포넌트 외부) ===
-// 스터디: 매월 1일, 15일 시작 (월 2회)
+// 부트캠프: 매월 1일, 15일 시작 (월 2회)
 // 모집: 이전 기수 시작일 ~ 다음 기수 시작 전날 23:59:59
 // 얼리버드: 모집 시작 ~ 시작 5일 전 (249,000원, 원가 359,000원)
 // 정가: 시작 5일 전 ~ 마감 (279,000원, 원가 359,000원)
@@ -207,12 +207,13 @@ export default function StudyPage() {
 
     let base: number;
     if (formData.plan === 'bundle') {
-      // 번들: 스터디 + SpeakCoach AI Premium 3개월
+      // 번들: 부트캠프 + SpeakCoach AI Premium 3개월
       base = isEarly ? 299000 : 329000;
       // 번들은 교재비 포함 가격이므로, 교재 있으면 3만원 차감
       return base - (formData.hasBook ? 30000 : 0) + (formData.premiumUpgrade ? 15000 : 0);
     } else {
-      // 일반 스터디
+      // 일반 부트캠프 (교재비 별도 30,000원 추가)
+      // 얼리버드: 219,000 + 30,000 = 249,000 / 정가: 249,000 + 30,000 = 279,000
       base = isEarly ? 219000 : 249000;
       return base + bookFee + (formData.premiumUpgrade ? 15000 : 0);
     }
@@ -323,18 +324,18 @@ export default function StudyPage() {
   const faqItems = [
     {
       question: '영어를 진짜 못하는데 따라갈 수 있을까요?',
-      answer: 'IL 이상이라면 충분히 따라갈 수 있습니다. 스터디는 프레임워크 기반으로 진행되기 때문에 구조를 따라가며 답변을 만들 수 있어요. 다만, OPIc 경험이 전혀 없거나 NH 이하 수준이라면 1:1 영어 회화 클래스에서 1~2개월 기초를 먼저 다지신 뒤 스터디에 합류하시는 걸 추천드립니다. 기초 없이 바로 스터디에 참여하면 진도를 따라가기 어렵고, 팀원들에게도 영향이 갈 수 있습니다. 회화 클래스에서 기본 스피킹 감각을 잡고 오시면 스터디 효과가 2배 이상 올라갑니다.'
+      answer: 'IL 이상이라면 충분히 따라갈 수 있습니다. 부트캠프는 프레임워크 기반으로 진행되기 때문에 구조를 따라가며 답변을 만들 수 있어요. 다만, OPIc 경험이 전혀 없거나 NH 이하 수준이라면 1:1 영어 회화 클래스에서 1~2개월 기초를 먼저 다지신 뒤 부트캠프에 합류하시는 걸 추천드립니다. 기초 없이 바로 부트캠프에 참여하면 진도를 따라가기 어렵고, 팀원들에게도 영향이 갈 수 있습니다. 회화 클래스에서 기본 스피킹 감각을 잡고 오시면 부트캠프 효과가 2배 이상 올라갑니다.'
     },
     {
       question: '왕초보인데 어떤 과정부터 시작해야 하나요?',
-      answer: '영어 왕초보(NH 이하 또는 시험 경험 없음)라면 식빵영어 1:1 영어 회화 클래스부터 시작하시는 걸 권장합니다. 주 1회 90분씩, 1:1 맞춤 수업으로 문법·어휘·스피킹 기초를 잡을 수 있어요. 보통 1~2개월 수강 후 IL 이상 수준이 되면 OPIc 스터디에 합류하시는 게 가장 효과적인 루트입니다. 신청 시 현재 수준을 선택하면 자동으로 안내해드려요.'
+      answer: '영어 왕초보(NH 이하 또는 시험 경험 없음)라면 식빵영어 1:1 영어 회화 클래스부터 시작하시는 걸 권장합니다. 주 1회 90분씩, 1:1 맞춤 수업으로 문법·어휘·스피킹 기초를 잡을 수 있어요. 보통 1~2개월 수강 후 IL 이상 수준이 되면 OPIc 부트캠프에 합류하시는 게 가장 효과적인 루트입니다. 신청 시 현재 수준을 선택하면 자동으로 안내해드려요.'
     },
     {
       question: 'SpeakCoach AI는 어떻게 사용하나요?',
-      answer: '스터디 시작 시 SpeakCoach AI Pro 계정이 자동으로 활성화됩니다. 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 사용 가능합니다. 답변을 녹음하면 AI가 발음, 문법, 유창성, 어휘를 분석해서 피드백을 줍니다.'
+      answer: '부트캠프 시작 시 SpeakCoach AI Pro 계정이 자동으로 활성화됩니다. 웹 앱(PWA)이라 별도 설치 없이 브라우저에서 바로 사용 가능합니다. 답변을 녹음하면 AI가 발음, 문법, 유창성, 어휘를 분석해서 피드백을 줍니다.'
     },
     {
-      question: '스터디는 언제 시작하나요?',
+      question: '부트캠프는 언제 시작하나요?',
       answer: '3인 1팀이 구성되는 즉시 시작합니다. 신청 후 팀이 매칭되면 시작일을 안내해드립니다. 보통 신청 후 1주 이내 시작됩니다.'
     },
     {
@@ -347,12 +348,12 @@ export default function StudyPage() {
     },
     {
       question: '[필독] 참여 규정 및 환불 제한 안내',
-      answer: '본 스터디는 소규모 그룹(3인 1팀)으로 운영되며, 인원 편성 이후에는 스터디 시작 여부와 관계없이 환불이 불가합니다. 한 명의 불참이나 비협조가 팀 전체에 직접적인 피해를 줍니다. 아래 사항에 해당할 경우 스터디 참여가 제한될 수 있습니다.\n\n• 인원 편성 후 지속적인 미응답 또는 무시\n• 스터디 시간 조율 시 연락 두절 또는 비협조\n• 사전 고지 없는 무단 불참 (2회 이상)\n• 과제 미제출이 3일 이상 연속될 경우\n• 다른 팀원의 학습을 방해하는 행위\n• 운영진의 안내 및 공지에 대한 지속적 무응답\n\n위 규정은 함께 참여하는 다른 수강생의 학습권을 보호하기 위한 것입니다.\n\n[환불 안내]\n인원 편성 전(카카오톡 단체방 초대 전)에는 전자책(교재)을 제외한 나머지 금액의 환불이 가능합니다. 카카오톡 단체방에 초대된 시점부터 인원 편성이 완료된 것으로 간주되며, 이후에는 환불이 불가합니다.\n\n[팀원 이탈에 대한 면책]\n스터디 진행 중 같은 팀의 다른 수강생이 중도 포기·불참·연락 두절 등으로 이탈하는 경우, 이는 해당 수강생 개인의 사유이며 식빵영어의 귀책사유에 해당하지 않습니다. 팀원 이탈을 사유로 한 환불 요청, 수강료 감액, 서비스 불이행 주장은 인정되지 않으며, 잔여 인원으로 스터디가 정상 진행됩니다.\n\n신청 및 결제 시 본 참여 규정과 면책 조항에 동의한 것으로 간주되며, 카카오톡 단체방 초대 이후 환불 요청은 불가합니다.',
+      answer: '본 부트캠프는 소규모 그룹(3인 1팀)으로 운영되며, 인원 편성 이후에는 부트캠프 시작 여부와 관계없이 환불이 불가합니다. 한 명의 불참이나 비협조가 팀 전체에 직접적인 피해를 줍니다. 아래 사항에 해당할 경우 부트캠프 참여가 제한될 수 있습니다.\n\n• 인원 편성 후 지속적인 미응답 또는 무시\n• 부트캠프 시간 조율 시 연락 두절 또는 비협조\n• 사전 고지 없는 무단 불참 (2회 이상)\n• 과제 미제출이 3일 이상 연속될 경우\n• 다른 팀원의 학습을 방해하는 행위\n• 운영진의 안내 및 공지에 대한 지속적 무응답\n\n위 규정은 함께 참여하는 다른 수강생의 학습권을 보호하기 위한 것입니다.\n\n[환불 안내]\n인원 편성 전(카카오톡 단체방 초대 전)에는 전자책(교재)을 제외한 나머지 금액의 환불이 가능합니다. 카카오톡 단체방에 초대된 시점부터 인원 편성이 완료된 것으로 간주되며, 이후에는 환불이 불가합니다.\n\n[팀원 이탈에 대한 면책]\n부트캠프 진행 중 같은 팀의 다른 수강생이 중도 포기·불참·연락 두절 등으로 이탈하는 경우, 이는 해당 수강생 개인의 사유이며 식빵영어의 귀책사유에 해당하지 않습니다. 팀원 이탈을 사유로 한 환불 요청, 수강료 감액, 서비스 불이행 주장은 인정되지 않으며, 잔여 인원으로 부트캠프가 정상 진행됩니다.\n\n신청 및 결제 시 본 참여 규정과 면책 조항에 동의한 것으로 간주되며, 카카오톡 단체방 초대 이후 환불 요청은 불가합니다.',
       important: true
     },
     {
       question: 'Premium 업그레이드는 꼭 해야 하나요?',
-      answer: '필수는 아닙니다. 기본 스터디에 Pro 플랜이 포함되어 있어서 충분히 학습 가능합니다. Premium은 고급 분석 기능이 추가되므로, AL을 목표로 하시는 분께 추천드립니다.'
+      answer: '필수는 아닙니다. 기본 부트캠프에 Pro 플랜이 포함되어 있어서 충분히 학습 가능합니다. Premium은 고급 분석 기능이 추가되므로, AL을 목표로 하시는 분께 추천드립니다.'
     }
   ];
 
@@ -2299,7 +2300,7 @@ export default function StudyPage() {
           margin-bottom: 6px;
         }
         .form-field label .req {
-          color: #dc2626;
+          color: var(--red);
         }
         .form-field input[type="text"],
         .form-field input[type="email"],
@@ -2428,7 +2429,7 @@ export default function StudyPage() {
           align-items: center;
           gap: 5px;
           background: #FEF2F2;
-          color: #dc2626;
+          color: var(--red);
           font-size: 12px;
           font-weight: 700;
           padding: 3px 10px;
@@ -2437,7 +2438,7 @@ export default function StudyPage() {
           flex-shrink: 0;
         }
         .form-bundle-stock.urgent {
-          background: #dc2626;
+          background: var(--red);
           color: #fff;
         }
         .form-stock-dot {
@@ -3299,7 +3300,7 @@ export default function StudyPage() {
             <div className="stat-item">
               <div className="stat-number">94%</div>
               <div className="stat-label">목표 등급 달성률</div>
-              <div className="stat-sub">2주 스터디 수료생 기준</div>
+              <div className="stat-sub">14일 부트캠프 수료생 기준</div>
             </div>
             <div className="stat-item">
               <div className="stat-number">2↑</div>
@@ -3365,7 +3366,7 @@ export default function StudyPage() {
                   <strong>Day 5</strong> 시제 중심 Grammar 영상 시청 + 댓글 영작 과제. 약점 질문 집중 재학습 + 암기 완료. Adverbs/비교 유형 표현 암기.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 6</strong> 7 Core Templates 완전 암기 최종 점검. 복합 템플릿 2개 이상 자연스럽게 조합 연습. 스터디원 상호 QA 즉답 훈련. SpeakCoach AI 발음/흐름 진단.
+                  <strong>Day 6</strong> 7 Core Templates 완전 암기 최종 점검. 복합 템플릿 2개 이상 자연스럽게 조합 연습. 팀원 상호 QA 즉답 훈련. SpeakCoach AI 발음/흐름 진단.
                 </div>
                 <div className="cur-day">
                   <strong>Day 7</strong> 비공개 모의고사 영상 1차 풀이(녹음) + SpeakCoach AI 전체 분석. 구조/속도/발음 교정 시작. 유형별 표현 완벽 암기(2차 피드백 세션 테스트 대비).
@@ -3541,7 +3542,7 @@ export default function StudyPage() {
                   <th></th>
                   <th>인강</th>
                   <th>학원</th>
-                  <th className="highlight-col">식빵영어 스터디</th>
+                  <th className="highlight-col">식빵영어 부트캠프</th>
                 </tr>
               </thead>
               <tbody>
@@ -3654,13 +3655,13 @@ export default function StudyPage() {
                   <span className="grade-after">AL</span>
                 </div>
                 <div className="review-text">
-                  AI로 매일 연습하고, 스터디에서 피드백 받으니까 <b>내 약점이 정확히 보였어요.</b> 결국 AL 받았습니다.
+                  AI로 매일 연습하고, 부트캠프에서 피드백 받으니까 <b>내 약점이 정확히 보였어요.</b> 결국 AL 받았습니다.
                 </div>
                 <div className="review-author">
                   <div className="review-avatar">L</div>
                   <div>
                     <div className="review-name">이*준</div>
-                    <div className="review-info">취준생 · 스터디와 AI</div>
+                    <div className="review-info">취준생 · 부트캠프와 AI</div>
                   </div>
                 </div>
               </div>
@@ -3705,7 +3706,7 @@ export default function StudyPage() {
                   <span className="grade-after">AL</span>
                 </div>
                 <div className="review-text">
-                  인강으로 기본기 잡고 스터디에서 실전 연습하니까 <b>시너지가 대단했어요.</b> IH 목표였는데 AL이 나왔습니다.
+                  인강으로 기본기 잡고 부트캠프에서 실전 연습하니까 <b>시너지가 대단했어요.</b> IH 목표였는데 AL이 나왔습니다.
                 </div>
                 <div className="review-author">
                   <div className="review-avatar">L</div>
@@ -3895,7 +3896,7 @@ export default function StudyPage() {
           {/* 조건부 보증 — 등급 미향상 시 무료 재수강 */}
           <div style={{ textAlign: 'center', marginTop: '56px' }}>
             <div className="guarantee-tag" style={{ display: 'inline-block', marginBottom: '12px' }}>조건부 보증</div>
-            <div className="section-title" style={{ fontSize: '28px' }}>14일 미션 100퍼센트 후 등급 미향상 시</div>
+            <div className="section-title" style={{ fontSize: '28px' }}>14일 미션 100% 완료 후 등급 미향상 시</div>
             <p className="section-desc">다음 기수를 무료로 다시 수강하세요.</p>
           </div>
 
@@ -3930,7 +3931,7 @@ export default function StudyPage() {
               <div className="rule-card">
                 <div className="rule-num">02</div>
                 <div>
-                  <h4>스터디 100% 참석</h4>
+                  <h4>부트캠프 100% 참석</h4>
                   <p>10분 초과 지각, 조기 퇴장, 무단 불참은 미참석 처리.</p>
                 </div>
               </div>
@@ -4060,14 +4061,14 @@ export default function StudyPage() {
               <div className="faq-answer" style={{ maxHeight: openGuaranteeFaq === 1 ? '3000px' : '0' }}>
                 <div className="faq-answer-content" style={{ whiteSpace: 'pre-line' }}>
                   <strong>제1조 (목적)</strong>{'\n'}
-                  본 정책은 식빵영어(이하 &quot;회사&quot;)가 운영하는 &quot;2주 OPIc 스터디&quot; 수강생에게 제공하는 성적 보증 제도의 적용 조건, 보증 내용, 청구 절차 및 제한 사항을 규정합니다.{'\n\n'}
+                  본 정책은 식빵영어(이하 &quot;회사&quot;)가 운영하는 &quot;14일 AL 완성 부트캠프&quot; 수강생에게 제공하는 성적 보증 제도의 적용 조건, 보증 내용, 청구 절차 및 제한 사항을 규정합니다.{'\n\n'}
                   <strong>제2조 (적용 대상)</strong>{'\n'}
-                  1. 최근 6개월 이내 OPIc 공식 성적표 보유 및 스터디 시작 전 제출자{'\n'}
+                  1. 최근 6개월 이내 OPIc 공식 성적표 보유 및 부트캠프 시작 전 제출자{'\n'}
                   2. 2025년 5월 15일 기수 이후 등록자{'\n'}
                   3. 수강 등록 시 본 정책 동의자{'\n\n'}
                   <strong>제3조 (보증 조건)</strong>{'\n'}
                   1. 14일간 과제 100% 제출 및 매 피드백 시 암기 확인 통과{'\n'}
-                  2. 정규 스터디 세션 100% 참석 (10분 초과 지각·조기 퇴장·무단 불참 = 미참석){'\n'}
+                  2. 정규 부트캠프 세션 100% 참석 (10분 초과 지각·조기 퇴장·무단 불참 = 미참석){'\n'}
                   3. 1:3 코치 피드백 세션 100% 참석{'\n'}
                   4. 종료 후 2주 이내 OPIc 응시{'\n'}
                   5. 시험 응시일로부터 30일 이내 공식 성적표 및 수험번호 제출{'\n\n'}
@@ -4223,7 +4224,7 @@ export default function StudyPage() {
               <div className="pricing-feature">SpeakCoach AI Pro 2주 무료 제공</div>
               <div className="pricing-feature">7개 핵심 템플릿 + 즉답 루틴 훈련</div>
               <div className="pricing-feature">비공개 모의고사 영상 7개 제공 (2주차 실전 대비)</div>
-              <div className="pricing-feature">스터디 전용 노션 자료 + YouTube 강의</div>
+              <div className="pricing-feature">부트캠프 전용 노션 자료 + YouTube 강의</div>
               <div className="pricing-feature">졸업 후 코칭 채팅 3개월 지원</div>
             </div>
             <button onClick={() => openFormModal()} className="pricing-btn">
@@ -4262,7 +4263,7 @@ export default function StudyPage() {
       <section className="section" id="rules" style={{ padding: '64px 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title" style={{ fontSize: '32px' }}>스터디 운영 방식</div>
+            <div className="section-title" style={{ fontSize: '32px' }}>부트캠프 운영 방식</div>
             <p className="section-desc">모두의 결과를 위한 약속입니다.</p>
           </div>
           <div className="rules-grid">
@@ -4307,7 +4308,7 @@ export default function StudyPage() {
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
-                  <span><strong>폐강 시</strong> — 최소 인원 미달로 스터디가 개설되지 않는 경우, 개별 안내 후 교재비를 제외한 전액을 환불 처리합니다.</span>
+                  <span><strong>폐강 시</strong> — 최소 인원 미달로 부트캠프가 개설되지 않는 경우, 개별 안내 후 교재비를 제외한 전액을 환불 처리합니다.</span>
                 </div>
                 <div style={{ marginTop: '4px', padding: '12px 16px', background: 'var(--bg-gray)', borderRadius: '8px', fontSize: '13px', color: 'var(--text-tertiary)' }}>
                   결제 시 본 환불 정책 및 면책 조항에 동의한 것으로 간주됩니다. 환불 관련 문의는 카카오톡 채널로 연락주세요.
@@ -4445,11 +4446,11 @@ export default function StudyPage() {
                 </div>
                 <h3 style={{textAlign:'center'}}>신청이 완료되었습니다</h3>
                 <p style={{color:'var(--text-tertiary)',lineHeight:1.6,textAlign:'center'}}>
-                  <strong>{formData.name}</strong>님, 스터디 신청 감사합니다.<br/>
+                  <strong>{formData.name}</strong>님, 부트캠프 신청 감사합니다.<br/>
                   입금 확인 후 영업일 기준 1~2일 이내에<br/>카카오톡으로 연락드리겠습니다.
                 </p>
                 <div className="form-summary-box">
-                  <div className="form-summary-row"><span>플랜</span><strong>{formData.plan === 'bundle' ? '번들 (스터디 + SpeakCoach 3개월)' : '일반 스터디'}</strong></div>
+                  <div className="form-summary-row"><span>플랜</span><strong>{formData.plan === 'bundle' ? '번들 (부트캠프 + SpeakCoach 3개월)' : '일반 부트캠프'}</strong></div>
                   <div className="form-summary-row"><span>목표반</span><strong>{formData.targetClass}목표반</strong></div>
                   <div className="form-summary-row"><span>결제 금액</span><strong style={{color:'#1A8D48'}}>{calcFormPrice().toLocaleString()}원</strong></div>
                 </div>
@@ -4602,8 +4603,8 @@ export default function StudyPage() {
                           1:1 영어 회화 클래스를 먼저 추천드려요
                         </div>
                         <p style={{ fontSize: '13px', color: 'var(--text-secondary, #666)', lineHeight: 1.7, margin: '0 0 16px 0' }}>
-                          현재 수준에서 바로 스터디에 참여하면 진도를 따라가기 어려울 수 있어요.
-                          1:1 영어 회화 클래스에서 1~2개월 기초를 다진 뒤 스터디에 합류하시면 훨씬 효과적입니다.
+                          현재 수준에서 바로 부트캠프에 참여하면 진도를 따라가기 어려울 수 있어요.
+                          1:1 영어 회화 클래스에서 1~2개월 기초를 다진 뒤 부트캠프에 합류하시면 훨씬 효과적입니다.
                         </p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                           <a
@@ -4635,7 +4636,7 @@ export default function StudyPage() {
                               textDecoration: 'underline',
                             }}
                           >
-                            그래도 스터디 신청하기
+                            그래도 부트캠프 신청하기
                           </button>
                         </div>
                       </div>
@@ -4707,7 +4708,7 @@ export default function StudyPage() {
                       )}
 
                       <p style={{fontSize:'12px',color:'var(--text-tertiary)',marginTop:'8px',lineHeight:1.5}}>
-                        성적표가 없어도 스터디 참여는 가능합니다. 성적 보증 제도 적용 대상에서만 제외됩니다.
+                        성적표가 없어도 부트캠프 참여는 가능합니다. 성적 보증 제도 적용 대상에서만 제외됩니다.
                       </p>
                     </div>
 
@@ -4746,7 +4747,7 @@ export default function StudyPage() {
                       <label className={`form-plan-card ${formData.plan === 'standard' ? 'selected' : ''}`}>
                         <input type="radio" name="plan" value="standard" checked={formData.plan === 'standard'} onChange={() => setFormData({...formData, plan: 'standard'})} />
                         <div className="form-plan-inner">
-                          <div className="form-plan-name">일반 스터디</div>
+                          <div className="form-plan-name">일반 부트캠프</div>
                           <div className="form-plan-price-row">
                             <span className="form-plan-original">359,000원</span>
                             <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()}원</span>
@@ -4768,7 +4769,7 @@ export default function StudyPage() {
                         <div className="form-plan-badge">가장 많이 선택</div>
                         <div className="form-plan-inner">
                           <div className="form-plan-name-row">
-                            <div className="form-plan-name">번들 (스터디 + AI 3개월)</div>
+                            <div className="form-plan-name">번들 (부트캠프 + AI 3개월)</div>
                             <div className={`form-bundle-stock ${bundleStock <= 2 ? 'urgent' : ''}`}>
                               <span className="form-stock-dot"></span>
                               <span key={bundleStock} className="form-stock-num">{bundleStock}개 남음</span>
@@ -4811,7 +4812,7 @@ export default function StudyPage() {
                           </div>
 
                           <div className="form-bundle-why">
-                            <p>스터디 2주는 습관을 만들고, AI 3개월이 실력을 완성합니다. 2주만으로 끝내기엔 OPIc은 꾸준한 연습이 필요합니다.</p>
+                            <p>부트캠프 2주는 습관을 만들고, AI 3개월이 실력을 완성합니다. 2주만으로 끝내기엔 OPIc은 꾸준한 연습이 필요합니다.</p>
                           </div>
                         </div>
                       </label>
@@ -4821,9 +4822,9 @@ export default function StudyPage() {
                     {formData.plan === 'bundle' && (
                       <div className="form-bonus-box">
                         <div className="form-bonus-title">번들 선택 시 추가 혜택</div>
-                        <div className="form-bonus-item">스터디 종료 직후 바로 Premium 연결 — 학습 공백 0일</div>
+                        <div className="form-bonus-item">부트캠프 종료 직후 바로 Premium 연결 — 학습 공백 0일</div>
                         <div className="form-bonus-item">3개월간 매일 AI 스피킹 연습 — 학원비 월 30만원 이상 절약</div>
-                        <div className="form-bonus-item">스터디에서 배운 템플릿을 AI로 반복 훈련 — 체화 완성</div>
+                        <div className="form-bonus-item">부트캠프에서 배운 템플릿을 AI로 반복 훈련 — 체화 완성</div>
                       </div>
                     )}
 
@@ -4853,14 +4854,14 @@ export default function StudyPage() {
                       </label>
                       <div className="form-upgrade-detail">
                         <span className="form-upgrade-value">64% 할인 — 41,900원 → 15,000원</span>
-                        <p>기본: Pro 11일 + Premium 3일 → <strong>14일 전체 Premium</strong>으로 업그레이드. 발음 교정, AI 모의고사, 무제한 피드백을 스터디 내내 쓰면 연습량이 2배로 늘어납니다.</p>
+                        <p>기본: Pro 11일 + Premium 3일 → <strong>14일 전체 Premium</strong>으로 업그레이드. 발음 교정, AI 모의고사, 무제한 피드백을 부트캠프 내내 쓰면 연습량이 2배로 늘어납니다.</p>
                       </div>
                     </div>
 
                     {/* 실시간 가격 계산 */}
                     <div className="form-price-summary">
                       <div className="form-price-row">
-                        <span>{formData.plan === 'bundle' ? '번들 (스터디 + AI 3개월)' : '스터디 수강료'}{currentCycleState.isEarlyBird ? ' (얼리버드)' : ''}</span>
+                        <span>{formData.plan === 'bundle' ? '번들 (부트캠프 + AI 3개월)' : '부트캠프 수강료'}{currentCycleState.isEarlyBird ? ' (얼리버드)' : ''}</span>
                         <span>{formData.plan === 'bundle'
                           ? (currentCycleState.isEarlyBird ? 299000 : 329000).toLocaleString()
                           : (currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()
@@ -4907,7 +4908,7 @@ export default function StudyPage() {
                     <div className="form-selected-summary">
                       <div className="form-selected-row">
                         <span>선택 플랜</span>
-                        <strong>{formData.plan === 'bundle' ? '번들 (스터디 + AI 3개월)' : '일반 스터디'}</strong>
+                        <strong>{formData.plan === 'bundle' ? '번들 (부트캠프 + AI 3개월)' : '일반 부트캠프'}</strong>
                       </div>
                       <div className="form-selected-row">
                         <span>목표반</span>
