@@ -3709,25 +3709,6 @@ export default function StudyPage() {
             </div>
           </div>
 
-          <div className="vs-stats">
-            <div className="vs-stat">
-              <div className="vs-stat-num">4,000<span className="vs-stat-plus">명</span></div>
-              <div className="vs-stat-label">누적 수강생</div>
-            </div>
-            <div className="vs-stat">
-              <div className="vs-stat-num">2<span className="vs-stat-unit">단계</span></div>
-              <div className="vs-stat-label">평균 등급 상승</div>
-            </div>
-            <div className="vs-stat">
-              <div className="vs-stat-num">94<span className="vs-stat-unit">%</span></div>
-              <div className="vs-stat-label">수료율</div>
-            </div>
-            <div className="vs-stat">
-              <div className="vs-stat-num">20<span className="vs-stat-unit">명</span></div>
-              <div className="vs-stat-label">기수당 정원</div>
-            </div>
-          </div>
-
           <div className="vs-conclusion">
             한국에 없는 조합. 식빵영어가 만들었습니다.
           </div>
