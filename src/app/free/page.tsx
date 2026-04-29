@@ -144,9 +144,9 @@ export default function FreePage() {
       link: 'https://sikbang.co'
     },
     {
-      name: '2주 스터디',
+      name: '14일 부트캠프',
       title: '코치와 함께 확실하게',
-      price: '179,900원',
+      price: '199,000원',
       link: '/study'
     }
   ];
@@ -948,7 +948,7 @@ export default function FreePage() {
           </Link>
           <div className="nav-links">
             <a href="/free" className="active">무료 강의</a>
-            <Link href="/study">스터디</Link>
+            <Link href="/study">부트캠프</Link>
             <a href="https://sikbang-eng.replit.app/" target="_blank" rel="noopener noreferrer">SpeakCoach AI</a>
             <Link href="/">메인</Link>
             <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" rel="noopener noreferrer" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'#FEE500',color:'#191919',padding:'6px 12px',borderRadius:'8px',fontWeight:700}}>
@@ -972,7 +972,7 @@ export default function FreePage() {
       {/* MOBILE MENU */}
       <div className={`mobile-menu ${isMobileMenuOpen ? 'show' : ''}`}>
         <a href="/free" className="active" onClick={closeMobileMenu}>무료 강의</a>
-        <Link href="/study" onClick={closeMobileMenu}>2주 스터디</Link>
+        <Link href="/study" onClick={closeMobileMenu}>부트캠프</Link>
         <a href="https://sikbang-eng.replit.app/" target="_blank" onClick={closeMobileMenu}>SpeakCoach AI</a>
         <Link href="/" onClick={closeMobileMenu}>메인</Link>
         <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" onClick={closeMobileMenu}>OPIC 단톡방 참여</a>
@@ -984,10 +984,10 @@ export default function FreePage() {
         <div className="container">
           <div className="hero-badge">무료 공개 · 로그인 불필요</div>
           <h1>OPIC 준비, 여기서부터 시작하세요</h1>
-          <p>식빵영어가 무료로 공개하는 강의와 학습 자료. 유료 스터디에서 가르치는 프레임워크의 기초를 먼저 경험해보세요.</p>
+          <p>식빵영어가 무료로 공개하는 강의와 학습 자료. 유료 부트캠프에서 가르치는 프레임워크의 기초를 먼저 경험해보세요.</p>
           <div style={{marginTop:'24px',display:'flex',gap:'12px',justifyContent:'center',flexWrap:'wrap'}}>
             <a href="#lectures" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'var(--blue-primary)',color:'white',padding:'12px 24px',borderRadius:'12px',fontWeight:700,fontSize:'15px',textDecoration:'none',transition:'all 0.2s'}}>무료 강의 바로 보기 ↓</a>
-            <a href="/study" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'white',color:'var(--text-primary)',padding:'12px 24px',borderRadius:'12px',fontWeight:600,fontSize:'15px',textDecoration:'none',border:'1px solid #e5e7eb',transition:'all 0.2s'}}>2주 스터디 알아보기</a>
+            <a href="/study" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'white',color:'var(--text-primary)',padding:'12px 24px',borderRadius:'12px',fontWeight:600,fontSize:'15px',textDecoration:'none',border:'1px solid #e5e7eb',transition:'all 0.2s'}}>14일 부트캠프 알아보기</a>
           </div>
           <div style={{marginTop:'18px'}}>
             <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" rel="noopener noreferrer" style={{display:'inline-flex',alignItems:'center',gap:'8px',background:'#FEE500',color:'#191919',padding:'10px 18px',borderRadius:'999px',fontSize:'14px',fontWeight:700,textDecoration:'none',border:'1px solid rgba(0,0,0,0.05)'}}>
@@ -1016,7 +1016,7 @@ export default function FreePage() {
                 <div style={{height:'100%',borderRadius:'4px',background:'linear-gradient(90deg, #3182F6, #6B4EFF)',width:`${(watchedLectures.size / lectures.length) * 100}%`,transition:'width 0.5s ease'}}></div>
               </div>
               {watchedLectures.size === lectures.length && lectures.length > 0 && (
-                <p style={{fontSize:'13px',color:'#1A8D48',fontWeight:600,marginTop:'8px'}}>모든 강의를 시청했어요! 이제 2주 스터디로 실전 훈련을 시작해보세요.</p>
+                <p style={{fontSize:'13px',color:'#1A8D48',fontWeight:600,marginTop:'8px'}}>모든 강의를 시청했어요! 이제 부트캠프로 실전 훈련을 시작해보세요.</p>
               )}
             </div>
           )}
@@ -1126,8 +1126,8 @@ export default function FreePage() {
       <section className="mid-cta">
         <div className="container" style={{ textAlign: 'center' }}>
           <p className="mid-cta-text">영문법 기초를 잡았다면, 다음 단계는 실전 스피킹입니다.</p>
-          <p style={{fontSize:'14px',color:'var(--text-tertiary)',marginTop:'4px',marginBottom:'16px'}}>2주 스터디 참여자 평균 2등급 상승 · 수료율 94%</p>
-          <a href="/study" className="mid-cta-btn">2주 스터디로 등급 올리기 →</a>
+          <p style={{fontSize:'14px',color:'var(--text-tertiary)',marginTop:'4px',marginBottom:'16px'}}>부트캠프 참여자 평균 2등급 상승 · 수료율 94%</p>
+          <a href="/study" className="mid-cta-btn">14일 부트캠프로 등급 올리기 →</a>
         </div>
       </section>
 
@@ -1232,13 +1232,13 @@ export default function FreePage() {
           <div className="footer-grid">
             <div className="footer-brand">
               <h3>SB 식빵영어</h3>
-              <p>2주 안에 OPIC 점수를 올리는 가장 구조적인 방법.</p>
+              <p>14일 안에 OPIC 점수를 올리는 가장 구조적인 방법.</p>
             </div>
             <div className="footer-col">
               <h4>제품</h4>
               <a href="https://blog.naver.com/lulu05/223353024018" target="_blank">전자책</a>
               <a href="https://sikbang-eng.liveklass.com/" target="_blank">인강</a>
-              <a href="/study">2주 스터디</a>
+              <a href="/study">14일 부트캠프</a>
               <a href="https://sikbang-eng.replit.app/" target="_blank">SpeakCoach AI</a>
             </div>
             <div className="footer-col">

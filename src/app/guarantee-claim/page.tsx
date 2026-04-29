@@ -82,7 +82,7 @@ export default function GuaranteeClaimPage() {
 
       const checkedLabels = [];
       if (checks.homework) checkedLabels.push('과제 100%');
-      if (checks.attendance) checkedLabels.push('스터디 100%');
+      if (checks.attendance) checkedLabels.push('부트캠프 100%');
       if (checks.coaching) checkedLabels.push('코칭 100%');
       if (checks.examTiming) checkedLabels.push('2주 내 응시');
       if (checks.submitTiming) checkedLabels.push('30일 내 제출');
@@ -382,12 +382,12 @@ export default function GuaranteeClaimPage() {
                   </p>
                 </div>
                 <div className="gc-field">
-                  <label><span className="req">*</span> 사전 성적표 (스터디 수강 전)</label>
+                  <label><span className="req">*</span> 사전 성적표 (부트캠프 수강 전)</label>
                   <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="gc-file-input" onChange={(e) => setPreScoreFile(e.target.files?.[0] || null)} />
                   {preScoreFile && <div className="gc-file-name">{preScoreFile.name} ({(preScoreFile.size / 1024).toFixed(0)}KB)</div>}
                 </div>
                 <div className="gc-field">
-                  <label><span className="req">*</span> 사후 성적표 (스터디 수료 후 응시)</label>
+                  <label><span className="req">*</span> 사후 성적표 (부트캠프 수료 후 응시)</label>
                   <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="gc-file-input" onChange={(e) => setPostScoreFile(e.target.files?.[0] || null)} />
                   {postScoreFile && <div className="gc-file-name">{postScoreFile.name} ({(postScoreFile.size / 1024).toFixed(0)}KB)</div>}
                 </div>
@@ -418,9 +418,9 @@ export default function GuaranteeClaimPage() {
 
                 {([
                   { key: 'homework' as const, label: '14일간 과제 100% 제출 및 암기 확인을 모두 통과했습니다' },
-                  { key: 'attendance' as const, label: '정규 스터디 세션에 100% 참석했습니다' },
+                  { key: 'attendance' as const, label: '정규 부트캠프 세션에 100% 참석했습니다' },
                   { key: 'coaching' as const, label: '1:3 코치 피드백 세션에 100% 참석했습니다' },
-                  { key: 'examTiming' as const, label: '스터디 종료 후 2주 이내에 OPIc에 응시했습니다' },
+                  { key: 'examTiming' as const, label: '부트캠프 종료 후 2주 이내에 OPIc에 응시했습니다' },
                   { key: 'submitTiming' as const, label: '응시일로부터 30일 이내에 공식 성적표 및 수험번호를 제출합니다' },
                   { key: 'truthful' as const, label: '제출하는 성적표와 정보가 사실과 다름없으며, 위·변조 시 보증이 영구 박탈됨을 이해합니다' },
                 ]).map(({ key, label }) => (

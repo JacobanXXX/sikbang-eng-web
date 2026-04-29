@@ -330,7 +330,7 @@ export default function ConversationPage() {
             <Link href="/#store">스토어</Link>
             <Link href="/#speakcoach">SpeakCoach AI</Link>
             <Link href="/#reviews">후기</Link>
-            <Link href="/study">스터디</Link>
+            <Link href="/study">14일 부트캠프</Link>
             <Link href="/conversation" style={{color:'var(--blue-primary)', fontWeight:600}}>영어 회화</Link>
             <a href="https://sikbang-eng.replit.app/" target="_blank" className="nav-cta">무료 체험하기</a>
           </div>
@@ -346,7 +346,7 @@ export default function ConversationPage() {
         <Link href="/#store" onClick={closeMobileMenu}>스토어</Link>
         <Link href="/#speakcoach" onClick={closeMobileMenu}>SpeakCoach AI</Link>
         <Link href="/#reviews" onClick={closeMobileMenu}>후기</Link>
-        <Link href="/study" onClick={closeMobileMenu}>2주 스터디</Link>
+        <Link href="/study" onClick={closeMobileMenu}>14일 부트캠프</Link>
         <Link href="/conversation" onClick={closeMobileMenu} style={{color:'var(--blue-primary)', fontWeight:600}}>1:1 영어 회화</Link>
         <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" onClick={closeMobileMenu}>OPIC 단톡방 참여</a>
         <a href="http://pf.kakao.com/_SJYQn" target="_blank" onClick={closeMobileMenu}>카카오톡 1:1 문의</a>

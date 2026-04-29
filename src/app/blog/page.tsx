@@ -160,8 +160,8 @@ export default function BlogPage() {
 
         <div className="blog-cta">
           <h3>직접 해보는 게 가장 빠릅니다</h3>
-          <p>2주 소그룹 스터디에서 실전 스피킹을 연습해보세요.</p>
-          <Link href="/study" className="blog-cta-btn">스터디 알아보기 →</Link>
+          <p>14일 부트캠프에서 실전 스피킹을 연습해보세요.</p>
+          <Link href="/study" className="blog-cta-btn">부트캠프 알아보기 →</Link>
         </div>
       </div>
     </>

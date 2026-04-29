@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     }
 
     // All conditions must be checked
-    const requiredConditions = ['과제 100%', '스터디 100%', '코칭 100%', '2주 내 응시', '30일 내 제출', '사실 확인'];
+    const requiredConditions = ['과제 100%', '부트캠프 100%', '코칭 100%', '2주 내 응시', '30일 내 제출', '사실 확인'];
     if (!checkedConditions || requiredConditions.some(c => !checkedConditions.includes(c))) {
       return NextResponse.json({ error: '모든 보증 조건을 확인해주세요.' }, { status: 400 });
     }
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
               { name: '시험일', value: testDate, inline: true },
               { name: '조건 확인', value: checkedConditions || '미확인', inline: false },
             ],
-            footer: { text: 'sikbang.co 보증 청구 | 심사 기한: 14영업일' },
+            footer: { text: 'sikbang.co 부트캠프 보증 청구 | 심사 기한: 14영업일' },
             timestamp: new Date().toISOString(),
           }],
         };

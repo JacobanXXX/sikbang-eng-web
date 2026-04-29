@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       hasScoreFile: !!scoreFile,
     };
 
-    console.log('[스터디 신청]', JSON.stringify(applicationData, null, 2));
+    console.log('[부트캠프 신청]', JSON.stringify(applicationData, null, 2));
 
     // === Stibee subscriber registration ===
     const STIBEE_API_KEY = process.env.STIBEE_API_KEY;
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
     const WEBHOOK_URL = process.env.STUDY_APPLY_WEBHOOK_URL;
     if (WEBHOOK_URL) {
       try {
-        const planLabel = plan === 'bundle' ? '번들(스터디+SpeakCoach 3개월)' : '일반 스터디';
+        const planLabel = plan === 'bundle' ? '번들(부트캠프+SpeakCoach 3개월)' : '일반 부트캠프';
         const levelLabels: Record<string, string> = {
           beginner: '왕초보 (시험 경험 없음)',
           NH: 'NH', IL: 'IL', IM1: 'IM1', IM2: 'IM2', IM3_above: 'IM3 이상',
@@ -112,10 +112,10 @@ export async function POST(request: NextRequest) {
 
         const payload = {
           embeds: [{
-            title: '📋 새 스터디 신청',
+            title: '📋 새 부트캠프 신청',
             color: 1740104, // #1A8D48 in decimal
             fields: embedFields,
-            footer: { text: 'sikbang.co 스터디 신청' },
+            footer: { text: 'sikbang.co 부트캠프 신청' },
             timestamp: new Date().toISOString(),
           }],
         };
