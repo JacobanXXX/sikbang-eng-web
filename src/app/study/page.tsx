@@ -188,6 +188,10 @@ export default function StudyPage() {
   // FAQ state
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [openGuaranteeFaq, setOpenGuaranteeFaq] = useState<number | null>(null);
+  // Slim Phase 1 toggles
+  const [showAllFaq, setShowAllFaq] = useState(false);
+  const [showAllReviews, setShowAllReviews] = useState(false);
+  const [showGuaranteeDetail, setShowGuaranteeDetail] = useState(false);
   // Dark mode state
   const [darkMode, setDarkMode] = useState(false);
   useEffect(() => {
@@ -2030,6 +2034,43 @@ export default function StudyPage() {
           vertical-align: middle;
         }
 
+        /* Show More Button */
+        .show-more-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          margin: 32px auto 0;
+          padding: 14px 24px;
+          background: var(--bg-white);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--text-secondary);
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .show-more-btn:hover {
+          border-color: var(--text-tertiary);
+          background: var(--bg-gray);
+        }
+        .show-more-btn .arrow {
+          transition: transform 0.2s;
+        }
+        .show-more-btn.expanded .arrow {
+          transform: rotate(180deg);
+        }
+        [data-theme="dark"] .show-more-btn {
+          background: #22262E;
+          border-color: #333840;
+          color: #B0B8C1;
+        }
+        [data-theme="dark"] .show-more-btn:hover {
+          background: #2A2F38;
+          border-color: #4A5560;
+        }
+
         /* === CTA BANNER === */
         .cta-banner {
           background: var(--green);
@@ -3693,23 +3734,7 @@ export default function StudyPage() {
 
           <div className="review-scroll-wrap">
             <div className="review-scroll" ref={reviewScrollRef}>
-              <div className="review-card">
-                <div className="review-grade-shift">
-                  <span className="grade-before">IM3</span>
-                  <span className="grade-arrow">▶</span>
-                  <span className="grade-after">IH</span>
-                </div>
-                <div className="review-text">
-                  2주 만에 IM3에서 IH로 올랐어요. <b>프레임워크가 진짜 효과 있었습니다.</b> 답변할 때 구조가 잡히니까 자신감이 다릅니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">K</div>
-                  <div>
-                    <div className="review-name">김*현</div>
-                    <div className="review-info">대학생 · 14일 부트캠프</div>
-                  </div>
-                </div>
-              </div>
+              {/* 상단 4개: 항상 노출 */}
               <div className="review-card">
                 <div className="review-grade-shift">
                   <span className="grade-before">IM3</span>
@@ -3724,40 +3749,6 @@ export default function StudyPage() {
                   <div>
                     <div className="review-name">이*준</div>
                     <div className="review-info">취준생 · 부트캠프와 AI</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-grade-shift">
-                  <span className="grade-before">IM2</span>
-                  <span className="grade-arrow">▶</span>
-                  <span className="grade-after">IH</span>
-                </div>
-                <div className="review-text">
-                  직장 다니면서 준비하기 힘들었는데 <b>2주라서 집중할 수 있었어요.</b> 매일 과제 내는 게 핵심인 것 같아요.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">P</div>
-                  <div>
-                    <div className="review-name">박*영</div>
-                    <div className="review-info">직장인 · 승진 준비</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-grade-shift">
-                  <span className="grade-before">IL</span>
-                  <span className="grade-arrow">▶</span>
-                  <span className="grade-after">IM2</span>
-                </div>
-                <div className="review-text">
-                  혼자 했으면 절대 못 했을 거예요. <b>3명이니까 서로 자극도 되고 포기할 수가 없었어요.</b> IL에서 IM2 찍었습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">J</div>
-                  <div>
-                    <div className="review-name">정*아</div>
-                    <div className="review-info">대학생 · 14일 부트캠프</div>
                   </div>
                 </div>
               </div>
@@ -3780,40 +3771,6 @@ export default function StudyPage() {
               </div>
               <div className="review-card">
                 <div className="review-grade-shift">
-                  <span className="grade-before">IM1</span>
-                  <span className="grade-arrow">▶</span>
-                  <span className="grade-after">IM2</span>
-                </div>
-                <div className="review-text">
-                  AI 피드백이 이렇게 정확할 줄 몰랐어요. <b>매일 내 발음과 문법 실수를 바로 지적</b>해주니까 빠르게 개선됐습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">C</div>
-                  <div>
-                    <div className="review-name">최*리</div>
-                    <div className="review-info">대학원생 · 유학 준비</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-grade-shift">
-                  <span className="grade-before">IM2</span>
-                  <span className="grade-arrow">▶</span>
-                  <span className="grade-after">IH</span>
-                </div>
-                <div className="review-text">
-                  온라인이라고 걱정했는데 <b>카톡 채팅과 공유로 충분</b>했어요. 팀원들이 열심히 하니까 저도 자연스럽게 따라갔습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">H</div>
-                  <div>
-                    <div className="review-name">한*수</div>
-                    <div className="review-info">직장인 · 온라인 진행</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-grade-shift">
                   <span className="grade-before">IH</span>
                   <span className="grade-arrow">▶</span>
                   <span className="grade-after">AL</span>
@@ -3826,23 +3783,6 @@ export default function StudyPage() {
                   <div>
                     <div className="review-name">송*환</div>
                     <div className="review-info">직장인 · 재시험</div>
-                  </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-grade-shift">
-                  <span className="grade-before">NL</span>
-                  <span className="grade-arrow">▶</span>
-                  <span className="grade-after">IM1</span>
-                </div>
-                <div className="review-text">
-                  영어 왕초보였는데 <b>한 줄도 못 하던 제가 1분을 채울 수 있게 됐어요.</b> 1대1 회화 클래스도 같이 들었더니 효과가 컸습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">Y</div>
-                  <div>
-                    <div className="review-name">윤*지</div>
-                    <div className="review-info">취준생 · 왕초보 출발</div>
                   </div>
                 </div>
               </div>
@@ -3863,42 +3803,159 @@ export default function StudyPage() {
                   </div>
                 </div>
               </div>
-              <div className="review-card">
-                <div className="review-grade-shift">
-                  <span className="grade-before">IH</span>
-                  <span className="grade-arrow">▶</span>
-                  <span className="grade-after">AL</span>
-                </div>
-                <div className="review-text">
-                  롤플 3콤보가 항상 약점이었는데 <b>Plan A·B·C 구조로 풀이</b>하니까 답변이 자연스러워졌어요. 처음 받은 AL입니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">B</div>
-                  <div>
-                    <div className="review-name">백*경</div>
-                    <div className="review-info">대학생 · 롤플 약점</div>
+
+              {/* 나머지 8개: showAllReviews true일 때만 노출 */}
+              {showAllReviews && (
+                <>
+                  <div className="review-card">
+                    <div className="review-grade-shift">
+                      <span className="grade-before">IM3</span>
+                      <span className="grade-arrow">▶</span>
+                      <span className="grade-after">IH</span>
+                    </div>
+                    <div className="review-text">
+                      2주 만에 IM3에서 IH로 올랐어요. <b>프레임워크가 진짜 효과 있었습니다.</b> 답변할 때 구조가 잡히니까 자신감이 다릅니다.
+                    </div>
+                    <div className="review-author">
+                      <div className="review-avatar">K</div>
+                      <div>
+                        <div className="review-name">김*현</div>
+                        <div className="review-info">대학생 · 14일 부트캠프</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="review-card">
-                <div className="review-grade-shift">
-                  <span className="grade-before">IM2</span>
-                  <span className="grade-arrow">▶</span>
-                  <span className="grade-after">IH</span>
-                </div>
-                <div className="review-text">
-                  매일 미션 100% 채우면서 <b>제가 영어를 좋아한다는 걸 다시 깨달았어요.</b> 점수보다 그게 더 큰 수확이었습니다.
-                </div>
-                <div className="review-author">
-                  <div className="review-avatar">G</div>
-                  <div>
-                    <div className="review-name">고*은</div>
-                    <div className="review-info">직장인 · 자기계발</div>
+                  <div className="review-card">
+                    <div className="review-grade-shift">
+                      <span className="grade-before">IM2</span>
+                      <span className="grade-arrow">▶</span>
+                      <span className="grade-after">IH</span>
+                    </div>
+                    <div className="review-text">
+                      직장 다니면서 준비하기 힘들었는데 <b>2주라서 집중할 수 있었어요.</b> 매일 과제 내는 게 핵심인 것 같아요.
+                    </div>
+                    <div className="review-author">
+                      <div className="review-avatar">P</div>
+                      <div>
+                        <div className="review-name">박*영</div>
+                        <div className="review-info">직장인 · 승진 준비</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                  <div className="review-card">
+                    <div className="review-grade-shift">
+                      <span className="grade-before">IL</span>
+                      <span className="grade-arrow">▶</span>
+                      <span className="grade-after">IM2</span>
+                    </div>
+                    <div className="review-text">
+                      혼자 했으면 절대 못 했을 거예요. <b>3명이니까 서로 자극도 되고 포기할 수가 없었어요.</b> IL에서 IM2 찍었습니다.
+                    </div>
+                    <div className="review-author">
+                      <div className="review-avatar">J</div>
+                      <div>
+                        <div className="review-name">정*아</div>
+                        <div className="review-info">대학생 · 14일 부트캠프</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="review-card">
+                    <div className="review-grade-shift">
+                      <span className="grade-before">IM1</span>
+                      <span className="grade-arrow">▶</span>
+                      <span className="grade-after">IM2</span>
+                    </div>
+                    <div className="review-text">
+                      AI 피드백이 이렇게 정확할 줄 몰랐어요. <b>매일 내 발음과 문법 실수를 바로 지적</b>해주니까 빠르게 개선됐습니다.
+                    </div>
+                    <div className="review-author">
+                      <div className="review-avatar">C</div>
+                      <div>
+                        <div className="review-name">최*리</div>
+                        <div className="review-info">대학원생 · 유학 준비</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="review-card">
+                    <div className="review-grade-shift">
+                      <span className="grade-before">IM2</span>
+                      <span className="grade-arrow">▶</span>
+                      <span className="grade-after">IH</span>
+                    </div>
+                    <div className="review-text">
+                      온라인이라고 걱정했는데 <b>카톡 채팅과 공유로 충분</b>했어요. 팀원들이 열심히 하니까 저도 자연스럽게 따라갔습니다.
+                    </div>
+                    <div className="review-author">
+                      <div className="review-avatar">H</div>
+                      <div>
+                        <div className="review-name">한*수</div>
+                        <div className="review-info">직장인 · 온라인 진행</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="review-card">
+                    <div className="review-grade-shift">
+                      <span className="grade-before">NL</span>
+                      <span className="grade-arrow">▶</span>
+                      <span className="grade-after">IM1</span>
+                    </div>
+                    <div className="review-text">
+                      영어 왕초보였는데 <b>한 줄도 못 하던 제가 1분을 채울 수 있게 됐어요.</b> 1대1 회화 클래스도 같이 들었더니 효과가 컸습니다.
+                    </div>
+                    <div className="review-author">
+                      <div className="review-avatar">Y</div>
+                      <div>
+                        <div className="review-name">윤*지</div>
+                        <div className="review-info">취준생 · 왕초보 출발</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="review-card">
+                    <div className="review-grade-shift">
+                      <span className="grade-before">IH</span>
+                      <span className="grade-arrow">▶</span>
+                      <span className="grade-after">AL</span>
+                    </div>
+                    <div className="review-text">
+                      롤플 3콤보가 항상 약점이었는데 <b>Plan A·B·C 구조로 풀이</b>하니까 답변이 자연스러워졌어요. 처음 받은 AL입니다.
+                    </div>
+                    <div className="review-author">
+                      <div className="review-avatar">B</div>
+                      <div>
+                        <div className="review-name">백*경</div>
+                        <div className="review-info">대학생 · 롤플 약점</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="review-card">
+                    <div className="review-grade-shift">
+                      <span className="grade-before">IM2</span>
+                      <span className="grade-arrow">▶</span>
+                      <span className="grade-after">IH</span>
+                    </div>
+                    <div className="review-text">
+                      매일 미션 100% 채우면서 <b>제가 영어를 좋아한다는 걸 다시 깨달았어요.</b> 점수보다 그게 더 큰 수확이었습니다.
+                    </div>
+                    <div className="review-author">
+                      <div className="review-avatar">G</div>
+                      <div>
+                        <div className="review-name">고*은</div>
+                        <div className="review-info">직장인 · 자기계발</div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
+
+          {/* 후기 더 보기 버튼 */}
+          <button
+            onClick={() => setShowAllReviews(!showAllReviews)}
+            className={`show-more-btn ${showAllReviews ? 'expanded' : ''}`}
+          >
+            후기 {showAllReviews ? '접기' : `더 보기 (${8}개)`}
+            <span className="arrow">▼</span>
+          </button>
 
           {/* Photo Reviews Carousel */}
           <div className="photo-review-section">
@@ -3976,124 +4033,138 @@ export default function StudyPage() {
             </div>
           </div>
 
-          {/* 보증 조건 - rules-grid 재사용 */}
-          <div style={{ marginTop: '64px' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div className="section-title" style={{ fontSize: '24px' }}>보증 조건</div>
-              <p className="section-desc">아래 5가지를 전부 충족해야 합니다.</p>
-            </div>
-            <div className="rules-grid" style={{ gridTemplateColumns: '1fr' }}>
-              <div className="rule-card">
-                <div className="rule-num">01</div>
-                <div>
-                  <h4>과제 100% 제출 + 암기 확인 통과</h4>
-                  <p>매 피드백 시 랜덤 3문장 구술 테스트. 1회라도 미통과 시 보증 미적용.</p>
-                </div>
-              </div>
-              <div className="rule-card">
-                <div className="rule-num">02</div>
-                <div>
-                  <h4>부트캠프 100% 참석</h4>
-                  <p>10분 초과 지각, 조기 퇴장, 무단 불참은 미참석 처리.</p>
-                </div>
-              </div>
-              <div className="rule-card">
-                <div className="rule-num">03</div>
-                <div>
-                  <h4>1:3 코치 피드백 100% 참석</h4>
-                  <p>사전 통보 없는 불참은 미참석 처리.</p>
-                </div>
-              </div>
-              <div className="rule-card">
-                <div className="rule-num">04</div>
-                <div>
-                  <h4>종료 후 2주 내 OPIc 응시</h4>
-                  <p>미응시 시 보증 자격 자동 소멸.</p>
-                </div>
-              </div>
-              <div className="rule-card">
-                <div className="rule-num">05</div>
-                <div>
-                  <h4>공식 성적표 + 수험번호 제출</h4>
-                  <p>응시일로부터 30일 이내. 진위 확인 검증이 진행될 수 있습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* 보증 청구 절차 자세히 보기 토글 */}
+          <button
+            onClick={() => setShowGuaranteeDetail(!showGuaranteeDetail)}
+            className={`show-more-btn ${showGuaranteeDetail ? 'expanded' : ''}`}
+            style={{ marginTop: '48px' }}
+          >
+            보증 청구 절차 자세히 보기
+            <span className="arrow">▼</span>
+          </button>
 
-          {/* 적용 기준 테이블 - compare-table 재사용 */}
-          <div style={{ marginTop: '64px' }}>
-            <table className="compare-table">
-              <thead>
-                <tr>
-                  <th>항목</th>
-                  <th className="highlight-col">기준</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>적용 대상</td>
-                  <td className="highlight-col">6개월 내 OPIc 성적표 보유자 (수강 전 제출 필수)</td>
-                </tr>
-                <tr>
-                  <td>시행 시기</td>
-                  <td className="highlight-col"><strong>2025년 5월 15일 기수</strong>부터 (소급 불가)</td>
-                </tr>
-                <tr>
-                  <td>향상 기준</td>
-                  <td className="highlight-col">ACTFL 1단계 이상 상승 (NH→IL→IM1→IM2→IM3→IH→AL→AH)</td>
-                </tr>
-                <tr>
-                  <td>보증 횟수</td>
-                  <td className="highlight-col">1인 1회, 직후 기수 필수 사용, 양도 불가</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {showGuaranteeDetail && (
+            <>
+              {/* 보증 조건 - rules-grid 재사용 */}
+              <div style={{ marginTop: '48px' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div className="section-title" style={{ fontSize: '24px' }}>보증 조건</div>
+                  <p className="section-desc">아래 5가지를 전부 충족해야 합니다.</p>
+                </div>
+                <div className="rules-grid" style={{ gridTemplateColumns: '1fr' }}>
+                  <div className="rule-card">
+                    <div className="rule-num">01</div>
+                    <div>
+                      <h4>과제 100% 제출 + 암기 확인 통과</h4>
+                      <p>매 피드백 시 랜덤 3문장 구술 테스트. 1회라도 미통과 시 보증 미적용.</p>
+                    </div>
+                  </div>
+                  <div className="rule-card">
+                    <div className="rule-num">02</div>
+                    <div>
+                      <h4>부트캠프 100% 참석</h4>
+                      <p>10분 초과 지각, 조기 퇴장, 무단 불참은 미참석 처리.</p>
+                    </div>
+                  </div>
+                  <div className="rule-card">
+                    <div className="rule-num">03</div>
+                    <div>
+                      <h4>1:3 코치 피드백 100% 참석</h4>
+                      <p>사전 통보 없는 불참은 미참석 처리.</p>
+                    </div>
+                  </div>
+                  <div className="rule-card">
+                    <div className="rule-num">04</div>
+                    <div>
+                      <h4>종료 후 2주 내 OPIc 응시</h4>
+                      <p>미응시 시 보증 자격 자동 소멸.</p>
+                    </div>
+                  </div>
+                  <div className="rule-card">
+                    <div className="rule-num">05</div>
+                    <div>
+                      <h4>공식 성적표 + 수험번호 제출</h4>
+                      <p>응시일로부터 30일 이내. 진위 확인 검증이 진행될 수 있습니다.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-          {/* 청구 절차 - why-card 재사용 */}
-          <div style={{ marginTop: '64px' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div className="section-title" style={{ fontSize: '24px' }}>청구 절차</div>
-              <p className="section-desc">심사는 접수일로부터 14영업일 이내에 완료됩니다.</p>
-            </div>
-            <div className="why-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginTop: '0' }}>
-              <div className="why-card">
-                <div className="why-icon" style={{ fontSize: '28px' }}>1</div>
-                <h3>청구 신청</h3>
-                <p>온라인 청구 폼 작성</p>
+              {/* 적용 기준 테이블 - compare-table 재사용 */}
+              <div style={{ marginTop: '48px' }}>
+                <table className="compare-table">
+                  <thead>
+                    <tr>
+                      <th>항목</th>
+                      <th className="highlight-col">기준</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>적용 대상</td>
+                      <td className="highlight-col">6개월 내 OPIc 성적표 보유자 (수강 전 제출 필수)</td>
+                    </tr>
+                    <tr>
+                      <td>시행 시기</td>
+                      <td className="highlight-col"><strong>2025년 5월 15일 기수</strong>부터 (소급 불가)</td>
+                    </tr>
+                    <tr>
+                      <td>향상 기준</td>
+                      <td className="highlight-col">ACTFL 1단계 이상 상승 (NH→IL→IM1→IM2→IM3→IH→AL→AH)</td>
+                    </tr>
+                    <tr>
+                      <td>보증 횟수</td>
+                      <td className="highlight-col">1인 1회, 직후 기수 필수 사용, 양도 불가</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div className="why-card">
-                <div className="why-icon" style={{ fontSize: '28px' }}>2</div>
-                <h3>서류 제출</h3>
-                <p>사전·사후 성적표, 수험번호, 신분증</p>
+
+              {/* 청구 절차 - why-card 재사용 */}
+              <div style={{ marginTop: '48px' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div className="section-title" style={{ fontSize: '24px' }}>청구 절차</div>
+                  <p className="section-desc">심사는 접수일로부터 14영업일 이내에 완료됩니다.</p>
+                </div>
+                <div className="why-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginTop: '0' }}>
+                  <div className="why-card">
+                    <div className="why-icon" style={{ fontSize: '28px' }}>1</div>
+                    <h3>청구 신청</h3>
+                    <p>온라인 청구 폼 작성</p>
+                  </div>
+                  <div className="why-card">
+                    <div className="why-icon" style={{ fontSize: '28px' }}>2</div>
+                    <h3>서류 제출</h3>
+                    <p>사전·사후 성적표, 수험번호, 신분증</p>
+                  </div>
+                  <div className="why-card">
+                    <div className="why-icon" style={{ fontSize: '28px' }}>3</div>
+                    <h3>심사</h3>
+                    <p>성적표 진위 및 조건 충족 검토</p>
+                  </div>
+                  <div className="why-card">
+                    <div className="why-icon" style={{ fontSize: '28px' }}>4</div>
+                    <h3>재수강 배정</h3>
+                    <p>직후 기수 자동 배정</p>
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center', marginTop: '32px' }}>
+                  <a href="/guarantee-claim" style={{
+                    display: 'inline-block',
+                    padding: '14px 32px',
+                    background: 'var(--green, #1A8D48)',
+                    color: 'white',
+                    borderRadius: '12px',
+                    fontSize: '15px',
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                  }}>
+                    보증 청구하기 →
+                  </a>
+                </div>
               </div>
-              <div className="why-card">
-                <div className="why-icon" style={{ fontSize: '28px' }}>3</div>
-                <h3>심사</h3>
-                <p>성적표 진위 및 조건 충족 검토</p>
-              </div>
-              <div className="why-card">
-                <div className="why-icon" style={{ fontSize: '28px' }}>4</div>
-                <h3>재수강 배정</h3>
-                <p>직후 기수 자동 배정</p>
-              </div>
-            </div>
-            <div style={{ textAlign: 'center', marginTop: '32px' }}>
-              <a href="/guarantee-claim" style={{
-                display: 'inline-block',
-                padding: '14px 32px',
-                background: 'var(--green, #1A8D48)',
-                color: 'white',
-                borderRadius: '12px',
-                fontSize: '15px',
-                fontWeight: 700,
-                textDecoration: 'none',
-              }}>
-                보증 청구하기 →
-              </a>
-            </div>
-          </div>
+            </>
+          )}
 
           {/* 부정행위 경고 + 전문 - faq-item 재사용 */}
           <div className="faq-list" style={{ marginTop: '64px' }}>
@@ -4385,20 +4456,38 @@ export default function StudyPage() {
             <p className="section-desc">더 궁금한 점은 카톡으로 문의해주세요.</p>
           </div>
           <div className="faq-list">
-            {faqItems.map((item: { question: string; answer: string; important?: boolean }, index: number) => (
-              <div key={index} className={`faq-item ${openFaqIndex === index ? 'open' : ''} ${item.important ? 'faq-important' : ''}`}>
-                <button className="faq-question" onClick={() => toggleFaq(index)}>
-                  <span>{item.important && <span className="faq-badge">필독</span>}{item.question}</span>
-                  <span className="faq-icon">+</span>
-                </button>
-                <div className="faq-answer" style={{ maxHeight: openFaqIndex === index ? '800px' : '0' }}>
-                  <div className="faq-answer-content" style={{ whiteSpace: 'pre-line' }}>
-                    {item.answer}
+            {faqItems.map((item: { question: string; answer: string; important?: boolean }, index: number) => {
+              // 기본 5개만 항상 노출: 인덱스 0, 2, 3, 4, 5
+              const mainIndices = [0, 2, 3, 4, 5];
+              const isMainFaq = mainIndices.includes(index);
+
+              // 나머지는 showAllFaq true일 때만 노출
+              if (!isMainFaq && !showAllFaq) return null;
+
+              return (
+                <div key={index} className={`faq-item ${openFaqIndex === index ? 'open' : ''} ${item.important ? 'faq-important' : ''}`}>
+                  <button className="faq-question" onClick={() => toggleFaq(index)}>
+                    <span>{item.important && <span className="faq-badge">필독</span>}{item.question}</span>
+                    <span className="faq-icon">+</span>
+                  </button>
+                  <div className="faq-answer" style={{ maxHeight: openFaqIndex === index ? '800px' : '0' }}>
+                    <div className="faq-answer-content" style={{ whiteSpace: 'pre-line' }}>
+                      {item.answer}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
+
+          {/* FAQ 더 보기 버튼 */}
+          <button
+            onClick={() => setShowAllFaq(!showAllFaq)}
+            className={`show-more-btn ${showAllFaq ? 'expanded' : ''}`}
+          >
+            {showAllFaq ? '질문 접기' : '다른 질문 더 보기 (5개)'}
+            <span className="arrow">▼</span>
+          </button>
         </div>
       </section>
 
