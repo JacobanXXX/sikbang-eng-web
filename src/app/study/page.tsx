@@ -1171,9 +1171,9 @@ export default function StudyPage() {
           line-height: 1;
         }
         .bonus-tag {
-          font-size: 10px;
+          font-size: 11.5px;
           font-weight: 700;
-          letter-spacing: 0.08em;
+          letter-spacing: 0.06em;
           color: #1A8D48;
           background: #E8FFF0;
           padding: 4px 10px;
@@ -1539,7 +1539,7 @@ export default function StudyPage() {
           letter-spacing: 0.02em;
         }
         .grade-arrow {
-          font-size: 11px;
+          font-size: 13px;
           color: var(--green);
           font-weight: 700;
           line-height: 1;
@@ -2945,7 +2945,7 @@ export default function StudyPage() {
           </div>
           <h1>
             2주 만에<br />
-            <span className="accent">OPIC 목표 등급</span> 달성
+            <span className="accent">OPIc 목표 등급</span> 달성
           </h1>
           <p className="subtitle">
             소그룹 3인 1팀. 매일 스피킹 과제 + AI 피드백 + 코칭.<br />
@@ -2995,7 +2995,7 @@ export default function StudyPage() {
             <div className="why-card">
               <div className="why-icon">코칭</div>
               <h3>전문 코치 + AI 이중 분석</h3>
-              <p>삼성·LG 초청 OPIC 전문 강사가 매일 1:1 음성 피드백을 제공하고, AI가 발음·유창성·문법 등 7개 영역을 수치로 분석해 약점을 정확히 짚어줍니다.</p>
+              <p>삼성·LG 초청 OPIc 전문 강사가 매일 1:1 음성 피드백을 제공하고, AI가 발음·유창성·문법 등 7개 영역을 수치로 분석해 약점을 정확히 짚어줍니다.</p>
             </div>
             <div className="why-card">
               <div className="why-icon">공식</div>
@@ -3094,7 +3094,7 @@ export default function StudyPage() {
                   <strong>Day 5</strong> 시제 중심 Grammar 영상 시청 + 댓글 영작 과제. 약점 질문 집중 재학습 + 암기 완료. Adverbs/비교 유형 표현 암기.
                 </div>
                 <div className="cur-day">
-                  <strong>Day 6</strong> 7 Core Templates 완전 암기 최종 점검. 복합 템플릿 2개 이상 자연스럽게 조합 연습. 스터디원 상호 Q&amp;A 즉답 훈련. SpeakCoach AI 발음/흐름 진단.
+                  <strong>Day 6</strong> 7 Core Templates 완전 암기 최종 점검. 복합 템플릿 2개 이상 자연스럽게 조합 연습. 스터디원 상호 QA 즉답 훈련. SpeakCoach AI 발음/흐름 진단.
                 </div>
                 <div className="cur-day">
                   <strong>Day 7</strong> 비공개 모의고사 영상 1차 풀이(녹음) + SpeakCoach AI 전체 분석. 구조/속도/발음 교정 시작. 유형별 표현 완벽 암기(2차 피드백 세션 테스트 대비).
@@ -3104,9 +3104,9 @@ export default function StudyPage() {
             {/* Phase 2 */}
             <div className="cur-week active">
               <div className="cur-week-dot"></div>
-              <div className="cur-week-label">PHASE 2 - Role Play &amp; 돌발</div>
+              <div className="cur-week-label">PHASE 2 - 롤플레이와 돌발</div>
               <h3>Day 8-10 : RP 상황 처리 공식 + 돌발 질문 대응력 완성</h3>
-              <p>Role Play와 돌발 질문을 무서운 파트에서 공식으로 해결하는 파트로 바꿉니다. RP가 나오면 이건 이 공식이구나 하고 자동 반응하는 상태를 목표로 합니다.</p>
+              <p>롤플레이와 돌발 질문을 무서운 파트에서 공식으로 해결하는 파트로 바꿉니다. 롤플레이가 나오면 이건 이 공식이구나 하고 자동 반응하는 상태를 목표로 합니다.</p>
               <div className="cur-day-grid">
                 <div className="cur-day">
                   <strong>Day 8</strong> RP 핵심 13개 시나리오 완전 분석(전화 문의/예약 변경/불만 제기). Q11 질문 능력 + Q12 대안 제시 구조 파악. Reusable Sentences 암기 + 타이머 즉답 훈련.
@@ -3842,9 +3842,9 @@ export default function StudyPage() {
               <h3>2주 집중 스터디</h3>
               <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
             </div>
-            <div className="pricing-original">₩259,900</div>
-            <div className="pricing-price-main" style={{marginTop:'8px'}}>₩{currentCycleState.price.toLocaleString()}</div>
-            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'var(--green)',fontWeight:600,marginTop:'4px'}}>{currentCycleState.earlyBirdEndStr} 이후 ₩179,900</div>}
+            <div className="pricing-original">259,900원</div>
+            <div className="pricing-price-main" style={{marginTop:'8px'}}>{currentCycleState.price.toLocaleString()}원</div>
+            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'var(--green)',fontWeight:600,marginTop:'4px'}}>{currentCycleState.earlyBirdEndStr} 이후 179,900원</div>}
             <div className="pricing-desc">
               교재비 포함 · SpeakCoach AI · 1:3 피드백 총 180분 · 매일 녹음과제 피드백 · 비공개 모의고사 영상 포함
             </div>
@@ -3864,7 +3864,7 @@ export default function StudyPage() {
             <div className="pricing-earlybird">
               {currentCycleState.isEarlyBird ? (
                 <>
-                  얼리버드 마감: <strong>{currentCycleState.earlyBirdEndStr} 23:59</strong>까지 — 이후 ₩179,900으로 변경됩니다.
+                  얼리버드 마감: <strong>{currentCycleState.earlyBirdEndStr} 23:59</strong>까지 — 이후 179,900원으로 변경됩니다.
                 </>
               ) : (
                 <>
@@ -3875,7 +3875,7 @@ export default function StudyPage() {
             <div className="pricing-addon">
               <h4>Premium 업그레이드</h4>
               <p>
-                +<span className="addon-price">₩15,000</span>만 추가하면 2주 내내 SpeakCoach AI{' '}
+                +<span className="addon-price">15,000원</span>만 추가하면 2주 내내 SpeakCoach AI{' '}
                 <strong>Premium</strong>을 이용할 수 있어요.
               </p>
             </div>
@@ -3997,7 +3997,7 @@ export default function StudyPage() {
               <a href="https://blog.naver.com/lulu05/223353024018" target="_blank" rel="noopener noreferrer">전자책</a>
               <a href="https://sikbang-eng.liveklass.com/" target="_blank" rel="noopener noreferrer">인강</a>
               <a href="https://sikbang-eng.replit.app/" target="_blank" rel="noopener noreferrer">SpeakCoach AI</a>
-              <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" rel="noopener noreferrer">OPIC 단톡방</a>
+              <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" rel="noopener noreferrer">OPIc 단톡방</a>
               <a href="http://pf.kakao.com/_SJYQn" target="_blank" rel="noopener noreferrer">카카오톡 1:1 문의</a>
               <a href="https://instagram.com/sikbang.eng" target="_blank" rel="noopener noreferrer">인스타그램</a>
               <a href="https://blog.naver.com/lulu05" target="_blank" rel="noopener noreferrer">블로그</a>
@@ -4022,8 +4022,8 @@ export default function StudyPage() {
               {floatingRemainingSlots}자리 남음
             </div>
             <div className="floating-price">
-              <span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px',marginRight:'6px'}}>₩259,900</span>
-              <strong>₩{currentCycleState.price.toLocaleString()}</strong>
+              <span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px',marginRight:'6px'}}>259,900원</span>
+              <strong>{currentCycleState.price.toLocaleString()}원</strong>
               {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px',fontWeight:700,marginLeft:'4px'}}>얼리버드</span>}
             </div>
           </div>
@@ -4083,7 +4083,7 @@ export default function StudyPage() {
                 <div className="form-summary-box">
                   <div className="form-summary-row"><span>플랜</span><strong>{formData.plan === 'bundle' ? '번들 (스터디 + SpeakCoach 3개월)' : '일반 스터디'}</strong></div>
                   <div className="form-summary-row"><span>목표반</span><strong>{formData.targetClass}목표반</strong></div>
-                  <div className="form-summary-row"><span>결제 금액</span><strong style={{color:'#1A8D48'}}>₩{calcFormPrice().toLocaleString()}</strong></div>
+                  <div className="form-summary-row"><span>결제 금액</span><strong style={{color:'#1A8D48'}}>{calcFormPrice().toLocaleString()}원</strong></div>
                 </div>
                 <a
                   href="https://open.kakao.com/o/g0jE5t8f"
@@ -4105,7 +4105,7 @@ export default function StudyPage() {
                   }}
                 >
                   <svg viewBox="0 0 256 256" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path d="M128 36C70.6 36 24 72.2 24 116.8c0 29 19.5 54.4 48.8 68.8-1.5 5.6-9.8 36.3-10.2 38.6 0 0-.2 1.7.9 2.3 1.1.7 2.4.1 2.4.1 3.2-.4 36.8-24.2 42.6-28.3 6.4.9 13 1.3 19.5 1.3 57.4 0 104-36.2 104-80.8S185.4 36 128 36z" fill="#191919"/></svg>
-                  OPIC 준비생 단톡방 참여하기
+                  OPIc 준비생 단톡방 참여하기
                 </a>
                 <button className="form-btn-secondary" onClick={() => setShowFormModal(false)} style={{marginTop:'10px',width:'100%'}}>
                   확인
@@ -4380,8 +4380,8 @@ export default function StudyPage() {
                         <div className="form-plan-inner">
                           <div className="form-plan-name">일반 스터디</div>
                           <div className="form-plan-price-row">
-                            <span className="form-plan-original">₩259,900</span>
-                            <span className="form-plan-price">₩{(currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()}</span>
+                            <span className="form-plan-original">259,900원</span>
+                            <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()}원</span>
                           </div>
                           {currentCycleState.isEarlyBird && (
                             <div className="form-plan-earlybird-tag">얼리버드 특가</div>
@@ -4412,11 +4412,11 @@ export default function StudyPage() {
                             <div className="form-value-stack-title">이 번들에 포함된 가치</div>
                             <div className="form-value-item">
                               <span>2주 집중 스터디 (교재+피드백+모의고사)</span>
-                              <span className="form-value-price">₩{(currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()}</span>
+                              <span className="form-value-price">{(currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()}원</span>
                             </div>
                             <div className="form-value-item">
                               <span>SpeakCoach AI Premium 3개월</span>
-                              <span className="form-value-price">₩89,000</span>
+                              <span className="form-value-price">89,000원</span>
                             </div>
                             <div className="form-value-item bonus">
                               <span>졸업 후 코칭 채팅 3개월 지원</span>
@@ -4424,18 +4424,18 @@ export default function StudyPage() {
                             </div>
                             <div className="form-value-total">
                               <span>개별 구매 시 총합</span>
-                              <span>₩{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}</span>
+                              <span>{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}원</span>
                             </div>
                           </div>
 
                           <div className="form-bundle-offer">
                             <div className="form-bundle-offer-label">번들 특별가</div>
                             <div className="form-plan-price-row" style={{justifyContent:'center'}}>
-                              <span className="form-plan-original">₩{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}</span>
-                              <span className="form-plan-price">₩{(currentCycleState.isEarlyBird ? 199900 : 229900).toLocaleString()}</span>
+                              <span className="form-plan-original">{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}원</span>
+                              <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 199900 : 229900).toLocaleString()}원</span>
                             </div>
                             <div className="form-plan-save">
-                              ₩39,000 절약 — 하루 커피 한 잔 값으로 3개월 AI 코치
+                              39,000원 절약 — 하루 커피 한 잔 값으로 3개월 AI 코치
                             </div>
                             {currentCycleState.isEarlyBird && (
                               <div className="form-plan-earlybird-tag">얼리버드 특가</div>
@@ -4467,7 +4467,7 @@ export default function StudyPage() {
                           checked={formData.hasBook}
                           onChange={(e) => setFormData({...formData, hasBook: e.target.checked})}
                         />
-                        <span>이미 교재를 구매했어요 <span style={{color:'#dc2626',fontSize:'13px',fontWeight:600}}>(-₩30,000)</span></span>
+                        <span>이미 교재를 구매했어요 <span style={{color:'#dc2626',fontSize:'13px',fontWeight:600}}>(-30,000원)</span></span>
                       </label>
                     </div>
 
@@ -4480,11 +4480,11 @@ export default function StudyPage() {
                           onChange={(e) => setFormData({...formData, premiumUpgrade: e.target.checked})}
                         />
                         <span>
-                          <strong>Premium 업그레이드</strong> <span style={{color:'var(--green)',fontWeight:600}}>(+₩15,000)</span>
+                          <strong>Premium 업그레이드</strong> <span style={{color:'var(--green)',fontWeight:600}}>(+15,000원)</span>
                         </span>
                       </label>
                       <div className="form-upgrade-detail">
-                        <span className="form-upgrade-value">64% 할인 — ₩41,900 → ₩15,000</span>
+                        <span className="form-upgrade-value">64% 할인 — 41,900원 → 15,000원</span>
                         <p>기본: Pro 11일 + Premium 3일 → <strong>14일 전체 Premium</strong>으로 업그레이드. 발음 교정, AI 모의고사, 무제한 피드백을 스터디 내내 쓰면 연습량이 2배로 늘어납니다.</p>
                       </div>
                     </div>
@@ -4493,26 +4493,26 @@ export default function StudyPage() {
                     <div className="form-price-summary">
                       <div className="form-price-row">
                         <span>{formData.plan === 'bundle' ? '번들 (스터디 + AI 3개월)' : '스터디 수강료'}{currentCycleState.isEarlyBird ? ' (얼리버드)' : ''}</span>
-                        <span>₩{formData.plan === 'bundle'
+                        <span>{formData.plan === 'bundle'
                           ? (currentCycleState.isEarlyBird ? 199900 : 229900).toLocaleString()
                           : (currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()
-                        }</span>
+                        }원</span>
                       </div>
                       {formData.hasBook && (
                         <div className="form-price-row discount">
                           <span>교재 보유 할인</span>
-                          <span>-₩30,000</span>
+                          <span>-30,000원</span>
                         </div>
                       )}
                       {formData.premiumUpgrade && (
                         <div className="form-price-row">
                           <span>Premium 업그레이드</span>
-                          <span>+₩15,000</span>
+                          <span>+15,000원</span>
                         </div>
                       )}
                       <div className="form-price-total">
                         <span>총 결제 금액</span>
-                        <strong>₩{calcFormPrice().toLocaleString()}</strong>
+                        <strong>{calcFormPrice().toLocaleString()}원</strong>
                       </div>
                     </div>
 
@@ -4556,7 +4556,7 @@ export default function StudyPage() {
                     <div className="form-deposit-box">
                       <div className="form-deposit-amount">
                         <span>입금하실 금액</span>
-                        <strong>₩{calcFormPrice().toLocaleString()}</strong>
+                        <strong>{calcFormPrice().toLocaleString()}원</strong>
                       </div>
                       <div className="form-deposit-info">
                         <div className="form-deposit-row">
