@@ -3688,23 +3688,23 @@ export default function StudyPage() {
             <div className="vs-col">
               <div className="vs-tag">학원</div>
               <div className="vs-fact">강사 한 명이 100명을 가르칩니다</div>
-              <p className="vs-issue">그래서 내 약점이 무엇인지 강사는 알 수 없습니다.</p>
+              <p className="vs-issue">그래서 내 약점이 무엇인지 강사는 알 수 없습니다. 결국 떨어지면 다음 학원을 알아봐야 합니다.</p>
             </div>
             <div className="vs-col">
               <div className="vs-tag">인강</div>
               <div className="vs-fact">녹화된 영상을 혼자 봅니다</div>
-              <p className="vs-issue">그래서 내가 어디서 막혔는지 영상은 알려주지 않습니다.</p>
+              <p className="vs-issue">그래서 내가 어디서 막혔는지 영상은 알려주지 않습니다. 끝까지 듣는 사람도 절반이 안 됩니다.</p>
             </div>
             <div className="vs-col">
               <div className="vs-tag">그룹 스터디</div>
               <div className="vs-fact">함께 모여 응원을 나눕니다</div>
-              <p className="vs-issue">그런데 정작 어떻게 해야 AL이 나오는지는 아무도 모릅니다.</p>
+              <p className="vs-issue">그런데 정작 어떻게 해야 AL이 나오는지는 아무도 모릅니다. 결국 같이 헤매다 끝납니다.</p>
             </div>
             <div className="vs-col vs-col-highlight">
               <div className="vs-tag vs-tag-highlight">14일 AL 완성 부트캠프</div>
               <div className="vs-fact vs-fact-highlight">대표가 매일 당신의 답변을 직접 듣고 분석합니다</div>
               <p className="vs-issue vs-issue-strong">
-                <b>안준영 대표</b>가 매일 직접 듣고, OPIc 채점 기준 그대로 만든 <b>SpeakCoach AI</b>가 함께 분석합니다. 그래서 <b>수강생 94퍼센트가 목표 성적에 도달했습니다</b>.
+                안준영 대표가 매일 듣고, SpeakCoach AI가 함께 분석합니다. 그래서 <b>수강생 94%가 목표 성적에 도달</b>했습니다.
               </p>
             </div>
           </div>
@@ -3712,19 +3712,19 @@ export default function StudyPage() {
           <div className="vs-stats">
             <div className="vs-stat">
               <div className="vs-stat-num">4,000<span className="vs-stat-plus">명</span></div>
-              <div className="vs-stat-label">OPIc 부트캠프 누적 수강생</div>
+              <div className="vs-stat-label">누적 수강생</div>
             </div>
             <div className="vs-stat">
-              <div className="vs-stat-num">2<span className="vs-stat-unit">등급</span></div>
-              <div className="vs-stat-label">2주 후 평균 등급 상승</div>
+              <div className="vs-stat-num">2<span className="vs-stat-unit">단계</span></div>
+              <div className="vs-stat-label">평균 등급 상승</div>
             </div>
             <div className="vs-stat">
-              <div className="vs-stat-num">94<span className="vs-stat-unit">퍼센트</span></div>
+              <div className="vs-stat-num">94<span className="vs-stat-unit">%</span></div>
               <div className="vs-stat-label">수료율</div>
             </div>
             <div className="vs-stat">
               <div className="vs-stat-num">20<span className="vs-stat-unit">명</span></div>
-              <div className="vs-stat-label">한 기수 정원</div>
+              <div className="vs-stat-label">기수당 정원</div>
             </div>
           </div>
 
