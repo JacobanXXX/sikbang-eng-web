@@ -768,26 +768,26 @@ export default function FreePage() {
           transition: all 0.2s;
         }
         .share-btn.kakao {
-          background: #FEE500;
+          background: var(--kakao-yellow);
           color: #191919;
         }
         .share-btn.kakao:hover {
           background: #F5DC00;
         }
         .share-btn.link {
-          background: #F2F4F6;
-          color: #4E5968;
+          background: var(--bg-gray);
+          color: var(--text-secondary);
         }
         .share-btn.link:hover {
-          background: #E5E8EB;
+          background: var(--border);
         }
 
         /* MID CTA */
         .mid-cta {
           background: #F8F9FA;
           padding: 40px 24px;
-          border-top: 1px solid #E5E8EB;
-          border-bottom: 1px solid #E5E8EB;
+          border-top: 1px solid var(--border);
+          border-bottom: 1px solid var(--border);
         }
         .mid-cta-text {
           font-size: 18px;
@@ -797,7 +797,7 @@ export default function FreePage() {
         }
         .mid-cta-btn {
           display: inline-block;
-          background: #3182F6;
+          background: var(--blue-primary);
           color: white;
           padding: 14px 32px;
           border-radius: 12px;
@@ -807,7 +807,7 @@ export default function FreePage() {
           transition: background 0.2s;
         }
         .mid-cta-btn:hover {
-          background: #1B64DA;
+          background: var(--blue-dark);
         }
 
         /* FOOTER */
@@ -987,7 +987,7 @@ export default function FreePage() {
           <p>식빵영어가 무료로 공개하는 강의와 학습 자료. 유료 부트캠프에서 가르치는 프레임워크의 기초를 먼저 경험해보세요.</p>
           <div style={{marginTop:'24px',display:'flex',gap:'12px',justifyContent:'center',flexWrap:'wrap'}}>
             <a href="#lectures" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'var(--blue-primary)',color:'white',padding:'12px 24px',borderRadius:'12px',fontWeight:700,fontSize:'15px',textDecoration:'none',transition:'all 0.2s'}}>무료 강의 바로 보기 ↓</a>
-            <a href="/study" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'white',color:'var(--text-primary)',padding:'12px 24px',borderRadius:'12px',fontWeight:600,fontSize:'15px',textDecoration:'none',border:'1px solid #e5e7eb',transition:'all 0.2s'}}>14일 부트캠프 알아보기</a>
+            <a href="/study" style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'white',color:'var(--text-primary)',padding:'12px 24px',borderRadius:'12px',fontWeight:600,fontSize:'15px',textDecoration:'none',border:'1px solid var(--border)',transition:'all 0.2s'}}>14일 부트캠프 알아보기</a>
           </div>
           <div style={{marginTop:'18px'}}>
             <a href="https://open.kakao.com/o/g0jE5t8f" target="_blank" rel="noopener noreferrer" style={{display:'inline-flex',alignItems:'center',gap:'8px',background:'#FEE500',color:'#191919',padding:'10px 18px',borderRadius:'999px',fontSize:'14px',fontWeight:700,textDecoration:'none',border:'1px solid rgba(0,0,0,0.05)'}}>
@@ -1013,10 +1013,10 @@ export default function FreePage() {
                 <span><strong style={{color:'var(--blue-primary)'}}>{watchedLectures.size}</strong> / {lectures.length}개 시청</span>
               </div>
               <div style={{height:'8px',borderRadius:'4px',background:'#e5e7eb',overflow:'hidden'}}>
-                <div style={{height:'100%',borderRadius:'4px',background:'linear-gradient(90deg, #3182F6, #6B4EFF)',width:`${(watchedLectures.size / lectures.length) * 100}%`,transition:'width 0.5s ease'}}></div>
+                <div style={{height:'100%',borderRadius:'4px',background:'linear-gradient(90deg, var(--blue-primary), #6B4EFF)',width:`${(watchedLectures.size / lectures.length) * 100}%`,transition:'width 0.5s ease'}}></div>
               </div>
               {watchedLectures.size === lectures.length && lectures.length > 0 && (
-                <p style={{fontSize:'13px',color:'#1A8D48',fontWeight:600,marginTop:'8px'}}>모든 강의를 시청했어요! 이제 부트캠프로 실전 훈련을 시작해보세요.</p>
+                <p style={{fontSize:'13px',color:'var(--green)',fontWeight:600,marginTop:'8px'}}>모든 강의를 시청했어요! 이제 부트캠프로 실전 훈련을 시작해보세요.</p>
               )}
             </div>
           )}
@@ -1035,9 +1035,9 @@ export default function FreePage() {
                     {thumbnailUrl ? (
                       <img src={thumbnailUrl} alt={lecture.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : isArticle ? (
-                      <div className="article-thumb" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, #E8F3FF 0%, #F0F7FF 100%)' }}>
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3182F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                        <span style={{ fontSize: '12px', color: '#3182F6', fontWeight: 600, marginTop: '6px' }}>글 읽기</span>
+                      <div className="article-thumb" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', background: 'linear-gradient(135deg, var(--blue-light) 0%, #F0F7FF 100%)' }}>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--blue-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                        <span style={{ fontSize: '12px', color: 'var(--blue-primary)', fontWeight: 600, marginTop: '6px' }}>글 읽기</span>
                       </div>
                     ) : (
                       <span>COMING SOON</span>
@@ -1060,7 +1060,7 @@ export default function FreePage() {
 
               return hasLink ? (
                 <a key={lecture.id} href={videoLink} target="_blank" rel="noopener noreferrer" className="lecture-card" style={{ textDecoration: 'none', color: 'inherit', position:'relative' }} onClick={() => markWatched(lecture.id)}>
-                  {watchedLectures.has(lecture.id) && <div style={{position:'absolute',top:'8px',right:'8px',background:'#1A8D48',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 8px',borderRadius:'10px',zIndex:2}}>{isArticle ? '✓ 읽기 완료' : '✓ 시청 완료'}</div>}
+                  {watchedLectures.has(lecture.id) && <div style={{position:'absolute',top:'8px',right:'8px',background:'var(--green)',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 8px',borderRadius:'10px',zIndex:2}}>{isArticle ? '✓ 읽기 완료' : '✓ 시청 완료'}</div>}
                   {cardContent}
                 </a>
               ) : (
@@ -1086,7 +1086,7 @@ export default function FreePage() {
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                 }}
-                onMouseOver={(e) => { e.currentTarget.style.borderColor = '#3182F6'; e.currentTarget.style.color = '#3182F6'; }}
+                onMouseOver={(e) => { e.currentTarget.style.borderColor = 'var(--blue-primary)'; e.currentTarget.style.color = 'var(--blue-primary)'; }}
                 onMouseOut={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
               >
                 더 보기 ({Math.min(lecturePage * lecturesPerPage, lectures.length)}/{lectures.length})
@@ -1198,7 +1198,7 @@ export default function FreePage() {
         <div className="container">
           <div className="newsletter-inner">
             <h2>OPIC 학습 자료, 매주 이메일로 받아보세요</h2>
-            <p style={{fontSize:'13px',color:'#3182F6',fontWeight:600,marginBottom:'4px'}}>5,200명이 구독 중</p>
+            <p style={{fontSize:'13px',color:'var(--blue-primary)',fontWeight:600,marginBottom:'4px'}}>5,200명이 구독 중</p>
             <p>구독하면 매주 발행되는 표현·문법·전략 콘텐츠를 받을 수 있습니다.</p>
 
             {!newsletterSuccess ? (
@@ -1212,7 +1212,7 @@ export default function FreePage() {
                     type="checkbox"
                     checked={marketingConsent}
                     onChange={(e) => setMarketingConsent(e.target.checked)}
-                    style={{ marginTop: '3px', width: '16px', height: '16px', accentColor: '#3182F6', flexShrink: 0 }}
+                    style={{ marginTop: '3px', width: '16px', height: '16px', accentColor: 'var(--blue-primary)', flexShrink: 0 }}
                   />
                   <span>광고성 정보 수신에 동의합니다 (필수)</span>
                 </label>

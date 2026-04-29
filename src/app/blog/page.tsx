@@ -92,13 +92,13 @@ export default function BlogPage() {
         .blog-card h2 { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; line-height: 1.4; }
         .blog-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
         .blog-cta {
-          margin-top: 48px; background: linear-gradient(135deg, #3182F6, #1B64DA);
+          margin-top: 48px; background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
           border-radius: 20px; padding: 40px; text-align: center; color: white;
         }
         .blog-cta h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
         .blog-cta p { font-size: 15px; opacity: 0.9; margin-bottom: 20px; }
         .blog-cta-btn {
-          display: inline-block; background: white; color: #3182F6;
+          display: inline-block; background: white; color: var(--blue-primary);
           padding: 12px 28px; border-radius: 12px; font-size: 15px; font-weight: 700;
           transition: all 0.2s;
         }
@@ -146,7 +146,7 @@ export default function BlogPage() {
           {filteredPosts.map(post => (
             <div key={post.id} className="blog-card">
               <div className="blog-card-top">
-                <span className="blog-category" style={{ background: CATEGORY_COLORS[post.category] || '#3182F6' }}>
+                <span className="blog-category" style={{ background: CATEGORY_COLORS[post.category] || 'var(--blue-primary)' }}>
                   {post.category}
                 </span>
                 <span className="blog-date">{post.date}</span>
