@@ -437,7 +437,7 @@ export default function Home() {
             {/* 14일 부트캠프 */}
             <div className="product-card">
               <div className="product-card-image study-bg">
-                <span className="product-badge" style={{background:'#1A8D48'}}>BEST</span>
+                <span className="product-badge" style={{background:'#1A8D48'}}>정원 20명</span>
                 <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg" style={{ width: 'min(220px, 80%)', height: 'auto', display: 'block' }}>
                   <defs>
                     <filter id="calSh" x="-10%" y="-10%" width="120%" height="130%">
@@ -482,12 +482,12 @@ export default function Home() {
                 <div style={{fontSize:'13px',color:'#1A8D48',fontWeight:600,marginTop:'8px'}}>1차 피드백 후 환불 가능</div>
                 <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'12px'}}>
                   <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>
-                    <span className="original">259,900원</span>
-                    <span className="current">149,900</span>
+                    <span className="original">359,000원</span>
+                    <span className="current">249,000</span>
                     <span className="unit">원</span>
-                    <span style={{background:'#dc2626',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px'}}>-42%</span>
+                    <span style={{background:'#1A8D48',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px'}}>-31%</span>
                   </div>
-                  <a href="/study" className="btn-buy" style={{width:'100%', textAlign:'center', padding:'12px 20px'}}>자세히 보기</a>
+                  <a href="/study" className="btn-buy" style={{width:'100%', textAlign:'center', padding:'12px 20px', background:'#1A8D48'}}>자세히 보기</a>
                 </div>
               </div>
             </div>

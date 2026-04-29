@@ -6,8 +6,9 @@ import Link from 'next/link';
 // === 자동 기수 운영 시스템 (컴포넌트 외부) ===
 // 스터디: 매월 1일, 15일 시작 (월 2회)
 // 모집: 이전 기수 시작일 ~ 다음 기수 시작 전날 23:59:59
-// 얼리버드: 모집 시작 ~ 시작 5일 전 (149,900원, 원가 259,900원)
-// 정가: 시작 5일 전 ~ 마감 (179,900원, 원가 259,900원)
+// 얼리버드: 모집 시작 ~ 시작 5일 전 (249,000원, 원가 359,000원)
+// 정가: 시작 5일 전 ~ 마감 (279,000원, 원가 359,000원)
+// 부트캠프 정원: 20명, 1차 피드백 후 환불 가능
 
 interface StudyCycle {
   studyStart: Date;
@@ -75,11 +76,11 @@ function checkIsEarlyBird(now: Date, cycle: StudyCycle): boolean {
 }
 
 function getCurrentPrice(now: Date, cycle: StudyCycle): number {
-  return checkIsEarlyBird(now, cycle) ? 149900 : 179900;
+  return checkIsEarlyBird(now, cycle) ? 249000 : 279000;
 }
 
 function getDiscountPercent(price: number): number {
-  return Math.round((1 - price / 259900) * 100);
+  return Math.round((1 - price / 359000) * 100);
 }
 
 // 남은 인원 자동 계산 (파워 커브 - 초반 급감, 후반 완만)
@@ -146,7 +147,7 @@ export default function StudyPage() {
   // Countdown + cycle state
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0, label: '', nextDate: '' });
   const [currentCycleState, setCurrentCycleState] = useState<{ isEarlyBird: boolean; price: number; discount: number; autoSlots: number; earlyBirdEndStr: string }>({
-    isEarlyBird: true, price: 149900, discount: 42, autoSlots: 20, earlyBirdEndStr: ''
+    isEarlyBird: true, price: 249000, discount: 31, autoSlots: 20, earlyBirdEndStr: ''
   });
 
   useEffect(() => {
@@ -207,12 +208,12 @@ export default function StudyPage() {
     let base: number;
     if (formData.plan === 'bundle') {
       // 번들: 스터디 + SpeakCoach AI Premium 3개월
-      base = isEarly ? 199900 : 229900;
+      base = isEarly ? 299000 : 329000;
       // 번들은 교재비 포함 가격이므로, 교재 있으면 3만원 차감
       return base - (formData.hasBook ? 30000 : 0) + (formData.premiumUpgrade ? 15000 : 0);
     } else {
       // 일반 스터디
-      base = isEarly ? 119900 : 149900;
+      base = isEarly ? 219000 : 249000;
       return base + bookFee + (formData.premiumUpgrade ? 15000 : 0);
     }
   };
@@ -342,7 +343,7 @@ export default function StudyPage() {
     },
     {
       question: '환불은 어떻게 되나요?',
-      answer: '인원 편성 전(카카오톡 단체방 초대 전)에는 전자책(교재)을 제외한 나머지 금액의 환불이 가능합니다. 카카오톡 단체방에 초대된 시점부터 인원 편성이 완료된 것으로 간주되며, 이후에는 스터디 시작 여부와 관계없이 어떠한 사유로도 환불이 불가합니다. 본 스터디는 소규모 정원 기반으로 운영되며, 팀 편성과 동시에 맞춤 커리큘럼과 운영 리소스가 즉시 배정되기 때문입니다. 또한, 스터디 진행 중 같은 팀원의 중도 포기·불참·연락 두절 등은 식빵영어의 귀책사유에 해당하지 않으며, 이를 사유로 한 환불 요청이나 서비스 하자 주장은 인정되지 않습니다. 결제 시 본 환불 정책 및 면책 조항에 동의한 것으로 간주됩니다.'
+      answer: '카톡방 입장 전까지 전자책을 제외한 금액 환불 가능합니다. 입장 후엔 환불 불가. 자세한 규정은 아래 [필독] 항목을 확인해주세요.'
     },
     {
       question: '[필독] 참여 규정 및 환불 제한 안내',
@@ -593,7 +594,7 @@ export default function StudyPage() {
         [data-theme="dark"] .guarantee-refund-label { color: #6B7684; }
         [data-theme="dark"] .guarantee-refund-value { color: #EAEDF0; }
         [data-theme="dark"] .guarantee-note { background: #22262E; color: #B0B8C1; }
-        [data-theme="dark"] .bonus-problem { color: #F87171; }
+        [data-theme="dark"] .bonus-problem { color: #8B95A1; }
         [data-theme="dark"] .bonus-solution { color: #EAEDF0; }
         [data-theme="dark"] .bonus-proof { color: #B0B8C1; }
         [data-theme="dark"] .bonus-card { background: #22262E; border-color: #333840; }
@@ -604,7 +605,7 @@ export default function StudyPage() {
         [data-theme="dark"] .bonus-desc { color: #B0B8C1; }
         [data-theme="dark"] .bonus-meta { border-top-color: #333840; }
         [data-theme="dark"] .bonus-pages { color: #6B7684; }
-        [data-theme="dark"] .bonus-value { color: #EAEDF0; }
+        [data-theme="dark"] .bonus-value { color: #22C55E; }
         [data-theme="dark"] .bonus-total { background: #1A1D23; border-color: #333840; }
         [data-theme="dark"] .bonus-total-label { color: #6B7684; }
         [data-theme="dark"] .bonus-total-strike { color: #6B7684; }
@@ -629,8 +630,8 @@ export default function StudyPage() {
         [data-theme="dark"] .countdown-num { background: #22262E; color: #EAEDF0; }
 
         /* Dark mode: borders, backgrounds, text colors */
-        [data-theme="dark"] .queue-stats strong { color: #F87171; }
-        [data-theme="dark"] .pricing-badge { background: #3A1A1A; color: #F87171; }
+        [data-theme="dark"] .queue-stats strong { color: #22C55E; }
+        [data-theme="dark"] .pricing-badge { background: #1A3A2A; color: #22C55E; }
         [data-theme="dark"] .pricing-addon { border-color: #333840; }
         [data-theme="dark"] .pricing-addon.green { border-color: #333840; }
         [data-theme="dark"] .faq-badge { background: #F87171; }
@@ -648,7 +649,7 @@ export default function StudyPage() {
         [data-theme="dark"] .form-plan-card.bundle { border-color: #333840; }
         [data-theme="dark"] .form-bundle-stock { background: #3A1A1A; color: #F87171; }
         [data-theme="dark"] .form-bundle-stock.urgent { background: #F87171; }
-        [data-theme="dark"] .form-plan-save { color: #F87171; }
+        [data-theme="dark"] .form-plan-save { color: #22C55E; }
         [data-theme="dark"] .form-value-stack { border-color: #333840; }
         [data-theme="dark"] .form-value-total { border-top-color: #333840; }
         [data-theme="dark"] .form-bundle-why p { color: #22C55E; }
@@ -659,7 +660,7 @@ export default function StudyPage() {
         [data-theme="dark"] .form-target-guide-note { border-top-color: #333840; }
         [data-theme="dark"] .form-option-box { border-color: #333840; }
         [data-theme="dark"] .form-option-box.highlight { border-color: #FBBF24; }
-        [data-theme="dark"] .form-price-row.discount { color: #F87171; }
+        [data-theme="dark"] .form-price-row.discount { color: #22C55E; }
         [data-theme="dark"] .form-price-total { border-top-color: #333840; }
         [data-theme="dark"] .form-deposit-box { border-color: #22C55E; }
         [data-theme="dark"] .form-deposit-row { border-bottom-color: #333840; }
@@ -921,7 +922,7 @@ export default function StudyPage() {
           gap: 24px;
         }
         .queue-stats strong {
-          color: #FF3B5C;
+          color: #1A8D48;
         }
         .queue-sub {
           font-size: 13px;
@@ -1184,7 +1185,7 @@ export default function StudyPage() {
           background: var(--bg-white);
           border: 1px solid var(--border);
           border-radius: 14px;
-          padding: 24px 20px;
+          padding: 32px;
           display: flex;
           flex-direction: column;
         }
@@ -1371,7 +1372,7 @@ export default function StudyPage() {
           background: #FFFFFF;
           border: 1px solid #E5E8EB;
           border-radius: 16px;
-          padding: 24px 24px 20px 24px;
+          padding: 32px;
           display: flex;
           flex-direction: column;
           transition: all 0.15s ease;
@@ -1420,46 +1421,38 @@ export default function StudyPage() {
         .bonus-problem {
           font-size: 12.5px;
           font-weight: 700;
-          color: #E74C3C;
+          color: var(--text-secondary);
           line-height: 1.5;
           margin: 0 0 6px 0;
           letter-spacing: -0.01em;
         }
         .bonus-problem::before {
-          content: '문제 · ';
-          color: #8B95A1;
-          font-weight: 600;
-          font-size: 11px;
-          letter-spacing: 0.04em;
+          content: '';
+          display: none;
         }
         .bonus-solution {
-          font-size: 13.5px;
+          font-size: 15px;
           font-weight: 600;
           color: #191F28;
-          line-height: 1.55;
-          margin: 0 0 8px 0;
+          line-height: 1.6;
+          margin: 12px 0 0 0;
           letter-spacing: -0.01em;
         }
         .bonus-solution::before {
-          content: '해결 · ';
-          color: #1A8D48;
-          font-weight: 700;
-          font-size: 11px;
-          letter-spacing: 0.04em;
+          content: '';
+          display: none;
         }
         .bonus-proof {
           font-size: 12.5px;
           color: #4E5968;
           line-height: 1.55;
-          margin: 0 0 16px 0;
+          margin: 0;
           flex: 1;
+          display: none;
         }
         .bonus-proof::before {
-          content: '활용 · ';
-          color: #8B95A1;
-          font-weight: 600;
-          font-size: 11px;
-          letter-spacing: 0.04em;
+          content: '';
+          display: none;
         }
         .bonus-meta {
           display: flex;
@@ -1477,7 +1470,7 @@ export default function StudyPage() {
         .bonus-value {
           font-size: 15px;
           font-weight: 700;
-          color: #191F28;
+          color: var(--green);
         }
         .bonus-total {
           margin: 32px auto 0 auto;
@@ -1554,8 +1547,8 @@ export default function StudyPage() {
           margin-top: 56px;
         }
         .pricing-badge {
-          background: #fee2e2;
-          color: #dc2626;
+          background: var(--green-light);
+          color: var(--green);
           padding: 8px 16px;
           border-radius: 20px;
           font-size: 13px;
@@ -2025,7 +2018,7 @@ export default function StudyPage() {
         }
         .faq-badge {
           display: inline-block;
-          background: #dc2626;
+          background: #1A8D48;
           color: white;
           font-size: 12px;
           font-weight: 700;
@@ -2476,7 +2469,7 @@ export default function StudyPage() {
         }
         .form-plan-save {
           font-size: 13px;
-          color: #dc2626;
+          color: var(--green);
           font-weight: 600;
           margin-bottom: 4px;
         }
@@ -2708,7 +2701,7 @@ export default function StudyPage() {
           padding: 6px 0;
         }
         .form-price-row.discount {
-          color: #dc2626;
+          color: var(--green);
         }
         .form-price-total {
           display: flex;
@@ -3036,7 +3029,15 @@ export default function StudyPage() {
             margin-bottom: 28px;
           }
           .section-title {
-            font-size: 32px;
+            font-size: 28px;
+          }
+          .countdown-num {
+            font-size: 20px;
+            min-width: 40px;
+            padding: 6px 10px;
+          }
+          .countdown-sep {
+            font-size: 20px;
           }
           .section-desc {
             font-size: 16px;
@@ -3584,7 +3585,7 @@ export default function StudyPage() {
                   <td>비용</td>
                   <td>10~30만원</td>
                   <td>40~80만원</td>
-                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px'}}>259,900원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px'}}>(얼리버드)</span>}</td>
+                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px'}}>359,000원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px'}}>(얼리버드)</span>}</td>
                 </tr>
                 <tr>
                   <td>평균 소요 기간</td>
@@ -4209,9 +4210,9 @@ export default function StudyPage() {
               <h3>14일 AL 완성 부트캠프</h3>
               <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
             </div>
-            <div className="pricing-original">259,900원</div>
+            <div className="pricing-original">359,000원</div>
             <div className="pricing-price-main" style={{marginTop:'8px'}}>{currentCycleState.price.toLocaleString()}원</div>
-            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'var(--green)',fontWeight:600,marginTop:'4px'}}>{currentCycleState.earlyBirdEndStr} 이후 179,900원</div>}
+            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'var(--green)',fontWeight:600,marginTop:'4px'}}>{currentCycleState.earlyBirdEndStr} 이후 279,000원</div>}
             <div className="pricing-desc">
               교재비 포함 · SpeakCoach AI · 1:3 피드백 총 180분 · 매일 녹음과제 피드백 · 비공개 모의고사 영상 포함
             </div>
@@ -4231,7 +4232,7 @@ export default function StudyPage() {
             <div className="pricing-earlybird">
               {currentCycleState.isEarlyBird ? (
                 <>
-                  얼리버드 마감: <strong>{currentCycleState.earlyBirdEndStr} 23:59</strong>까지 — 이후 179,900원으로 변경됩니다.
+                  얼리버드 마감: <strong>{currentCycleState.earlyBirdEndStr} 23:59</strong>까지 — 이후 279,000원으로 변경됩니다.
                 </>
               ) : (
                 <>
@@ -4294,15 +4295,15 @@ export default function StudyPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '15px', lineHeight: '1.7', color: 'var(--text-secondary)' }}>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: 'var(--green)', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                  <span><strong>인원 편성 전 (카톡 초대 전)</strong> — 전자책(교재)을 제외한 나머지 금액 환불 가능. 별도 수수료 없이 환불됩니다.</span>
+                  <span><strong>카톡방 입장 전</strong>까지는 교재비를 뺀 금액을 그대로 돌려드립니다. 수수료는 없습니다.</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#ef4444', fontWeight: 700, flexShrink: 0 }}>✕</span>
-                  <span><strong>인원 편성 후 (카톡 초대 후)</strong> — 환불 불가. 카카오톡 단체방에 초대된 시점부터 인원 편성이 완료된 것으로 간주되며, 이후에는 스터디 시작 여부와 관계없이 환불이 불가합니다.</span>
+                  <span><strong>카톡방 입장 후</strong>에는 환불이 어렵습니다.</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
-                  <span><strong>팀원 중도 이탈 시</strong> — 스터디는 3인 1팀 소그룹으로 진행되며, 다른 팀원의 중도 포기·불참·연락 두절 등은 식빵영어의 귀책사유에 해당하지 않습니다. 이에 따른 환불 요청 및 서비스 하자 주장은 인정되지 않으며, 잔여 인원으로 정상 운영됩니다.</span>
+                  <span>팀원이 중도에 이탈해도 남은 인원으로 진행됩니다. 이 사유로는 환불되지 않습니다.</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
@@ -4389,7 +4390,7 @@ export default function StudyPage() {
               {floatingRemainingSlots}자리 남음
             </div>
             <div className="floating-price">
-              <span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px',marginRight:'6px'}}>259,900원</span>
+              <span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px',marginRight:'6px'}}>359,000원</span>
               <strong>{currentCycleState.price.toLocaleString()}원</strong>
               {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px',fontWeight:700,marginLeft:'4px'}}>얼리버드</span>}
             </div>
@@ -4747,8 +4748,8 @@ export default function StudyPage() {
                         <div className="form-plan-inner">
                           <div className="form-plan-name">일반 스터디</div>
                           <div className="form-plan-price-row">
-                            <span className="form-plan-original">259,900원</span>
-                            <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()}원</span>
+                            <span className="form-plan-original">359,000원</span>
+                            <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()}원</span>
                           </div>
                           {currentCycleState.isEarlyBird && (
                             <div className="form-plan-earlybird-tag">얼리버드 특가</div>
@@ -4779,7 +4780,7 @@ export default function StudyPage() {
                             <div className="form-value-stack-title">이 번들에 포함된 가치</div>
                             <div className="form-value-item">
                               <span>14일 AL 완성 부트캠프 (교재와 피드백, 모의고사 포함)</span>
-                              <span className="form-value-price">{(currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()}원</span>
+                              <span className="form-value-price">{(currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()}원</span>
                             </div>
                             <div className="form-value-item">
                               <span>SpeakCoach AI Premium 3개월</span>
@@ -4799,7 +4800,7 @@ export default function StudyPage() {
                             <div className="form-bundle-offer-label">번들 특별가</div>
                             <div className="form-plan-price-row" style={{justifyContent:'center'}}>
                               <span className="form-plan-original">{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}원</span>
-                              <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 199900 : 229900).toLocaleString()}원</span>
+                              <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 299000 : 329000).toLocaleString()}원</span>
                             </div>
                             <div className="form-plan-save">
                               39,000원 절약 — 하루 커피 한 잔 값으로 3개월 AI 코치
@@ -4834,7 +4835,7 @@ export default function StudyPage() {
                           checked={formData.hasBook}
                           onChange={(e) => setFormData({...formData, hasBook: e.target.checked})}
                         />
-                        <span>이미 교재를 구매했어요 <span style={{color:'#dc2626',fontSize:'13px',fontWeight:600}}>(-30,000원)</span></span>
+                        <span>이미 교재를 구매했어요 <span style={{color:'#1A8D48',fontSize:'13px',fontWeight:600}}>(-30,000원)</span></span>
                       </label>
                     </div>
 
@@ -4861,8 +4862,8 @@ export default function StudyPage() {
                       <div className="form-price-row">
                         <span>{formData.plan === 'bundle' ? '번들 (스터디 + AI 3개월)' : '스터디 수강료'}{currentCycleState.isEarlyBird ? ' (얼리버드)' : ''}</span>
                         <span>{formData.plan === 'bundle'
-                          ? (currentCycleState.isEarlyBird ? 199900 : 229900).toLocaleString()
-                          : (currentCycleState.isEarlyBird ? 149900 : 179900).toLocaleString()
+                          ? (currentCycleState.isEarlyBird ? 299000 : 329000).toLocaleString()
+                          : (currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()
                         }원</span>
                       </div>
                       {formData.hasBook && (
@@ -4971,11 +4972,11 @@ export default function StudyPage() {
                     </div>
 
                     <div className="form-note" style={{display:'flex',flexDirection:'column',gap:'6px'}}>
-                      <p style={{margin:0}}>* 인원 편성 전(카톡 초대 전): 전자책(교재)을 제외한 나머지 금액 환불 가능.</p>
-                      <p style={{margin:0}}>* 인원 편성 후(카톡 초대 후): 스터디 시작 여부와 관계없이 환불 불가.</p>
-                      <p style={{margin:0}}>* 폐강 시: 최소 인원 미달로 스터디가 개설되지 않는 경우, 개별 안내 후 교재비를 제외한 전액을 환불 처리합니다.</p>
-                      <p style={{margin:0}}>* 팀원 이탈: 스터디 진행 중 같은 팀원의 중도 포기·불참·연락 두절 등은 식빵영어의 귀책사유에 해당하지 않으며, 이를 사유로 한 환불 요청은 인정되지 않습니다.</p>
-                      <p style={{margin:0}}>* 신청 및 결제 시 환불 정책과 면책 조항에 동의한 것으로 간주됩니다.</p>
+                      <p style={{margin:0}}>* 카톡방 입장 전까지는 교재비를 뺀 금액 환불.</p>
+                      <p style={{margin:0}}>* 카톡방 입장 후에는 환불 불가.</p>
+                      <p style={{margin:0}}>* 최소 인원 미달로 폐강될 경우, 교재비를 제외한 전액을 환불해 드립니다.</p>
+                      <p style={{margin:0}}>* 같은 팀원의 중도 이탈은 환불 사유에 해당하지 않습니다.</p>
+                      <p style={{margin:0}}>* 신청·결제 시 위 환불 정책에 동의한 것으로 간주됩니다.</p>
                     </div>
 
                     {formError && <div className="form-error">{formError}</div>}
