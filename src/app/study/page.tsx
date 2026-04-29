@@ -3928,7 +3928,7 @@ export default function StudyPage() {
         <div className="container">
           <div style={{ textAlign: 'center' }}>
             <div className="section-title">두 가지 보증, 한 가지 약속</div>
-            <p className="section-desc">손해는 식빵영어가 집니다. 당신은 결과만 가져가세요.</p>
+            <p className="section-desc">손해는 식빵영어가 집니다. 여러분은 결과만 가져가세요.</p>
           </div>
 
           {/* 무조건 보증 — 1차 피드백 환불 (NEW) */}
