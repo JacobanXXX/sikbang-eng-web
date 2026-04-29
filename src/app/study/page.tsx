@@ -6,8 +6,8 @@ import Link from 'next/link';
 // === 자동 기수 운영 시스템 (컴포넌트 외부) ===
 // 부트캠프: 매월 1일, 15일 시작 (월 2회)
 // 모집: 이전 기수 시작일 ~ 다음 기수 시작 전날 23:59:59
-// 얼리버드: 모집 시작 ~ 시작 5일 전 (249,000원, 원가 359,000원)
-// 정가: 시작 5일 전 ~ 마감 (279,000원, 원가 359,000원)
+// 얼리버드: 모집 시작 ~ 시작 5일 전 (199,000원, 원가 329,000원)
+// 정가: 시작 5일 전 ~ 마감 (229,000원, 원가 329,000원)
 // 부트캠프 정원: 20명, 1차 피드백 후 환불 가능
 
 interface StudyCycle {
@@ -76,11 +76,11 @@ function checkIsEarlyBird(now: Date, cycle: StudyCycle): boolean {
 }
 
 function getCurrentPrice(now: Date, cycle: StudyCycle): number {
-  return checkIsEarlyBird(now, cycle) ? 249000 : 279000;
+  return checkIsEarlyBird(now, cycle) ? 199000 : 229000;
 }
 
 function getDiscountPercent(price: number): number {
-  return Math.round((1 - price / 359000) * 100);
+  return Math.round((1 - price / 329000) * 100);
 }
 
 // 남은 인원 자동 계산 (파워 커브 - 초반 급감, 후반 완만)
@@ -147,7 +147,7 @@ export default function StudyPage() {
   // Countdown + cycle state
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0, label: '', nextDate: '' });
   const [currentCycleState, setCurrentCycleState] = useState<{ isEarlyBird: boolean; price: number; discount: number; autoSlots: number; earlyBirdEndStr: string }>({
-    isEarlyBird: true, price: 249000, discount: 31, autoSlots: 20, earlyBirdEndStr: ''
+    isEarlyBird: true, price: 199000, discount: 39, autoSlots: 20, earlyBirdEndStr: ''
   });
 
   useEffect(() => {
@@ -208,13 +208,13 @@ export default function StudyPage() {
     let base: number;
     if (formData.plan === 'bundle') {
       // 번들: 부트캠프 + SpeakCoach AI Premium 3개월
-      base = isEarly ? 299000 : 329000;
+      base = isEarly ? 249000 : 279000;
       // 번들은 교재비 포함 가격이므로, 교재 있으면 3만원 차감
       return base - (formData.hasBook ? 30000 : 0) + (formData.premiumUpgrade ? 15000 : 0);
     } else {
       // 일반 부트캠프 (교재비 별도 30,000원 추가)
       // 얼리버드: 219,000 + 30,000 = 249,000 / 정가: 249,000 + 30,000 = 279,000
-      base = isEarly ? 219000 : 249000;
+      base = isEarly ? 169000 : 199000;
       return base + bookFee + (formData.premiumUpgrade ? 15000 : 0);
     }
   };
@@ -2769,6 +2769,67 @@ export default function StudyPage() {
           background: #1A8D48;
         }
 
+        /* Card payment box */
+        .form-card-payment-box {
+          margin-top: 14px;
+          padding: 18px 20px;
+          background: #F5FBF7;
+          border: 1px solid #D6E9DC;
+          border-radius: 12px;
+        }
+        .form-card-payment-title {
+          font-size: 14px;
+          font-weight: 700;
+          color: #1A8D48;
+          margin-bottom: 6px;
+          letter-spacing: -0.01em;
+        }
+        .form-card-payment-desc {
+          font-size: 13px;
+          line-height: 1.6;
+          color: var(--text-secondary);
+          margin: 0 0 12px 0;
+        }
+        .form-card-payment-prices {
+          background: #FFFFFF;
+          border: 1px solid #E5EBE7;
+          border-radius: 8px;
+          padding: 12px 14px;
+          margin-bottom: 12px;
+        }
+        .form-card-price-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 13px;
+          padding: 4px 0;
+        }
+        .form-card-price-row span {
+          color: var(--text-secondary);
+        }
+        .form-card-price-row strong {
+          color: var(--text-primary);
+          font-weight: 700;
+          font-feature-settings: "tnum";
+        }
+        .form-card-payment-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 13px;
+          font-weight: 700;
+          color: #1A8D48;
+          text-decoration: none;
+          padding: 6px 0;
+        }
+        .form-card-payment-cta:hover {
+          text-decoration: underline;
+        }
+        [data-theme="dark"] .form-card-payment-box { background: #15201A; border-color: #1F3A2A; }
+        [data-theme="dark"] .form-card-payment-title { color: #22C55E; }
+        [data-theme="dark"] .form-card-payment-prices { background: #1A1F26; border-color: #2A3340; }
+        [data-theme="dark"] .form-card-payment-cta { color: #22C55E; }
+
         /* Summary box (success) */
         .form-summary-box {
           background: var(--bg-gray);
@@ -3586,7 +3647,7 @@ export default function StudyPage() {
                   <td>비용</td>
                   <td>10~30만원</td>
                   <td>40~80만원</td>
-                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px'}}>359,000원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px'}}>(얼리버드)</span>}</td>
+                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px'}}>329,000원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px'}}>(얼리버드)</span>}</td>
                 </tr>
                 <tr>
                   <td>평균 소요 기간</td>
@@ -4211,9 +4272,9 @@ export default function StudyPage() {
               <h3>14일 AL 완성 부트캠프</h3>
               <div className="pricing-duration">14일 커리큘럼 · 교재비 포함</div>
             </div>
-            <div className="pricing-original">359,000원</div>
+            <div className="pricing-original">329,000원</div>
             <div className="pricing-price-main" style={{marginTop:'8px'}}>{currentCycleState.price.toLocaleString()}원</div>
-            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'var(--green)',fontWeight:600,marginTop:'4px'}}>{currentCycleState.earlyBirdEndStr} 이후 279,000원</div>}
+            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'var(--green)',fontWeight:600,marginTop:'4px'}}>{currentCycleState.earlyBirdEndStr} 이후 229,000원</div>}
             <div className="pricing-desc">
               교재비 포함 · SpeakCoach AI · 1:3 피드백 총 180분 · 매일 녹음과제 피드백 · 비공개 모의고사 영상 포함
             </div>
@@ -4233,7 +4294,7 @@ export default function StudyPage() {
             <div className="pricing-earlybird">
               {currentCycleState.isEarlyBird ? (
                 <>
-                  얼리버드 마감: <strong>{currentCycleState.earlyBirdEndStr} 23:59</strong>까지 — 이후 279,000원으로 변경됩니다.
+                  얼리버드 마감: <strong>{currentCycleState.earlyBirdEndStr} 23:59</strong>까지 — 이후 229,000원으로 변경됩니다.
                 </>
               ) : (
                 <>
@@ -4391,7 +4452,7 @@ export default function StudyPage() {
               {floatingRemainingSlots}자리 남음
             </div>
             <div className="floating-price">
-              <span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px',marginRight:'6px'}}>359,000원</span>
+              <span style={{textDecoration:'line-through',color:'var(--text-tertiary)',fontSize:'13px',marginRight:'6px'}}>329,000원</span>
               <strong>{currentCycleState.price.toLocaleString()}원</strong>
               {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px',fontWeight:700,marginLeft:'4px'}}>얼리버드</span>}
             </div>
@@ -4749,8 +4810,8 @@ export default function StudyPage() {
                         <div className="form-plan-inner">
                           <div className="form-plan-name">일반 부트캠프</div>
                           <div className="form-plan-price-row">
-                            <span className="form-plan-original">359,000원</span>
-                            <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()}원</span>
+                            <span className="form-plan-original">329,000원</span>
+                            <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 199000 : 229000).toLocaleString()}원</span>
                           </div>
                           {currentCycleState.isEarlyBird && (
                             <div className="form-plan-earlybird-tag">얼리버드 특가</div>
@@ -4781,7 +4842,7 @@ export default function StudyPage() {
                             <div className="form-value-stack-title">이 번들에 포함된 가치</div>
                             <div className="form-value-item">
                               <span>14일 AL 완성 부트캠프 (교재와 피드백, 모의고사 포함)</span>
-                              <span className="form-value-price">{(currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()}원</span>
+                              <span className="form-value-price">{(currentCycleState.isEarlyBird ? 199000 : 229000).toLocaleString()}원</span>
                             </div>
                             <div className="form-value-item">
                               <span>SpeakCoach AI Premium 3개월</span>
@@ -4793,15 +4854,15 @@ export default function StudyPage() {
                             </div>
                             <div className="form-value-total">
                               <span>개별 구매 시 총합</span>
-                              <span>{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}원</span>
+                              <span>{(currentCycleState.isEarlyBird ? 288000 : 318000).toLocaleString()}원</span>
                             </div>
                           </div>
 
                           <div className="form-bundle-offer">
                             <div className="form-bundle-offer-label">번들 특별가</div>
                             <div className="form-plan-price-row" style={{justifyContent:'center'}}>
-                              <span className="form-plan-original">{(currentCycleState.isEarlyBird ? 238900 : 268900).toLocaleString()}원</span>
-                              <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 299000 : 329000).toLocaleString()}원</span>
+                              <span className="form-plan-original">{(currentCycleState.isEarlyBird ? 288000 : 318000).toLocaleString()}원</span>
+                              <span className="form-plan-price">{(currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()}원</span>
                             </div>
                             <div className="form-plan-save">
                               39,000원 절약 — 하루 커피 한 잔 값으로 3개월 AI 코치
@@ -4863,8 +4924,8 @@ export default function StudyPage() {
                       <div className="form-price-row">
                         <span>{formData.plan === 'bundle' ? '번들 (부트캠프 + AI 3개월)' : '부트캠프 수강료'}{currentCycleState.isEarlyBird ? ' (얼리버드)' : ''}</span>
                         <span>{formData.plan === 'bundle'
-                          ? (currentCycleState.isEarlyBird ? 299000 : 329000).toLocaleString()
-                          : (currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()
+                          ? (currentCycleState.isEarlyBird ? 249000 : 279000).toLocaleString()
+                          : (currentCycleState.isEarlyBird ? 199000 : 229000).toLocaleString()
                         }원</span>
                       </div>
                       {formData.hasBook && (
@@ -4948,6 +5009,40 @@ export default function StudyPage() {
                       >
                         계좌번호 복사하기
                       </button>
+                    </div>
+
+                    {/* 카드 결제 안내 */}
+                    <div className="form-card-payment-box">
+                      <div className="form-card-payment-title">카드 결제도 가능합니다</div>
+                      <p className="form-card-payment-desc">
+                        카드 결제 시 부가세 10퍼센트가 가산됩니다. 인스타그램 DM으로 연락 주시면 결제 링크를 안내드려요.
+                      </p>
+                      <div className="form-card-payment-prices">
+                        <div className="form-card-price-row">
+                          <span>일반 (얼리버드)</span>
+                          <strong>218,900원</strong>
+                        </div>
+                        <div className="form-card-price-row">
+                          <span>일반 (정가)</span>
+                          <strong>251,900원</strong>
+                        </div>
+                        <div className="form-card-price-row">
+                          <span>번들 (얼리버드)</span>
+                          <strong>273,900원</strong>
+                        </div>
+                        <div className="form-card-price-row">
+                          <span>번들 (정가)</span>
+                          <strong>306,900원</strong>
+                        </div>
+                      </div>
+                      <a
+                        href="https://instagram.com/sikbang.eng"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="form-card-payment-cta"
+                      >
+                        인스타그램 DM 보내기 →
+                      </a>
                     </div>
 
                     <div className="form-option-box">

@@ -482,10 +482,10 @@ export default function Home() {
                 <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'10px'}}>
                   <div style={{fontSize:'13px',color:'#1A8D48',fontWeight:600}}>1차 피드백 후 환불 가능</div>
                   <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>
-                    <span className="original">359,000원</span>
-                    <span className="current">249,000</span>
+                    <span className="original">329,000원</span>
+                    <span className="current">199,000</span>
                     <span className="unit">원</span>
-                    <span style={{background:'#1A8D48',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px'}}>-31%</span>
+                    <span style={{background:'#1A8D48',color:'white',fontSize:'11px',fontWeight:700,padding:'2px 6px',borderRadius:'4px'}}>-39%</span>
                   </div>
                   <a href="/study" className="btn-buy" style={{width:'100%', textAlign:'center', padding:'12px 20px', background:'#1A8D48'}}>자세히 보기</a>
                 </div>
