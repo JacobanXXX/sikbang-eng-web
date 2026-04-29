@@ -577,6 +577,56 @@ export default function StudyPage() {
         [data-theme="dark"] .countdown-box { background: rgba(26,29,35,0.8); border-color: #333840; }
         [data-theme="dark"] .countdown-num { background: #22262E; color: #EAEDF0; }
 
+        /* Dark mode: borders, backgrounds, text colors */
+        [data-theme="dark"] .queue-stats strong { color: #F87171; }
+        [data-theme="dark"] .pricing-badge { background: #3A1A1A; color: #F87171; }
+        [data-theme="dark"] .pricing-addon { border-color: #333840; }
+        [data-theme="dark"] .pricing-addon.green { border-color: #333840; }
+        [data-theme="dark"] .faq-badge { background: #F87171; }
+        [data-theme="dark"] .form-cycle-badge { background: #22262E; }
+        [data-theme="dark"] .form-step-dot { background: #333840; }
+        [data-theme="dark"] .form-step-line { background: #333840; }
+        [data-theme="dark"] .form-field label .req { color: #F87171; }
+        [data-theme="dark"] .form-field input[type="text"],
+        [data-theme="dark"] .form-field input[type="email"],
+        [data-theme="dark"] .form-field input[type="tel"],
+        [data-theme="dark"] .form-field select,
+        [data-theme="dark"] .form-field textarea { border-color: #333840; }
+        [data-theme="dark"] .form-radio-card { border-color: #333840; }
+        [data-theme="dark"] .form-plan-card { border-color: #333840; }
+        [data-theme="dark"] .form-plan-card.bundle { border-color: #333840; }
+        [data-theme="dark"] .form-bundle-stock { background: #3A1A1A; color: #F87171; }
+        [data-theme="dark"] .form-bundle-stock.urgent { background: #F87171; }
+        [data-theme="dark"] .form-plan-save { color: #F87171; }
+        [data-theme="dark"] .form-value-stack { border-color: #333840; }
+        [data-theme="dark"] .form-value-total { border-top-color: #333840; }
+        [data-theme="dark"] .form-bundle-why p { color: #22C55E; }
+        [data-theme="dark"] .form-bonus-box { border-color: #FBBF24; }
+        [data-theme="dark"] .form-bonus-title { color: #FBBF24; }
+        [data-theme="dark"] .form-bonus-item { color: #EAEDF0; }
+        [data-theme="dark"] .form-target-guide { border-color: #333840; }
+        [data-theme="dark"] .form-target-guide-note { border-top-color: #333840; }
+        [data-theme="dark"] .form-option-box { border-color: #333840; }
+        [data-theme="dark"] .form-option-box.highlight { border-color: #FBBF24; }
+        [data-theme="dark"] .form-price-row.discount { color: #F87171; }
+        [data-theme="dark"] .form-price-total { border-top-color: #333840; }
+        [data-theme="dark"] .form-deposit-box { border-color: #22C55E; }
+        [data-theme="dark"] .form-deposit-row { border-bottom-color: #333840; }
+        [data-theme="dark"] .form-summary-row { border-bottom-color: #333840; }
+        [data-theme="dark"] .form-btn-primary:disabled { background: #333840; }
+        [data-theme="dark"] .form-btn-secondary { background: #22262E; }
+        [data-theme="dark"] .form-btn-secondary:hover { background: #333840; }
+        [data-theme="dark"] .form-error { background: #3A1A1A; color: #F87171; }
+        [data-theme="dark"] .stats-section { background: #22262E; color: #EAEDF0; }
+
+        /* Dark mode: compare table */
+        [data-theme="dark"] .compare-table-wrap { border-color: #333840; }
+        [data-theme="dark"] .compare-table thead th { border-bottom-color: #333840; background: #22262E; }
+        [data-theme="dark"] .compare-table tbody td { border-bottom-color: #333840; color: #B0B8C1; }
+        [data-theme="dark"] .compare-table tbody td:first-child { color: #EAEDF0; }
+        [data-theme="dark"] .compare-table tbody td.highlight-col { background: #1A3A2A; color: #22C55E; }
+        [data-theme="dark"] .compare-x { color: #6B7684; }
+
         /* === COUNTDOWN === */
         .countdown-box {
           background: rgba(255,255,255,0.9);
