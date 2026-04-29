@@ -4447,11 +4447,11 @@ export default function StudyPage() {
             <div className="pricing-earlybird">
               {currentCycleState.isEarlyBird ? (
                 <>
-                  얼리버드 마감: <strong>{currentCycleState.earlyBirdEndStr} 23:59</strong>까지 — 이후 229,000원으로 변경됩니다.
+                  얼리버드 마감: <strong>{currentCycleState.earlyBirdEndStr} 23:59</strong>까지. 이후 229,000원으로 변경됩니다.
                 </>
               ) : (
                 <>
-                  {countdown.nextDate} 기수 마감 임박 — 지금 신청하면 <strong>{currentCycleState.discount}% 할인</strong>이 적용됩니다.
+                  {countdown.nextDate} 기수 마감 임박. 지금 신청하면 <strong>{currentCycleState.discount}% 할인</strong>이 적용됩니다.
                 </>
               )}
             </div>
