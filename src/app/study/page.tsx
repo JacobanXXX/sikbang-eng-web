@@ -4038,7 +4038,7 @@ export default function StudyPage() {
             onClick={() => setShowAllReviews(!showAllReviews)}
             className={`show-more-btn ${showAllReviews ? 'expanded' : ''}`}
           >
-            후기 {showAllReviews ? '접기' : `더 보기 (${8}개)`}
+            {showAllReviews ? '후기 접기' : '수강생 후기 더 보기'}
             <span className="arrow">▼</span>
           </button>
 
@@ -4570,7 +4570,7 @@ export default function StudyPage() {
             onClick={() => setShowAllFaq(!showAllFaq)}
             className={`show-more-btn ${showAllFaq ? 'expanded' : ''}`}
           >
-            {showAllFaq ? '질문 접기' : '다른 질문 더 보기 (5개)'}
+            {showAllFaq ? '질문 접기' : '다른 질문 더 보기'}
             <span className="arrow">▼</span>
           </button>
         </div>
