@@ -342,11 +342,11 @@ export default function StudyPage() {
     },
     {
       question: '환불은 어떻게 되나요?',
-      answer: '인원 편성 이후에는 스터디 시작 여부와 관계없이 어떠한 사유로도 환불이 불가합니다. 본 스터디는 소규모 정원 기반으로 운영되며, 팀 편성과 동시에 맞춤 커리큘럼과 운영 리소스가 즉시 배정되기 때문입니다. 인원 편성 전에는 전액 환불 가능합니다. 또한, 스터디 진행 중 같은 팀원의 중도 포기·불참·연락 두절 등은 식빵영어의 귀책사유에 해당하지 않으며, 이를 사유로 한 환불 요청이나 서비스 하자 주장은 인정되지 않습니다. 결제 시 본 환불 정책 및 면책 조항에 동의한 것으로 간주됩니다.'
+      answer: '인원 편성 전(카카오톡 단체방 초대 전)에는 전자책(교재)을 제외한 나머지 금액의 환불이 가능합니다. 카카오톡 단체방에 초대된 시점부터 인원 편성이 완료된 것으로 간주되며, 이후에는 스터디 시작 여부와 관계없이 어떠한 사유로도 환불이 불가합니다. 본 스터디는 소규모 정원 기반으로 운영되며, 팀 편성과 동시에 맞춤 커리큘럼과 운영 리소스가 즉시 배정되기 때문입니다. 또한, 스터디 진행 중 같은 팀원의 중도 포기·불참·연락 두절 등은 식빵영어의 귀책사유에 해당하지 않으며, 이를 사유로 한 환불 요청이나 서비스 하자 주장은 인정되지 않습니다. 결제 시 본 환불 정책 및 면책 조항에 동의한 것으로 간주됩니다.'
     },
     {
       question: '[필독] 참여 규정 및 환불 제한 안내',
-      answer: '본 스터디는 소규모 그룹(3인 1팀)으로 운영되며, 인원 편성 이후에는 스터디 시작 여부와 관계없이 환불이 불가합니다. 한 명의 불참이나 비협조가 팀 전체에 직접적인 피해를 줍니다. 아래 사항에 해당할 경우 스터디 참여가 제한될 수 있습니다.\n\n• 인원 편성 후 지속적인 미응답 또는 무시\n• 스터디 시간 조율 시 연락 두절 또는 비협조\n• 사전 고지 없는 무단 불참 (2회 이상)\n• 과제 미제출이 3일 이상 연속될 경우\n• 다른 팀원의 학습을 방해하는 행위\n• 운영진의 안내 및 공지에 대한 지속적 무응답\n\n위 규정은 함께 참여하는 다른 수강생의 학습권을 보호하기 위한 것입니다.\n\n[팀원 이탈에 대한 면책]\n스터디 진행 중 같은 팀의 다른 수강생이 중도 포기·불참·연락 두절 등으로 이탈하는 경우, 이는 해당 수강생 개인의 사유이며 식빵영어의 귀책사유에 해당하지 않습니다. 팀원 이탈을 사유로 한 환불 요청, 수강료 감액, 서비스 불이행 주장은 인정되지 않으며, 잔여 인원으로 스터디가 정상 진행됩니다.\n\n신청 및 결제 시 본 참여 규정과 면책 조항에 동의한 것으로 간주되며, 인원 편성 이후 환불 요청은 불가합니다.',
+      answer: '본 스터디는 소규모 그룹(3인 1팀)으로 운영되며, 인원 편성 이후에는 스터디 시작 여부와 관계없이 환불이 불가합니다. 한 명의 불참이나 비협조가 팀 전체에 직접적인 피해를 줍니다. 아래 사항에 해당할 경우 스터디 참여가 제한될 수 있습니다.\n\n• 인원 편성 후 지속적인 미응답 또는 무시\n• 스터디 시간 조율 시 연락 두절 또는 비협조\n• 사전 고지 없는 무단 불참 (2회 이상)\n• 과제 미제출이 3일 이상 연속될 경우\n• 다른 팀원의 학습을 방해하는 행위\n• 운영진의 안내 및 공지에 대한 지속적 무응답\n\n위 규정은 함께 참여하는 다른 수강생의 학습권을 보호하기 위한 것입니다.\n\n[환불 안내]\n인원 편성 전(카카오톡 단체방 초대 전)에는 전자책(교재)을 제외한 나머지 금액의 환불이 가능합니다. 카카오톡 단체방에 초대된 시점부터 인원 편성이 완료된 것으로 간주되며, 이후에는 환불이 불가합니다.\n\n[팀원 이탈에 대한 면책]\n스터디 진행 중 같은 팀의 다른 수강생이 중도 포기·불참·연락 두절 등으로 이탈하는 경우, 이는 해당 수강생 개인의 사유이며 식빵영어의 귀책사유에 해당하지 않습니다. 팀원 이탈을 사유로 한 환불 요청, 수강료 감액, 서비스 불이행 주장은 인정되지 않으며, 잔여 인원으로 스터디가 정상 진행됩니다.\n\n신청 및 결제 시 본 참여 규정과 면책 조항에 동의한 것으로 간주되며, 카카오톡 단체방 초대 이후 환불 요청은 불가합니다.',
       important: true
     },
     {
@@ -776,7 +776,7 @@ export default function StudyPage() {
           border: 2px solid var(--green);
           border-radius: 24px;
           padding: 32px 48px;
-          box-shadow: 0 4px 24px rgba(26, 141, 72, 0.12);
+          box-shadow: var(--card-shadow);
           margin-bottom: 36px;
         }
         .queue-label {
@@ -851,7 +851,7 @@ export default function StudyPage() {
           align-items: center;
           gap: 10px;
           animation: toastIn 0.4s ease, toastOut 0.4s ease 3.6s forwards;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
           max-width: 340px;
         }
         .toast .toast-icon {
@@ -1348,7 +1348,7 @@ export default function StudyPage() {
           height: 360px;
           border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+          box-shadow: var(--card-shadow);
           background: white;
           transition: transform 0.3s, box-shadow 0.3s;
         }
@@ -1506,7 +1506,7 @@ export default function StudyPage() {
         }
         .btn-white:hover {
           background: rgba(255, 255, 255, 0.9);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         /* === FOOTER === */
@@ -2299,11 +2299,11 @@ export default function StudyPage() {
         .form-earlybird-notice {
           text-align: center;
           font-size: 12px;
-          color: #FF6B35;
+          color: var(--green);
           font-weight: 500;
           margin: 8px 0 0;
           padding: 8px;
-          background: #FFF7F0;
+          background: var(--green-light);
           border-radius: 8px;
         }
 
@@ -2347,7 +2347,7 @@ export default function StudyPage() {
         .stat-number {
           font-size: 52px;
           font-weight: 800;
-          color: #22c55e;
+          color: var(--green);
           line-height: 1.1;
           letter-spacing: -2px;
         }
@@ -2413,7 +2413,7 @@ export default function StudyPage() {
           width: 180px;
         }
         .compare-table thead th.highlight-col {
-          background: #22c55e;
+          background: var(--green);
           color: white;
           border-radius: 12px 12px 0 0;
           position: relative;
@@ -2440,7 +2440,7 @@ export default function StudyPage() {
           border-bottom: none;
         }
         .compare-check {
-          color: #22c55e;
+          color: var(--green);
           font-weight: 700;
           font-size: 18px;
         }
@@ -2660,7 +2660,7 @@ export default function StudyPage() {
 
           {/* QUEUE COUNTER */}
           <div className="queue-box">
-            <div className="queue-label">선착순 40명 한정 {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontWeight:700}}>· 얼리버드 {currentCycleState.earlyBirdEndStr}까지</span>}</div>
+            <div className="queue-label">선착순 40명 한정 {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontWeight:700}}>· 얼리버드 {currentCycleState.earlyBirdEndStr}까지</span>}</div>
             <div className="queue-progress-bar">
               <div className="queue-progress-fill" style={{ width: `${((totalSlots - remainingSlots) / totalSlots) * 100}%` }}></div>
             </div>
@@ -2858,8 +2858,8 @@ export default function StudyPage() {
                 gap: '8px',
                 padding: '16px 36px',
                 background: 'white',
-                color: '#16a34a',
-                border: '2px solid #16a34a',
+                color: 'var(--green)',
+                border: '2px solid var(--green)',
                 borderRadius: '12px',
                 fontSize: '17px',
                 fontWeight: 700,
@@ -2867,8 +2867,8 @@ export default function StudyPage() {
                 transition: 'all 0.2s',
                 cursor: 'pointer',
               }}
-              onMouseOver={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#16a34a'; e.currentTarget.style.color = 'white'; }}
-              onMouseOut={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = '#16a34a'; }}
+              onMouseOver={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#1A8D48'; e.currentTarget.style.color = 'white'; }}
+              onMouseOut={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = '#1A8D48'; }}
             >
               📋 상세 커리큘럼 보기
             </a>
@@ -2880,8 +2880,8 @@ export default function StudyPage() {
       <section className="section" id="daily" style={{ padding: '64px 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center' }}>
-            <div className="section-title" style={{ fontSize: '32px' }}>하루 딱 이것만 하세요</div>
-            <p className="section-desc">매일 1개 미션. 코치와 AI가 나머지를 해줍니다.</p>
+            <div className="section-title" style={{ fontSize: '32px' }}>하루 한 개, 이것만 하면 됩니다</div>
+            <p className="section-desc">매일 1개 미션을 수행하면, 분석과 피드백은 코치와 AI가 해줍니다.</p>
           </div>
           <div className="why-grid" style={{ marginTop: '56px' }}>
             <div className="why-card">
@@ -2962,7 +2962,7 @@ export default function StudyPage() {
                   <td>비용</td>
                   <td>10~30만원</td>
                   <td>40~80만원</td>
-                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'#999',fontSize:'13px'}}>259,900원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontSize:'12px'}}>(얼리버드)</span>}</td>
+                  <td className="highlight-col"><span style={{textDecoration:'line-through',color:'#999',fontSize:'13px'}}>259,900원</span> → <strong>{currentCycleState.price.toLocaleString()}원</strong> {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px'}}>(얼리버드)</span>}</td>
                 </tr>
                 <tr>
                   <td>평균 소요 기간</td>
@@ -3215,7 +3215,7 @@ export default function StudyPage() {
             </div>
             <div className="pricing-original">₩259,900</div>
             <div className="pricing-price-main" style={{marginTop:'8px'}}>₩{currentCycleState.price.toLocaleString()}</div>
-            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'#FF6B35',fontWeight:600,marginTop:'4px'}}>{currentCycleState.earlyBirdEndStr} 이후 ₩179,900</div>}
+            {currentCycleState.isEarlyBird && <div style={{fontSize:'13px',color:'var(--green)',fontWeight:600,marginTop:'4px'}}>{currentCycleState.earlyBirdEndStr} 이후 ₩179,900</div>}
             <div className="pricing-desc">
               교재비 포함 · SpeakCoach AI · 1:3 피드백 총 180분 · 매일 녹음과제 피드백 · 비공개 모의고사 영상 포함
             </div>
@@ -3297,12 +3297,12 @@ export default function StudyPage() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '15px', lineHeight: '1.7', color: '#444' }}>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <span style={{ color: '#22c55e', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                  <span><strong>인원 편성 전</strong> — 전액 환불 가능. 별도 수수료 없이 100% 환불됩니다.</span>
+                  <span style={{ color: 'var(--green)', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                  <span><strong>인원 편성 전 (카톡 초대 전)</strong> — 전자책(교재)을 제외한 나머지 금액 환불 가능. 별도 수수료 없이 환불됩니다.</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#ef4444', fontWeight: 700, flexShrink: 0 }}>✕</span>
-                  <span><strong>인원 편성 후</strong> — 환불 불가. 팀 편성과 동시에 맞춤 커리큘럼 및 운영 리소스가 배정되므로, 스터디 시작 여부와 관계없이 환불이 불가합니다.</span>
+                  <span><strong>인원 편성 후 (카톡 초대 후)</strong> — 환불 불가. 카카오톡 단체방에 초대된 시점부터 인원 편성이 완료된 것으로 간주되며, 이후에는 스터디 시작 여부와 관계없이 환불이 불가합니다.</span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ color: '#6b7280', fontWeight: 700, flexShrink: 0 }}>※</span>
@@ -3543,7 +3543,7 @@ export default function StudyPage() {
             <div className="floating-price">
               <span style={{textDecoration:'line-through',color:'#999',fontSize:'13px',marginRight:'6px'}}>₩259,900</span>
               <strong>₩{currentCycleState.price.toLocaleString()}</strong>
-              {currentCycleState.isEarlyBird && <span style={{color:'#FF6B35',fontSize:'12px',fontWeight:700,marginLeft:'4px'}}>얼리버드</span>}
+              {currentCycleState.isEarlyBird && <span style={{color:'var(--green)',fontSize:'12px',fontWeight:700,marginLeft:'4px'}}>얼리버드</span>}
             </div>
           </div>
           <button
@@ -4123,7 +4123,8 @@ export default function StudyPage() {
                     </div>
 
                     <div className="form-note" style={{display:'flex',flexDirection:'column',gap:'6px'}}>
-                      <p style={{margin:0}}>* 인원 편성 이후에는 스터디 시작 여부와 관계없이 환불이 불가합니다.</p>
+                      <p style={{margin:0}}>* 인원 편성 전(카톡 초대 전): 전자책(교재)을 제외한 나머지 금액 환불 가능.</p>
+                      <p style={{margin:0}}>* 인원 편성 후(카톡 초대 후): 스터디 시작 여부와 관계없이 환불 불가.</p>
                       <p style={{margin:0}}>* 폐강 시: 최소 인원 미달로 스터디가 개설되지 않는 경우, 개별 안내 후 교재비를 제외한 전액을 환불 처리합니다.</p>
                       <p style={{margin:0}}>* 팀원 이탈: 스터디 진행 중 같은 팀원의 중도 포기·불참·연락 두절 등은 식빵영어의 귀책사유에 해당하지 않으며, 이를 사유로 한 환불 요청은 인정되지 않습니다.</p>
                       <p style={{margin:0}}>* 신청 및 결제 시 환불 정책과 면책 조항에 동의한 것으로 간주됩니다.</p>
