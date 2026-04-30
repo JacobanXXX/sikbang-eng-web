@@ -195,6 +195,8 @@ export default function StudyPage() {
   const [showAllFaq, setShowAllFaq] = useState(false);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [showGuaranteeDetail, setShowGuaranteeDetail] = useState(false);
+  // 상세 커리큘럼 모달
+  const [showCurriculumModal, setShowCurriculumModal] = useState(false);
   // Dark mode state
   const [darkMode, setDarkMode] = useState(false);
   useEffect(() => {
@@ -2136,6 +2138,402 @@ export default function StudyPage() {
           border-color: #4A5560;
         }
 
+        /* === 상세 커리큘럼 모달 === */
+        .curriculum-detail-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 16px 36px;
+          background: white;
+          color: var(--green);
+          border: 2px solid var(--green);
+          border-radius: 12px;
+          font-size: 16px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s;
+          letter-spacing: -0.01em;
+        }
+        .curriculum-detail-btn:hover {
+          background: var(--green);
+          color: white;
+        }
+        [data-theme="dark"] .curriculum-detail-btn {
+          background: transparent;
+          color: #22C55E;
+          border-color: #22C55E;
+        }
+        [data-theme="dark"] .curriculum-detail-btn:hover {
+          background: #22C55E;
+          color: #1A1F26;
+        }
+
+        .cm-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          backdrop-filter: blur(4px);
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 24px;
+          animation: cmFadeIn 0.2s ease;
+        }
+        @keyframes cmFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .cm-modal {
+          background: white;
+          width: 100%;
+          max-width: 760px;
+          max-height: 90vh;
+          border-radius: 20px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          animation: cmSlideUp 0.3s ease;
+        }
+        @keyframes cmSlideUp {
+          from { transform: translateY(20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+        .cm-header {
+          padding: 20px 28px;
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-shrink: 0;
+        }
+        .cm-header-title {
+          font-size: 17px;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+        }
+        .cm-header-sub {
+          font-size: 12px;
+          color: var(--text-tertiary);
+          margin-top: 2px;
+        }
+        .cm-close {
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
+          background: var(--bg-gray);
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--text-secondary);
+          transition: all 0.15s;
+        }
+        .cm-close:hover {
+          background: #E5E8EB;
+          color: var(--text-primary);
+        }
+        .cm-body {
+          padding: 28px;
+          overflow-y: auto;
+          flex: 1;
+        }
+        .cm-phase {
+          margin-bottom: 36px;
+        }
+        .cm-phase:last-child { margin-bottom: 0; }
+        .cm-phase-banner {
+          color: white;
+          padding: 22px 24px;
+          border-radius: 14px;
+          margin-bottom: 16px;
+        }
+        .cm-phase-banner.p1 { background: #1A8D48; }
+        .cm-phase-banner.p2 { background: #0E5E2E; }
+        .cm-phase-banner.p3 { background: #C2410C; }
+        .cm-phase-eyebrow {
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          opacity: 0.85;
+          margin-bottom: 4px;
+        }
+        .cm-phase-title {
+          font-size: 18px;
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          margin-bottom: 6px;
+        }
+        .cm-phase-desc {
+          font-size: 13px;
+          opacity: 0.92;
+          line-height: 1.55;
+        }
+        .cm-phase-desc-title {
+          text-align: center;
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--text-secondary);
+          margin: -4px 0 16px 0;
+        }
+        .cm-day-card {
+          background: white;
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          padding: 20px 22px;
+          margin-bottom: 12px;
+        }
+        .cm-day-card:last-child { margin-bottom: 0; }
+        .cm-day-head {
+          display: flex;
+          gap: 14px;
+          align-items: flex-start;
+          margin-bottom: 12px;
+        }
+        .cm-day-num {
+          flex-shrink: 0;
+          width: 44px;
+          height: 44px;
+          background: #F0F9F4;
+          color: var(--green);
+          border-radius: 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          font-weight: 800;
+        }
+        .cm-day-card.p2 .cm-day-num { background: #E6F0E9; color: #0E5E2E; }
+        .cm-day-card.p3 .cm-day-num { background: #FFEDD5; color: #C2410C; }
+        .cm-day-num-label {
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          opacity: 0.7;
+        }
+        .cm-day-num-val {
+          font-size: 18px;
+          line-height: 1;
+        }
+        .cm-day-title {
+          flex: 1;
+          font-size: 15px;
+          font-weight: 800;
+          line-height: 1.45;
+          margin-top: 2px;
+        }
+        .cm-day-mission {
+          font-size: 13px;
+          color: var(--text-secondary);
+          line-height: 1.6;
+          margin-bottom: 12px;
+          padding-left: 58px;
+        }
+        .cm-day-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+          margin-bottom: 14px;
+          padding-left: 58px;
+        }
+        .cm-tag {
+          background: var(--bg-gray);
+          color: var(--text-secondary);
+          padding: 4px 10px;
+          border-radius: 6px;
+          font-size: 11px;
+          font-weight: 600;
+        }
+        .cm-day-tasks {
+          padding-left: 58px;
+          margin: 0;
+          list-style: none;
+        }
+        .cm-day-tasks li {
+          font-size: 13.5px;
+          line-height: 1.7;
+          color: var(--text-primary);
+          padding-left: 14px;
+          position: relative;
+          margin-bottom: 4px;
+        }
+        .cm-day-tasks li:before {
+          content: "›";
+          position: absolute;
+          left: 0;
+          color: var(--text-tertiary);
+          font-weight: 700;
+        }
+        .cm-day-tip {
+          margin: 14px 0 0 58px;
+          padding: 12px 14px;
+          background: #FFFBEB;
+          border-left: 3px solid #F59E0B;
+          border-radius: 0 8px 8px 0;
+          font-size: 12.5px;
+          line-height: 1.65;
+          color: #78350F;
+        }
+        .cm-day-tip b { color: #422006; }
+        .cm-checkpoint {
+          margin: 16px 0 0 0;
+          padding: 14px 16px;
+          background: #F0F9F4;
+          border-radius: 10px;
+          font-size: 13px;
+          line-height: 1.6;
+          color: #14532D;
+          border: 1px solid #BBF7D0;
+        }
+        .cm-checkpoint b { color: #052e16; }
+        .cm-section-title {
+          font-size: 15px;
+          font-weight: 800;
+          margin: 32px 0 12px;
+          letter-spacing: -0.01em;
+        }
+        .cm-tools-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        .cm-tool-card {
+          background: var(--bg-gray);
+          border-radius: 12px;
+          padding: 16px 18px;
+        }
+        .cm-tool-name {
+          font-size: 14px;
+          font-weight: 800;
+          margin-bottom: 4px;
+        }
+        .cm-tool-desc {
+          font-size: 12px;
+          line-height: 1.55;
+          color: var(--text-secondary);
+        }
+        .cm-ops-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 10px;
+        }
+        .cm-op-card {
+          background: white;
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 16px 14px;
+          text-align: center;
+        }
+        .cm-op-label {
+          font-size: 12px;
+          font-weight: 700;
+          color: var(--text-tertiary);
+          margin-bottom: 6px;
+        }
+        .cm-op-val {
+          font-size: 15px;
+          font-weight: 800;
+          margin-bottom: 4px;
+          color: var(--green);
+        }
+        .cm-op-sub {
+          font-size: 11.5px;
+          line-height: 1.5;
+          color: var(--text-secondary);
+        }
+        .cm-feedback-card {
+          background: white;
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 16px 18px;
+          margin-bottom: 8px;
+          display: flex;
+          gap: 14px;
+        }
+        .cm-fb-num {
+          flex-shrink: 0;
+          width: 28px;
+          height: 28px;
+          background: var(--green);
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 800;
+          font-size: 13px;
+        }
+        .cm-fb-title {
+          font-size: 14px;
+          font-weight: 800;
+          margin-bottom: 4px;
+        }
+        .cm-fb-desc {
+          font-size: 12.5px;
+          line-height: 1.6;
+          color: var(--text-secondary);
+        }
+        .cm-footer-cta {
+          margin-top: 32px;
+          padding: 22px 24px;
+          background: var(--green);
+          border-radius: 14px;
+          text-align: center;
+          color: white;
+        }
+        .cm-footer-cta-title {
+          font-size: 16px;
+          font-weight: 800;
+          margin-bottom: 4px;
+          letter-spacing: -0.01em;
+        }
+        .cm-footer-cta-sub {
+          font-size: 12.5px;
+          opacity: 0.92;
+          margin-bottom: 14px;
+        }
+        .cm-footer-cta-btn {
+          display: inline-block;
+          padding: 12px 28px;
+          background: white;
+          color: var(--green);
+          border-radius: 10px;
+          font-size: 14px;
+          font-weight: 800;
+          text-decoration: none;
+          border: none;
+          cursor: pointer;
+        }
+        .cm-footer-cta-btn:hover { background: #F0F9F4; }
+
+        @media (max-width: 720px) {
+          .cm-overlay { padding: 0; }
+          .cm-modal { max-height: 100vh; max-width: 100%; border-radius: 0; }
+          .cm-body { padding: 20px; }
+          .cm-day-mission, .cm-day-tags, .cm-day-tasks { padding-left: 0; margin-top: 8px; }
+          .cm-day-tip { margin-left: 0; }
+          .cm-tools-grid, .cm-ops-grid { grid-template-columns: 1fr; }
+        }
+
+        [data-theme="dark"] .cm-modal { background: #22262E; }
+        [data-theme="dark"] .cm-header { border-color: #333840; }
+        [data-theme="dark"] .cm-close { background: #2A2F38; color: #B0B8C1; }
+        [data-theme="dark"] .cm-close:hover { background: #333840; color: #EAEDF0; }
+        [data-theme="dark"] .cm-day-card { background: #1A1D23; border-color: #333840; }
+        [data-theme="dark"] .cm-day-num { background: #1A3A2A; color: #22C55E; }
+        [data-theme="dark"] .cm-day-card.p2 .cm-day-num { background: #14301E; color: #34D399; }
+        [data-theme="dark"] .cm-day-card.p3 .cm-day-num { background: #3A1F0E; color: #FB923C; }
+        [data-theme="dark"] .cm-tag { background: #2A2F38; color: #B0B8C1; }
+        [data-theme="dark"] .cm-day-tip { background: #2A2410; color: #FCD34D; border-left-color: #F59E0B; }
+        [data-theme="dark"] .cm-day-tip b { color: #FDE68A; }
+        [data-theme="dark"] .cm-checkpoint { background: #14301E; color: #86EFAC; border-color: #166534; }
+        [data-theme="dark"] .cm-checkpoint b { color: #BBF7D0; }
+        [data-theme="dark"] .cm-tool-card { background: #1A1D23; }
+        [data-theme="dark"] .cm-op-card { background: #1A1D23; border-color: #333840; }
+        [data-theme="dark"] .cm-op-val { color: #22C55E; }
+        [data-theme="dark"] .cm-feedback-card { background: #1A1D23; border-color: #333840; }
+
         /* === CTA BANNER === */
         .cta-banner {
           background: var(--green);
@@ -3621,30 +4019,13 @@ export default function StudyPage() {
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: '48px' }}>
-            <a
-              href="https://stibee.com/api/v1.0/emails/share/Lr1WERPFWH_d-6HiiXB2MZ5_063PB1Y"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '16px 36px',
-                background: 'white',
-                color: 'var(--green)',
-                border: '2px solid var(--green)',
-                borderRadius: '12px',
-                fontSize: '17px',
-                fontWeight: 700,
-                textDecoration: 'none',
-                transition: 'all 0.2s',
-                cursor: 'pointer',
-              }}
-              onMouseOver={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#1A8D48'; e.currentTarget.style.color = 'white'; }}
-              onMouseOut={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.color = '#1A8D48'; }}
+            <button
+              type="button"
+              onClick={() => setShowCurriculumModal(true)}
+              className="curriculum-detail-btn"
             >
-              📋 상세 커리큘럼 보기
-            </a>
+              상세 커리큘럼 보기
+            </button>
           </div>
         </div>
       </section>
@@ -5261,6 +5642,349 @@ export default function StudyPage() {
                 )}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* === 상세 커리큘럼 모달 === */}
+      {showCurriculumModal && (
+        <div className="cm-overlay" onClick={() => setShowCurriculumModal(false)}>
+          <div className="cm-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="cm-header">
+              <div>
+                <div className="cm-header-title">14일 AL 완성 부트캠프</div>
+                <div className="cm-header-sub">상세 커리큘럼 · 학습 도구 · 운영 안내</div>
+              </div>
+              <button type="button" className="cm-close" onClick={() => setShowCurriculumModal(false)} aria-label="닫기">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>
+              </button>
+            </div>
+
+            <div className="cm-body">
+              {/* PHASE 1 */}
+              <div className="cm-phase">
+                <div className="cm-phase-banner p1">
+                  <div className="cm-phase-eyebrow">PHASE 1 · DAY 1–7</div>
+                  <div className="cm-phase-title">Survey Master · 템플릿 완전 고정</div>
+                  <div className="cm-phase-desc">7개 핵심 템플릿 체화 → Survey 문제 즉답 루틴 완성</div>
+                </div>
+
+                <div className="cm-day-card">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">1</div></div>
+                    <div className="cm-day-title">OPIc 채점 기준 이해 &amp; 기본 템플릿 구조 입력</div>
+                  </div>
+                  <div className="cm-day-mission">채점 요소(Fluency · Structure · Coherence)를 머리에 심고, 템플릿 #1~3을 완벽히 파악합니다.</div>
+                  <div className="cm-day-tags">
+                    <span className="cm-tag">채점 기준 분석</span>
+                    <span className="cm-tag">Template #1~3</span>
+                    <span className="cm-tag">앱 실습</span>
+                    <span className="cm-tag">묘사 표현 암기</span>
+                  </div>
+                  <ul className="cm-day-tasks">
+                    <li>OPIc 채점 요소 집중 분석 — Fluency / Structure / Coherence 3요소 파악</li>
+                    <li>Template #1~3 구조 분석 (Self-introduction · Home · Daily life/Hobbies)</li>
+                    <li>템플릿 빈칸 채우기, Note Script 56p &lsquo;구조화&rsquo; 필독</li>
+                    <li>채점 기준 영상 시청 → 내 말하기 수준 스스로 진단</li>
+                    <li>SpeakCoach AI &lsquo;주거&rsquo; 카테고리 학습 후 점수·약점 확인</li>
+                    <li>유형별 표현(묘사) + Phrasal Verbs 2~3개 암기 시작</li>
+                  </ul>
+                  <div className="cm-day-tip"><b>Day 1 핵심.</b> 잘 말하는 게 목표가 아닙니다. 채점 요소에 맞춰 답변하고 있는지 개념을 먼저 파악하는 날입니다.</div>
+                </div>
+
+                <div className="cm-day-card">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">2</div></div>
+                    <div className="cm-day-title">질문 → 템플릿 자동 매칭 훈련</div>
+                  </div>
+                  <div className="cm-day-mission">질문의 키워드만 보면 자동으로 맞는 템플릿이 떠오르게 만듭니다.</div>
+                  <div className="cm-day-tags">
+                    <span className="cm-tag">Template #4~6</span>
+                    <span className="cm-tag">1문제 × 1분 30초 녹음</span>
+                    <span className="cm-tag">앱 구조 체크</span>
+                  </div>
+                  <ul className="cm-day-tasks">
+                    <li>Template #4~6 학습 (School/Workplace · Technology · Culture)</li>
+                    <li>Leisure 활동 Survey 질문 집중 분석 (배점 최다)</li>
+                    <li>실습: 1문제 → 1분 30초 녹음 → SpeakCoach AI로 구조 체크</li>
+                    <li>SpeakCoach AI &lsquo;취미&rsquo; 카테고리 학습</li>
+                    <li>유형별 표현(루틴) + Phrasal Verbs 2~3개/일</li>
+                  </ul>
+                  <div className="cm-day-tip"><b>키워드 연상.</b> &ldquo;Technology&rdquo; → 자동으로 &lsquo;기술·취미 템플릿&rsquo;이 떠오를 때까지 반복합니다.</div>
+                </div>
+
+                <div className="cm-day-card">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">3</div></div>
+                    <div className="cm-day-title">템플릿 완전 고정 &amp; 문단형 발화 습관화</div>
+                  </div>
+                  <div className="cm-day-mission">문장 단위가 아닌 &lsquo;답변 덩어리(문단)&rsquo;로 말하는 패턴을 체득합니다.</div>
+                  <div className="cm-day-tags">
+                    <span className="cm-tag">Template #1~7 전체 복습</span>
+                    <span className="cm-tag">빈출 문제 즉답 연습</span>
+                  </div>
+                  <ul className="cm-day-tasks">
+                    <li>Template #1~7 전체 복습 — Academic / Career / Culture 적용</li>
+                    <li>빈출 질문: 문제 보고 즉시 답변 시작 (3초 이상 침묵 금지)</li>
+                    <li>Note에 스크립트 직접 정리 — 쓰고 → 듣고 → 말하기 3박자</li>
+                    <li>SpeakCoach AI &lsquo;집·주거&rsquo; 카테고리 마무리 학습</li>
+                    <li>유형별 표현(묘사·루틴·경험) + 팀원 단어 상호 테스트</li>
+                  </ul>
+                </div>
+
+                <div className="cm-day-card">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">4</div></div>
+                    <div className="cm-day-title">전체 Survey 점검 &amp; 연결어 집중 암기</div>
+                  </div>
+                  <div className="cm-day-mission">필러(filler) 없이 답변이 끊기지 않도록, 개인 약점 영역을 명확히 합니다.</div>
+                  <ul className="cm-day-tasks">
+                    <li>앱으로 전체 예상 질문 돌려보기 — 막히는 질문 체크</li>
+                    <li>SpeakCoach AI &lsquo;내 성장&rsquo; 로그에서 개인 약점 영역 명확화</li>
+                    <li>Conjunction / Transition 집중 암기 (연결어·전환어)</li>
+                    <li>유형별 표현(롤플) + 노션 빈출 문제 가볍게 정리</li>
+                  </ul>
+                </div>
+
+                <div className="cm-day-card">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">5</div></div>
+                    <div className="cm-day-title">문법 보정 &amp; 답변 안정화</div>
+                  </div>
+                  <div className="cm-day-mission">시제 실수로 채점 Grammar 항목이 깎이지 않도록 흐름을 안정화합니다.</div>
+                  <ul className="cm-day-tasks">
+                    <li>시제 중심 Grammar 영상 전편 시청 → 각 영상 댓글에 예문 영작</li>
+                    <li>약점 질문 집중 재학습 → 반드시 암기 완료</li>
+                    <li>Adverbs / Adverbial phrases (노션 Day 13) + 비교 유형 표현 암기</li>
+                  </ul>
+                  <div className="cm-day-tip"><b>댓글 영작.</b> 귀찮지만 쓰기 → 말하기 전이에서 가장 효과적인 방법입니다.</div>
+                </div>
+
+                <div className="cm-day-card">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">6</div></div>
+                    <div className="cm-day-title">고급 템플릿 조합 &amp; 발음·억양 진단</div>
+                  </div>
+                  <div className="cm-day-mission">IH~AL 수준 답변으로 확장하고, 복합 템플릿을 자연스럽게 조합합니다.</div>
+                  <ul className="cm-day-tasks">
+                    <li>7 Core Templates 완전 암기 최종 점검</li>
+                    <li>복합 템플릿 조합 연습 — 단일 템플릿이 아닌 2개 이상 자연스럽게 연결</li>
+                    <li>팀원 상호 Q&amp;A — 질문 범위 제한 없이 즉답 훈련</li>
+                    <li>SpeakCoach AI 발음·흐름 진단 + 주제별 카테고리 리뷰</li>
+                  </ul>
+                </div>
+
+                <div className="cm-day-card">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">7</div></div>
+                    <div className="cm-day-title">1차 Mock Test &amp; Phase 1 총정리</div>
+                  </div>
+                  <div className="cm-day-mission">실전 감각 완성. 구조·속도·약점 교정을 시작합니다.</div>
+                  <ul className="cm-day-tasks">
+                    <li>1차 Mock Test (녹음) — 코치 지정 과제 수행</li>
+                    <li>SpeakCoach AI로 본인 답변 전체 분석</li>
+                    <li>구조 / 속도 / 발음 교정 — 이제부터 발음 항목도 집중</li>
+                    <li>유형별 표현 완벽 암기 — 2차 피드백 세션 테스트 대비</li>
+                  </ul>
+                  <div className="cm-checkpoint"><b>Phase 1 체크포인트.</b> 7개 템플릿을 보지 않고 말할 수 있는가? Survey 질문에서 첫 문장이 3초 안에 나오는가?</div>
+                </div>
+              </div>
+
+              {/* PHASE 2 */}
+              <div className="cm-phase">
+                <div className="cm-phase-banner p2">
+                  <div className="cm-phase-eyebrow">PHASE 2 · DAY 8–10</div>
+                  <div className="cm-phase-title">Role Play &amp; 돌발 질문 마스터</div>
+                  <div className="cm-phase-desc">RP1 → 돌발 → RP2. 시험장에서 당황하지 않는 상태 만들기</div>
+                </div>
+
+                <div className="cm-day-card p2">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">8</div></div>
+                    <div className="cm-day-title">Role Play Part 1 — 상황 처리 공식 완성</div>
+                  </div>
+                  <div className="cm-day-mission">Role Play를 &lsquo;암기&rsquo;가 아닌 &lsquo;상황 처리 공식&rsquo;으로 접근합니다.</div>
+                  <ul className="cm-day-tasks">
+                    <li>RP 핵심 13개 시나리오 완전 분석 — 전화 문의 / 예약 변경·취소 / 불만 제기</li>
+                    <li>Q11(질문 능력) / Q12(대안 제시·해결책 제안) 구조 파악</li>
+                    <li>모든 RP → 큰 테마 단위로 분류 (스크립트 통째 암기 금지)</li>
+                    <li>Reusable Sentences 암기 → 타이머 켜고 소리 내어 즉답</li>
+                    <li>SpeakCoach AI 롤플레잉 학습 + 의문사 집중 정리</li>
+                  </ul>
+                  <div className="cm-checkpoint"><b>Day 8 목표 상태.</b> &ldquo;RP 나오면 무섭다&rdquo; → &ldquo;이건 이 공식이구나&rdquo;</div>
+                </div>
+
+                <div className="cm-day-card p2">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">9</div></div>
+                    <div className="cm-day-title">돌발 질문(Unexpected Questions) 대응 훈련</div>
+                  </div>
+                  <div className="cm-day-mission">처음 보는 질문에도 답변을 &lsquo;자연스럽게 늘리는 방법&rsquo;을 체득합니다.</div>
+                  <ul className="cm-day-tasks">
+                    <li>교재 내 돌발 질문 파트 집중 학습</li>
+                    <li>답변 확장 전략 훈련 — 관계사 / 접속사 / 이유·배경 추가</li>
+                    <li>&ldquo;추가 질문&rdquo; 연습 — 짧은 답변 → 부드럽게 확장 → 끊김 없이 연결</li>
+                    <li>SpeakCoach AI 돌발 질문 파트 학습 + 필러(Filler) 표현 암기</li>
+                  </ul>
+                  <div className="cm-day-tip"><b>돌발 질문.</b> 새로운 내용을 말하는 게 아니라 <b>이미 아는 말로 시간을 버는 기술</b>입니다.</div>
+                </div>
+
+                <div className="cm-day-card p2">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">10</div></div>
+                    <div className="cm-day-title">Role Play Part 2 + 전체 RP 통합 Fluency Challenge</div>
+                  </div>
+                  <div className="cm-day-mission">모든 Role Play 문제를 막힘 없이, 감정을 살려 처리하는 상태 완성.</div>
+                  <ul className="cm-day-tasks">
+                    <li>RP 추가 시나리오 3종 — 길 안내 / 문제 설명 / 문제 보고</li>
+                    <li>RP Part 1 + Part 2 전체 복습</li>
+                    <li>Fluency Challenge — 끊김 없이 + 자연스러운 감정 표현으로 답변</li>
+                    <li>어휘 암기 Day 3까지 완료 + RP 전용 표현 고정</li>
+                  </ul>
+                  <div className="cm-checkpoint"><b>Phase 2 체크포인트.</b> RP가 &ldquo;무섭지 않은 파트&rdquo;가 되었는가? 돌발 질문에 5초 안에 첫 문장이 나오는가?</div>
+                </div>
+              </div>
+
+              {/* PHASE 3 */}
+              <div className="cm-phase">
+                <div className="cm-phase-banner p3">
+                  <div className="cm-phase-eyebrow">PHASE 3 · DAY 11–14</div>
+                  <div className="cm-phase-title">실전 몰입 &amp; Final Review</div>
+                  <div className="cm-phase-desc">최신 기출 적용 → 2차 Mock Test → 시험 당일 컨디션 세팅</div>
+                </div>
+
+                <div className="cm-day-card p3">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">11</div></div>
+                    <div className="cm-day-title">최종 템플릿 정리 &amp; Speaking Marathon</div>
+                  </div>
+                  <div className="cm-day-mission">7개 템플릿을 &lsquo;외운 답변&rsquo;이 아닌 &lsquo;자연스러운 문단&rsquo;으로 말하게 만듭니다.</div>
+                  <ul className="cm-day-tasks">
+                    <li>최종 템플릿 전체 복습 — 문단(Paragraph) 형태 답변 연습</li>
+                    <li>Speaking Marathon — Survey + RP 랜덤 혼합</li>
+                    <li>1명이 문제 출제 → 즉시 답변 → 순환 / 20문제 후 피드백</li>
+                    <li>한 세션 20문제 이상 연속 답변 — 유지력 훈련</li>
+                  </ul>
+                  <div className="cm-day-tip"><b>여기서부터.</b> &ldquo;공부&rdquo;가 아니라 <b>퍼징 없는 말하기 유지력</b>과 <b>당황하지 않는 센스</b>를 키우는 훈련입니다.</div>
+                </div>
+
+                <div className="cm-day-card p3">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">12</div></div>
+                    <div className="cm-day-title">즉답 속도 훈련 (Quick Response Drill)</div>
+                  </div>
+                  <div className="cm-day-mission">질문을 듣고 5초 안에 첫 문장이 자동으로 튀어나오게 합니다.</div>
+                  <ul className="cm-day-tasks">
+                    <li>Speed Drill — 질문 → 5초 내 답변 시작 (침묵 시간 완전 제거)</li>
+                    <li>팀원과 3분 자유 발화 녹음 진행</li>
+                    <li>발음 / 유창성 / 문법 구조 점검 — SpeakCoach AI 활용</li>
+                  </ul>
+                  <div className="cm-day-tip"><b>핵심 목표.</b> 시험장에서의 침묵 시간을 0으로 만든다. 퍼징 없이 첫 문장 즉시 시작.</div>
+                </div>
+
+                <div className="cm-day-card p3">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">13</div></div>
+                    <div className="cm-day-title">최신 기출 분석 &amp; 2차 Full Mock Test</div>
+                  </div>
+                  <div className="cm-day-mission">실제 시험과 동일한 컨디션으로 2차 모의고사 완주.</div>
+                  <ul className="cm-day-tasks">
+                    <li>최신 OPIc 기출 문제 분석 — 가장 최근 시험부터 역순으로 적용</li>
+                    <li>2차 Mock Test (40분, 실제 시험처럼 중단 없이 녹음)</li>
+                    <li>사후 분석: 자기 평가 → SpeakCoach AI 피드백 확인</li>
+                  </ul>
+                </div>
+
+                <div className="cm-day-card p3">
+                  <div className="cm-day-head">
+                    <div className="cm-day-num"><div className="cm-day-num-label">DAY</div><div className="cm-day-num-val">14</div></div>
+                    <div className="cm-day-title">Final Review &amp; 시험 당일 멘탈 준비</div>
+                  </div>
+                  <div className="cm-day-mission">실전 환경 시뮬레이션 + 마지막 전략 점검 + 충분한 휴식.</div>
+                  <ul className="cm-day-tasks">
+                    <li>오전: 전체 OPIc 모의고사 — 실전 환경 시뮬레이션 / 최종 약점 파악</li>
+                    <li>오후: 어려웠던 질문·표현 최종 복습 / 긴장 완화 + 자신감 향상</li>
+                    <li>저녁: 템플릿 &amp; RP 답변 가벼운 복습</li>
+                    <li>막판 무리한 암기 절대 금지 — 충분한 수면·휴식</li>
+                  </ul>
+                  <div className="cm-day-tip"><b>14일을 완주한 당신은 준비됐습니다.</b> 오늘은 공부보다 컨디션이 우선입니다. 자신을 믿으세요.</div>
+                </div>
+              </div>
+
+              {/* 학습 도구 */}
+              <div className="cm-section-title">학습 도구</div>
+              <div className="cm-tools-grid">
+                <div className="cm-tool-card">
+                  <div className="cm-tool-name">SpeakCoach AI 앱</div>
+                  <div className="cm-tool-desc">주제별 카테고리 학습, 발음·구조 분석, &lsquo;내 성장&rsquo; 약점 로그 확인</div>
+                </div>
+                <div className="cm-tool-card">
+                  <div className="cm-tool-name">부트캠프 전용 노션</div>
+                  <div className="cm-tool-desc">유형별 표현·구동사·AL 문장, 빈출 문제, 의문사 자료</div>
+                </div>
+                <div className="cm-tool-card">
+                  <div className="cm-tool-name">YouTube 채널</div>
+                  <div className="cm-tool-desc">채점 기준 영상, 시제 Grammar 플레이리스트, RP 전략 영상</div>
+                </div>
+                <div className="cm-tool-card">
+                  <div className="cm-tool-name">교재 + Note Script</div>
+                  <div className="cm-tool-desc">56p 구조화 필독, 7 Templates, 필러 표현, RP 시나리오</div>
+                </div>
+              </div>
+
+              {/* 운영 안내 */}
+              <div className="cm-section-title">부트캠프 운영 안내</div>
+              <div className="cm-ops-grid">
+                <div className="cm-op-card">
+                  <div className="cm-op-label">기간</div>
+                  <div className="cm-op-val">2주(14일)</div>
+                  <div className="cm-op-sub">월 2회 기수 모집</div>
+                </div>
+                <div className="cm-op-card">
+                  <div className="cm-op-label">권장 학습량</div>
+                  <div className="cm-op-val">하루 2~3시간</div>
+                  <div className="cm-op-sub">부트캠프 주 3회+, 매회 2시간 이상</div>
+                </div>
+                <div className="cm-op-card">
+                  <div className="cm-op-label">매일 과제</div>
+                  <div className="cm-op-val">출제 + 피드백</div>
+                  <div className="cm-op-sub">1주차 RP·Survey, 2주차 모의고사 자료</div>
+                </div>
+              </div>
+
+              {/* 1:1 피드백 세션 */}
+              <div className="cm-section-title">1:1 피드백 세션 (총 3회)</div>
+              <div className="cm-feedback-card">
+                <div className="cm-fb-num">1</div>
+                <div>
+                  <div className="cm-fb-title">기초 세팅</div>
+                  <div className="cm-fb-desc">기본 로드맵 및 전체 틀 잡기 / OPIc 유형 분석 / 구조화 교육 / 실제 모의고사 문제 맛보기</div>
+                </div>
+              </div>
+              <div className="cm-feedback-card">
+                <div className="cm-fb-num">2</div>
+                <div>
+                  <div className="cm-fb-title">개인별 교정</div>
+                  <div className="cm-fb-desc">실제 모의고사 문제를 통한 즉각적 개인별 피드백 / 향후 공부 방향 맞춤 설정</div>
+                </div>
+              </div>
+              <div className="cm-feedback-card">
+                <div className="cm-fb-num">3</div>
+                <div>
+                  <div className="cm-fb-title">실전 마무리</div>
+                  <div className="cm-fb-desc">출제율이 높은 문제 선별 / 해당 문제에 대한 실전 감각 집중 훈련</div>
+                </div>
+              </div>
+
+              {/* Footer CTA */}
+              <div className="cm-footer-cta">
+                <div className="cm-footer-cta-title">14일 후, 여러분의 OPIc은 달라져 있습니다</div>
+                <div className="cm-footer-cta-sub">정원 20명 · 1차 피드백 후 환불 가능</div>
+                <button type="button" className="cm-footer-cta-btn" onClick={() => { setShowCurriculumModal(false); openFormModal(); }}>
+                  지금 신청하기 →
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
