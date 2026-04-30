@@ -478,7 +478,7 @@ export default function Home() {
               <div className="product-card-body">
                 <div className="category" style={{color:'#1A8D48'}}>14일 부트캠프</div>
                 <h3>14일 AL 완성 부트캠프</h3>
-                <div className="desc">매일 녹음 → 직접 교정 → AI 분석. 수료생 94%가 목표 달성했습니다.</div>
+                <div className="desc">100% 비대면 · 매일 녹음 → 직접 교정 → AI 분석. 수료생 94%가 목표 달성했습니다.</div>
                 <div className="product-price-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'10px'}}>
                   <div style={{fontSize:'13px',color:'#1A8D48',fontWeight:600}}>1차 피드백 후 환불 가능</div>
                   <div className="product-price" style={{flexWrap:'wrap', alignItems:'center', gap:'6px'}}>

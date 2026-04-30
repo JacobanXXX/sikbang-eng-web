@@ -348,6 +348,10 @@ export default function StudyPage() {
       answer: '3인 1팀이 구성되는 즉시 시작합니다. 신청 후 팀이 매칭되면 시작일을 안내해드립니다. 보통 신청 후 1주 이내 시작됩니다.'
     },
     {
+      question: '비대면으로 진행되나요? 어디서든 참여 가능한가요?',
+      answer: '네, 100퍼센트 비대면(온라인)으로 진행됩니다. 전국 어디서나 참여하실 수 있어요. 매일 녹음 과제는 카카오톡 단체방으로 제출하고, 1대3 라이브 코칭(총 180분)은 화상으로 진행됩니다. SpeakCoach AI도 웹 앱(PWA)이라 PC·모바일 모두 가능합니다. 별도 학원 출석이나 이동 시간이 필요하지 않습니다.'
+    },
+    {
       question: '하루에 얼마나 시간을 투자해야 하나요?',
       answer: '하루 평균 1~2시간 정도입니다. 학습 자료 확인(10분) + 답변 준비 및 녹음(30~40분) + AI 분석 확인 및 교정 연습(30분) + 코치 피드백 반영(20분). 직장인도 충분히 병행 가능한 수준입니다.'
     },
@@ -2415,7 +2419,7 @@ export default function StudyPage() {
         }
         .cm-ops-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-columns: 1fr 1fr;
           gap: 10px;
         }
         .cm-op-card {
@@ -4879,8 +4883,8 @@ export default function StudyPage() {
             <div className="rule-card">
               <div className="rule-num">03</div>
               <div>
-                <h4>카카오톡 소통</h4>
-                <p>팀 단체방에서 과제 제출, 피드백 공유, 질문이 진행됩니다.</p>
+                <h4>100퍼센트 비대면 진행</h4>
+                <p>전국 어디서나 참여 가능. 매일 과제는 카카오톡 단체방, 라이브 코칭은 화상으로 진행됩니다.</p>
               </div>
             </div>
             <div className="rule-card" style={{ flexDirection: 'column', gap: '16px' }}>
@@ -5935,6 +5939,11 @@ export default function StudyPage() {
               {/* 운영 안내 */}
               <div className="cm-section-title">부트캠프 운영 안내</div>
               <div className="cm-ops-grid">
+                <div className="cm-op-card">
+                  <div className="cm-op-label">진행 방식</div>
+                  <div className="cm-op-val">100% 비대면</div>
+                  <div className="cm-op-sub">전국 어디서나 참여 / 카톡 + 화상</div>
+                </div>
                 <div className="cm-op-card">
                   <div className="cm-op-label">기간</div>
                   <div className="cm-op-val">2주(14일)</div>
